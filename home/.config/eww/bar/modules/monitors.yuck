@@ -1,0 +1,24 @@
+(defpoll num_monitors :initial 1 :interval "1.0s" `hyprctl monitors | grep Monitor | wc -l`)
+(defpoll refresh_primary :initial 144 :interval "10.0s" `hyprctl monitors | grep -oP '3840x2160@\\K[0-9]+(\\.[0-9]+)?' | head -n 1`)
+(defpoll refresh_secondary :initial 60 :interval "10.0s" `hyprctl monitors | grep -oP '3840x2160@\\K[0-9]+(\\.[0-9]+)?' | head -n 2 | tail -n 1`)
+
+
+(defwidget monitor []
+  (box
+    :orientation "h"
+    :class "monitor-box"
+    (label
+      :class "framerate secondary"
+      :text {num_monitors == 2 ? round(refresh_secondary, 0) : ""}
+    )
+    (label
+      :class "framerate primary"
+      :text {round(refresh_primary, 0)}
+    )
+    (button
+      :class "monitor"
+      :onclick "[[ $(hyprctl monitors | grep Monitor | wc -l) == 2 ]] && hyprctl keyword monitor DP-1,disable || hyprctl keyword monitor DP-1,3840x2160@60,3840x0,2.0"
+      {num_monitors == 1 ? "󰍹" : "󰍺"}
+    )
+  )
+)

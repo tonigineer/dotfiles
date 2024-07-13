@@ -1,0 +1,61 @@
+.system_widget {
+  margin-left: 20px;
+}
+
+.system_container {
+  // border-bottom: solid 2px $green;
+  border-radius: 3px;
+  padding-right: 5px;
+  margin-left: 5px;
+}
+
+.system_label {
+  color: $white;
+  padding-right: 4px;
+  font-size: 12px;
+  font-weight: bold;
+
+}
+
+.system_circle {
+  background-color: $green-opace;
+  border-radius: 100%;
+  color: $green;
+}
+
+.system_circle-label {
+  background-color: $black;
+  font-size: 0px;
+  border-radius: 100%;
+  margin: 8px;
+}
+
+.system_cpu_temp {
+  // margin-left: 5px;
+  padding-top: 7px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.system_cpu_temp_high {
+  color: $red;
+  // margin-left: 5px;
+  padding-top: 7px;
+  font-size: 10px;
+}
+
+// .gpu {}
+
+.gpu.icon {
+  font-size: 12px;
+  margin-top: 0px;
+  // color: $blue;
+}
+
+.gpu.version {
+  color: $green;
+  font-weight: bold;
+  font-size: 10px;
+  padding-top: 7px;
+  margin-left: -4px;
+}

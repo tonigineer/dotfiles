@@ -1,0 +1,50 @@
+.powermenu {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 2px;
+  font-weight: bold;
+}
+
+
+.powermenu.button-shutdown {
+  color: $red;
+  // border-bottom: solid 2px $blue;
+  border-bottom-left-radius: 2px;
+}
+
+.powermenu.button-restart {
+  color: $yellow;
+  // border-bottom: solid 2px $blue;
+}
+
+.powermenu.button-suspend {
+  color: $green;
+  // border-bottom: solid 2px $blue;
+}
+
+.powermenu.button-logout {
+  color: $white;
+  // border-bottom: solid 2px $blue;
+}
+
+.powermenu.button-lock {
+  color: $blue;
+  // border-bottom: solid 2px $blue;
+  border-bottom-right-radius: 2px;
+}
+
+.powermenu.button-open {
+  color: $blue;
+  // border-bottom: solid 2px $transparent;
+}
+
+.powermenu.button-close {
+  color: $blue;
+  // border-bottom: solid 2px $transparent;
+}
+
+
+.powermenu button:hover {
+  // border-bottom: solid 2px $red;
+  border-radius: 3px;
+}

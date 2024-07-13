@@ -1,0 +1,31 @@
+(defpoll updates_available :initial 0 :interval "60.0s" `yay -Sy>/dev/null 2>&1 && yay -Qu | wc -l`)
+(defpoll packages_installed :initial 0 :interval "300.0s" `yay -Qa | wc -l`)
+
+(defwidget updates []
+  (box
+    :class "container"
+    :orientation "h"
+    :halign "center"
+    :valign "center"
+    :space-evenly "false"
+    :tooltip {updates_available > 0 ? "Updates: ${updates_available}" : "System up-to-date |  ${packages_installed}"}
+    (box
+      :class "container updates"
+      :orientation "h"
+      (button
+        :onclick {updates_available >= 0 ? "alacritty --title \"aur-updates float\" -e sh -c \"yay -Syu\" && eww update updates_available=0 &" : ""}
+        :class "updates icon"
+        {updates_available > 0 ? "󱧘" : "󰏗"}
+      )
+      (button
+        :onclick {updates_available > 0 ? "alacritty --title \"aur-updates float\" -e sh -c \"yay -Syu\" && eww update updates_available=0 &" : ""}
+        :class {updates_available == 0 ? "updates done" : updates_available <= 10 ? "updates pending": "updates pending high"}
+        {updates_available == 0 ? "󰘾" : updates_available}
+      )
+      (label
+        :class "updates installed"
+        :text "(${packages_installed})"
+      )
+    )
+  )
+)

@@ -1,0 +1,12 @@
+(deflisten workspace_literal `bash scripts/workspaces.sh`)
+
+(defwidget workspaces []
+  (box
+    :orientation "h"
+    :halign "center"
+    :space-evenly "false"
+    (literal
+      :content workspace_literal
+    )
+  )
+)

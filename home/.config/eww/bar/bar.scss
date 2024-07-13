@@ -1,0 +1,41 @@
+* {
+  all: unset;
+}
+
+.entire-bar {
+  background: transparent;
+  background-color: $black-opace;
+  font-family: 'JetBrains Mono Nerd Font';
+  font-size: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 2px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+tooltip {
+  background: $black;
+  border: 1.5px solid $blue;
+  border-radius: 5px;
+}
+
+tooltip label {
+  color: $white;
+}
+
+// ------ Left ------ //
+@import "css/updates.scss";
+@import "css/system.scss";
+@import "css/launcher.scss";
+
+// ------ Center ------ //
+@import "css/workspaces.scss";
+
+
+// ------ Right ------ //
+@import "css/tray.scss";
+@import "css/monitors.scss";
+@import "css/powermenu.scss";
+@import "css/datetime.scss";
+@import "css/network.scss";

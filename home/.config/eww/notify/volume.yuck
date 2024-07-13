@@ -1,0 +1,22 @@
+(defpoll volume :interval "0.05s" :initial 0 `~/.config/hypr/scripts/sound.sh --volume`)
+(defpoll mute :interval "0.05s" :initial false `~/.config/hypr/scripts/sound.sh --is-muted`)
+
+(defwindow notify-volume []
+  :monitor 0
+  :geometry (geometry :x "0%" :y "10%" :width "40%" :height "2%" :anchor "bottom center")
+  :stacking "fg"
+  :exclusive false
+  :focusable false
+  :namespace "volume_indicator"
+  (box
+    :orientation "v"
+    (scale
+      :class { mute == "no" ? "volume-bar" : "volume-bar mute"}
+      :value volume
+      :orientation "h"
+      :flipped false
+      :max 100
+      :min 0
+    )
+  )
+)

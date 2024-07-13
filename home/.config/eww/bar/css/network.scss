@@ -1,0 +1,35 @@
+.container_network {
+    color: $white;
+    font-size: 18px;
+    margin-right: 15px;
+    // min-width: 100px;
+    // margin-right: 10px;
+    // margin-left: 10px;
+}
+
+.icon-adapter {
+    font-size: 18px;
+}
+
+.value {
+    min-width: 30px;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.value.up {
+    color: $blue;
+    padding-bottom: 12px;
+    margin-left: -69px;
+}
+
+
+.value.down {
+    color: $green;
+    padding-top: 10px;
+    margin-right: -2px;
+}
+
+.value.zero {
+    color: $transparent;
+}

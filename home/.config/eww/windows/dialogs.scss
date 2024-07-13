@@ -1,0 +1,34 @@
+.confirm-dialog-box {
+    background-color: rgba(11, 17, 27, 0.85);
+    border: 0.75px solid $blue;
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 1.5rem;
+}
+
+.confirm-dialog-prompt {
+    color: $yellow;
+    padding-bottom: 5px;
+}
+
+.confirm-dialog-buttons {
+    background-color: $transparent;
+    padding-top: 5px;
+}
+
+.confirm-dialog-box button {
+    border-radius: 3px;
+    padding-bottom: 5px;
+}
+
+.confirm-dialog-box button:hover {
+    color: $blue;
+}
+
+.confirm-dialog-no {
+    color: $red;
+}
+
+.confirm-dialog-yes {
+    color: $green;
+}

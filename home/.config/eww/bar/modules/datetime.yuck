@@ -1,0 +1,28 @@
+(defvar timezone "Europe/Berlin")
+(defvar calendar_open false)
+
+(defwidget datetime []
+  (eventbox
+    (box
+      :class "clock"
+      :tooltip "${formattime(EWW_TIME, "%a, %d. %b %Y", timezone)}"
+      (button
+        :onclick {calendar_open == true ? "${eww} close calendar; ${eww} update calendar_open=false" : "${eww} open calendar --screen 0; ${eww} update calendar_open=true" }
+        "${formattime(EWW_TIME, "%H:%M", timezone)}"
+      )
+    )
+  )
+)
+
+(defwindow calendar
+  :monitor 0
+  :geometry (geometry :x "1%" :y "1%" :anchor "top right" :width "0px" :height "0px")
+  (box
+    :class "calendar_box"
+    (calendar
+      :class "calendar_widget"
+      :day "${formattime(EWW_TIME, "%d", timezone)}"
+      :year "${formattime(EWW_TIME, "%Y", timezone)}"
+    )
+  )
+)

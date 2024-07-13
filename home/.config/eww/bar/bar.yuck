@@ -1,0 +1,61 @@
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :width "100%" :anchor "top center" :height "3%")
+  :exclusive true
+  (box
+    :class "entire-bar"
+    :space-evenly "true"
+    (container_left)
+    (container_center)
+    (container_right)
+  )
+)
+
+;; ------ Left ------ ;;
+(include "bar/modules/system.yuck")
+(include "bar/modules/updates.yuck")
+(include "bar/modules/launcher.yuck")
+
+(defwidget container_left []
+  (box
+    :orientation "h"
+    :halign "start"
+    :space-evenly "false"
+    (launcher)
+    (system)
+    (updates)
+    ;; (player)
+  )
+)
+
+;; ------ Center ------ ;;
+(include "bar/modules/workspaces.yuck")
+
+(defwidget container_center []
+  (box
+    :orientation "h"
+    :halign "center"
+    :space-evenly "false"
+    (workspaces)
+  )
+)
+
+;; ------ Right ------ ;;
+(include "bar/modules/datetime.yuck")
+(include "bar/modules/powermenu.yuck")
+(include "bar/modules/network.yuck")
+(include "bar/modules/tray.yuck")
+(include "bar/modules/monitors.yuck")
+
+(defwidget container_right []
+  (box :orientation "h" :halign "end" :space-evenly "false"
+    ;; (wallpaper)
+    (tray)
+    (monitor)
+    (network)
+    ;; (volume)
+    (datetime)
+    (powermenu)
+  )
+)

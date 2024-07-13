@@ -1,0 +1,45 @@
+.container {
+  font-size: 10px;
+  font-weight: bold;
+  padding-top: 1px;
+}
+
+.container.updates {
+  padding-left: 0px;
+}
+
+
+.updates {
+  margin-left: -10px;
+}
+
+.updates.installed {
+  padding-top: 7px;
+  margin-left: -10px;
+}
+
+.updates.done {
+  padding-top: 7px;
+  color: $green;
+  font-size: 11px;
+  margin-left: 0px;
+}
+
+.updates.pending {
+  padding-top: 7px;
+  color: $yellow;
+  margin-left: -5px;
+}
+
+.updates.pending.high {
+  padding-top: 7px;
+  color: $red;
+  margin-left: 0px;
+}
+
+.updates.icon {
+  padding-top: 0px;
+  padding-left: 30px;
+  font-size: 18px;
+  color: $blue;
+}

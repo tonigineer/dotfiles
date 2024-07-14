@@ -50,7 +50,8 @@ case $1 in
     determine_network_icon
     ;;
 --adapter | -a)
-    get_network_adapter
+    name=$(get_network_adapter)
+    echo "${name:0:5}"
     ;;
 *)
     echo "Usage:

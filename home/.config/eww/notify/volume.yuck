@@ -2,9 +2,9 @@
 (defpoll mute :interval "0.05s" :initial false `~/.config/hypr/scripts/sound.sh --is-muted`)
 
 (defwindow notify-volume []
-  :monitor 0
+  :monitor '[1]'
   :geometry (geometry :x "0%" :y "10%" :width "40%" :height "2%" :anchor "bottom center")
-  :stacking "fg"
+  :stacking "overlay"
   :exclusive false
   :focusable false
   :namespace "volume_indicator"

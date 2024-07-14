@@ -1,7 +1,7 @@
 (defwindow bar
   :monitor 0
   :windowtype "dock"
-  :geometry (geometry :width "100%" :anchor "top center" :height "3%")
+  :geometry (geometry :width "160%" :anchor "top center" :height "3%")
   :exclusive true
   (box
     :class "entire-bar"
@@ -46,15 +46,15 @@
 (include "bar/modules/powermenu.yuck")
 (include "bar/modules/network.yuck")
 (include "bar/modules/tray.yuck")
-(include "bar/modules/monitors.yuck")
+(include "bar/modules/power.yuck")
 
 (defwidget container_right []
   (box :orientation "h" :halign "end" :space-evenly "false"
     ;; (wallpaper)
     (tray)
-    (monitor)
     (network)
     ;; (volume)
+    (power)
     (datetime)
     (powermenu)
   )

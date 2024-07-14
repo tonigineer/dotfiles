@@ -1,8 +1,13 @@
 # Files
-home/.config/btop/btop.log
+home/.local/bin/hyprls
 
 # Extensions
+*.log
 
 # Folder
 .vscode
 home/.config/cava/shaders
+
+# Temporary
+assets/*
+home/.local/share/backgrounds/*

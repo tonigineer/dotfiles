@@ -1,39 +1,25 @@
 * {
     font:           "CaskaydiaCove Nerd Font 12";
-
-    // background:     #140e1a;
-    // background-alt: #3d375e22;
-    // foreground:     #82e2ff77;
-    // selected:       #61ffca;
-    // active:         #61ffca;
-    // urgent:         #ff6767;
-    // text:           #f694ff;
-
     background:     #16161EAA;
     background-alt: #16161EAA;
-    foreground:     #61ffcaAA;
-    selected:       #f1c07d;
-    active:         #f1c07d;
+    foreground:     rgba(37, 201, 243, 0.5);
+    selected:       #61ffca;
+    active:         #FFF4E5;
     urgent:         #ff6767;
-    text:           #ffffff;
+    text:           #FFF4E5;
 }
 
 configuration {
-    modi:                       "drun,window,run";
+    modi:                       "drun,run";
     show-icons:                 true;
-    display-drun:               "  Apps";
-    display-run:                "  Run";
-    display-filebrowser:        "  Files";
-    display-window:             "  Windows";
     drun-display-format:        "{name}";
     window-format:              "{w}{c}";
     show-icons:                 true;
-    // icon-theme:                 "Win11-nord-dark";
 }
 
 window {
     /* properties for window widget */
-    //transparency:                "real";
+    transparency:                "real";
     location:                    north;
     anchor:                      center;
     fullscreen:                  false;
@@ -51,7 +37,8 @@ window {
     border-color:                @foreground;
     background-color:            @background;
     cursor:                      "default";
-    // background-image:            url("~/.config/rofi/images/forest_sunset.jpg", width);
+
+    background-image:            url("~/.local/share/backgrounds/linux-elitist/tokyo-lofi-healing-1.png", width);
 }
 
 mainbox {
@@ -98,7 +85,7 @@ entry {
     background-color:            inherit;
     text-color:                  inherit;
     cursor:                      text;
-    placeholder:                 "Search ... <c+n>; <c+tab>";
+    placeholder:                 "Type or <c+n>";
     placeholder-color:           inherit;
 }
 num-filtered-rows {
@@ -150,9 +137,9 @@ listview {
 }
 scrollbar {
     handle-width:                5px ;
-    handle-color:                @foreground;
+    handle-color:                #61ffca;
     border-radius:               10px;
-    background-color:            @background-alt;
+    background-color:            #61ffca22;
 }
 
 element {
@@ -168,11 +155,11 @@ element {
     cursor:                      pointer;
 }
 element normal.normal {
-    background-color:            var(background);
+    background-color:            transparent;
     text-color:                  var(foreground);
 }
 element normal.urgent {
-    background-color:            var(urgent);
+    background-color:            transparent;
     text-color:                  var(background);
 }
 element normal.active {
@@ -188,19 +175,19 @@ element selected.urgent {
     text-color:                  var(urgent);
 }
 element selected.active {
-    background-color:            var(background-alt);
+    background-color:            transparent;
     text-color:                  var(active);
 }
 element alternate.normal {
-    background-color:            var(background-alt);
+    background-color:            transparent;
     text-color:                  var(foreground);
 }
 element alternate.urgent {
-    background-color:            var(background-alt);
+    background-color:            transparent;
     text-color:                  var(urgent);
 }
 element alternate.active {
-    background-color:            var(background-alt);
+    background-color:            transparent;
     text-color:                  var(active);
 }
 element-icon {

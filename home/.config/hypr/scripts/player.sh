@@ -5,13 +5,11 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-# Function to get metadata using playerctl
 get_metadata() {
     key=$1
     playerctl metadata --format "{{ $key }}" 2>/dev/null
 }
 
-# Function to determine the source and return an icon and text
 get_source_info() {
     trackid=$(get_metadata "mpris:trackid")
     if [[ "$trackid" == *"firefox"* ]]; then
@@ -30,7 +28,7 @@ case "$1" in
     if [ -z "$title" ]; then
         echo ""
     else
-        echo "${title:0:28}" # Limit the output to 50 characters
+        echo "${title:0:50}"
     fi
     ;;
 --arturl)
@@ -40,6 +38,10 @@ case "$1" in
     else
         if [[ "$url" == file://* ]]; then
             url=${url#file://}
+        elif [[ "$url" == https://* ]]; then
+            wget -q -4 "$url" -O /tmp/cover.png
+            mogrify -format png /tmp/cover.png
+            url="/tmp/cover.png"
         fi
         echo "$url"
     fi
@@ -49,7 +51,7 @@ case "$1" in
     if [ -z "$artist" ]; then
         echo ""
     else
-        echo "${artist:0:30}" # Limit the output to 50 characters
+        echo "${artist:0:50}"
     fi
     ;;
 --length)

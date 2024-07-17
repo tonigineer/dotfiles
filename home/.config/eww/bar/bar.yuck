@@ -46,13 +46,10 @@
 (include "bar/modules/powermenu.yuck")
 (include "bar/modules/network.yuck")
 (include "bar/modules/tray.yuck")
-(include "bar/modules/monitors.yuck")
 
 (defwidget container_right []
   (box :orientation "h" :halign "end" :space-evenly "false"
-    ;; (wallpaper)
     (tray)
-    (monitor)
     (network)
     ;; (volume)
     (datetime)

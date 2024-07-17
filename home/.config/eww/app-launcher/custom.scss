@@ -1,0 +1,30 @@
+.window {
+    background-color: rgba(22, 22, 30, 0.95);
+    border: solid 1.5px $blue;
+    border-radius: 5px;
+}
+
+.screen-refresh-rate {
+    color: $yellow;
+    padding-bottom: 5px;
+}
+
+.screen-name {
+    font-size: 20px;
+    font-weight: bold;
+    min-width: 200px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    color: $green;
+}
+
+.screen-name.disabled {
+    color: $red;
+}
+
+.button-screen {
+    background-repeat: no-repeat;
+    background-size: 100px;
+    min-height: 100px;
+    min-width: 100px;
+}

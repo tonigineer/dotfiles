@@ -1,0 +1,27 @@
+; (defwindow app-launcher
+  ;   :monitor 0
+  ;   :stacking "bg"
+  ;   :geometry (geometry
+    ;     :anchor "bottom center"
+    ;     :width "50%"
+    ;     :height "10%"
+  ;   )
+  ;   :namespace "eww"
+  ;   (app-launcher)
+; )
+
+(defwindow app-launcher
+  :monitor 0
+  :geometry (geometry
+    :anchor "top center"
+    ; :x "0%"
+    :y "2.5%"
+    ; :width "30%"
+    ; :height "10%"
+  )
+  :stacking "fg"
+  ; :exclusive "false"
+  ; :focusable "false"
+  ; :namespace "eww"
+  (app-launcher)
+)

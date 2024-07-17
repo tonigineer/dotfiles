@@ -4,7 +4,7 @@
 (defwindow notify-volume []
   :monitor 0
   :geometry (geometry :x "0%" :y "10%" :width "40%" :height "2%" :anchor "bottom center")
-  :stacking "fg"
+  :stacking "overlay"
   :exclusive false
   :focusable false
   :namespace "volume_indicator"

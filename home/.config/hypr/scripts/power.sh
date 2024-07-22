@@ -4,7 +4,7 @@ BATTERY_NAME="BAT0"
 
 SOC_ICONS=("󰂃" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰁹")
 CHARGE_ICON="󰂄"
-FULL_ICON=""
+FULL_ICON="󱟢"
 POWERED_ICON="󰚥"
 
 function has_battery() {

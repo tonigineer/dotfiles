@@ -1,0 +1,21 @@
+(defpoll brightness :initial 0 :interval "0.05s" `~/.config/hypr/scripts/brightness.sh --brightness`)
+
+(defwindow notify-brightness []
+  :monitor 0
+  :geometry (geometry :x "0%" :y "10%" :width "40%" :height "2%" :anchor "center")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  ; :namespace "brightness_indicator"
+  (box
+    :orientation "v"
+    (scale
+      :class "brightness-bar"
+      :value brightness
+      :orientation "h"
+      :flipped false
+      :max 27000
+      :min 0
+    )
+  )
+)

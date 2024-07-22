@@ -47,13 +47,14 @@
 (include "bar/modules/network.yuck")
 (include "bar/modules/tray.yuck")
 (include "bar/modules/power.yuck")
+(include "bar/modules/volume.yuck")
 
 (defwidget container_right []
   (box :orientation "h" :halign "end" :space-evenly "false"
     ;; (wallpaper)
     (tray)
     (network)
-    ;; (volume)
+    (volume)
     (power)
     (datetime)
     (powermenu)

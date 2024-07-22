@@ -5,8 +5,8 @@
 .entire-bar {
   background: transparent;
   background-color: $black-opace;
-  font-family: 'JetBrains Mono Nerd Font';
-  font-size: 20px;
+  font-family: "CaskaydiaCove Nerd Font SemiBold";
+  font-size: 18px;
   margin-top: 0px;
   margin-bottom: 0px;
   padding-top: 2px;
@@ -39,3 +39,4 @@ tooltip label {
 @import "css/datetime.scss";
 @import "css/network.scss";
 @import "css/power.scss";
+@import "css/volume.scss";

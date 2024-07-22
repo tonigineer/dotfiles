@@ -13,15 +13,15 @@ function show_volume_bar() {
 	# Its main purpose is to automatically close the
 	# window after a certain duration. The duration
 	# restarts whenever a volume change is commanded.
-
 	EWW_WINDOW_NAME=notify-volume
+	active_screen=$(hyprctl activewindow | grep "monitor: " | cut -d" " -f2)
 
 	if eww active-windows | grep -q "$EWW_WINDOW_NAME"; then
 		date +%s >/tmp/timeout_eww_volume
 		exit 0
 	fi
 
-	eww open "$EWW_WINDOW_NAME"
+	eww open "$EWW_WINDOW_NAME" --screen $active_screen
 	date +%s >/tmp/timeout_eww_volume
 
 	while "true"; do
@@ -34,12 +34,42 @@ function show_volume_bar() {
 	done
 }
 
+function show_brightness_indicator() {
+	# This is a wrapper script for the volume window.
+	# Its main purpose is to automatically close the
+	# window after a certain duration. The duration
+	# restarts whenever a volume change is commanded.
+	EWW_WINDOW_NAME=notify-brightness
+	active_screen=$(hyprctl activewindow | grep "monitor: " | cut -d" " -f2)
+
+	if eww active-windows | grep -q "$EWW_WINDOW_NAME"; then
+		date +%s >/tmp/timeout_eww_brightness
+		exit 0
+	fi
+
+	eww open "$EWW_WINDOW_NAME" --screen $active_screen
+	date +%s >/tmp/timeout_eww_brightness
+
+	while "true"; do
+		if [ $(expr $(date +%s) - 2) -gt $(</tmp/timeout_eww_brightness) ]; then
+			eww close "$EWW_WINDOW_NAME"
+			exit 0
+		fi
+
+		sleep 0.1
+	done
+}
+
 case $1 in
---volume-bar | -vb)
+--volume | -v)
 	show_volume_bar
+	;;
+--brightness | -b)
+	show_brightness_indicator
 	;;
 *)
 	echo "USAGE:
-	- notify.sh --volume		show $(eww open notify-volume) for a limited time"
+	- notify.sh --volume		show $(eww open notify-volume) for a limited time
+	- notify.sh --brightness	show $(eww open notify-volume) for a limited time"
 	;;
 esac

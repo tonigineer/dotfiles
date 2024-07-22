@@ -3,3 +3,7 @@
 (include "bar/bar.yuck")
 (include "windows/dialogs.yuck")
 (include "notify/volume.yuck")
+(include "notify/brightness.yuck")
+
+(include "windows.yuck")
+(include "windows/settings.yuck")

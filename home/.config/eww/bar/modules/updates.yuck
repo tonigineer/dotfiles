@@ -10,11 +10,10 @@
     :space-evenly "false"
     :tooltip {updates_available > 0 ? "Updates: ${updates_available}" : "System up-to-date |  ${packages_installed}"}
     (box
-      :class "container updates"
       :orientation "h"
       (button
         :onclick {updates_available >= 0 ? "alacritty --title \"aur-updates float\" -e sh -c \"yay -Syu\" && eww update updates_available=0 &" : ""}
-        :class "updates icon"
+        :class "icon"
         {updates_available > 0 ? "󱧘" : "󰏗"}
       )
       (button
@@ -22,10 +21,10 @@
         :class {updates_available == 0 ? "updates done" : updates_available <= 10 ? "updates pending": "updates pending high"}
         {updates_available == 0 ? "󰘾" : updates_available}
       )
-      (label
-        :class "updates installed"
-        :text "(${packages_installed})"
-      )
+      ; (label
+        ;   :class "updates installed"
+        ;   :text "(${packages_installed})"
+      ; )
     )
   )
 )

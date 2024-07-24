@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-if [ $# -eq 0 ]; then
-    echo "Usage: $0 --title | --arturl | --artist | --length | --album | --source"
-    exit 1
-fi
-
 get_metadata() {
     key=$1
     playerctl metadata --format "{{ $key }}" 2>/dev/null
@@ -21,7 +16,6 @@ get_source_info() {
     fi
 }
 
-# Parse the argument
 case "$1" in
 --title)
     title=$(get_metadata "xesam:title")

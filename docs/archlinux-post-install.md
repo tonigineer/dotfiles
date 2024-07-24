@@ -38,7 +38,6 @@ Some quality of life changes for Vim
 echo "syntax on
 filetype on
 set noswapfile
-set cursorcolumn
 set number
 set expandtab
 set tabstop=4
@@ -48,5 +47,55 @@ set autoindent
 set textwidth=80
 set nobackup
 set hlsearch
-set showmatch" > ~/.vimrc
+set showmatch
+
+inoremap kj <esc>
+inoremap jk <esc>" > ~/.vimrc
 ```
+
+## Apply Dotfiles
+
+Clone the repo and submodules:
+
+```sh
+git clone --recurse-submodules https://github.com/tonigineer/dotfiles.git ~/Dotfiles
+```
+
+Run installation script:
+
+```sh
+cd ~/Dotfiles
+scripts/install.all base
+```
+
+
+## System specifics
+
+
+### Lenovo X13Gen15
+
+> [!CAUTION]
+> No audio device recognized
+ 
+Open `vim /etc/default/grub` and edit parameters as follow:
+
+```sh
+# Add `snd_hda_intel.dmic_detect=0` to parameters
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash snd_hda_intel.dmic_detect=0"
+```
+
+Finally, update grub with `grub-mkconfig -o /boot/grub/grub.cfg`.
+
+> [!TIP]
+> Change font in TTY.
+
+Add the following to `/etc/vconsole.conf`:
+
+```sh
+# This is the fallback vconsole configuration provided by systemd.
+
+KEYMAP=us
+FONT=ter-132n
+```
+
+The needed [terminus-font](https://aur.archlinux.org/packages/terminus-font-ttf) is added via the [install script](../scripts/install.sh).

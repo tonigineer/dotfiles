@@ -5,10 +5,8 @@
 .entire-bar {
   background: transparent;
   background-color: $black-opace;
-  // font-family: "JetBrains Mono Nerd Font";
-  // font-family: "SF Pro Display Bold";
   font-family: "CaskaydiaCove Nerd Font SemiBold";
-  font-size: 20px;
+  font-size: 18px;
   margin-top: 0px;
   margin-bottom: 0px;
   padding-top: 2px;
@@ -40,3 +38,5 @@ tooltip label {
 @import "css/powermenu.scss";
 @import "css/datetime.scss";
 @import "css/network.scss";
+@import "css/power.scss";
+@import "css/volume.scss";

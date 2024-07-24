@@ -7,7 +7,7 @@ is_muted() {
 
 show_volume_bar() {
 	if pgrep -x "eww" >/dev/null; then
-		~/.config/eww/scripts/notify.sh --volume-bar
+		~/.config/eww/scripts/notify.sh --volume
 	fi
 }
 
@@ -43,10 +43,12 @@ case $1 in
 	;;
 --down | -d)
 	down
+	sleep 0.15
 	show_volume_bar
 	;;
 --mute | -m)
 	mute_toggle
+	sleep 0.15
 	show_volume_bar
 	;;
 *)

@@ -51,7 +51,8 @@ install_theme() {
     # https://github.com/EliverLara/candy-icons
 
     # Apply theme right now
-    source "$SCRIPT_DIR/../home/.config/hypr/scripts/theme_apply.sh" \
+
+    source "$SCRIPT_DIR/../home/.config/hypr/scripts/theme.sh" \
         Tokyonight-Dark \
         candy-icons \
         BreezeX-RosePine-Linux 24 \

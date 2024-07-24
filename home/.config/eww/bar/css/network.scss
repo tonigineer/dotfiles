@@ -1,7 +1,7 @@
 .container_network {
-    color: $white;
+    color: $yellow;
     font-size: 18px;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 .icon-adapter {
@@ -9,24 +9,23 @@
 }
 
 .value {
-    min-width: 30px;
     font-weight: bold;
     font-size: 10px;
 }
 
 .value.up {
-    color: $blue;
+    color: $yellow;
     padding-bottom: 12px;
     margin-left: -69px;
 }
 
 
 .value.down {
-    color: $green;
+    color: $yellow;
     padding-top: 10px;
-    margin-right: -3px;
+    margin-right: 3px;
 }
 
 .value.zero {
-    color: $white;
+    color: $yellow-opace;
 }

@@ -13,15 +13,15 @@
 (defwindow app-launcher
   :monitor 0
   :geometry (geometry
-    :anchor "top center"
-    ; :x "0%"
+    :anchor "right center"
+    :x "2%"
     :y "2.5%"
-    ; :width "30%"
-    ; :height "10%"
+    :width "10%"
+    :height "155%"
   )
   :stacking "fg"
-  ; :exclusive "false"
-  ; :focusable "false"
+  ; :exclusive "true"
+  ; :focusable "true"
   ; :namespace "eww"
   (app-launcher)
 )

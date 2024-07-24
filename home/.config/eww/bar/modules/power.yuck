@@ -1,0 +1,13 @@
+(defpoll power_icon :interval "5.0s" "~/.config/hypr/scripts/power.sh --icon")
+(defpoll power_value :initial 0 :interval "5.0s" "~/.config/hypr/scripts/power.sh --value")
+
+(defwidget power []
+  (box :class "power-container"  :space-evenly "false"
+    (label :class {
+      power_value == 100 ? "power-icon full" : power_value < 10 ? "power-icon critical" : "power-icon"}
+      :text power_icon
+    )
+    (label :class "power-value" :text {power_value > 0 ? power_value : ""}
+    )
+  )
+)

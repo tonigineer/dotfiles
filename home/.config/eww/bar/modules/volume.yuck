@@ -1,0 +1,16 @@
+; (defpoll volume_icon :interval "5.0s" "~/.config/hypr/scripts/power.sh --icon")
+(defpoll volume_value :initial 0 :interval "0.2s" "~/.config/hypr/scripts/sound.sh --volume")
+(defpoll is_muted :initial "no" :interval "0.2s" "~/.config/hypr/scripts/sound.sh --is-muted")
+
+(defwidget volume []
+  (box :class "volume-container"  :space-evenly "false"
+    (label
+      :class "volume-icon"
+      :text { is_muted == "yes" ? "" : "" }
+    )
+    (label
+      :class { is_muted == "yes" ? "volume-value muted" : "volume-value" }
+      :text volume_value
+    )
+  )
+)

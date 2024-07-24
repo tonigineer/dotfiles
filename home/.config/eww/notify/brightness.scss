@@ -9,15 +9,7 @@ scale trough {
   min-height: 14px;
 }
 
-.volume-bar trough highlight {
-  background-color: $yellow;
+.brightness-bar trough highlight {
+  background-color: $white;
   border-radius: 25px;
-}
-
-.mute trough highlight {
-  background-color: rgba(241, 192, 125, 0.1);
-}
-
-.high trough highlight {
-  background-color: $red;
 }

@@ -9,13 +9,14 @@ git submodule init
 setup=$1
 
 install_base() {
-    yay -S hyprland hyprpicker hyprlock hyprpaper hypridle \
+    yay -S hyprland-git hyprpicker-git hyprlock-git hyprpaper-git hypridle-git \
         firefox discord_arch_electron \
         mpvpaper-git yt-dlp \
         rofi-lbonn-wayland-only-git \
         eww-git socat net-tools inetutils iwd jq \
         grim-git slurp-git vlc wf-recorder swappy wl-clipboard imagemagick \
-        polkit-gnome terminus-font
+        polkit-gnome terminus-font \
+        kando-bin
 
     create_symlink .config/eww
     create_symlink .config/hypr
@@ -50,7 +51,6 @@ install_theme() {
     # https://github.com/EliverLara/candy-icons
 
     # Apply theme right now
-
     source "$SCRIPT_DIR/../home/.config/hypr/scripts/theme_apply.sh" \
         Tokyonight-Dark \
         candy-icons \

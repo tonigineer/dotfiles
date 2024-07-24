@@ -1,52 +1,81 @@
-(defvar powermenu_state false)
+(defvar pw_menu_open false)
+(defvar cf_menu_open false)
+
+(defvar pw_menu_cmd "")
 
 (defwidget powermenu []
-  (eventbox
-    ; :onhover "${eww} update powermenu_state=true"
-    ; :onhoverlost "${eww} update powermenu_state=false"
-    (box
-      :orientation "h"
-      :space-evenly "false"
-      :hexpand "false"
-      :class "powermenu"
-      (revealer
-        :transition "slideright"
-        :reveal powermenu_state
-        :duration "1000ms"
-        (box
-          :orientation "h"
-          (button
-            :class "powermenu button-shutdown"
-            :tooltip "Shutdown"
-            :onclick "
-            eww update confirm_dialog_prompt=\"Shutdown computer?\";
-            eww update confirm_dialog_command=\"systemctl poweroff\";
-            eww open confirm_dialog --screen 0
-          " "󰐥")
-          (button
-            :class "powermenu button-restart"
-            :tooltip "Restart system"
-            :onclick "
-            eww update confirm_dialog_prompt=\"Restart computer?\";
-            eww update confirm_dialog_command=\"systemctl reboot\";
-            eww open confirm_dialog --screen 0
-          " "󰜉")
-          (button
-            :class "powermenu button-suspend"
-            :tooltip "Suspend system"
-            :onclick "
-            eww update confirm_dialog_prompt=\"Suspend computer?\";
-            eww update confirm_dialog_command=\"systemctl suspend\";
-            eww open confirm_dialog --screen 0
-          " "󱖐")
+  (box
+    :class "pw_menu_container"
+    (eventbox
+      :onhover "${eww} update pw_menu_open=true"
+      :onhoverlost "${eww} update pw_menu_open=false; eww update cf_menu_open=false"
+      (box
+        :orientation "h"
+        :space-evenly "false"
+        :hexpand "false"
+        (revealer
+          :transition "slideright"
+          :reveal cf_menu_open
+          :duration "750ms"
+          :class "confirm_box"
+          (box
+            :orientation "h"
+            (button
+              :class "button yes"
+              :onclick "${pw_menu_cmd}"
+              ""
+            )
+            (button
+              :class "button no"
+              :onclick "eww update cf_menu_open=false; eww update pw_menu_open=true"
+              ""
+            )
+          )
         )
-      )
-      (button
-        :class {powermenu_state == true ? "powermenu button-close" : "powermenu button-open"}
-        :tooltip {powermenu_state == true ? "Close powermenu" : "Open powermenu"}
-        :onclick {powermenu_state == true ? "eww update powermenu_state=false" : "eww update powermenu_state=true"}
-        ;; {powermenu_state == true ? "" : ""}
-        {powermenu_state == true ? "󰤁" : "󰤂"}
+        (revealer
+          :transition "slideright"
+          :reveal pw_menu_open
+          :duration "750ms"
+          (box
+            :orientation "h"
+            (button
+              :class "button shutdown"
+              :tooltip "Shutdown"
+              :onclick "
+              eww update cf_menu_open=true; eww update pw_menu_open=false;
+              eww update pw_menu_cmd=\"systemctl poweroff\"
+              "
+            "󰐥")
+            (button
+              :class "button restart"
+              :tooltip "Restart system"
+              :onclick "
+              eww update cf_menu_open=true; eww update pw_menu_open=false;
+              eww update pw_menu_cmd=\"systemctl reboot\"
+            " "󰜉")
+            (button
+              :class "button suspend"
+              :tooltip "Suspend system"
+              :onclick "
+              eww update cf_menu_open=true; eww update pw_menu_open=false;
+              eww update pw_menu_cmd=\"systemctl suspend-then-hibernate\"
+            " "󱫟")
+            (button
+              :class "button hibernate"
+              :tooltip "Hiberate system"
+              :onclick "
+              eww update cf_menu_open=true; eww update pw_menu_open=false;
+              eww update pw_menu_cmd=\"systemctl hiberation\"
+            " "󱖐")
+          )
+        )
+        (button
+          :class {pw_menu_open == true ? "button close" : "button open"}
+          ; :tooltip {pw_menu_open == true ? "Close powermenu" : "Open powermenu"}
+          :onclick {pw_menu_open == true ? "eww update pw_menu_open=false" : "eww update pw_menu_open=true"}
+          ;; {pw_menu_open == true ? "" : ""}
+          {pw_menu_open == true ? "󰤁" : "󰤂"}
+        )
       )
     )
   )

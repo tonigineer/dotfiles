@@ -1,7 +1,12 @@
 (defwindow bar
-  :monitor 0
+  :monitor 1
   :windowtype "dock"
-  :geometry (geometry :width "160%" :anchor "top center" :height "3%")
+  :geometry (geometry
+    :anchor "top center"
+    ; :size "3840x25"
+    :width "100%"
+    :height "3%"
+  )
   :exclusive true
   (box
     :class "entire-bar"

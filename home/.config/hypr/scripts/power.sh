@@ -49,6 +49,10 @@ case $1 in
 	battery_icon
 	;;
 --value | -v)
+	if ! $(has_battery); then
+		echo 100
+		exit 0
+	fi
 	battery_soc
 	;;
 *)

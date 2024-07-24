@@ -63,9 +63,11 @@ function show_brightness_indicator() {
 case $1 in
 --volume | -v)
 	show_volume_bar
+	sleep 0.15
 	;;
 --brightness | -b)
 	show_brightness_indicator
+	sleep 0.15
 	;;
 *)
 	echo "USAGE:

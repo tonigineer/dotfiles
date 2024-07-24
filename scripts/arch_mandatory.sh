@@ -13,9 +13,7 @@ echo ">> Configure VIM"
 echo "syntax on
 filetype on
 set noswapfile
-set cursorcolumn
-set relativenumber
-set rnu
+set number
 set expandtab
 set tabstop=4
 set softtabstop=4
@@ -24,7 +22,10 @@ set autoindent
 set textwidth=80
 set nobackup
 set hlsearch
-set showmatch" > ~/.vimrc
+set showmatch
+
+inoremap kj <esc>
+inoremap jk <esc>" >~/.vimrc
 sudo ln -s ~/.vimrc /root/.vimrc
 
 if [ ! -d "/opt/yay" ]; then

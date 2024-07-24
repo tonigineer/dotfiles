@@ -75,6 +75,9 @@ vda    254:0  0    20G  0 disk
 |-vda2 254:2  0  19.3G  0 part /mnt
 ```
 
+> [!TIP]
+> Using a partition for `home` and `swap` should be considered, [Arch Linux Wiki](https://wiki.archlinux.org/title/Partitioning#/home).
+
 ## Pacstrap Arch/Filesystem
 
 Install kernel and other stuff:

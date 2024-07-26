@@ -15,7 +15,7 @@ install_base() {
         rofi-lbonn-wayland-only-git \
         eww-git socat net-tools inetutils iwd jq \
         grim-git slurp-git vlc wf-recorder swappy wl-clipboard imagemagick \
-        polkit-gnome terminus-font \
+        polkit-gnome terminus-font dmidecode brightnessctl \
         kando-bin
 
     create_symlink .config/eww

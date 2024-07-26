@@ -5,7 +5,7 @@ case $1 in
     echo " "
     ;;
 --layout | -l)
-    echo $(cat /etc/vconsole.conf | grep = | cut -d "=" -f2)
+    echo $(cat /etc/vconsole.conf | grep = | head -n 1 | cut -d "=" -f2)
     ;;
 *)
     echo "Usage:

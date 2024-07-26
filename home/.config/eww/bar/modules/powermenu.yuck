@@ -65,7 +65,7 @@
               :tooltip "Hiberate system"
               :onclick "
               eww update cf_menu_open=true; eww update pw_menu_open=false;
-              eww update pw_menu_cmd=\"systemctl hiberation\"
+              eww update pw_menu_cmd=\"systemctl hibernate\"
             " "󱖐")
           )
         )

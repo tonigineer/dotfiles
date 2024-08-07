@@ -7,7 +7,7 @@
       :class "clock"
       :tooltip "${formattime(EWW_TIME, "%a, %d. %b %Y", timezone)}"
       (button
-        :onclick {calendar_open == true ? "${eww} close calendar; ${eww} update calendar_open=false" : "${eww} open calendar --screen 0; ${eww} update calendar_open=true" }
+        :onclick {calendar_open == true ? "${eww} close calendar; ${eww} update calendar_open=false" : "${eww} open calendar --screen $(hyprctl activewindow | grep monitor: | cut -d\" \" -f 2 | head -n 1); ${eww} update calendar_open=true" }
         "${formattime(EWW_TIME, "%H:%M", timezone)}"
       )
     )
@@ -16,7 +16,7 @@
 
 (defwindow calendar
   :monitor 0
-  :geometry (geometry :x "1%" :y "1%" :anchor "top right" :width "0px" :height "0px")
+  :geometry (geometry :x "0.2%" :y "0.2%" :anchor "top right" :width "0px" :height "0px")
   (box
     :class "calendar_box"
     (calendar

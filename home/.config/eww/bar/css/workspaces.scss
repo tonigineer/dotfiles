@@ -4,38 +4,39 @@
 }
 
 .workspace {
-    padding-left: 3px;
-    padding-right: 3px;
-    border-bottom: solid 1.0px $transparent;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-bottom: solid 2.0px $transparent;
     // border-bottom: solid 1.25px $transparent;
     border-radius: 0px;
     color: $blue-opace; // unoccupied
 }
 
 .workspace button:hover {
-    background-color: $blue;
+    color: $yellow;
+    // background-color: $blue;
 }
 
 .workspace.occupied {
     color: $white-opace;
     // border-top: solid 0.5px $yellow-opace;
     // border-bottom: solid 1.25px $yellow-opace;
-    border-radius: 3px;
+    // border-radius: 3px;
 }
 
 .workspace.focused {
     // border-top: solid 0.5px $yellow;
     // border-left: solid 1.25px $yellow;
-    border-radius: 0px;
+    // border-radius: 0px;
     color: $blue;
 }
 
 .left {
     // border-left: solid 0.5 $yellow;
-    border-bottom: solid 1.25px $red;
+    border-bottom: solid 2.0px $red;
 }
 
 .right {
     // border-right: solid 0.5 $yellow;
-    border-bottom: solid 1.25px $green;
+    border-bottom: solid 2.0px $green;
 }

@@ -12,22 +12,32 @@
   (box
     :class "container_network"
     :orientation "h"
-    :halign "center"
-    :valign "center"
+    :halign "end"
+    :valign "end"
     :space-evenly "false"
     :tooltip "`${interface}` ${ip_address} @ ${gateway}"
-    (label
-      :class {rx > 100 ? "value down" : "value down zero"}
-      :text {round(rx / 1000 / 1000, 1)}
+    (box
+      (button
+        :onclick "${cmd_open_network_tui}"
+        :class "icon-adapter"
+        network_icon
+      )
     )
-    (button
-      :onclick "${cmd_open_network_tui}"
-      :class "icon-adapter"
-      network_icon
-    )
-    (label
-      :text {round(tx / 1000 / 1000, 1)}
-      :class {tx > 100 ? "value up" : "value up zero"}
+    (box
+      :halign "center"
+      :valign "center"
+      :space-evenly "false"
+      :orientation "v"
+      (label
+        :text {round(tx / 1000 / 1000, 1)}
+        :class {tx > 100 ? "value up" : "value up zero"}
+        :xalign "0"
+      )
+      (label
+        :text {round(rx / 1000 / 1000, 1)}
+        :class {rx > 100 ? "value down" : "value down zero"}
+        :xalign "0"
+      )
     )
   )
 )

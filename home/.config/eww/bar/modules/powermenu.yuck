@@ -7,16 +7,16 @@
   (box
     :class "pw_menu_container"
     (eventbox
-      :onhover "${eww} update pw_menu_open=true"
-      :onhoverlost "${eww} update pw_menu_open=false; eww update cf_menu_open=false"
+      ; :onhover "${eww} update pw_menu_open=true"
+      ; :onhoverlost "${eww} update pw_menu_open=false; eww update cf_menu_open=false"
       (box
         :orientation "h"
         :space-evenly "false"
         :hexpand "false"
         (revealer
           :transition "slideright"
-          :reveal cf_menu_open
           :duration "750ms"
+          :reveal cf_menu_open
           :class "confirm_box"
           (box
             :orientation "h"
@@ -33,9 +33,9 @@
           )
         )
         (revealer
-          :transition "slideright"
-          :reveal pw_menu_open
+          :transition "slideleft"
           :duration "750ms"
+          :reveal pw_menu_open
           (box
             :orientation "h"
             (button
@@ -72,7 +72,7 @@
         (button
           :class {pw_menu_open == true ? "button close" : "button open"}
           ; :tooltip {pw_menu_open == true ? "Close powermenu" : "Open powermenu"}
-          :onclick {pw_menu_open == true ? "eww update pw_menu_open=false" : "eww update pw_menu_open=true"}
+          :onclick {pw_menu_open == true ? "eww update pw_menu_open=false; eww update cf_menu_open=false" : "eww update pw_menu_open=true; eww update cf_menu_open=false"}
           ;; {pw_menu_open == true ? "" : ""}
           {pw_menu_open == true ? "󰤁" : "󰤂"}
         )

@@ -12,7 +12,6 @@ export PROMPT_DIRTRIM=3
 [[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && ic3="|" || ic3=⌜
 [[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && ic4="|" || ic4=⌟
 [[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && ic5=">" || ic5=❯
-[[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && setfont ter-132n
 
 function custom_prompt {
     BRANCH=$(git status 2>/dev/null | grep "On branch " | rev | cut -d " " -f1 | rev)

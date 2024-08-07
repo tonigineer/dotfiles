@@ -1,0 +1,126 @@
+(defwindow panel
+  :monitor 1
+  ; :windowtype ""
+  :geometry (geometry
+    :anchor "right center"
+    :x "2%"
+    :y "2.5%"
+    :width "10%"
+    :height "50%"
+  )
+  :stacking "fg"
+  ; :exclusive "true"
+  :focusable "true"
+  ; :namespace "eww"
+  (box
+    :class "window-panel"
+    :space-evenly "true"
+    (screens)
+    (app-launcher)
+  )
+)
+
+(defwidget screens []
+  (box
+    :orientation "v"
+    :halign "start"
+    :space-evenly "false"
+    (label :text "test")
+  )
+)
+
+; SUMMARY
+;   The script is hardcoded to only enable/disable
+;   the left screen `LG Ultra HD`, when available.
+;
+(defpoll both_screen_available :initial "0" :interval "0.5s" "hyprctl monitors | grep Monitor | wc -l")
+(defpoll refresh_primary :initial 144 :interval "10.0s" `hyprctl monitors | grep -oP '3840x2160@\\K[0-9]+(\\.[0-9]+)?' | head -n 1`)
+(defpoll refresh_secondary :initial 60 :interval "10.0s" `hyprctl monitors | grep -oP '3840x2160@\\K[0-9]+(\\.[0-9]+)?' | head -n 2 | tail -n 1`)
+
+(defpoll aaa :initial "0" :interval "1.0s" `[ "$(~/.config/hypr/scripts/monitor.sh -i 0)" -eq "0" ] && echo "adfas" || echo "11"`)
+; (defpoll right_screen :initial -1 :interval "10.s" ``)
+
+
+(defwidget app-launcher []
+  (box
+    :class "window"
+    :orientation "v"
+    :space-evenly "false"
+    :vexpand "false"
+    :hexpand "false"
+    (box
+      ; :class "box-top"
+      ; :space-evenly "false"
+      ; :halign "center"
+      ; :valign "center"
+      ; (button
+        ;   :class "button-close"
+        ;   :onclick "eww close app-launcher"
+        ;   "X"
+      ; )
+    )
+    (box
+      :class "box-bottom"
+      :orientation "h"
+      :space-evenly "false"
+      :valign "center"
+      :halign "center"
+      ; Left screen
+      (box
+        :class "box-screen"
+        :orientation "v"
+        :space-evenly "false"
+        :halign "center"
+        :valign "center"
+        :tooltip {both_screen_available == 2 ? "Disable screen" : "Enable screen"}
+        (box :halign "center" :space-evenly "false" ; just to center to image
+          (button
+            :class "button-screen"
+            :style {
+            both_screen_available == 2 ?
+            "background-image: url('assets/screen-enabled.svg');" :
+            "background-image: url('assets/screen-disabled.svg');"
+            }
+            :onclick {
+            both_screen_available == 2 ?
+            `hyprctl keyword monitor DP-1,disable` :
+            `hyprctl keyword monitor DP-1,highres@highr,auto-left,2`
+            }
+          )
+        )
+        ; (label
+          ;   :class {both_screen_available == 2 ? "screen-name" : "screen-name disabled"}
+          ;   :text "LG Ultra HD"
+        ; )
+        ; (label
+          ;   :class "screen-refresh-rate"
+          ;   :text "${refresh_secondary} Hz"
+        ; )
+      )
+      ; Right screen
+      (box
+        :class "box-screen-button"
+        :orientation "v"
+        :space-evenly "false"
+        :halign "center"
+        :valign "center"
+        :tooltip "Screen cannot be turned off."
+        (box :halign "center" :space-evenly "false" ; just to center image
+          (button
+            :style "background-image: url('assets/screen-enabled.svg');"
+            :class "button-screen"
+            :onclick `eww close app-launcher`
+          )
+        )
+        ; (label
+          ;   :class "screen-name"
+          ;   :text "ROG XG27UQR"
+        ; )
+        ; (label
+          ;   :class "screen-refresh-rate"
+          ;   :text "${refresh_primary} Hz"
+        ; )
+      )
+    )
+  )
+)

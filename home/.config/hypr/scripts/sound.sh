@@ -16,11 +16,11 @@ volume() {
 }
 
 up() {
-	pactl set-sink-volume @DEFAULT_SINK@ +5%
+	pactl set-sink-volume @DEFAULT_SINK@ +3%
 }
 
 down() {
-	pactl set-sink-volume @DEFAULT_SINK@ -5%
+	pactl set-sink-volume @DEFAULT_SINK@ -3%
 }
 
 mute_toggle() {

@@ -28,7 +28,7 @@ function get_name() {
 
 function get_model() {
     # Return model name of monitor as in the product name
-    echo "$info" | jq --argjson ID $1 '.[] | select(.id == $ID).model'
+    echo "$info" | jq -r --argjson ID $1 '.[] | select(.id == $ID).model'
 }
 
 function is_enabled() {

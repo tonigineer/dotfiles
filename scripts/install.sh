@@ -13,12 +13,12 @@ install_base() {
         firefox discord_arch_electron \
         mpvpaper-git yt-dlp \
         rofi-lbonn-wayland-only-git \
-        eww-git socat net-tools inetutils iwd jq \
+        aylurs-gtk-shell-git bun-bin sass socat net-tools inetutils iwd jq \
         grim-git slurp-git vlc wf-recorder swappy wl-clipboard imagemagick \
         polkit-gnome terminus-font dmidecode brightnessctl \
         kando-bin
 
-    create_symlink .config/eww
+    create_symlink .config/ags
     create_symlink .config/hypr
     create_symlink .config/mpv
     create_symlink .config/rofi

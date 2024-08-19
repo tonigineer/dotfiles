@@ -7,6 +7,7 @@
 #		notify.sh --volume
 # 			Evokes the wrapper to `eww open notify-volume`
 #
+active_screen=$(~/.config/hypr/scripts/monitor.sh -m $(~/.config/hypr/scripts/monitor.sh -A))
 
 function show_volume_bar() {
 	# This is a wrapper script for the volume window.
@@ -14,14 +15,13 @@ function show_volume_bar() {
 	# window after a certain duration. The duration
 	# restarts whenever a volume change is commanded.
 	EWW_WINDOW_NAME=notify-volume
-	active_screen=$(hyprctl activewindow | grep "monitor: " | cut -d" " -f2)
 
 	if eww active-windows | grep -q "$EWW_WINDOW_NAME"; then
 		date +%s >/tmp/timeout_eww_volume
 		exit 0
 	fi
-
-	eww open "$EWW_WINDOW_NAME" --screen $active_screen
+	echo $active_screen
+	eww open "$EWW_WINDOW_NAME" --screen "$active_screen"
 	date +%s >/tmp/timeout_eww_volume
 
 	while "true"; do
@@ -40,7 +40,6 @@ function show_brightness_indicator() {
 	# window after a certain duration. The duration
 	# restarts whenever a volume change is commanded.
 	EWW_WINDOW_NAME=notify-brightness
-	active_screen=$(hyprctl activewindow | grep "monitor: " | cut -d" " -f2)
 
 	if eww active-windows | grep -q "$EWW_WINDOW_NAME"; then
 		date +%s >/tmp/timeout_eww_brightness

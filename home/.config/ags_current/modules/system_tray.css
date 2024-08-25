@@ -1,0 +1,12 @@
+.system_tray {
+    margin-right: 10px;
+}
+
+.system_tray button:not(:first-child) {
+    margin-left: 0.75rem;
+}
+
+.system_tray_icon {
+    /* padding-left: 5px;
+    padding-right: 5px; */
+}

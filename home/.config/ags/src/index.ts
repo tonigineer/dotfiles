@@ -1,13 +1,15 @@
-const hyprland = await Service.import("hyprland");
+export const HYPRLAND = await Service.import("hyprland")
 
-function ClientTitle() {
-    return Widget.Label({
-        class_name: "client-title",
-        label: hyprland.active.client.bind("title"),
-    })
-}
+// Widgets left side
+import { ClientTitle } from "./widgets/client";
 
+// Widgets center
+import { Workspaces } from "./widgets/workspaces";
 
+// Widgets right side
+import { SystemTray } from "./widgets/system_tray";
+import { Clock } from "./widgets/clock";
+import { ShutdownMenu } from "./widgets/shutdown_menu";
 
 function Bar(monitor = 1) {
     // const mode = monitor.name === "DP-2" ? "collapsed" : "full";
@@ -27,19 +29,21 @@ function Bar(monitor = 1) {
             center_widget: Widget.Box({
                 hpack: "center",
                 className: "right",
-                children: [ClientTitle()]
+                children: [Workspaces()]
             }),
             end_widget: Widget.Box({
                 hpack: "end",
                 className: "right",
-                children: [ClientTitle()]
+                children: [
+                    SystemTray(),
+                    Clock(),
+                    ShutdownMenu(),
+                ]
             }),
         }),
     })
 }
-// });
-
 
 export default {
-    windows: hyprland.monitors.map((m) => Bar(m.id)),
+    windows: HYPRLAND.monitors.map((m) => Bar(m.id)),
 };

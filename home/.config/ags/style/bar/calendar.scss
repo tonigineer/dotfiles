@@ -1,0 +1,34 @@
+.calendar {
+    background-color: $background2;
+    border: solid 0.05em $foreground3;
+    border-radius: 0.5em;
+    font-size: 16px;
+    font-weight: bold;
+
+    .header {
+        color: $foreground2;
+    }
+
+    .button {
+        color: $yellow;
+        font-size: 26px;
+    }
+
+    .highlight {
+        color: $green;
+    }
+
+    .hover {
+        color: $red-opace;
+    }
+
+    :indeterminate {
+        padding: 11em;
+    }
+
+    :selected {
+        color: $red;
+    }
+
+
+}

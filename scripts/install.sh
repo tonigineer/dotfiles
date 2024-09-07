@@ -60,7 +60,7 @@ install_theme() {
 }
 
 install_terminal() {
-    yay -S alacritty neovim-git vim zsh \
+    yay -S kitty neovim-git vim zsh yazi \
         curl eza unzip tar wget zip \
         btop-git cava-git cmatrix-git fastfetch-git tty-clock-git \
         ttf-jetbrains-mono-nerd ttf-cascadia-code-nerd
@@ -72,11 +72,12 @@ install_terminal() {
 
     create_symlink .local/bin
 
-    create_symlink .config/alacritty
+    create_symlink .config/kitty
     create_symlink .config/btop
     create_symlink .config/cava
     create_symlink .config/fastfetch
     create_symlink .config/nvim
+    create_symlink .config/yazi
 
     create_symlink .config/zsh
     ln -s ~/.config/zsh/.zshrc ~/.zshrc

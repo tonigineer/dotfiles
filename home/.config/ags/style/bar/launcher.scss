@@ -1,0 +1,11 @@
+.launcher-arch button:hover {
+    color: $red;
+}
+
+.launcher-arch {
+    color: $blue;
+
+    .icon {
+        font-size: 18px;
+    }
+}

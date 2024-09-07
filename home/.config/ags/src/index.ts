@@ -2,6 +2,7 @@ export const HYPRLAND = await Service.import("hyprland")
 
 // Widgets left side
 import { ClientTitle } from "./widgets/client";
+import { ArchIcon } from "./widgets/launcher";
 
 // Widgets center
 import { Workspaces } from "./widgets/workspaces";
@@ -11,7 +12,7 @@ import { SystemTray } from "./widgets/system_tray";
 import { Clock } from "./widgets/clock";
 import { ShutdownMenu } from "./widgets/shutdown_menu";
 
-function Bar(monitor = 1) {
+const Bar = async (monitor = 0) => {
     // const mode = monitor.name === "DP-2" ? "collapsed" : "full";
     // const disableHover = monitor.name !== "DP-2";
     return Widget.Window({
@@ -24,7 +25,11 @@ function Bar(monitor = 1) {
             start_widget: Widget.Box({
                 hpack: "start",
                 className: "right",
-                children: [ClientTitle()]
+                children: [
+                    ArchIcon(),
+                    (await ClientTitle())
+                ]
+                // children: [ClientTitle()],
             }),
             center_widget: Widget.Box({
                 hpack: "center",

@@ -7,9 +7,11 @@
 
 // General
 @import "colors.scss";
+@import "common/tooltips.scss";
 
 // Bar and widgets
 @import "bar/bar.scss";
+@import "bar/launcher.scss";
 @import "bar/client.scss";
 @import "bar/clock.scss";
 @import "bar/system_tray.scss";

@@ -1,12 +1,8 @@
-.system_tray {
-    margin-right: 10px;
+.tray.icon {
+    font-size: 18px;
+    margin-right: 1rem;
 }
 
-.system_tray button:not(:first-child) {
-    margin-left: 0.75rem;
-}
-
-.system_tray_icon {
-    /* padding-left: 5px;
-    padding-right: 5px; */
+.tray.icon button:last-child {
+    margin-right: 0rem;
 }

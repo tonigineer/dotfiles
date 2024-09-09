@@ -1,0 +1,109 @@
+.resource.icon {
+    color: $green;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.resource.label {
+    color: $foreground1;
+    font-weight: bold;
+    font-size: 12px;
+    // margin-right: 10px;
+}
+
+.resource.memory.icon {
+    border-radius: 9999px;
+    -gtk-outline-radius: 9999px;
+    transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
+    min-height: 1.77rem;
+    min-width: 1.77rem;
+    border-radius: 10rem;
+    color: $foreground1;
+}
+
+.resource.memory.circular {
+    transition: 500ms cubic-bezier(0.1, 1, 0, 1);
+    min-width: 0.26rem;
+    min-height: 1.536rem;
+    padding: 0px;
+    background-color: $green-opace;
+    color: $green;
+    font-size: 50px;
+}
+
+.resource.cpu.icon {
+    border-radius: 9999px;
+    -gtk-outline-radius: 9999px;
+    transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
+    min-height: 1.77rem;
+    min-width: 1.77rem;
+    border-radius: 10rem;
+    color: $foreground1;
+}
+
+.resource.cpu.circular {
+    transition: 500ms cubic-bezier(0.1, 1, 0, 1);
+    min-width: 0.26rem;
+    min-height: 1.536rem;
+    padding: 0px;
+    background-color: $green-opace;
+    color: $green;
+    font-size: 50px;
+}
+
+.resource.disc.icon {
+    border-radius: 9999px;
+    -gtk-outline-radius: 9999px;
+    transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
+    min-height: 1.77rem;
+    min-width: 1.77rem;
+    border-radius: 10rem;
+    color: $foreground1;
+}
+
+.resource.disc.circular {
+    transition: 500ms cubic-bezier(0.1, 1, 0, 1);
+    min-width: 0.26rem;
+    min-height: 1.536rem;
+    padding: 0px;
+    background-color: $yellow-opace;
+    color: $yellow;
+    font-size: 50px;
+}
+
+.resource.gpu.icon {
+    border-radius: 9999px;
+    -gtk-outline-radius: 9999px;
+    transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
+    min-height: 1.77rem;
+    min-width: 1.77rem;
+    border-radius: 10rem;
+    color: $foreground1;
+}
+
+.resource.gpu.circular {
+    transition: 500ms cubic-bezier(0.1, 1, 0, 1);
+    min-width: 0.26rem;
+    min-height: 1.536rem;
+    padding: 0px;
+    background-color: $red-opace;
+    color: $red;
+    font-size: 50px;
+}
+
+
+.resource>* {
+    margin-right: 0.35rem;
+}
+
+.resource>*:last-child {
+    margin-right: 0rem;
+}
+
+.resource>overlay>*:first-child {
+    margin-right: 0.35rem;
+}
+
+.resource>overlay:last-child>* {
+    margin-right: 0rem;
+}

@@ -1,0 +1,41 @@
+.shutdown {
+    font-size: 18px;
+}
+
+.shutdown.opener {
+    color: $red;
+    font-size: 22px;
+}
+
+.shutdown button:hover {
+    color: $blue;
+
+}
+
+.shutdown.menu button:hover {
+    color: $blue;
+}
+
+.shutdown>* {
+    margin-right: 0.25rem;
+}
+
+.shutdown.menu>* {
+    margin-right: 0.75rem;
+}
+
+.shutdown.menu.poweroff {
+    color: $red;
+}
+
+.shutdown.menu.reboot {
+    color: $orange;
+}
+
+.shutdown.menu.suspend {
+    color: $green;
+}
+
+.shutdown.menu.hibernate {
+    color: $yellow;
+}

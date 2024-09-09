@@ -4,7 +4,7 @@ function SystemTray() {
     const ITEMS = SYSTEM_TRAY.bind("items")
         .as(items => items.map(item => Widget.Button({
             child: Widget.Icon({
-                class_name: "system_tray_icon",
+                class_name: "tray icon",
                 icon: item.bind("icon")
             }),
             on_primary_click: (_, event) => item.activate(event),
@@ -13,7 +13,6 @@ function SystemTray() {
         })))
 
     return Widget.Box({
-        class_name: "system_tray",
         children: ITEMS,
     })
 }

@@ -7,5 +7,10 @@
 
     .icon {
         font-size: 18px;
+        // The icon does not fit properly,
+        // therefore the global spacing must
+        // be adapted here :(
+        margin-right: -0.5rem;
+        margin-left: -0.25rem;
     }
 }

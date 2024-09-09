@@ -12,10 +12,10 @@ function ArchIcon() {
             Widget.Button({
                 hpack: "start",
                 hexpand: true,
-                tooltip_text: "Open rofi | btop.",
+                tooltip_text: "Open `rofi` application launcher with left click\nand `Btop` in the terminal with right click.",
                 child: Widget.Label({
                     hpack: "start",
-                    label: "   ",  // whitespaces uses as padding
+                    label: " ",
                     class_name: "icon",
                 }),
                 on_primary_click: (_, event) => {

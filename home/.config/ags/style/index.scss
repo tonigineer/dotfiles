@@ -1,21 +1,26 @@
 * {
     all: unset;
     font-family: "CaskaydiaCove Nerd Font SemiBold";
-    font-size: 16px;
-    // font-weight: bold;
 }
 
 // General
-@import "colors.scss";
+@import "common/colors.scss";
 @import "common/tooltips.scss";
 
 // Bar and widgets
 @import "bar/bar.scss";
+
 @import "bar/launcher.scss";
+@import "bar/resources.scss";
+@import "bar/updates.scss";
 @import "bar/client.scss";
-@import "bar/clock.scss";
-@import "bar/system_tray.scss";
+
 @import "bar/workspaces.scss";
+
+@import "bar/network.scss";
+@import "bar/system_tray.scss";
+@import "bar/clock.scss";
+@import "bar/shutdown.scss";
 
 // Windows
 @import "bar/calendar.scss";

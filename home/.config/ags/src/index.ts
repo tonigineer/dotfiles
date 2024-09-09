@@ -1,16 +1,20 @@
 export const HYPRLAND = await Service.import("hyprland")
+export const NETWORK = await Service.import('network')
 
 // Widgets left side
-import { ClientTitle } from "./widgets/client";
 import { ArchIcon } from "./widgets/launcher";
+import { ResourceMonitor } from "./widgets/resources";
+import { UpdateIndicator } from "./widgets/updates";
+import { ClientTitle } from "./widgets/client";
 
 // Widgets center
 import { Workspaces } from "./widgets/workspaces";
 
 // Widgets right side
+import { NetworkIndicator } from "./widgets/network";
 import { SystemTray } from "./widgets/system_tray";
 import { Clock } from "./widgets/clock";
-import { ShutdownMenu } from "./widgets/shutdown_menu";
+import { ShutdownMenu } from "./widgets/shutdown";
 
 const Bar = async (monitor = 0) => {
     // const mode = monitor.name === "DP-2" ? "collapsed" : "full";
@@ -24,12 +28,13 @@ const Bar = async (monitor = 0) => {
         child: Widget.CenterBox({
             start_widget: Widget.Box({
                 hpack: "start",
-                className: "right",
+                className: "left widgets spacing",
                 children: [
                     ArchIcon(),
-                    (await ClientTitle())
+                    ResourceMonitor(),
+                    ClientTitle(),
+                    UpdateIndicator(),
                 ]
-                // children: [ClientTitle()],
             }),
             center_widget: Widget.Box({
                 hpack: "center",
@@ -38,9 +43,10 @@ const Bar = async (monitor = 0) => {
             }),
             end_widget: Widget.Box({
                 hpack: "end",
-                className: "right",
+                className: "right widgets spacing",
                 children: [
                     SystemTray(),
+                    NetworkIndicator(),
                     Clock(),
                     ShutdownMenu(),
                 ]

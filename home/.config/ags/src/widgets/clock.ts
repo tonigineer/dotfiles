@@ -19,6 +19,7 @@ const calendarPopup = Widget.Window({
     name: "calendar",
     child: calendar,
     visible: false,
+    layer: "overlay",
     anchor: ["top", "right"],
 });
 

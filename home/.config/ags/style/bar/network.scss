@@ -1,99 +1,40 @@
-// .network.icon {
-//     font-size: 16px;
-//     // font-weight: normal;
-//     // color: $yellow;
-//     margin-left: -3.5rem;
-//     margin-right: -2.5rem;
-// }
-
-// .network.rates {
-//     font-size: 14px;
-//     // font-weight: bold;
-//     color: $red;
-// }
-
-// .network>* {
-//     margin-right: 100px;
-// }
-
-// .network>*>* {
-//     margin-right: 100px;
-// }
-
 .network {
-    color: $yellow;
-    font-size: 16px;
-}
+    .indicator {
+        color: $yellow;
 
-.network.rates {
-    font-size: 10px;
-    font-weight: bold;
-    color: $foreground1;
+        .wired {
+            font-size: 16px;
+        }
 
-    .active {
-        color: $green;
+        .wifi {
+            font-size: 20px;
+        }
+    }
+
+    .speeds>*>* {
+        margin-right: 0.5rem;
+    }
+
+    .speeds {
+        .value {
+            color: $foreground1;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .icon {
+            color: $foreground3;
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 0.1rem;
+        }
+
+        .icon.rx {
+            color: $green;
+        }
+
+        .icon.tx {
+            color: $red;
+        }
     }
 }
-
-;
-
-
-.network>* {
-    margin-right: 0.25rem;
-}
-
-.network>*:last-child {
-    margin-right: 0px;
-}
-
-.network.rates>*>* {
-    margin-right: 0.25rem;
-}
-
-// .network.rates>* :last-child {
-//     margin-right: 0rem;
-// }
-
-// .shutdown.opener {
-// color: $red;
-// font-size: 22px;
-// }
-
-// .shutdown button:hover {
-//     color: $blue;
-
-// }
-
-// .shutdown.menu button:hover {
-//     color: $blue;
-// }
-
-
-
-// .network>* {
-//     margin-left: 0rem;
-//     margin-right: 0rem;
-// }
-
-
-
-
-.network.rates>* {
-    margin-right: 0.75rem;
-}
-
-
-//     color: $red;
-// }
-
-// .shutdown.menu.reboot {
-//     color: $orange;
-// }
-
-// .shutdown.menu.suspend {
-//     color: $green;
-// }
-
-// .shutdown.menu.hibernate {
-//     color: $yellow;
-// }

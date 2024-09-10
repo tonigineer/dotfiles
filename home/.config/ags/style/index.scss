@@ -6,21 +6,12 @@
 // General
 @import "common/colors.scss";
 @import "common/tooltips.scss";
+@import "common/switch.scss";
 
-// Bar and widgets
-@import "bar/bar.scss";
-
-@import "bar/launcher.scss";
-@import "bar/resources.scss";
-@import "bar/updates.scss";
-@import "bar/client.scss";
-
-@import "bar/workspaces.scss";
-
-@import "bar/network.scss";
-@import "bar/system_tray.scss";
-@import "bar/clock.scss";
-@import "bar/shutdown.scss";
+// Bar
+@import "bar/index.scss";
 
 // Windows
-@import "bar/calendar.scss";
+@import "windows/network-manager.scss";
+@import "windows/calendar.scss";
+@import "windows/volume-bar.scss";

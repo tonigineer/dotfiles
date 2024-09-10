@@ -11,6 +11,7 @@ import { ClientTitle } from "./widgets/client";
 import { Workspaces } from "./widgets/workspaces";
 
 // Widgets right side
+import BluetoothIndicator from "./widgets/bluetooth";
 import { NetworkIndicator } from "./widgets/network";
 import { SystemTray } from "./widgets/system_tray";
 import { Clock } from "./widgets/clock";
@@ -38,13 +39,22 @@ const Bar = async (monitor = 0) => {
             }),
             center_widget: Widget.Box({
                 hpack: "center",
-                className: "right",
-                children: [Workspaces()]
+                className: "center",
+                children: [
+                    Widget.Box({
+                        class_name: "rounding-left",
+                    }),
+                    Workspaces(),
+                    Widget.Box({
+                        class_name: "rounding-right",
+                    })
+                ]
             }),
             end_widget: Widget.Box({
                 hpack: "end",
                 className: "right widgets spacing",
                 children: [
+                    // BluetoothIndicator(),
                     SystemTray(),
                     NetworkIndicator(),
                     Clock(),
@@ -55,6 +65,15 @@ const Bar = async (monitor = 0) => {
     })
 }
 
+import VolumeBar from "./windows/volume_bar";
+
 export default {
-    windows: HYPRLAND.monitors.map((m) => Bar(m.id)),
+    windows: [
+        HYPRLAND.monitors.map((m) => Bar(m.id)),
+        // HYPRLAND.monitors.map((m) => VolumeBar(m.id)),
+        VolumeBar,
+        // VolumeBar(1),
+        // HYPRLAND.monitors.map((m) => VolumeBar(m.id))
+    ]
+
 };

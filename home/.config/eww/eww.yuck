@@ -1,7 +1,0 @@
-(defvar eww "eww -c $HOME/.config/eww")
-
-(include "bar/bar.yuck")
-(include "panel/panel.yuck")
-
-(include "notify/volume.yuck")
-(include "notify/brightness.yuck")

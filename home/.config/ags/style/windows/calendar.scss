@@ -1,0 +1,37 @@
+.calendar {
+    font-size: 15px;
+    font-weight: normal;
+    color: $foreground2;
+    // background: rgba(25, 25, 25, 0.75);
+    border: 1.0px solid $blue;
+    border-radius: 10px;
+    background:
+        linear-gradient(rgba(25, 25, 25, 0.90),
+            rgba(25, 25, 25, 0.90)), url("/home/toni/.local/share/backgrounds/linux-elitist/tokyo-lofi-healing-1.png") repeat #181d25;
+    background-size: cover;
+
+    .header {
+        color: $foreground2;
+    }
+
+    .button {
+        color: $yellow;
+        font-size: 26px;
+    }
+
+    .highlight {
+        color: $green;
+    }
+
+    .hover {
+        color: $red-opace;
+    }
+
+    :indeterminate {
+        padding: 11em;
+    }
+
+    :selected {
+        color: $red;
+    }
+}

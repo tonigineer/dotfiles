@@ -12,6 +12,10 @@
 @import "bar/index.scss";
 
 // Windows
+@import "windows/bluetooth-manager.scss";
 @import "windows/network-manager.scss";
 @import "windows/calendar.scss";
+@import "windows/audio-manager.scss";
 @import "windows/volume-bar.scss";
+
+// TODO; so aufbauen https://github.com/refact0r/system24/blob/main/theme/system24.theme.css

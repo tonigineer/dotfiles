@@ -1,0 +1,32 @@
+window.volume {
+    scale {
+        min-height: 1rem;
+        min-width: 1rem;
+        padding: 0 0rem;
+
+        border: 5px solid $foreground1;
+        border-radius: 5rem;
+
+        background: $foreground1;
+
+        slider {
+            min-height: 0rem;
+            min-width: 0rem;
+            margin: 0.75rem;
+            // background-color: $red;
+            // box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 1.0);
+            // border: 2px solid $green;
+            // border-radius: 100%;
+            // border: 0px solid transparent;
+        }
+
+        highlight {
+            border-radius: 5rem;
+            background-color: $red;
+        }
+
+        &:disabled highlight {
+            background-color: mix($red-opace, $orange-opace, 50%);
+        }
+    }
+}

@@ -1,0 +1,33 @@
+.audio>* {
+    margin-right: 0.5rem;
+}
+
+.audio>*:last-child {
+    margin-right: 0rem;
+}
+
+
+.volume {
+    .value {
+        color: $blue;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .icon {
+        font-size: 24px;
+    }
+}
+
+.microphone {
+    .value {
+        color: $blue;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    .icon {
+        margin-right: 0.25rem;
+        font-size: 15px;
+    }
+}

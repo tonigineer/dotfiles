@@ -1,20 +1,48 @@
+import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
-import Widget from "resource:///com/github/Aylur/ags/widget.js";
-// @ts-ignore
-import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
-// import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
-// import Gtk from "gi://Gtk?version=3.0";
 
-// import BluetoothManager from "src/windows/bluetooth-manager";
+const updateHypridleState = () => {
+    hypridleIsActive.setValue(Utils.exec(["bash", "-c", `pgrep hypridle`]) !== "");
+}
 
-// const Switch = Widget.subclass(Gtk.Switch, "AgsSwitch");
-// const TextView = Widget.subclass(Gtk.TextView, "AgsTextView");
+const hypridleIsActive = Variable(true)
+updateHypridleState();
 
 const SettingsBox = () => Widget.Box({
-    class_name: "bluetooth",
+    class_name: "settings",
     children: [
-
+        Widget.Button({
+            // class_name: "hypridle",
+            onPrimaryClick: (self) => {
+                Utils.execAsync(["bash", "-c", `${hypridleIsActive.value ? "pkill hypridle" : "hypridle"}`]);
+                updateHypridleState();
+            },
+            child: Widget.Icon({
+                class_name: "icon",
+                icon: hypridleIsActive.bind().as(v => `custom-hypridle-${v ? "enabled" : "disabled"}-symbolic`)
+            }),
+            // TODO parse durations from config file
+            tooltip_text: hypridleIsActive.bind().as(v => `Hypridle \`${v ? "ENABLED" : "DISABLED"}\`\n\n  5min    󰒲  30min`)
+        }),
+        Widget.Button({
+            class_name: "screens",
+            onPrimaryClick: (self) => {
+                Hyprland.workspaces.filter(v => v.monitorID !== Hyprland.active.monitor.id).forEach((w) => {
+                    Hyprland.messageAsync(`dispatch moveworkspacetomonitor ${w.id} ${Hyprland.active.monitor.name}`);
+                })
+                Hyprland.monitors.filter(v => v.id !== Hyprland.active.monitor.id).forEach((m) => {
+                    Hyprland.messageAsync(`dispatch dpms ${m.dpmsStatus ? "off" : "on"} ${m.name}`);
+                })
+            },
+            child: Widget.Icon({
+                class_name: "icon",
+                icon: Hyprland.bind("monitors").as(v => `custom-monitors-${v.filter((m) => m.dpmsStatus).length > 1 ? "dual" : "single"}-symbolic`)
+            }),
+            tooltip_text: `Toggle all other monitor than the \`active\` monitor. Workspaces may still be registered at turned off monitors.`
+        })
     ]
 })
+
+
 
 export default SettingsBox;

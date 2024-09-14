@@ -1,6 +1,7 @@
 import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
+
 App.addIcons(`${App.configDir}/assets`)
 
 export enum Sink {
@@ -109,17 +110,21 @@ const panel = (sink: Sink) => Widget.Box({
 const AudioManager = Widget.Window({
     class_name: "audio-manager",
     name: "audio-manager",
-    monitor: 1,
+    monitor: Hyprland.active.bind("monitor").as(m => m.id),
+    keymode: "exclusive",
+    visible: false,
+    anchor: ["top", "right"],
+    layer: "overlay",
+    margins: [15, 15],
     child: Widget.ListBox({
         setup(self) {
             self.add(panel(Sink.Speaker));
             self.add(panel(Sink.Microphone));
         }
     }),
-    visible: false,
-    anchor: ["top", "right"],
-    layer: "overlay",
-    margins: [15, 15],
+    setup: self => self.keybind("Escape", () => {
+        App.closeWindow("audio-manager")
+    }),
 });
 
 export default AudioManager;

@@ -1,16 +1,17 @@
+@import "./client.scss";
 @import "./launcher.scss";
 @import "./resources.scss";
 @import "./updates.scss";
-@import "./client.scss";
 
 @import "./workspaces.scss";
 
 @import "./audio.scss";
 @import "./bluetooth.scss";
-@import "./network.scss";
-@import "./system-tray.scss";
 @import "./clock.scss";
+@import "./network.scss";
+@import "./settings.scss";
 @import "./shutdown.scss";
+@import "./system-tray.scss";
 
 window.bar {
     background: transparent;
@@ -18,7 +19,7 @@ window.bar {
 }
 
 .left.widgets.spacing>* {
-    margin-right: 1.5rem;
+    margin-right: 1.0rem;
 }
 
 .left.widgets.spacing>*:last-child {
@@ -26,11 +27,11 @@ window.bar {
 }
 
 .left.widgets.spacing>*:first-child {
-    margin-left: 1.5rem;
+    margin-left: 1.0rem;
 }
 
 .right.widgets.spacing>* {
-    margin-left: 1.5rem;
+    margin-left: 1.0rem;
 }
 
 .right.widgets.spacing>*:first-child {

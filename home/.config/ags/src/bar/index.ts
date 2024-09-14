@@ -1,31 +1,29 @@
-// Widgets left side
 import ArchIcon from "./launcher";
+import ClientTitle from "./client";
 import ResourceMonitor from "./resources";
 import UpdateIndicator from "./updates";
-import ClientTitle from "./client";
 
-// Widgets center
 import Workspaces from "./workspaces";
 
-// Widgets right side
-import SettingsBox from "./settings";
 import AudioIndicator from "./audio";
 import BluetoothIndicator from "./bluetooth";
-import NetworkIndicator from "./network";
-import SystemTray from "./system-tray";
 import Clock from "./clock";
+import NetworkIndicator from "./network";
+import SettingsBox from "./settings";
 import ShutdownMenu from "./shutdown";
+import SystemTray from "./system-tray";
+
+import type { Monitor } from "types/service/hyprland";
 
 
-
-const Bar = async (monitor = 0) => {
+const Bar = async (monitor: Monitor) => {
     // const mode = monitor.name === "DP-2" ? "collapsed" : "full";
     // const disableHover = monitor.name !== "DP-2";
 
     return Widget.Window({
-        name: `bar-${monitor}`,
+        name: `bar-${monitor.id}`,
         class_name: "bar",
-        monitor: monitor,
+        monitor: monitor.id,
         anchor: ["top", "left", "right"],
         exclusivity: "exclusive",
         child: Widget.CenterBox({
@@ -42,24 +40,16 @@ const Bar = async (monitor = 0) => {
             center_widget: Widget.Box({
                 hpack: "center",
                 className: "center",
-                children: [
-                    Widget.Box({
-                        class_name: "rounding-left",
-                    }),
-                    Workspaces(),
-                    Widget.Box({
-                        class_name: "rounding-right",
-                    })
-                ]
+                children: [Workspaces(monitor)]
             }),
             end_widget: Widget.Box({
                 hpack: "end",
                 className: "right widgets spacing",
                 children: [
-                    SettingsBox(),
-                    SystemTray(),
                     NetworkIndicator(),
                     AudioIndicator(),
+                    SystemTray(),
+                    SettingsBox(),
                     BluetoothIndicator(),
                     Clock(),
                     ShutdownMenu(),

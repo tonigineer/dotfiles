@@ -16,6 +16,8 @@
     }
 
     .speeds {
+        min-width: 3.75rem;
+
         .value {
             color: $foreground1;
             font-weight: bold;

@@ -1,41 +1,41 @@
-.shutdown {
-    font-size: 18px;
-}
-
-.shutdown.opener {
+.shutdown-menu {
     color: $red;
-    font-size: 22px;
-}
+    font-size: 24px;
 
-.shutdown button:hover {
-    color: $blue;
+    button:hover {
+        color: $yellow;
+    }
 
-}
+    .menu {
+        font-size: 18px;
 
-.shutdown.menu button:hover {
-    color: $blue;
-}
+        .shutdown {
+            color: $red;
+        }
 
-.shutdown>* {
-    margin-right: 0.25rem;
-}
+        .reboot {
+            color: $orange;
+        }
 
-.shutdown.menu>* {
-    margin-right: 0.75rem;
-}
+        .suspend {
+            color: $green;
+        }
 
-.shutdown.menu.poweroff {
-    color: $red;
-}
+        .hibernate {
+            color: $yellow;
 
-.shutdown.menu.reboot {
-    color: $orange;
-}
+        }
 
-.shutdown.menu.suspend {
-    color: $green;
-}
+        >* {
+            margin-right: 1.25rem;
+        }
 
-.shutdown.menu.hibernate {
-    color: $yellow;
+        >*:first-child {
+            margin-left: 0.5rem;
+        }
+
+        >*:last-child {
+            margin-right: 1.75rem;
+        }
+    }
 }

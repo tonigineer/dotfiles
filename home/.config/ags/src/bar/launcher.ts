@@ -10,18 +10,22 @@ const ArchIcon = () => Widget.Box({
             hpack: "start",
             hexpand: true,
             tooltip_text: "Open `rofi` application launcher with left click\nand `Btop` in the terminal with right click.",
-            child: Widget.Label({
-                hpack: "start",
-                label: " ",
-                class_name: "icon",
+            // child: Widget.Label({
+            //     hpack: "start",
+            //     label: " ",
+            //     class_name: "icon",
+            // }),
+            child: Widget.Icon({
+                icon: "distributor-logo-archlinux",
+                size: 28
             }),
             on_primary_click: (_, event) => {
-                Utils.execAsync(`rofi -show drun`).catch(print);
+                App.openWindow("terminal");
             },
             on_secondary_click: (_, event) => {
                 Utils.execAsync(`kitty --title float -e btop`).catch(print);
             },
-        })
+        }),
     ]
 })
 

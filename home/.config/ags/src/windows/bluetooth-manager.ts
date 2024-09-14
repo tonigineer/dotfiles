@@ -1,6 +1,7 @@
 // import Widget from "resource:///com/github/Aylur/ags/widget.js";
 // // @ts-ignore
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
+import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 // import Gtk from "gi://Gtk?version=3.0";
 
 const header = () => Widget.Box({
@@ -59,19 +60,23 @@ const selector = () => Widget.Box({
 })
 
 const BluetoothManager = Widget.Window({
+    anchor: ["top", "right"],
     class_name: "bluetooth-manager",
+    keymode: "exclusive",
+    monitor: Hyprland.active.bind("monitor").as(m => m.id),
     name: "bluetooth-manager",
-    monitor: 1,
+    margins: [15, 15],
+    layer: "overlay",
+    visible: false,
     child: Widget.Box({
         vertical: true,
         children: [
             header(),
             selector()]
     }),
-    visible: false,
-    anchor: ["top", "right"],
-    layer: "overlay",
-    margins: [15, 15],
+    setup: self => self.keybind("Escape", () => {
+        App.closeWindow("bluetooth-manager")
+    }),
 });
 
 export default BluetoothManager;

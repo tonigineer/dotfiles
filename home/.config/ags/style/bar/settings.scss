@@ -1,8 +1,11 @@
-.system-tray {
-    // margin-right: -0.0rem;
+.settings {
+
+    button:hover {
+        color: $yellow;
+    }
 
     .icon {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     >* {
@@ -12,4 +15,5 @@
     >*:last-child {
         margin-right: 0rem;
     }
+
 }

@@ -1,15 +1,12 @@
 import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
-import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
-import AudioManager, { Sink } from 'src/windows/audio-manager';
 
 const MicrophoneIndicator = () => Widget.Box({
     className: "microphone",
     children: [
         Widget.Button({
             onPrimaryClick: () => {
-                AudioManager.monitor = Hyprland.active.monitor.id;
-                AudioManager.visible = !AudioManager.visible;
+                App.toggleWindow("audio-manager");
             },
             onSecondaryClick: () => Utils.execAsync(`pavucontrol -t 4`).catch(logError),
             onMiddleClick: () => { Audio.microphone.is_muted = !Audio.microphone.is_muted },
@@ -44,8 +41,7 @@ const VolumeIndicator = () => Widget.Box({
     children: [
         Widget.Button({
             onPrimaryClick: () => {
-                AudioManager.monitor = Hyprland.active.monitor.id;
-                AudioManager.visible = !AudioManager.visible;
+                App.toggleWindow("audio-manager");
             },
             onSecondaryClick: () => Utils.execAsync(`pavucontrol -t 3`).catch(logError),
             onMiddleClick: () => { Audio.speaker.is_muted = !Audio.speaker.is_muted },

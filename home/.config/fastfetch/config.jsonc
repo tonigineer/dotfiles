@@ -1,20 +1,21 @@
 {
     "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
     "logo": {
-        "source": "~/.config/fastfetch/logo.png",
-        "type": "kitty-direct",
-        "width": 16,
-        "height": 7,
+        "source": "$HOME/.config/fastfetch/logo_hyprland.png",
+        "type": "kitty",
+        "width": 24,
+        "height": 10,
         // "type": "small",
         "padding": {
-            "top": 1,
-            "left": 2
+            "top": 0,
+            "left": 0
         }
     },
     "display": {
         "separator": " "
     },
     "modules": [
+        "break",
         "break",
         {
             "type": "kernel",

@@ -96,7 +96,7 @@ const ResourceMonitor = () => Widget.Box({
         //      https://aylur.github.io/ags-docs/config/widgets/#attribute-property
         Widget.Revealer({
             revealChild: false,
-            transitionDuration: 1000,
+            transitionDuration: 2000,
             transition: 'slide_right',
             child: BarResource(
                 'gpu',
@@ -107,7 +107,7 @@ const ResourceMonitor = () => Widget.Box({
             ),
             setup: self => self.poll(10000, () => Utils.execAsync(['bash', '-c', `nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits`])
                 .then((output) => {
-                    Number(output) > 15 ?
+                    Number(output) > 25 ?
                         self.reveal_child = true :
                         self.reveal_child = false
                 }).catch(print))

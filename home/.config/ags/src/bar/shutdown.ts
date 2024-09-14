@@ -1,11 +1,8 @@
-import { CONFIG } from "../../config";
-
-
-const SHUTDOWN_COMMANDS = {
-    "shutdown": "",
-    "reboot": "",
-    "suspend": "",
-    "hibernate": ""
+const COMMANDS = {
+    "shutdown": "systemctl poweroff",
+    "reboot": "systemctl restart",
+    "hibernate": "systemctl hibernate",
+    "suspend": "systemctl suspend",
 }
 
 const ICONS = {
@@ -17,71 +14,43 @@ const ICONS = {
     "hibernate": "󱖐",
 }
 
+const reveal_child = Variable(false);
 
-const toggle = Variable(false);
-
-
-const Button = () => Widget.Button({
-    class_name: "shutdown opener",
-    label: ICONS[String(toggle.value)],
-    on_clicked: (self) => {
-        self.label = ICONS[String(!toggle.value)];
-        toggle.value = !toggle.value;
+const ShowButton = () => Widget.Button({
+    label: reveal_child.bind().as(v => v ? "󰤁" : "󰤂"),
+    cursor: "pointer",
+    on_clicked: () => {
+        reveal_child.value = !reveal_child.value;
     },
 })
 
-
 const Menu = () => Widget.Revealer({
-    revealChild: toggle.value,
+    // revealChild: reveal_child.value,
+    revealChild: reveal_child.bind(),
     transitionDuration: 1000,
     transition: 'slide_right',
-    attribute: false,
+    cursor: "pointer",
     child: Widget.Box({
-        class_name: "shutdown menu",
-        children: [
-            Widget.Button({
-                class_name: "shutdown menu poweroff",
-                label: ICONS["shutdown"],
+        class_name: "menu",
+        children:
+            Object.keys(COMMANDS).map((k, v) => Widget.Button({
+                class_name: `${k}`,
+                label: ICONS[k],
+                cursor: "pointer",
                 on_clicked: () => {
-                    toggle.value = !toggle.value;
-                    Utils.execAsync(`systemctl poweroff`);
-                },
-            }),
-            Widget.Button({
-                class_name: "shutdown menu reboot",
-                label: ICONS["reboot"],
-                on_clicked: () => {
-                    toggle.value = !toggle.value;
-                    Utils.execAsync(`systemctl reboot`);
-                },
-            }),
-            Widget.Button({
-                class_name: "shutdown menu hibernate",
-                label: ICONS["hibernate"],
-                on_clicked: () => {
-                    toggle.value = !toggle.value;
-                    Utils.execAsync(`systemctl hibernate`);
-                },
-            }),
-            Widget.Button({
-                class_name: "shutdown menu suspend",
-                label: ICONS["suspend"],
-                on_clicked: () => {
-                    toggle.value = !toggle.value;
-                    Utils.execAsync(`systemctl suspend-then-hibernate`);
-                },
-            }),
-        ]
+                    reveal_child.value = !reveal_child.value;
+                    Utils.execAsync(["bash", "-c", `${v}`]);
+                }
+            })
+            )
     }),
-    setup: self => self.hook(toggle, () => {
-        self.reveal_child = toggle.value;
-    })
 })
 
 const ShutdownMenu = () => Widget.Box({
-    class_name: "shutdown",
+    class_name: "shutdown-menu",
     children: [
-        Menu(), Button()]
+        Menu(),
+        ShowButton()]
 })
 
 export default ShutdownMenu;

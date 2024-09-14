@@ -1,0 +1,38 @@
+.terminal {
+    background-color: $background1;
+    border: 1.75px solid $foreground3;
+    border-radius: 1rem;
+
+    min-height: 200px;
+
+    background:
+        linear-gradient(rgba(25, 25, 25, 0.90),
+            rgba(25, 25, 25, 0.90)), url("/home/toni/.local/share/backgrounds/linux-elitist/tokyo-lofi-healing-1.png") repeat #181d25;
+    background-size: cover;
+
+
+    .commandline {
+        font-size: 16px;
+        padding: 10px;
+        min-width: 600px;
+        font-family: "JetBrainsMono NFM Thin";
+
+        .prompt {
+            color: $blue;
+            font-weight: bold;
+        }
+
+        .command {
+            color: $foreground1;
+            font-weight: normal;
+        }
+    }
+
+    .output {
+        padding: 10px;
+        font-size: 14px;
+        font-family: "JetBrainsMono NFM Thin";
+        min-height: 200px;
+
+    }
+}

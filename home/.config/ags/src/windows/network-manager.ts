@@ -1,5 +1,6 @@
 // import { NETWORK } from "./../index";
 import Network from 'resource:///com/github/Aylur/ags/service/network.js';
+import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
 
 const connectivity = Widget.CenterBox({
@@ -144,20 +145,6 @@ const wifiControl = Widget.CenterBox({
     })
 })
 
-
-// Widget.ToggleButton({
-//     label: Network.wifi.bind("state").as(v => v === "activated" ? "󰔡 " : "󰨚 "),
-//     class_name: Network.wifi.state === "activated" ? "on" : "off",
-//     onToggled: ({ active }) => {
-//         const widget = wifiControl.end_widget;  // TODO works, but self should be given via onToggled, but how???
-//         widget.label = active ? "󰔡 " : "󰨚 ";
-//         widget.class_name = active ? "on" : "off";
-//         wifiInfos.reveal_child = active;
-//         Utils.execAsync(["bash", "-c", `nmcli device ${active ? "connect" : "disconnect"} $(nmcli device | grep 'wifi ' | cut -d" " -f1)`]);
-//     },
-// }),
-// })
-
 const wifiInfos = Widget.Revealer({
     revealChild: Network.wifi.bind("state").as(v => v === "activated"),
     transitionDuration: 500,
@@ -231,17 +218,23 @@ const wifiPanel = Widget.Box({
 const NetworkManager = Widget.Window({
     class_name: "networkmanager",
     name: "network-manager",
-    child: Widget.ListBox({
-        setup(self) {
-            self.add(panelHeader);
-            Network.wired?.state != "unknown" ? self.add(wiredPanel) : null;
-            Network.wifi?.state != "unknown" ? self.add(wifiPanel) : null;
-        },
-    }),
+    monitor: Hyprland.active.bind("monitor").as(m => m.id),
+    keymode: "exclusive",
     visible: false,
     anchor: ["top", "right"],
     layer: "overlay",
     margins: [15, 15],
+    child: Widget.ListBox({
+        setup(self) {
+            self.add(panelHeader);
+            self.add(wiredPanel);
+            self.add(wifiPanel);
+        },
+    }),
+    setup: self => self.keybind("Escape", () => {
+        App.closeWindow("network-manager")
+    }),
+
 });
 
 export default NetworkManager;

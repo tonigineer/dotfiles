@@ -96,19 +96,6 @@ install_terminal() {
 }
 
 case $1 in
-
--h | --help | *)
-    echo -e "Installation script \033[31mhttps://github.com/tonigineer/dotfiles\033[0m"
-    echo ""
-    echo -e "\033[33mUSAGE\033[0m     install.sh [OPTION]"
-    echo ""
-    echo "  -h, --help      Show help"
-    echo -e "  -f, --full   Install everything (\033[32mrecommended\033[0m)"
-    echo "  -b, --base      Install basic hyprland with AGS"
-    echo "  -c, --cli       Setup up terminal with zsh, nvim, etc."
-    echo "  -t, --theme     Install themes, icons, cursors"
-    echo "  -a, --audio     Install audio stuff"
-    ;;
 -f | --full)
     install_base
     install_terminal
@@ -126,5 +113,17 @@ case $1 in
     ;;
 -t | --theme)
     install_theme
+    ;;
+-h | --help | *)
+    echo -e "Installation script \033[31mhttps://github.com/tonigineer/dotfiles\033[0m"
+    echo ""
+    echo -e "\033[33mUSAGE\033[0m     install.sh [OPTION]"
+    echo ""
+    echo "  -h, --help      Show help"
+    echo -e "  -f, --full   Install everything (\033[32mrecommended\033[0m)"
+    echo "  -b, --base      Install basic hyprland with AGS"
+    echo "  -c, --cli       Setup up terminal with zsh, nvim, etc."
+    echo "  -t, --theme     Install themes, icons, cursors"
+    echo "  -a, --audio     Install audio stuff"
     ;;
 esac

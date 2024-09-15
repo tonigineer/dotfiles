@@ -31,7 +31,7 @@ const VolumeBar = Widget.Window({
         last_change: Date.now(),
         last_value: Audio["speaker"].volume
     },
-    monitor: 1,
+    monitor: Hyprland.active.monitor.id,
     child: Widget.Box({
         children: [VolumeSlider()],
     }),

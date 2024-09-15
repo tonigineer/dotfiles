@@ -39,7 +39,7 @@ const Menu = () => Widget.Revealer({
                 cursor: "pointer",
                 on_clicked: () => {
                     reveal_child.value = !reveal_child.value;
-                    Utils.execAsync(["bash", "-c", `${v}`]);
+                    Utils.execAsync(["bash", "-c", COMMANDS[k]]);
                 }
             })
             )

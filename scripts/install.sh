@@ -6,8 +6,6 @@ source "$SCRIPT_DIR/utils.sh"
 cd $SCRIPT_DIR/..
 git submodule update --init --recursive
 
-setup=$1
-
 install_base() {
     yay -S hyprland-git \
         hyprpicker-git hyprlock-git hyprpaper-git hypridle-git \
@@ -97,32 +95,36 @@ install_terminal() {
     sudo npm install -g tree-sitter-cli
 }
 
-case $setup in
+case $1 in
 
-all)
+-h | --help | *)
+    echo -e "Installation script \033[31mhttps://github.com/tonigineer/dotfiles\033[0m"
+    echo ""
+    echo -e "\033[33mUSAGE\033[0m     install.sh [OPTION]"
+    echo ""
+    echo "  -h, --help      Show help"
+    echo -e "  -f, --full   Install everything (\033[32mrecommended\033[0m)"
+    echo "  -b, --base      Install basic hyprland with AGS"
+    echo "  -c, --cli       Setup up terminal with zsh, nvim, etc."
+    echo "  -t, --theme     Install themes, icons, cursors"
+    echo "  -a, --audio     Install audio stuff"
+    ;;
+-f | --full)
     install_base
     install_terminal
     install_audio
     install_theme
     ;;
-
-base)
+-b | --base)
     install_base
     ;;
-
-terminal)
+-c | --cli)
     install_terminal
     ;;
-
-audio)
+-a | --audio)
     install_audio
     ;;
-
-theme)
+-t | --theme)
     install_theme
-    ;;
-
-*)
-    echo "Provide an argument: ./install.sh all|base|terminal|audio|theme"
     ;;
 esac

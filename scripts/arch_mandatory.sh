@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ "$EUID" -qe 0 ]; then
+  echo "Do not execute as root!"
+  exit
+fi
+
 echo "Initial settings for Arch Linux"
 
 echo ">> Configure pacman"

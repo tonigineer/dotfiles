@@ -4,18 +4,20 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 source "$SCRIPT_DIR/utils.sh"
 
 cd $SCRIPT_DIR/..
-git submodule init
+git submodule update --init --recursive
 
 setup=$1
 
 install_base() {
-    yay -S hyprland-git hyprpicker-git hyprlock-git hyprpaper-git hypridle-git \
-        firefox discord_arch_electron \
-        mpvpaper-git yt-dlp \
+    yay -S hyprland-git \
+        hyprpicker-git hyprlock-git hyprpaper-git hypridle-git \
         rofi-lbonn-wayland-only-git \
-        aylurs-gtk-shell-git bun-bin sass socat net-tools inetutils iwd jq \
-        grim-git slurp-git vlc wf-recorder swappy wl-clipboard imagemagick \
+        aylurs-gtk-shell-git bun-bin sass gnome-bluetooth-3.0 \
+        socat net-tools inetutils iwd jq \
         polkit-gnome terminus-font dmidecode brightnessctl \
+        firefox vesktop \
+        grim-git slurp-git vlc wf-recorder swappy wl-clipboard imagemagick \
+        mpvpaper-git yt-dlp \
         kando-bin
 
     create_symlink .config/ags
@@ -60,9 +62,10 @@ install_theme() {
 }
 
 install_terminal() {
-    yay -S kitty neovim-git vim zsh yazi \
+    yay -S kitty \
+        neovim vim zsh yazi \
         curl eza unzip tar wget zip \
-        btop-git cava-git cmatrix-git fastfetch-git tty-clock-git \
+        btop cava cmatrix-git fastfetch tty-clock \
         ttf-jetbrains-mono-nerd ttf-cascadia-code-nerd
 
     # Link all configs
@@ -83,7 +86,8 @@ install_terminal() {
     ln -s ~/.config/zsh/.zshrc ~/.zshrc
 
     # Install dependencies for nvim config
-    sudo pacman -S fd luarocks npm python-pip python-pynvim ripgrep rustup yarn wl-clipboard
+    sudo pacman -S fd luarocks npm python-pip python-pynvim \
+        ripgrep rustup yarn wl-clipboard
     rustup default stable
 
     yay -S fswatch

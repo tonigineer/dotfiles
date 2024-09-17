@@ -1,10 +1,8 @@
 import { Applications } from "resource:///com/github/Aylur/ags/service/applications.js";
 import GLib from "gi://GLib?version=2.0";
-import Gdk from "gi://Gdk";
-import type { Client } from "types/service/hyprland";
-import type { Monitor } from "types/service/hyprland";
 
-const hyprland = await Service.import("hyprland");
+import type { Client } from "types/service/hyprland";
+
 
 const app_icons = new Applications().list.reduce(
     (acc, app) => {
@@ -19,7 +17,7 @@ const app_icons = new Applications().list.reduce(
 
 export function getIconName(client: Client | undefined): string {
     if (!client) {
-        return "missing";
+        return "workspace-missing";
     }
 
     let icon = app_icons.classOrNames[client.class];
@@ -36,26 +34,6 @@ export function getIconName(client: Client | undefined): string {
         icon = possibleIcon;
         app_icons.classOrNames[client.title] = icon;
     }
-
-    // if (!icon) {
-    //     // TODO cache?
-    //     const filePath = `${App.configDir}/assets/${client.class}.png`;
-    //     console.log(filePath);
-    //     if (fileExists(filePath)) {
-    //         // icon = filePath;
-    //         icon = client.class;
-    //         app_icons.classOrNames[client.class] = icon;
-    //     }
-    // }
-
-    // if (!icon) {
-    //     // TODO cache?
-    //     const filePath = `/usr/share/icons/candy-icons/apps/scalable/${client.class}.svg`;
-    //     if (fileExists(filePath)) {
-    //         icon = filePath;
-    //         app_icons.classOrNames[client.class] = icon;
-    //     }
-    // }
 
     if (!icon) {
         const binaryName = Utils.exec(`ps -p ${client.pid} -o comm=`);
@@ -86,21 +64,12 @@ export function getIconName(client: Client | undefined): string {
     }
 
     if (!icon) {
-        app_icons.classOrNames[client.class] = "missing";
+        app_icons.classOrNames[client.class] = "workspace-missing";
     }
 
     return icon;
 }
 
-export function HyprToGdkMonitor(monitor: Monitor): Gdk.Monitor {
-    const mon = Gdk.Display.get_default()?.get_monitor_at_point(monitor.x, monitor.y);
-    return mon!!;
-}
-
 export function fileExists(path: string): boolean {
     return GLib.file_test(path, GLib.FileTest.EXISTS);
-}
-
-export async function queryHyprClients(): Promise<Client[]> {
-    return JSON.parse(await hyprland.messageAsync("j/clients"));
 }

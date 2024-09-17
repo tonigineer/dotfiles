@@ -2,6 +2,7 @@ import ArchIcon from "./launcher";
 import ClientTitle from "./client";
 import ResourceMonitor from "./resources";
 import UpdateIndicator from "./updates";
+import Media from "./media";
 
 import Workspaces from "./workspaces";
 
@@ -17,40 +18,35 @@ import type { Monitor } from "types/service/hyprland";
 
 
 const Bar = async (monitor: Monitor) => {
-    // const mode = monitor.name === "DP-2" ? "collapsed" : "full";
-    // const disableHover = monitor.name !== "DP-2";
-
     return Widget.Window({
         name: `bar-${monitor.id}`,
-        class_name: "bar",
         monitor: monitor.id,
         anchor: ["top", "left", "right"],
         exclusivity: "exclusive",
         child: Widget.CenterBox({
+            class_name: "bar",
             start_widget: Widget.Box({
                 hpack: "start",
-                className: "left widgets spacing",
                 children: [
                     ArchIcon(),
                     ResourceMonitor(),
                     UpdateIndicator(),
                     ClientTitle(),
+                    // Media()
                 ]
             }),
             center_widget: Widget.Box({
                 hpack: "center",
-                className: "center",
-                children: [Workspaces(monitor)]
+                child: Workspaces(monitor)
             }),
             end_widget: Widget.Box({
                 hpack: "end",
-                className: "right widgets spacing",
                 children: [
-                    NetworkIndicator(),
-                    AudioIndicator(),
                     SystemTray(),
                     SettingsBox(),
                     BluetoothIndicator(),
+                    AudioIndicator(),
+                    NetworkIndicator(),
                     Clock(),
                     ShutdownMenu(),
                 ]

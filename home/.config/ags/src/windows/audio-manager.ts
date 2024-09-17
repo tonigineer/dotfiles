@@ -1,6 +1,7 @@
 import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
+import { show_device_values, show_device_microphone } from "./../bar/audio";
 
 App.addIcons(`${App.configDir}/assets`)
 
@@ -54,7 +55,19 @@ const header = (sink: Sink) => Widget.Box({
         Widget.Button({
             on_clicked: () => Utils.execAsync(`pavucontrol -t ${sink === Sink.Speaker ? 3 : 4}`)
                 .catch(logError),
-            child: Widget.Icon("custom-audio-settings-symbolic"),
+            child: Widget.Label({
+                class_name: "settings",
+                label: " ",
+            })
+        }),
+        Widget.Separator({ css: "min-width: 0.25rem;" }),
+        Widget.Button({
+            cursor: "pointer",
+            on_clicked: () => App.closeWindow("audio-manager"),
+            child: Widget.Label({
+                class_name: "close",
+                label: "󱄊",
+            }),
         })
     ]
 })
@@ -97,13 +110,50 @@ const selector = (sink: Sink) => Widget.Box({
     ],
 })
 
+const control = () => Widget.Box({
+    class_name: "control",
+    vertical: true,
+    children: [
+        Widget.Box({
+            hexpand: true,
+            children: [
+                Widget.Label({
+                    label: "Show volume values"
+                }),
+                Widget.Separator({
+                    hexpand: true,
+                }),
+                Widget.Switch({
+                    active: show_device_values.value
+                }).on("notify::active", ({ active }) => {
+                    show_device_values.value = active
+                })
+            ]
+        }),
+        Widget.Box({
+            children: [
+                Widget.Label({
+                    label: "Show microphone"
+                }),
+                Widget.Separator({
+                    hexpand: true,
+                }),
+                Widget.Switch({
+                    active: show_device_microphone.value
+                }).on("notify::active", ({ active }) => {
+                    show_device_microphone.value = active
+                })
+            ]
+        }),
+    ]
+})
+
 const panel = (sink: Sink) => Widget.Box({
     class_name: "panel",
     vertical: true,
     children: [
         header(sink),
-        Widget.Separator({}),
-        selector(sink)
+        selector(sink),
     ]
 })
 
@@ -111,20 +161,22 @@ const AudioManager = Widget.Window({
     class_name: "audio-manager",
     name: "audio-manager",
     monitor: Hyprland.active.bind("monitor").as(m => m.id),
-    keymode: "exclusive",
-    visible: false,
     anchor: ["top", "right"],
-    layer: "overlay",
+    layer: "top",
     margins: [15, 15],
-    child: Widget.ListBox({
-        setup(self) {
-            self.add(panel(Sink.Speaker));
-            self.add(panel(Sink.Microphone));
-        }
+    visible: false,
+    child: Widget.Box({
+        vertical: true,
+        children: [
+            panel(Sink.Speaker),
+            control(),
+            panel(Sink.Microphone),
+        ]
     }),
-    setup: self => self.keybind("Escape", () => {
-        App.closeWindow("audio-manager")
-    }),
+    // keymode: "exclusive",
+    // setup: self => self.keybind("Escape", () => {
+    //     App.closeWindow("audio-manager")
+    // }),
 });
 
 export default AudioManager;

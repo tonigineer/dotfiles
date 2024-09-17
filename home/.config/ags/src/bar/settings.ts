@@ -12,7 +12,8 @@ const SettingsBox = () => Widget.Box({
     class_name: "settings",
     children: [
         Widget.Button({
-            // class_name: "hypridle",
+            class_name: "hypridle",
+            cursor: "pointer",
             onPrimaryClick: (self) => {
                 Utils.execAsync(["bash", "-c", `${hypridleIsActive.value ? "pkill hypridle" : "hypridle"}`]);
                 updateHypridleState();
@@ -22,10 +23,11 @@ const SettingsBox = () => Widget.Box({
                 icon: hypridleIsActive.bind().as(v => `custom-hypridle-${v ? "enabled" : "disabled"}-symbolic`)
             }),
             // TODO parse durations from config file
-            tooltip_text: hypridleIsActive.bind().as(v => `Hypridle \`${v ? "ENABLED" : "DISABLED"}\`\n\n  5min    󰒲  30min`)
+            tooltip_text: hypridleIsActive.bind().as(v => `Hypridle ${v ? "ENABLED\n\n  5min    󰒲  30min" : "DISABLED"}`)
         }),
         Widget.Button({
             class_name: "screens",
+            cursor: "pointer",
             onPrimaryClick: (self) => {
                 Hyprland.workspaces.filter(v => v.monitorID !== Hyprland.active.monitor.id).forEach((w) => {
                     Hyprland.messageAsync(`dispatch moveworkspacetomonitor ${w.id} ${Hyprland.active.monitor.name}`);
@@ -36,9 +38,10 @@ const SettingsBox = () => Widget.Box({
             },
             child: Widget.Icon({
                 class_name: "icon",
-                icon: Hyprland.bind("monitors").as(v => `custom-monitors-${v.filter((m) => m.dpmsStatus).length > 1 ? "dual" : "single"}-symbolic`)
+                icon: Hyprland.bind("monitors")
+                    .as(v => `custom-monitors-${v.filter((m) => m.dpmsStatus).length > 1 ? "dual" : "single"}-symbolic`)
             }),
-            tooltip_text: `Toggle all other monitor than the \`active\` monitor. Workspaces may still be registered at turned off monitors.`
+            tooltip_text: `Toggle all other monitors.`
         })
     ]
 })

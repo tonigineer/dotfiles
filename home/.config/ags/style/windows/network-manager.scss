@@ -1,9 +1,9 @@
-.networkmanager {
-    font-size: 15px;
+.network-manager {
+    font-size: 18px;
     font-weight: normal;
     color: $foreground3;
     background: rgba(25, 25, 25, 0.75);
-    border: 1.0px solid $blue;
+    border: 3.0px solid $background2;
     border-radius: 10px;
     background:
         linear-gradient(rgba(25, 25, 25, 0.90),
@@ -12,25 +12,43 @@
 
     .header {
         padding: 1rem;
-        font-size: 11px;
+        font-size: 18px;
+        font-weight: bold;
+        color: $foreground1;
         font-family: "JetBrainsMono NFM Thin";
 
         .label {
+            font-size: 14px;
             color: $foreground1;
             font-weight: normal;
         }
 
         .value {
-            font-size: 11px;
+            font-size: 12px;
+            font-weight: bold;
             color: $blue;
         }
 
         .full {
+            font-size: 14px;
             font-weight: bold;
             color: $green;
         }
 
         .limited {
+            color: $yellow;
+        }
+
+        button {
+            .settings {
+                color: $orange;
+            }
+
+            font-size: 20px;
+            color: $red;
+        }
+
+        button:hover {
             color: $yellow;
         }
     }
@@ -53,13 +71,14 @@
             padding-right: 0.75rem;
 
             .label {
-                font-size: 11px;
+                font-size: 14px;
                 font-weight: normal;
                 color: $foreground1;
             }
 
             .value {
-                font-size: 11px;
+                font-size: 13px;
+                font-weight: bold;
                 color: $yellow;
             }
         }

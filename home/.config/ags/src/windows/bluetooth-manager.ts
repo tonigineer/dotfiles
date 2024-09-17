@@ -1,17 +1,18 @@
-// import Widget from "resource:///com/github/Aylur/ags/widget.js";
-// // @ts-ignore
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
 import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
-// import Gtk from "gi://Gtk?version=3.0";
+
 
 const header = () => Widget.Box({
     class_name: "header",
-    spacing: 40,
     children: [
         Widget.Icon({
-            class_name: "icon",
-            icon: "custom-audio-bluetooth-on-symbolic"
-        }),
+            class_name: "state",
+        }).hook(Bluetooth, self => self.icon = !Bluetooth.enabled
+            ? "custom-audio-bluetooth-off-symbolic"
+            : Bluetooth.connected_devices.length === 0
+                ? "custom-audio-bluetooth-on-symbolic"
+                : "custom-audio-bluetooth-connected-symbolic"
+        ),
         Widget.Box({ hexpand: true }),
         Widget.Label({
             class_name: "label",
@@ -19,9 +20,22 @@ const header = () => Widget.Box({
         }),
         Widget.Box({ hexpand: true }),
         Widget.Button({
+            cursor: "pointer",
             on_clicked: () => Utils.execAsync(`kitty --title float -e bluetoothctl`)
                 .catch(logError),
-            child: Widget.Icon("custom-audio-settings-symbolic"),
+            child: Widget.Label({
+                class_name: "settings",
+                label: " ",
+            })
+        }),
+        Widget.Separator({ css: "min-width: 0.25rem;" }),
+        Widget.Button({
+            cursor: "pointer",
+            on_clicked: () => App.closeWindow("bluetooth-manager"),
+            child: Widget.Label({
+                class_name: "close",
+                label: "󱄊",
+            }),
         })
     ]
 })
@@ -60,13 +74,12 @@ const selector = () => Widget.Box({
 })
 
 const BluetoothManager = Widget.Window({
-    anchor: ["top", "right"],
     class_name: "bluetooth-manager",
-    keymode: "exclusive",
-    monitor: Hyprland.active.bind("monitor").as(m => m.id),
     name: "bluetooth-manager",
-    margins: [15, 15],
+    monitor: Hyprland.active.bind("monitor").as(m => m.id),
+    anchor: ["top", "right"],
     layer: "overlay",
+    margins: [15, 15],
     visible: false,
     child: Widget.Box({
         vertical: true,
@@ -74,9 +87,10 @@ const BluetoothManager = Widget.Window({
             header(),
             selector()]
     }),
-    setup: self => self.keybind("Escape", () => {
-        App.closeWindow("bluetooth-manager")
-    }),
+    // keymode: "exclusive",
+    // setup: self => self.keybind("Escape", () => {
+    //     App.closeWindow("bluetooth-manager")
+    // }),
 });
 
 export default BluetoothManager;

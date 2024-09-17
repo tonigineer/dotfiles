@@ -60,6 +60,36 @@ const panelHeader = Widget.Box({
     class_name: "header",
     vertical: true,
     children: [
+        Widget.Box({
+            css: "padding-bottom: 1rem;",
+            children: [
+                Widget.Label({
+                    halign: "start",
+                    label: "Network Manager"
+                }),
+                Widget.Separator({
+                    hexpand: true,
+                }),
+                Widget.Button({
+                    cursor: "pointer",
+                    on_clicked: () => Utils.execAsync(`kitty --title float -e nmtui`)
+                        .catch(logError),
+                    child: Widget.Label({
+                        class_name: "settings",
+                        label: " ",
+                    })
+                }),
+                Widget.Separator({ css: "min-width: 0.25rem;" }),
+                Widget.Button({
+                    cursor: "pointer",
+                    on_clicked: () => App.closeWindow("network-manager"),
+                    child: Widget.Label({
+                        class_name: "close",
+                        label: "󱄊",
+                    }),
+                })
+            ]
+        }),
         connectivity,
         ipAddress,
         gateway
@@ -216,14 +246,13 @@ const wifiPanel = Widget.Box({
 })
 
 const NetworkManager = Widget.Window({
-    class_name: "networkmanager",
+    class_name: "network-manager",
     name: "network-manager",
     monitor: Hyprland.active.bind("monitor").as(m => m.id),
-    keymode: "exclusive",
-    visible: false,
     anchor: ["top", "right"],
     layer: "overlay",
     margins: [15, 15],
+    visible: false,
     child: Widget.ListBox({
         setup(self) {
             self.add(panelHeader);
@@ -231,10 +260,10 @@ const NetworkManager = Widget.Window({
             self.add(wifiPanel);
         },
     }),
-    setup: self => self.keybind("Escape", () => {
-        App.closeWindow("network-manager")
-    }),
-
+    // keymode: "exclusive",
+    // setup: self => self.keybind("Escape", () => {
+    //     App.closeWindow("network-manager")
+    // }),
 });
 
 export default NetworkManager;

@@ -1,4 +1,3 @@
-import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
 
 
@@ -8,6 +7,7 @@ const BluetoothIndicator = () => Widget.Box({
         Widget.Button({
             onPrimaryClick: () => { App.toggleWindow("bluetooth-manager") },
             onSecondaryClick: () => { Bluetooth.enabled = !Bluetooth.enabled },
+            cursor: "pointer",
             child: Widget.Icon({
                 class_name: "icon",
             }).hook(Bluetooth, self => {

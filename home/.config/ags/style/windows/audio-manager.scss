@@ -3,7 +3,7 @@
     font-weight: normal;
     color: $foreground1;
     // background: rgba(25, 25, 25, 0.75);
-    border: 1.0px solid $blue;
+    border: 3.0px solid $background2;
     border-radius: 10px;
     background:
         linear-gradient(rgba(25, 25, 25, 0.90),
@@ -15,27 +15,26 @@
 
         .header {
             padding: 1rem;
-
+            font-size: 20px;
 
             .icon {
                 color: $yellow;
-                font-size: 16px;
+                // font-size: 16px;
             }
-
 
             .label {
                 color: $foreground1;
-                font-size: 12px;
                 font-weight: bold;
             }
 
             button {
-                font-size: 16px;
-                color: $blue;
-            }
+                .close {
+                    color: $red;
+                }
 
-            button:hover {
-                color: $yellow;
+                .settings {
+                    color: $orange;
+                }
             }
 
         }
@@ -43,13 +42,12 @@
         .selector {
             padding: 0.25rem;
 
-
             .item>* {
                 margin-left: 1rem;
             }
 
             .item {
-                font-size: 12px;
+                font-size: 14px;
                 padding: 0.25rem;
 
                 .icon {
@@ -63,5 +61,21 @@
             }
         }
 
+
+
+    }
+
+    .control {
+        font-size: 14px;
+        padding-left: 1.5rem;
+        padding-right: 1.0rem;
+
+        >* {
+            margin-bottom: 1rem;
+        }
+
+        >*:last-child {
+            margin-bottom: 0rem;
+        }
     }
 }

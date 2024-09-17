@@ -1,52 +1,48 @@
 .bluetooth-manager {
-    font-size: 15px;
-    font-weight: normal;
-    color: $foreground3;
-    // background: rgba(25, 25, 25, 0.75);
-    border: 1.0px solid $blue;
-    border-radius: 10px;
     background:
         linear-gradient(rgba(25, 25, 25, 0.90),
             rgba(25, 25, 25, 0.90)), url("/home/toni/.local/share/backgrounds/linux-elitist/tokyo-lofi-healing-1.png") repeat #181d25;
     background-size: cover;
-
-
+    border: 3.0px solid $background2;
+    border-radius: 10px;
+    color: $foreground3;
+    font-weight: normal;
     padding: 0.5rem;
 
     .header {
         padding: 1rem;
+        font-size: 20px;
 
-        .icon {
-            color: $yellow;
-            font-size: 16px;
+        .state {
+            color: $blue;
         }
 
         .label {
             color: $foreground1;
-            font-size: 12px;
+            // font-size: 12px;
             font-weight: bold;
         }
 
         button {
-            font-size: 16px;
-            color: $blue;
-        }
+            .close {
+                color: $red;
+            }
 
-        button:hover {
-            color: $yellow;
+            .settings {
+                color: $orange;
+            }
         }
     }
 
     .selector {
         padding: 0.25rem;
 
-
         .item>* {
             margin-left: 1rem;
         }
 
         .item {
-            font-size: 12px;
+            font-size: 14px;
             padding: 0.25rem;
 
             .label {
@@ -62,6 +58,5 @@
                 font-size: 21px;
             }
         }
-
     }
 }

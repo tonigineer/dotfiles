@@ -10,7 +10,7 @@ install_base() {
     yay -S hyprland-git \
         hyprpicker-git hyprlock-git hyprpaper-git hypridle-git \
         rofi-lbonn-wayland-only-git \
-        aylurs-gtk-shell-git bun-bin sass gnome-bluetooth-3.0 \
+        aylurs-gtk-shell-git bun-bin sass gnome-bluetooth-3.0 libdbusmenu-gtk3 \
         socat net-tools inetutils iwd jq \
         polkit-gnome terminus-font dmidecode brightnessctl \
         firefox vesktop \

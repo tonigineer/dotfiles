@@ -15,11 +15,12 @@ const NetworkSpeeds = () => Widget.Box({
             }),
             Widget.Label({
                 class_name: NetworkSpeed.bind("speed")
-                    .as(speed => speed.downBytes > 0 ? "icon tx" : "icon"),
+                    .as(speed => speed.upBytes > 1000 ? "icon tx" : "icon"),
                 label: "",
             }),]
         }),
         Widget.Box({
+            css: "margin-top: -0.25rem;",  // nasty bu necessary to squeeze it
             hpack: "end",
             children: [Widget.Label({
                 class_name: "value",
@@ -28,7 +29,7 @@ const NetworkSpeeds = () => Widget.Box({
             }),
             Widget.Label({
                 class_name: NetworkSpeed.bind("speed")
-                    .as(speed => speed.downBytes > 0 ? "icon rx" : "icon"),
+                    .as(speed => speed.downBytes > 1000 ? "icon rx" : "icon"),
                 label: "",
 
             }),
@@ -56,7 +57,6 @@ const AdapterIndicator = () => Widget.Button({
 })
 
 const NetworkIndicator = () => Widget.Box({
-    spacing: 10,
     class_name: "network",
     children: [
         NetworkSpeeds(),

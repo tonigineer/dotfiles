@@ -1,15 +1,15 @@
 // Taken from https://raw.githubusercontent.com/mierak/mrkdot
 
-import * as utils from "./../utils";
+import * as utils from "./../utils/workspaces";
 import type { Client, Monitor } from "types/service/hyprland";
-
 import hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
 const workspaceRename = Array.from({ length: 30 }, (_, i) => (i % 10).toString());
 
+
 function WorkspaceLabel(name: string) {
     return Widget.Label({
-        className: "workspace-label",
+        className: "label",
         label: workspaceRename[name] ?? name,
     });
 }
@@ -37,7 +37,7 @@ function WorkspaceIcons(id: number) {
         className: "app-icon",
         vexpand: false,
         hexpand: false,
-        icon: "hyprland",
+        icon: "workspace-hyprland",
         size: 18,
     }))
 
@@ -64,7 +64,7 @@ function WorkspaceClients(id: number, name: string) {
 function Workspace(id: number, name: string, monitorName: string) {
     const button = Widget.Button({
         attribute: { name, id, monitorName },
-        className: "workspace",
+        className: "existent",
         child: WorkspaceClients(id, name),
         onPrimaryClick() {
             hyprland.messageAsync(`dispatch workspace ${id}`);

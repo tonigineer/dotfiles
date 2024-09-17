@@ -1,5 +1,8 @@
-const dateStr = Variable("", {
+const timeStr = Variable("", {
     poll: [1000, 'date "+%H:%M"'],
+})
+const dateStr = Variable("", {
+    poll: [10_0000, 'date "+%d.%m.%Y"'],
 })
 
 const today = new Date();
@@ -28,10 +31,21 @@ function Clock() {
         hpack: "end",
         hexpand: false,
         class_name: "clock",
-        child: Widget.Label({
-            hpack: "end",
-            label: dateStr.bind(),
-            class_name: "clock",
+        child: Widget.Box({
+            vertical: true,
+            children: [
+                Widget.Label({
+                    class_name: "time",
+                    hpack: "center",
+                    label: timeStr.bind(),
+                }),
+
+                Widget.Label({
+                    class_name: "data",
+                    hpack: "center",
+                    label: dateStr.bind(),
+                }),
+            ]
         }),
         onHover() {
             calendarPopup.visible = true;

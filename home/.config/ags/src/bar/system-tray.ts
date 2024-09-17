@@ -15,7 +15,7 @@ function SystemTray() {
             child: Widget.Icon({
                 class_name: "icon",
                 icon: customIcons(item.bind("icon")),
-                size: 15
+                size: 18
             }),
             on_primary_click: (_, event) => item.activate(event),
             on_secondary_click: (_, event) => item.openMenu(event),
@@ -25,11 +25,7 @@ function SystemTray() {
     return Widget.Box({
         class_name: "system-tray",
         children: ITEMS,
-    }).hook(
-        Systemtray, (box) => {
-            box.css = box.children.length === 0 ? "margin-left: -1rem;" : "margin-left: 1rem;";
-        }
-    )
+    })
 }
 
 export default SystemTray;

@@ -29,8 +29,16 @@ set nobackup
 set hlsearch
 set showmatch
 
-inoremap kj <esc>
-inoremap jk <esc>" >~/.vimrc
+inoremap <silent> kj <esc>
+inoremap <silent> jk <esc>
+
+noremap <silent> <C-S> :update<CR>
+vnoremap <silent> <C-S> <C-C>:update<CR>
+inoremap <silent> <C-S>  <C-O>:update<CR>
+
+nnoremap <C-Z> u
+nnoremap <C-Y> <C-R>
+" >~/.vimrc
 sudo ln -s ~/.vimrc /root/.vimrc
 
 if [ ! -d "/opt/yay" ]; then

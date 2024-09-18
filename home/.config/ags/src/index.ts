@@ -5,7 +5,6 @@ import Bar from "./bar/index";
 import BluetoothManager from "./windows/bluetooth-manager";
 // import Dota from './windows/dota';
 import NetworkManager from "./windows/network-manager";
-import TerminalWindow from './windows/terminal';
 import VolumeBar from "./windows/volume-bar";
 
 
@@ -18,7 +17,6 @@ App.config({
         BluetoothManager,
         // Dota,
         NetworkManager,
-        TerminalWindow,
         VolumeBar,
     ]
 })

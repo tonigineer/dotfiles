@@ -25,7 +25,7 @@ const UpdateIndicator = () => Widget.Box({
                     .execAsync(["bash", "-c", `${cfg.apps.updater}`]).catch(print),
             }),
             setup: self => self.hook(Yay, () => {
-                self.reveal_child = Yay.updates.pending > 0;
+                self.reveal_child = Yay.updates.pending > 1;
                 self.tooltip_text = Yay.updates.tooltip_text;
             }, "changed")
         })

@@ -7,6 +7,7 @@ import Media from "./media";
 import Workspaces from "./workspaces";
 
 import AudioIndicator from "./audio";
+import BatteryIndicator from "./power";
 import BluetoothIndicator from "./bluetooth";
 import Clock from "./clock";
 import NetworkIndicator from "./network";
@@ -47,6 +48,7 @@ const Bar = async (monitor: Monitor) => {
                     BluetoothIndicator(),
                     AudioIndicator(),
                     NetworkIndicator(),
+                    BatteryIndicator(),
                     Clock(),
                     ShutdownMenu(),
                 ]

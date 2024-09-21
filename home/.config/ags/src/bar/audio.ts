@@ -58,7 +58,7 @@ const VolumeIndicator = () => Widget.Box({
                         ].find(([threshold]) => threshold <= vol)?.[1];
                         icon = Audio.speaker.is_muted ? "mute" : icon;
                         self.icon = `custom-audio-volume-${icon}-symbolic`;
-                        self.tooltip_text = `Volume ${Math.floor(vol)}%`;
+                        self.tooltip_text = `Volume ${Math.floor(vol)}`;
                         self.class_name = "icon";
                         self.size = 24
                     }),

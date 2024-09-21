@@ -2,6 +2,7 @@ import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
 import AudioManager from "./windows/audio-manager";
 import Bar from "./bar/index";
+import PowerManager from "./windows/power-manager";
 import BluetoothManager from "./windows/bluetooth-manager";
 // import Dota from './windows/dota';
 import NetworkManager from "./windows/network-manager";
@@ -17,6 +18,7 @@ App.config({
         BluetoothManager,
         // Dota,
         NetworkManager,
+        PowerManager,
         VolumeBar,
     ]
 })

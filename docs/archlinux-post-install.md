@@ -69,6 +69,52 @@ scripts/install.all base
 ```
 
 
+## Enable hibernation
+
+Create a swap file and add to filesystem table. Refer to [ArchLinux Wiki](https://wiki.archlinux.org/title/Swap) for more information.
+
+```bash
+# Create swap file
+mkswap -U clear --size 4G --file /swapfile
+swapon /swapfile
+chmod 600 /swapfile
+```
+
+Append the following to `/etc/fstab`
+
+```vim
+ 13 # swapfile
+ 14 /swapfile none swap defaults 0 0
+
+```
+
+Edit `/etc/default/grub` with the following:
+
+```vim
+GRUB_CMDLINE_LINUX="resume=UUID=<swap_device_UUID> resume_offset=<swap_file_offset>"
+```
+
+The values for the `variables` can be obtained via:
+
+```bash
+# swap_device_UUID
+findmnt -no UUID -T /swapfile
+# swap_file_offset
+filefrag -v /swapfile | awk '$1=="0:" {print substr($4, 1, length($4)-2)}'
+```
+
+Run `grub-mkconfig -o /boot/grub/grub.cfg` to apply changes from the default to the config.
+
+Add **resume** to hooks in `/etc/mkinitcpio.conf` as below, and run `mkinitcpio -P`. The order matters!
+
+```vim
+HOOKS=(base udev resume autodetect modconf block filesystems keyboard fsck)
+```
+
+
+
+After rebooting, `systemctl hibernate` should work as expected.
+
 ## System specifics
 
 
@@ -99,3 +145,4 @@ FONT=ter-132n
 ```
 
 The needed [terminus-font](https://aur.archlinux.org/packages/terminus-font-ttf) is added via the [install script](../scripts/install.sh).
+

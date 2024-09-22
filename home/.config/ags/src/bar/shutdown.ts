@@ -1,8 +1,8 @@
 const COMMANDS = {
     "shutdown": "systemctl poweroff",
-    "reboot": "systemctl restart",
+    "reboot": "systemctl reboot",
     "hibernate": "systemctl hibernate",
-    "suspend": "systemctl suspend",
+    "suspend": "systemctl hybrid-sleep",
 }
 
 const ICONS = {
@@ -39,7 +39,7 @@ const Menu = () => Widget.Revealer({
                 cursor: "pointer",
                 on_clicked: () => {
                     reveal_child.value = !reveal_child.value;
-                    Utils.execAsync(["bash", "-c", COMMANDS[k]]);
+                    Utils.execAsync(["bash", "-c", COMMANDS[k]]).catch(print);
                 }
             })
             )

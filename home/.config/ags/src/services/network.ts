@@ -1,4 +1,4 @@
-import { CONFIG as cfg } from "./../../settings";
+const POLL_RATE = 500;
 
 
 class NetworkSpeed extends Service {
@@ -17,7 +17,7 @@ class NetworkSpeed extends Service {
 
     constructor() {
         super();
-        Utils.interval(cfg.widgets.network.poll_rate, async () => {
+        Utils.interval(POLL_RATE, async () => {
             try {
                 const stdout = await Utils.execAsync(["bash", "-c", "cat /sys/class/net/[ew]*/statistics/*_bytes"]);
                 let tx = 0;
@@ -33,8 +33,8 @@ class NetworkSpeed extends Service {
                 }
 
                 if (this.prev.tx !== 0) {
-                    this.speed.upBytes = (tx - this.prev.tx) * (1000 / cfg.widgets.network.poll_rate);
-                    this.speed.downBytes = (rx - this.prev.rx) * (1000 / cfg.widgets.network.poll_rate);
+                    this.speed.upBytes = (tx - this.prev.tx) * (1000 / POLL_RATE);
+                    this.speed.downBytes = (rx - this.prev.rx) * (1000 / POLL_RATE);
                 }
 
                 this.changed("speed");

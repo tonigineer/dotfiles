@@ -1,0 +1,17 @@
+* {
+    all: unset;
+    font-family: "CaskaydiaCove Nerd Font SemiBold";
+}
+
+// General
+@import "colors.scss";
+@import "switch.scss";
+@import "tooltips.scss";
+
+// Bar
+@import "bar.scss";
+
+// Windows
+@import "sidebar-settings.scss";
+@import "indicator-volume.scss";
+@import "app-launcher.scss";

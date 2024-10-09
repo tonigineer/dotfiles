@@ -1,0 +1,261 @@
+.bar {
+    background-color: $background2;
+    padding: .15rem 0rem 0.15rem 0rem;
+    border-radius: 0.5rem;
+    border: solid 0.2rem rgba(255, 255, 255, 0.0640625);
+
+    // Left and right edge
+    >*:first-child {
+        margin-left: 1.0rem;
+    }
+
+    >*:last-child {
+        margin-right: 1.0rem;
+    }
+
+    // Between widgets
+    >*>* {
+        margin-right: 1.0rem;
+    }
+
+    >*>*:last-child {
+        margin-right: 0.0rem;
+    }
+
+    .launcher {
+        // Isolate a little bit more
+        margin-right: 1.5rem;
+    }
+
+    .resources {
+        font-weight: bold;
+        color: $foreground1;
+
+        .icon {
+            font-size: 10px;
+            // Margins needed to show the circles properly
+            margin-left: 0.65rem;
+            margin-right: 0.65rem;
+        }
+
+        .label {
+            font-size: 12px;
+        }
+
+        .circular {
+            transition: 500ms cubic-bezier(0.1, 1, 0, 1);
+            min-width: 0.26rem;
+            min-height: 1.536rem;
+            padding: 0px;
+            background-color: $green-opace;
+            color: $green;
+            font-size: 50px;
+        }
+
+        .disk {
+            .circular {
+                color: $yellow;
+                background-color: $yellow-opace;
+            }
+        }
+
+        .gpu {
+            .circular {
+                color: $red;
+                background-color: $red-opace;
+            }
+        }
+
+        >* {
+            margin-right: 0.25rem;
+        }
+    }
+
+    .updates {
+        font-weight: bold;
+
+        .icon {
+            color: $blue;
+            font-size: 18px;
+        }
+
+        .label {
+            font-size: 12px;
+            color: $foreground1;
+        }
+    }
+
+    .client {
+        .title-label {
+            color: $red;
+            font-size: 10px;
+        }
+
+        .class-label {
+            color: $foreground1;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    }
+
+    .workspaces {
+        >* {
+            margin-right: 0.5rem;
+        }
+
+        >*:last-child {
+            margin-right: 0rem;
+        }
+
+        .existent {
+            padding-left: 0.35rem;
+            padding-right: 0.35rem;
+            border-bottom: 2px solid transparent;
+
+            >*>* {
+                margin-right: 0.6rem;
+            }
+
+            >*>*:last-child {
+                margin-right: 0rem;
+            }
+
+            .label {
+                color: white;
+                margin-top: -0.5rem;
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            // .app-icon {}
+        }
+
+        .active {
+            border-bottom: 2px solid $green;
+        }
+
+        .urgent {
+            border-bottom: 2px solid $red;
+        }
+
+        button:hover {
+            border-bottom: 2px solid $yellow;
+        }
+    }
+
+    .network {
+        .indicator {
+            // .wired {}
+            // .wifi {}
+            margin-left: 0.3rem;
+        }
+
+        .speeds>*>* {
+            margin-right: 0.5rem;
+        }
+
+        .speeds {
+            margin-left: -0.85rem;
+            margin-top: 0.15rem;
+
+            min-width: 3.25rem;
+
+            .value {
+                color: $foreground1;
+                font-weight: bold;
+                font-size: 10px;
+            }
+
+            .icon {
+                color: $foreground3;
+                font-size: 9px;
+                font-weight: bold;
+                margin-top: 0.1rem;
+            }
+
+            .icon.rx {
+                color: $green;
+            }
+
+            .icon.tx {
+                color: $red;
+            }
+        }
+    }
+
+    // .audio {
+    //     button:hover {
+    //         color: $yellow;
+    //     }
+
+    //     >* {
+    //         margin-right: 0.75rem;
+    //     }
+
+    //     >*:last-child {
+    //         margin-right: 0rem;
+    //     }
+
+    //     color: $foreground1;
+    //     font-weight: bold;
+    //     font-size: 13px;
+
+    //     .volume {
+
+    //         .icon {
+    //             margin-right: 0.1rem;
+    //         }
+
+    //         .value {
+    //             color: $foreground3;
+    //         }
+    //     }
+
+    //     .microphone {
+
+    //         .icon {
+    //             margin-right: 0.5rem;
+    //         }
+
+    //         .value {
+    //             color: $foreground3;
+    //         }
+    //     }
+    // }
+
+    .system-tray {
+        .icon {
+            // font-size: 20px;  size is set within widget definition
+        }
+
+        >* {
+            margin-right: 1.0rem;
+        }
+
+        >*:last-child {
+            margin-right: 1.25rem;
+        }
+    }
+
+    .clock {
+        color: $foreground1;
+        font-weight: bold;
+        padding: 0px 1rem 0px 1em;
+
+        margin-right: -1rem;
+        margin-left: -0.5rem;
+
+        border: 1px solid transparent;
+
+        .time {
+            font-size: 18px;
+        }
+
+        button:hover {
+            color: $background1;
+            background: linear-gradient(235deg, $red, $orange);
+            border: 1px solid $background1;
+            border-radius: 2rem;
+        }
+    }
+}

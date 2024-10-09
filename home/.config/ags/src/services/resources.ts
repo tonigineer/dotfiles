@@ -1,4 +1,9 @@
-import { CONFIG as cfg } from "./../../settings";
+const POLL_RATES = {
+    "cpu": 1000,
+    "ram": 1000,
+    "disk": 6 * 1000,
+    "gpu": 1000,
+}
 
 const NVIDIA_GPU_PRESENT = !Utils
     .exec(["bash", "-c", "which nvidia-smi"]).includes("which:")
@@ -26,16 +31,16 @@ class Resources extends Service {
 
     constructor() {
         super();
-        Utils.interval(cfg.widgets.resources.poll_rates.cpu, async () => {
+        Utils.interval(POLL_RATES.cpu, async () => {
             await this.refresh_cpu();
         });
-        Utils.interval(cfg.widgets.resources.poll_rates.ram, async () => {
+        Utils.interval(POLL_RATES.ram, async () => {
             await this.refresh_ram();
         });
-        Utils.interval(cfg.widgets.resources.poll_rates.disk, async () => {
+        Utils.interval(POLL_RATES.disk, async () => {
             await this.refresh_disk();
         });
-        Utils.interval(cfg.widgets.resources.poll_rates.gpu, async () => {
+        Utils.interval(POLL_RATES.gpu, async () => {
             if (NVIDIA_GPU_PRESENT)
                 await this.refresh_gpu();
         });

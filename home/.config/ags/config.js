@@ -1,7 +1,7 @@
 import * as system from "system";
 
 const in_file = `${App.configDir}/src/index.ts`;
-const in_scss = `${App.configDir}/style/index.scss`;
+const in_scss = `${App.configDir}/scss/index.scss`;
 const out_file = "/tmp/ags/main.js";
 const out_css = "/tmp/ags/style.css";
 

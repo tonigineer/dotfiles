@@ -11,8 +11,8 @@ install_base() {
         hyprpicker-git hyprlock-git hyprpaper-git hypridle-git \
         rofi-lbonn-wayland-only-git \
         aylurs-gtk-shell-git bun-bin sass gnome-bluetooth-3.0 libdbusmenu-gtk3 \
-        socat net-tools inetutils iwd jq \
-        polkit-gnome terminus-font dmidecode brightnessctl \
+        socat net-tools inetutils power-profiles-daemon iwd jq \
+        polkit-gnome terminus-font brightnessctl \
         firefox vesktop \
         grim-git slurp-git vlc wf-recorder swappy wl-clipboard imagemagick \
         mpvpaper-git yt-dlp \

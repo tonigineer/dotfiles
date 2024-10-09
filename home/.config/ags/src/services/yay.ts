@@ -1,5 +1,4 @@
-import { CONFIG as cfg } from "./../../settings";
-
+const POLL_RATE = 5 * 6 * 1000;
 
 class Yay extends Service {
     static {
@@ -16,7 +15,7 @@ class Yay extends Service {
 
     constructor() {
         super();
-        Utils.interval(cfg.widgets.updates.poll_rate, async () => {
+        Utils.interval(POLL_RATE, async () => {
             await this.refresh_updates();
         });
     }

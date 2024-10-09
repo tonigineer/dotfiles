@@ -1,0 +1,290 @@
+.sidebar-settings {
+    background-color: $background2;
+    border-radius: 0.5rem;
+    font-size: 16px;
+    border: solid 0.2rem rgba(255, 255, 255, 0.0640625);
+
+    >* {
+        padding: 1.0rem;
+        padding-bottom: 1rem;
+    }
+
+    >*>* {
+        // padding: 0.5rem;
+        padding-bottom: 1rem;
+    }
+
+    // >*>*:first-child {
+    //     padding-top: 0px;
+    //     margin-top: 0px;
+    // }
+
+    .shutdown-menu {
+        font-size: 24px;
+
+        button:hover {
+            color: $orange;
+        }
+
+        // .opener {}
+
+        .menu {
+            font-size: 22px;
+            margin-top: 1rem;
+            padding: 0.4rem;
+            background: linear-gradient(235deg, $background1, $background2);
+            color: $red;
+            border-radius: 1rem;
+            border: solid 2px $background1;
+        }
+    }
+
+    .calendar {
+        font-size: 14px;
+        font-weight: normal;
+        color: $foreground2;
+        // background: rgba(25, 25, 25, 0.75);
+        border: 2px solid $background1;
+        border-radius: 1rem;
+        background:
+            linear-gradient(rgba(25, 25, 25, 0.90),
+                rgba(25, 25, 25, 0.90)), url("/home/toni/.local/share/backgrounds/linux-elitist/tokyo-lofi-healing-1.png") repeat #181d25;
+        background-size: cover;
+
+        padding-left: 7.5px;
+        padding-right: 7.5px;
+
+        .header {
+            color: $foreground2;
+        }
+
+        .button {
+            color: $red;
+            font-size: 26px;
+        }
+
+        .highlight {
+            color: $orange;
+        }
+
+        .hover {
+            color: $orange;
+        }
+
+        :indeterminate {
+            padding: 40em;
+        }
+
+        :selected {
+            color: $red;
+        }
+    }
+
+    .quick-settings {
+        margin-top: 1rem;
+
+        >*>* {
+            margin-right: 1rem;
+        }
+
+        >*>*:last-child {
+            margin-right: 0rem;
+        }
+
+
+        button {
+            color: $foreground1;
+            background: $background2;
+            min-width: 7em;
+            min-height: 1.5em;
+            border-radius: 1.0rem;
+        }
+
+        .hypridle {
+            .active {
+                background: $red;
+                color: $foreground1;
+            }
+
+            .icon {}
+
+            button:hover {
+                background: $background3;
+            }
+        }
+
+        .display {
+            .dual {
+                background: $red;
+                color: $foreground1;
+            }
+
+            .single {}
+
+            button:hover {
+                background: $background3;
+            }
+        }
+    }
+
+    .audio-control {
+        font-size: 20px;
+
+        .header {
+            color: $foreground1;
+
+            >* {
+                margin-left: 0.5rem;
+                margin-right: 0.5rem;
+            }
+
+            margin-bottom: 0.5rem;
+        }
+
+        .list {
+            padding: 0.25rem;
+            font-size: 14px;
+
+            .selector {
+                background: $background2;
+                border-radius: 1rem;
+                padding: 1rem;
+                margin-bottom: 0.75rem;
+
+                .item {
+                    color: $foreground2;
+
+                    >* {
+                        padding-right: 1rem;
+                        padding-bottom: 0.25rem;
+                    }
+                }
+
+                .item.active {
+                    color: $red;
+                    font-weight: bold;
+                }
+            }
+        }
+
+        scale {
+            min-height: 0.25rem;
+            min-width: 0.25rem;
+            // padding: 0 0rem;
+            margin: 0.25rem;
+
+            border: 2px solid $background2;
+            border-radius: 1rem;
+            background: $background2;
+
+            slider {
+                min-height: 0rem;
+                min-width: 0rem;
+                margin: 0.5rem;
+            }
+
+            highlight {
+                border-radius: 1rem;
+                background-color: $red;
+            }
+
+            &:disabled highlight {
+                background-color: mix($red-opace, $orange-opace, 50%);
+            }
+        }
+    }
+
+    .network-control {
+        .header {
+            .combination-button {
+                background: $background2;
+                border-radius: 1.0rem;
+                color: $foreground1;
+
+                .icon {
+                    border-top-left-radius: 1.0rem;
+                    border-bottom-left-radius: 1.0rem;
+                    border-top-right-radius: 0px;
+                    border-bottom-right-radius: 0px;
+                    min-width: 4em;
+                    min-height: 1.75rem;
+                }
+
+                .opener {
+                    border-top-right-radius: 1.0rem;
+                    border-bottom-right-radius: 1.0rem;
+                    min-width: 3em;
+                    min-height: 1.75rem;
+                }
+
+                button {
+                    color: $foreground1;
+                }
+
+                button:hover {
+                    background: $background2;
+                }
+            }
+
+            .combination-button.active {
+                background: $red;
+            }
+        }
+
+        .infos {
+            padding: 1rem;
+            font-size: 14px;
+            background: $background2;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+    }
+
+    .bluetooth-control {
+        font-size: 18px;
+
+        .spin {
+            // transform-origin: center;
+            animation: spin 1.0s linear infinite;
+            margin-right: 0.75rem;
+            color: $red;
+        }
+
+        .header {
+            color: $foreground1;
+
+            >* {
+                margin-left: 0.5rem;
+                margin-right: 0.5rem;
+            }
+
+            margin-bottom: 0.5rem;
+        }
+
+        .list {
+            padding: 0.25rem;
+            font-size: 14px;
+
+            .selector {
+                background: $background2;
+                border-radius: 1rem;
+                padding: 1rem;
+
+                .item {
+                    color: $foreground2;
+                    padding-bottom: 0.5rem;
+
+                    >*:first-child {
+                        padding-right: 1rem;
+                    }
+                }
+
+                .item.active {
+                    color: $red;
+                    font-weight: bold;
+                }
+            }
+        }
+
+    }
+}

@@ -1,21 +1,13 @@
-import ArchIcon from "./launcher";
-import ClientTitle from "./client";
-import ResourceMonitor from "./resources";
-import UpdateIndicator from "./updates";
-import Media from "./media";
-
-import Workspaces from "./workspaces";
-
-import AudioIndicator from "./audio";
-import BatteryIndicator from "./power";
-import BluetoothIndicator from "./bluetooth";
-import Clock from "./clock";
-import NetworkIndicator from "./network";
-import SettingsBox from "./settings";
-import ShutdownMenu from "./shutdown";
-import SystemTray from "./system-tray";
-
 import type { Monitor } from "types/service/hyprland";
+
+import ArchIcon from "./modules/launcher";
+import ClientTitle from "./modules/client";
+import Clock from "./modules/clock";
+import NetworkIndicator from "./modules/network";
+import ResourceMonitor from "./modules/resources";
+import SystemTray from "./modules/system-tray";
+import UpdateIndicator from "./modules/updates";
+import Workspaces from "./modules/workspaces";
 
 
 const Bar = async (monitor: Monitor) => {
@@ -24,6 +16,7 @@ const Bar = async (monitor: Monitor) => {
         monitor: monitor.id,
         anchor: ["top", "left", "right"],
         exclusivity: "exclusive",
+        margins: [5, 7.5, 2.5, 7.5],
         child: Widget.CenterBox({
             class_name: "bar",
             start_widget: Widget.Box({
@@ -33,7 +26,6 @@ const Bar = async (monitor: Monitor) => {
                     ResourceMonitor(),
                     UpdateIndicator(),
                     ClientTitle(),
-                    // Media()
                 ]
             }),
             center_widget: Widget.Box({
@@ -44,16 +36,11 @@ const Bar = async (monitor: Monitor) => {
                 hpack: "end",
                 children: [
                     SystemTray(),
-                    SettingsBox(),
-                    BluetoothIndicator(),
-                    AudioIndicator(),
                     NetworkIndicator(),
-                    BatteryIndicator(),
                     Clock(),
-                    ShutdownMenu(),
                 ]
-            }),
-        }),
+            })
+        })
     })
 }
 

@@ -19,7 +19,11 @@ function NetworkControl() {
                             );
                         },
                         on_secondary_click: () => { Utils.execAsync(`kitty --title float -e nmtui`) },
-                        child: Widget.Icon("network-wired-active-symbolic")
+                        child: Widget.Icon({
+                            icon: Network.wired.bind('icon_name'),
+                        }).hook(Network, self => {
+                            self.icon_name = Network.wired.icon_name;
+                        }, "changed")
                     }),
                     Widget.Button({
                         class_name: "opener",
@@ -40,9 +44,19 @@ function NetworkControl() {
                 children: [
                     Widget.Button({
                         class_name: "icon",
-                        on_clicked: () => { Network.toggleWifi() },
+                        // on_clicked: () => { Network.toggleWifi() },  DOES NOT WORK, AGS CRASHES
+                        on_clicked: () => {
+                            Utils.execAsync(["bash", "-c",
+                                `nmcli device ${Network.wifi.state !== "activated" ? "connect" : "disconnect"} $(nmcli device | grep 'wifi ' | cut -d" " -f1)`
+                            ])
+                        },
                         on_secondary_click: () => { Utils.execAsync(`kitty --title float -e nmtui`) },
-                        child: Widget.Icon("network-wireless-active-symbolic")
+                        child: Widget.Icon({
+                            icon: Network.wifi.bind('icon_name'),
+                        }).hook(Network, self => {
+                            self.icon_name = Network.wifi.icon_name;
+                            // console.log(Network.wifi.icon_name);
+                        }, "changed")
                     }),
                     Widget.Button({
                         class_name: "opener",

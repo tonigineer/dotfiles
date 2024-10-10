@@ -10,7 +10,7 @@ import IndicatorVolume from "./indicators/volume";
 import SidebarSettings from './sidebars/sidebar-settings';
 // import Battery from 'resource:///com/github/Aylur/ags/service/battery.js';
 
-import AppLauncher from "./launcher/launcher";
+// import AppLauncher from "./launcher/launcher";
 
 App.addIcons(`${App.configDir}/assets`)
 
@@ -22,7 +22,7 @@ App.config({
         // // Dota,
         // NetworkManager,
         // Battery.available ? PowerManager : Widget.Window(),
-        AppLauncher,
+        // AppLauncher,
         SidebarSettings,
         IndicatorVolume,
     ]

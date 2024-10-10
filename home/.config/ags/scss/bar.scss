@@ -156,7 +156,7 @@
 
         .speeds {
             margin-left: -0.85rem;
-            margin-top: 0.15rem;
+            margin-top: 0.25rem;
 
             min-width: 3.25rem;
 
@@ -170,7 +170,6 @@
                 color: $foreground3;
                 font-size: 9px;
                 font-weight: bold;
-                margin-top: 0.1rem;
             }
 
             .icon.rx {
@@ -183,50 +182,10 @@
         }
     }
 
-    // .audio {
-    //     button:hover {
-    //         color: $yellow;
-    //     }
-
-    //     >* {
-    //         margin-right: 0.75rem;
-    //     }
-
-    //     >*:last-child {
-    //         margin-right: 0rem;
-    //     }
-
-    //     color: $foreground1;
-    //     font-weight: bold;
-    //     font-size: 13px;
-
-    //     .volume {
-
-    //         .icon {
-    //             margin-right: 0.1rem;
-    //         }
-
-    //         .value {
-    //             color: $foreground3;
-    //         }
-    //     }
-
-    //     .microphone {
-
-    //         .icon {
-    //             margin-right: 0.5rem;
-    //         }
-
-    //         .value {
-    //             color: $foreground3;
-    //         }
-    //     }
-    // }
-
     .system-tray {
-        .icon {
-            // font-size: 20px;  size is set within widget definition
-        }
+        // .icon {
+        // font-size: 20px;  size is set within widget definition
+        // }
 
         >* {
             margin-right: 1.0rem;

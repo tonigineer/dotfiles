@@ -39,7 +39,7 @@ const NetworkSpeeds = () => Widget.Box({
 })
 
 const AdapterIndicator = () => Widget.Button({
-    on_clicked: () => { App.toggleWindow("network-manager") },
+    on_clicked: () => { App.toggleWindow("sidebar-settings"); },
     child: Widget.Stack({
         class_name: "indicator",
         children: {
@@ -48,16 +48,16 @@ const AdapterIndicator = () => Widget.Button({
                 children: [Widget.Icon({
                     css: "color: #FF6767;",
                     icon: Network.wifi.bind('icon_name'),
-                    size: 22
+                    size: 24
                 })],
             }),
             wired: Widget.Box({
                 class_name: "wired",
-                children: [Widget.Icon({
+                child: Widget.Icon({
                     css: "color: #FF6767;",
                     icon: Network.wired.bind('icon_name'),
                     size: 20
-                })]
+                }).hook(Network, self => { self.icon_name = Network.wired.icon_name }, "changed")
             }),
         },
         shown: Network.bind('primary').as(p => p || 'wired'),

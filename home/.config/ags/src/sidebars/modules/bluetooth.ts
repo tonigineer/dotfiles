@@ -1,5 +1,4 @@
 import Bluetooth from "resource:///com/github/Aylur/ags/service/bluetooth.js";
-import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 
 
 function BluetoothControl() {
@@ -38,7 +37,7 @@ function BluetoothControl() {
         self.child = Widget.Box({
             class_name: "selector",
             vertical: true,
-            children: Bluetooth.devices.map(device => Widget.Box({
+            children: Bluetooth.devices.filter(v => v.paired).map(device => Widget.Box({
                 class_name: "item",
                 children: [
                     Widget.Icon({
@@ -66,7 +65,6 @@ function BluetoothControl() {
         })
     })
 
-
     return Widget.Box({
         class_name: "bluetooth-control",
         vertical: true,
@@ -77,8 +75,12 @@ function BluetoothControl() {
                     Icon(),
                     Widget.Box({ hexpand: true }),
                     Widget.Label({
-                        css: "font-size: 16px;",
-                        label: Bluetooth.bind("connected_devices").as(v => Bluetooth.enabled ? `Devices ${v.length.toString()}/${Bluetooth.devices.length}` : "Disabled")
+                        css: "font-size: 14px;",
+                        label: Bluetooth.bind("connected_devices")
+                            .as(v => Bluetooth.enabled
+                                ? `${Bluetooth.devices.filter(v => v.paired).length} paired  ${v.length.toString()} connected `
+                                : "Disabled"
+                            )
                     }),
                     Widget.Box({ hexpand: true }),
                     ButtonRevealList(),

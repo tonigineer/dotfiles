@@ -1,28 +1,31 @@
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
-// import AudioManager from "./windows/audio-manager";
 import Bar from "./bar/index";
-// import PowerManager from "./windows/power-manager";
-// import BluetoothManager from "./windows/bluetooth-manager";
-// import Dota from './windows/dota';
-// import NetworkManager from "./windows/network-manager";
+
 import IndicatorVolume from "./indicators/volume";
 import SidebarSettings from './sidebars/sidebar-settings';
-// import Battery from 'resource:///com/github/Aylur/ags/service/battery.js';
 
-// import AppLauncher from "./launcher/launcher";
 
 App.addIcons(`${App.configDir}/assets`)
 
+// https://aylur.github.io/ags-docs/config/theming/#autoreload-css
+Utils.monitorFile(
+    `${App.configDir}/scss`,
+
+    function () {
+        // Are set in ./config.js
+        const scss = `${App.configDir}/scss/index.scss`
+        const css = `/tmp/ags/style.css`
+
+        // compile, reset, apply
+        Utils.exec(`sassc ${scss} ${css}`)
+        App.resetCss()
+        App.applyCss(css)
+    },
+)
 
 App.config({
     windows: [
-        // AudioManager,
-        // BluetoothManager,
-        // // Dota,
-        // NetworkManager,
-        // Battery.available ? PowerManager : Widget.Window(),
-        // AppLauncher,
         SidebarSettings,
         IndicatorVolume,
     ]

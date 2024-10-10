@@ -1,0 +1,68 @@
+tooltip {
+    * {
+        all: unset;
+    }
+
+    background-color: transparent;
+
+    >*>* {
+        font-family: "JetBrainsMono NFM Regular";
+        font-size: 11px;
+        font-weight: bold;
+        background-color: $background1;
+        border-radius: 5px;
+        border: 1.25px solid $green;
+        color: $foreground1;
+        padding: 4px;
+        box-shadow: 0 0 0px 0 $foreground3;
+    }
+}
+
+menu {
+    background-color: $background2;
+    padding: 1.0rem;
+    border-radius: 1rem;
+    border: solid 0.2rem rgba(255, 255, 255, 0.0640625);
+    color: $foreground1;
+    font-size: 14px;
+    font-weight: bold;
+
+    >* {
+        padding: 0.075rem;
+    }
+
+    :hover {
+        color: $red;
+    }
+}
+
+switch {
+    outline-offset: -4px;
+    padding: 1px;
+    border-radius: 14px;
+    border: 1.25px solid $foreground3;
+    background-color: $foreground1;
+
+    &:checked {
+        background-color: transparentize($red, 0.20);
+    }
+
+    &:hover {
+        background-color: transparentize($red, 0.40);
+    }
+
+    slider {
+        min-width: 1.1rem;
+        min-height: 1.1rem;
+        background-color: $red;
+        border: 1px solid transparent;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        -gtk-outline-radius: 20px;
+    }
+
+    image {
+        color: transparent;
+    }
+}

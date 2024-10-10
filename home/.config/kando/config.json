@@ -1,0 +1,15 @@
+{
+  "menuTheme": "rainbow-labels",
+  "darkMenuTheme": "rainbow-labels",
+  "menuThemeColors": {},
+  "darkMenuThemeColors": {
+    "rainbow-labels": {
+      "icon-color": "rgba(51, 51, 51, 1)"
+    }
+  },
+  "enableDarkModeForMenuThemes": false,
+  "sidebarVisible": false,
+  "enableVersionCheck": true,
+  "zoomFactor": 1,
+  "editorTheme": "none"
+}

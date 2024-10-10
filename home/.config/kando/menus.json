@@ -1,0 +1,240 @@
+{
+  "menus": [
+    {
+      "shortcut": "Control+Space",
+      "shortcutID": "main-menu",
+      "centered": false,
+      "root": {
+        "type": "submenu",
+        "name": "Main Menu",
+        "icon": "archlinux",
+        "iconTheme": "simple-icons-colored",
+        "children": [
+          {
+            "type": "submenu",
+            "name": "Apps",
+            "icon": "appstore",
+            "iconTheme": "simple-icons-colored",
+            "children": [
+              {
+                "type": "command",
+                "data": {
+                  "command": "gimp"
+                },
+                "name": "GIMP",
+                "icon": "gimp",
+                "iconTheme": "simple-icons-colored"
+              },
+              {
+                "type": "command",
+                "data": {
+                  "command": "firefox"
+                },
+                "name": "Web Browser",
+                "icon": "firefoxbrowser",
+                "iconTheme": "simple-icons-colored"
+              }
+            ]
+          },
+          {
+            "type": "submenu",
+            "data": {},
+            "name": "Wallpaper",
+            "icon": "settings",
+            "iconTheme": "material-symbols-rounded",
+            "children": [
+              {
+                "type": "submenu",
+                "data": {},
+                "name": "Live",
+                "icon": "mpv",
+                "iconTheme": "simple-icons-colored",
+                "children": [
+                  {
+                    "type": "command",
+                    "data": {
+                      "command": "killall -9 mpvpaper; mpvpaper -p -f -o --loop DP-1 ~/.local/share/backgrounds/live/Dark-Hacker-Room-4K.mp4; mpvpaper -p -f -o --loop DP-3 ~/.local/share/backgrounds/live/Dark-Hacker-Room-4K.mp4",
+                      "delayed": false
+                    },
+                    "name": "Room",
+                    "icon": "code",
+                    "iconTheme": "material-symbols-rounded"
+                  },
+                  {
+                    "type": "command",
+                    "data": {
+                      "command": "killall -9 mpvpaper",
+                      "delayed": false
+                    },
+                    "name": "Terminate",
+                    "icon": "close",
+                    "iconTheme": "material-symbols-rounded"
+                  },
+                  {
+                    "type": "command",
+                    "data": {
+                      "command": "killall -9 mpvpaper; mpvpaper -p -f -o --loop DP-1 ~/.local/share/backgrounds/live/Aquarium-Bedroom-FHD.mp4; mpvpaper -p -f -o --loop DP-3 ~/.local/share/backgrounds/live/Aquarium-Bedroom-FHD.mp4",
+                      "delayed": false
+                    },
+                    "name": "Aquarium",
+                    "icon": "water",
+                    "iconTheme": "material-symbols-rounded"
+                  },
+                  {
+                    "type": "command",
+                    "data": {
+                      "command": "killall -9 mpvpaper; mpvpaper -p -f -o --loop DP-1 ~/.local/share/backgrounds/live/Empty-Bed-4K.mp4; mpvpaper -p -f -o --loop DP-3 ~/.local/share/backgrounds/live/Empty-Bed-4K.mp4",
+                      "delayed": false
+                    },
+                    "name": "Bed",
+                    "icon": "bedroom_parent",
+                    "iconTheme": "material-symbols-rounded"
+                  }
+                ]
+              },
+              {
+                "type": "submenu",
+                "data": {},
+                "name": "Hyprpaper",
+                "icon": "hyprland",
+                "iconTheme": "simple-icons-colored",
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "submenu",
+            "name": "Audio",
+            "icon": "spotify",
+            "iconTheme": "simple-icons-colored",
+            "children": [
+              {
+                "type": "hotkey",
+                "data": {
+                  "hotkey": "MediaPlayPause",
+                  "delayed": false
+                },
+                "name": "Play / Pause",
+                "icon": "play_pause",
+                "iconTheme": "material-symbols-rounded",
+                "angle": 0
+              },
+              {
+                "type": "hotkey",
+                "data": {
+                  "hotkey": "MediaTrackNext",
+                  "delayed": false
+                },
+                "name": "Next Title",
+                "icon": "skip_next",
+                "iconTheme": "material-symbols-rounded",
+                "angle": 90
+              },
+              {
+                "type": "hotkey",
+                "data": {
+                  "hotkey": "AudioVolumeMute",
+                  "delayed": false
+                },
+                "name": "Mute",
+                "icon": "music_off",
+                "iconTheme": "material-symbols-rounded"
+              },
+              {
+                "type": "hotkey",
+                "data": {
+                  "hotkey": "MediaTrackPrevious",
+                  "delayed": false
+                },
+                "name": "Previous Title",
+                "icon": "skip_previous",
+                "iconTheme": "material-symbols-rounded",
+                "angle": 270
+              }
+            ]
+          },
+          {
+            "type": "submenu",
+            "data": {},
+            "name": "Settings",
+            "icon": "meilisearch",
+            "iconTheme": "simple-icons-colored",
+            "children": [
+              {
+                "type": "command",
+                "data": {
+                  "command": "",
+                  "delayed": false
+                },
+                "name": "Toggle Ethernet",
+                "icon": "network_node",
+                "iconTheme": "material-symbols-rounded"
+              },
+              {
+                "type": "command",
+                "data": {
+                  "command": "",
+                  "delayed": false
+                },
+                "name": "Toggle Wi-Fi",
+                "icon": "network_manage",
+                "iconTheme": "material-symbols-rounded"
+              },
+              {
+                "type": "command",
+                "data": {
+                  "command": "kando -s",
+                  "delayed": true
+                },
+                "name": "Kando Settings",
+                "icon": "treehouse",
+                "iconTheme": "simple-icons"
+              }
+            ]
+          },
+          {
+            "type": "submenu",
+            "data": {},
+            "name": "Streaming (MPV)",
+            "icon": "youtube",
+            "iconTheme": "simple-icons-colored",
+            "children": [
+              {
+                "type": "command",
+                "data": {
+                  "command": "mpv https://mcdn.daserste.de/daserste/de/master.m3u8",
+                  "delayed": false
+                },
+                "name": "ARD",
+                "icon": "daserste",
+                "iconTheme": "simple-icons-colored"
+              },
+              {
+                "type": "command",
+                "data": {
+                  "command": "mpv https://zdf-hls-19.akamaized.net/hls/live/2016502/de/high/master.m3u8",
+                  "delayed": false
+                },
+                "name": "Phoenix",
+                "icon": "phoenixframework",
+                "iconTheme": "simple-icons-colored"
+              },
+              {
+                "type": "command",
+                "data": {
+                  "command": "mpv https://www.zdf.de/sender/zdf/zdf-live-beitrag-100.html",
+                  "delayed": false
+                },
+                "name": "ZDF",
+                "icon": "zdf",
+                "iconTheme": "simple-icons-colored"
+              }
+            ]
+          }
+        ]
+      },
+      "anchored": false
+    }
+  ],
+  "templates": []
+}

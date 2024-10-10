@@ -1,27 +1,57 @@
 .app-launcher {
-    background-color: $background2;
-    padding: 1rem;
-    border-radius: 1rem;
-    border: solid 0.2rem rgba(255, 255, 255, 0.0640625);
+
 
     .entry-box {
         background-color: rgba(255, 255, 255, 0.0640625);
         border-radius: 1rem;
-        // padding: 0.75rem;
+        background-color: $background2;
+        padding: 1rem;
+        border-radius: 1rem;
+        border: solid 0.2rem rgba(255, 255, 255, 0.0640625);
 
-        >*:first-child {
-            // margin-right: 0.25rem;
-        }
+        // >*:first-child {}
 
         .icon {
-            padding: 0.75rem;
+            padding: 0.0rem;
+            margin-right: 1rem;
         }
 
         .text {
             color: $foreground1;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
+            padding: 0.5rem;
+        }
+
+        .response-text {
+            color: $foreground2;
+            font-size: 10px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+    }
+
+    .result-list {
+        background: transparent;
+        border: 0px;
+
+        >*>* {
             padding: 0.75rem;
+        }
+
+        >*>*>* {
+            margin-bottom: 0.5rem;
+
+            padding: 0.5rem 3.0rem 0.5rem 3.0rem;
+            background-color: $background2;
+            border-radius: 1rem;
+            border: solid 0.2rem rgba(255, 255, 255, 0.0640625);
+            font-size: 16px;
+
+            .title {
+                font-weight: bold;
+                margin-left: 1rem;
+            }
         }
     }
 }

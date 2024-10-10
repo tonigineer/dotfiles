@@ -9,7 +9,6 @@ git submodule update --init --recursive
 install_base() {
     yay -S hyprland-git \
         hyprpicker-git hyprlock-git hyprpaper-git hypridle-git \
-        rofi-lbonn-wayland-only-git \
         aylurs-gtk-shell-git bun-bin sass sassc gnome-bluetooth-3.0 libdbusmenu-gtk3 \
         socat net-tools inetutils power-profiles-daemon iwd jq \
         polkit-gnome terminus-font brightnessctl \
@@ -23,7 +22,6 @@ install_base() {
     create_symlink .config/kando
     create_symlink .config/MangoHud
     create_symlink .config/mpv
-    create_symlink .config/rofi
 
     mkdir -p "/home/$USER/.local/share"
     create_symlink .local/share/backgrounds

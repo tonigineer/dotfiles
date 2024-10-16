@@ -32,7 +32,7 @@ function Clock() {
                 ]
             }),
             onClicked: () => {
-                App.toggleWindow("sidebar-settings")
+                App.toggleWindow("SidebarSettings")
             }
         }),
         tooltip_text: dateStr.bind().as(v => "Date: " + v + "\n Toggle Settings Sidebar  ")

@@ -41,11 +41,11 @@ extract() {
 
 # Extras
 if command -v tty-clock &>/dev/null; then
-	alias clock="tty-clock -c -C 3"
+	alias clock="tty-clock -c -C 1"
 fi
 
 if command -v cmatrix &>/dev/null; then
-	alias matrix="cmatrix -ab -C yellow"
+	alias matrix="cmatrix -ab -C red"
 fi
 
 # Directories

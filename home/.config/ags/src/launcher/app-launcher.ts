@@ -1,8 +1,9 @@
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
 
-const WINDOW_NAME = "AppLauncher"
+App.addIcons(`${App.configDir}/assets`)
 
+const WINDOW_NAME = "AppLauncher"
 
 const ApplicationItem = (application) => {
     return Widget.Button({
@@ -46,7 +47,7 @@ function isValidUrlWithRegex(str: string): boolean {
 }
 
 function EntryBar() {
-    const Icon = () => Widget.Icon({
+    const Icon = Widget.Icon({
         class_name: "icon",
         css: "color: white;",
         icon: "icon-magnifying-glas",
@@ -63,25 +64,36 @@ function EntryBar() {
     })
 
     const Entry = Widget.Entry({
+        attribute: {
+            bash_mode: false
+        },
         hexpand: true,
         class_name: "text",
         // placeholder_text: 'type here',
         // text: 'S  initial text',
         on_accept: ({ text }) => {
-            App.toggleWindow(WINDOW_NAME)
-
             if (text === null) return
+
+            if (Entry.attribute.bash_mode) {
+                Utils.execAsync(["bash", "-c", text]);
+                // App.toggleWindow(WINDOW_NAME)
+                return;
+            }
+
+            const results = Applications.filter((item) => item.visible);
+            App.toggleWindow(WINDOW_NAME)
 
             if (isValidUrlWithRegex(text)) {
                 Utils.execAsync(["bash", "-c", `firefox -url ${text}`]);
                 return;
             }
 
-            const results = Applications.filter((item) => item.visible);
-            if (results[0]) {
+            if (results.length === 1) {
                 results[0].attribute.application.launch()
                 return;
             }
+
+            if (text === "") return;
 
             Utils.execAsync(["bash", "-c", `firefox -url 'https://duckduckgo.com/?t=ffab&q=${text.replace(" ", "+")}'`]);
         },
@@ -89,8 +101,23 @@ function EntryBar() {
         // filter out the list
         on_change: ({ text }) => {
             // EntryResponse.child = Widget.Icon()
+            if (Entry.attribute.bash_mode) {
+                return;
+            }
 
-            if (text === null) return
+            if (text === null) return;
+
+            if (text === "$") {
+                Entry.attribute.bash_mode = true;
+                Entry.css = "color: indianred;";
+                Entry.text = "";
+                EntryResponseText.child.label = "Run command";
+                EntryResponse.child = Widget.Icon({
+                    icon: "icon-bash",
+                    size: 22
+                })
+                return;
+            }
 
             if (text === "") {
                 Applications.forEach(item => {
@@ -136,8 +163,13 @@ function EntryBar() {
                     item.visible = false;
                 });
 
-                Entry.text = ""
-                Entry.grab_focus()
+                // Reset changes from bash mode
+                Entry.attribute.bash_mode = false;
+                Entry.css = "color: white";
+                Entry.text = ".";
+                Entry.text = "";
+
+                Entry.grab_focus();
             }
         }),
     })
@@ -145,7 +177,7 @@ function EntryBar() {
     return Widget.Box({
         class_name: "entry-box",
         children: [
-            Icon(),
+            Icon,
             Entry,
             EntryResponseText,
             EntryResponse
@@ -172,16 +204,18 @@ const MainWindow = () => Widget.Box({
 
 const AppLauncher = Widget.Window({
     name: WINDOW_NAME,
-    monitor: Hyprland.active.bind("monitor").as(m => m.id),
+    monitor: Hyprland.active.bind("monitor").as(m => AppLauncher.visible ? AppLauncher.monitor : m.id),
     visible: false,
-    popup: true,
+    layer: "overlay",
+    exclusivity: "ignore",
+    // popup: true,
     keymode: "exclusive",
     anchor: ["top", "left", "top", "right"],
     margins: [50, 750, 0, 750],
     child: MainWindow(),
     setup: self => self.keybind("Escape", () => {
-        App.closeWindow(WINDOW_NAME)
+        App.toggleWindow(WINDOW_NAME)
     })
-})
+}).hook(Hyprland, self => { self.visible = self.visible && Hyprland.active.monitor.id === self.monitor })
 
 export default AppLauncher;

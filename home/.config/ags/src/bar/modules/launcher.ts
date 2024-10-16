@@ -18,7 +18,7 @@ const ArchIcon = () => Widget.Box({
                 Utils.execAsync(["bash", "-c", TASK_MANAGER]).catch(print);
             },
             cursor: "pointer",
-            tooltip_text: "Open application manager or\ntask system monitor.",
+            tooltip_text: " Application Launcher   System Monitor ",
         }),
     ]
 })

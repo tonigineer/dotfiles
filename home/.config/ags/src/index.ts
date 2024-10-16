@@ -2,7 +2,7 @@ import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
 import Bar from "./bar/index";
 
-import AppLauncher from './launcher/launcher';
+import AppLauncher from './launcher/app-launcher';
 import IndicatorVolume from "./indicators/volume";
 import SidebarSettings from './sidebars/sidebar-settings';
 

@@ -1,6 +1,5 @@
 // const HYPRLAND = await Service.import("hyprland");
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
-import { CONFIG } from "./../../../settings";
 
 
 let substitutions = {

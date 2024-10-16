@@ -21,15 +21,17 @@ const MediaControl = () => Widget.Box({
 const SidebarSettings = Widget.Window({
     class_name: "sidebar-settings",
     name: "sidebar-settings",
-    monitor: Hyprland.active.bind("monitor").as(m => m.id),
-    // monitor: 0,
+    monitor: Hyprland.active.bind("monitor").as(m => SidebarSettings.visible ? SidebarSettings.monitor : m.id),
     anchor: ["top", "right", "bottom", "right"],
-    layer: "overlay",
     exclusivity: "exclusive",
+    layer: "top",
     keymode: "on-demand",
     margins: [5, 7.5, 5.0, 2.5],
     visible: false,
     child: Widget.Box({
+        attribute: {
+            monitor: null
+        },
         vertical: true,
         children: [
             ShutdownMenu(),
@@ -42,6 +44,6 @@ const SidebarSettings = Widget.Window({
             // MediaControl()
         ]
     })
-});
+})
 
 export default SidebarSettings;

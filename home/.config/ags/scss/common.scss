@@ -6,15 +6,13 @@ tooltip {
     background-color: transparent;
 
     >*>* {
-        font-family: "JetBrainsMono NFM Regular";
-        font-size: 11px;
-        font-weight: bold;
         background-color: $background1;
-        border-radius: 5px;
-        border: 1.25px solid $green;
+        padding: 0.75rem;
+        border-radius: 1rem;
+        border: solid 0.2rem rgba(255, 255, 255, 0.0640625);
         color: $foreground1;
-        padding: 4px;
-        box-shadow: 0 0 0px 0 $foreground3;
+        font-size: 10px;
+        font-weight: bold;
     }
 }
 

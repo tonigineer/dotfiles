@@ -1,3 +1,6 @@
+// import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
+
+
 function Clock() {
     const timeStr = Variable("", {
         poll: [1000, 'date "+%H:%M"'],
@@ -28,8 +31,11 @@ function Clock() {
                     // }),
                 ]
             }),
-            onClicked: () => { App.toggleWindow("sidebar-settings") }
-        })
+            onClicked: () => {
+                App.toggleWindow("sidebar-settings")
+            }
+        }),
+        tooltip_text: dateStr.bind().as(v => "Date: " + v + "\n Toggle Settings Sidebar  ")
     })
 }
 

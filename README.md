@@ -3,9 +3,6 @@
 <div align="center">
 <img src="https://img.shields.io/github/last-commit/tonigineer/.dotfiles?style=for-the-badge&logo=github&color=a6da95&logoColor=D9E0EE&labelColor=302D41"/>
 <img src="https://img.shields.io/github/repo-size/tonigineer/.dotfiles?style=for-the-badge&logo=dropbox&color=7dc4e4&logoColor=D9E0EE&labelColor=302D41"/>
-<a href="https://www.reddit.com/r/unixporn/">
-<img alt="just-wallpaper-with-waybar" src="https://github.com/Welcome2Heaven/Unixporn-Banner/blob/main/PNGS/Unixporn%20-%20Mobile.png?raw=true" style="width: 140px;"/>
-</a>
 </div>
 
 <br>
@@ -17,75 +14,47 @@
 ## 🎨 Impressions
 
 <div align="center">
-<kbd><img alt="messy-impression" src="./assets/impression.png" style="width: 500px;"/></kbd>
+<kbd><img alt="messy-impression" src="./assets/impression-2024-10.png" style="width: 500px;"/></kbd>
 </div>
 
-## 📖 Overview
+## 📖 Configuration details
 
-<details open>
-<summary><b>🔬 Display</b></summary>
+The table below provides information on the key repositories, frameworks, and libraries used in my setup.
 
->
-<!-- Get some vertical space -->
-
-➖ Display Server: [Wayland](https://wiki.archlinux.org/title/Wayland)
-🔺 Compositor: [Hyprland](https://hyprland.org/)
-🔺 Graphics: [Nvidia](https://wiki.hyprland.org/Nvidia/)
-🔺 Bar: [EWW](https://github.com/elkowar/eww)
-
-</details>
-
-<details open>
-<summary><b>⚙️ Configuration</b></summary>
-
->
-<!-- Get some vertical space -->
-
-➖ Wallpaper: [Hyprpaper](https://github.com/hyprwm/hyprpaper) | [mpvpaper]()
-🔺 Lockscreen: [Hyprlock](https://github.com/hyprwm/hyprlock) | [Hypridle](https://github.com/hyprwm/hypridle)
-🔺 Launcher: [Rofi](https://github.com/lbonn/rofi)
-</details>
-
-<details open><summary><b>🌈 Appearance</b></summary>
-
->
-<!-- Get some vertical space -->
-
-➖ Color scheme: [Tokyonight-Dark-BL-LB](https://github.com/Fausto-Korpsvart/Tokyo-Night-GTK-Theme)
-🔺 Cursor: [Hyprcursor](https://github.com/hyprwm/hyprcursor) | [rose-pine-hyprcursor](https://github.com/ndom91/rose-pine-hyprcursor)
-🔺 Icons: [Candy Icons](https://github.com/EliverLara/candy-icons)
-</details>
-
-<details open><summary><b>📠 Terminal</b></summary>
-
->
-<!-- Get some vertical space -->
-
-➖ Emulator: [Alacritty](https://github.com/alacritty/alacritty) 🔺 Shell: [ZSH](https://github.com/tonigineer/zsh)
-🔺 Editor: [Neovim](https://github.com/tonigineer/nvim) | [Visual Studio Code](https://code.visualstudio.com/download) 
-</details>
-
-<details open><summary><b>✂️ Misc</b></summary>
-
->
-<!-- Get some vertical space -->
-
-➖ Files: [Thunar](https://github.com/xfce-mirror/thunar) 🔺 Visuallizer: [cava](https://github.com/karlstav/cava) 🔺 Resources: [btop](https://github.com/aristocratos/btop) 🔺 Show off: [cmatrix](https://github.com/abishekvashok/cmatrix)
-</details>
-
+Category | Links and Information
+---: | ---
+Display Server| [Wayland](https://wiki.archlinux.org/title/Wayland)
+Compositor | [Hyprland](https://hyprland.org/)
+Graphics | [Nvidia](https://wiki.hyprland.org/Nvidia/)
+|
+Wallpaper | [Hyprpaper](https://github.com/hyprwm/hyprpaper) & [mpvpaper]()
+Bar & Side panel | [AGS](https://github.com/Aylur/ags)
+Launcher | [AGS](https://github.com/Aylur/ags) (Modes: *bin*, *URL*, *duckduckgo*, *bash*)
+Lockscreen | [Hyprlock](https://github.com/hyprwm/hyprlock) & [Hypridle](https://github.com/hyprwm/hypridle)
+|
+Color scheme | [Tokyonight-Dark-BL-LB](https://github.com/Fausto-Korpsvart/Tokyo-Night-GTK-Theme)
+Cursor | [Hyprcursor](https://github.com/hyprwm/hyprcursor) & [rose-pine-hyprcursor](https://github.com/ndom91/rose-pine-hyprcursor)
+Icons | [Candy Icons](https://github.com/EliverLara/candy-icons)
+|
+Terminal emulator | [Kitty](https://github.com/kovidgoyal/kitty)
+Shell | [ZSH](https://www.zsh.org/) + [Config repo](https://github.com/tonigineer/zsh)
+Editor | [Nvim](https://github.com/neovim/neovim) + [Config repo](https://github.com/tonigineer/nvim)
+|
+Files explorer | [Yazi](https://github.com/sxyazi/yazi)
+Visualizer | [Cava](https://github.com/karlstav/cava)
+Resource monitor | [BTop++](https://github.com/aristocratos/btop)
 
 ## 🥼 Installation
 
-Clone repository and run the installation script:
+For my machine, simply cloning the repository and running the installation script should be enough to set up the environment:
 
 ```sh
 git clone --recurse-submodules https://github.com/tonigineer/dotfiles.git ~/Dotfiles
-
 cd ~/Dotfiles/scripts/install.sh all
 ```
 
 > [!IMPORTANT]
-> Some parts of the configuration, like monitor names, are specific to my setup. So, it might be a good idea to install it manually. Plus, you'll probably learn something along the way.
->
-> Furthermore, the configuration is based on a 4K display. Using different resolutions might change or break things. For example, [hyprlock](https://github.com/hyprwm/hyprlock) positions are specified in pixels from anchors.
+> Some parts of this configuration, such as monitor names, are specific to my setup. As a result, it’s recommended to install the configuration manually, so you can tailor it to your system. Plus, you’ll likely pick up useful knowledge along the way.
 
+> [!NOTE]
+> Additionally, this configuration is designed for a 4K display. If you’re using a different resolution, certain aspects might behave differently or even break. For instance, tools like [hyprlock](https://github.com/hyprwm/hyprlock) rely on pixel-perfect positioning from anchors, so adjustments may be necessary.

@@ -32,18 +32,17 @@ Bar & Side panel | [AGS](https://github.com/Aylur/ags)
 Launcher | [AGS](https://github.com/Aylur/ags) (Modes: *bin*, *URL*, *duckduckgo*, *bash*)
 Pi-Menu | [Kando](https://github.com/kando-menu/kando)
 Lockscreen | [Hyprlock](https://github.com/hyprwm/hyprlock) & [Hypridle](https://github.com/hyprwm/hypridle)
-🎨 | ➖
-Color scheme | [Tokyonight-Dark-BL-LB](https://github.com/Fausto-Korpsvart/Tokyo-Night-GTK-Theme)
+🎨 | ➖ ➖ ➖
+Color Scheme | [Tokyonight-Dark-BL-LB](https://github.com/Fausto-Korpsvart/Tokyo-Night-GTK-Theme)
 Cursor | [Hyprcursor](https://github.com/hyprwm/hyprcursor) & [rose-pine-hyprcursor](https://github.com/ndom91/rose-pine-hyprcursor)
 Icons | [Candy Icons](https://github.com/EliverLara/candy-icons)
-💻 | ➖
-Terminal emulator | [Kitty](https://github.com/kovidgoyal/kitty)
+💻 | ➖ ➖ ➖
+Terminal Emulator | [Kitty](https://github.com/kovidgoyal/kitty)
 Shell | [ZSH](https://www.zsh.org/) + <a href="https://github.com/tonigineer/zsh"><kbd>tonigineer/zsh</kbd></a>
-Editor | [Nvim](https://github.com/neovim/neovim) + <a href="https://github.com/tonigineer/nvim"><kbd>tonigineer/nvim</kbd>
-</a>
-Files explorer | [Yazi](https://github.com/sxyazi/yazi)
+Editor | [Nvim](https://github.com/neovim/neovim) + <a href="https://github.com/tonigineer/nvim"><kbd>tonigineer/nvim</kbd></a>
+Files Explorer | [Yazi](https://github.com/sxyazi/yazi)
 Visualizer | [Cava](https://github.com/karlstav/cava)
-Resource monitor | [BTop++](https://github.com/aristocratos/btop)
+Resource Monitor | [BTop++](https://github.com/aristocratos/btop)
 
 ## 🥼 Installation
 

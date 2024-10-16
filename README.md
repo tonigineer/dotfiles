@@ -26,20 +26,21 @@ Category | Links and Information
 Display Server| [Wayland](https://wiki.archlinux.org/title/Wayland)
 Compositor | [Hyprland](https://hyprland.org/)
 Graphics | [Nvidia](https://wiki.hyprland.org/Nvidia/)
-|
+🔧 | ➖ ➖ ➖
 Wallpaper | [Hyprpaper](https://github.com/hyprwm/hyprpaper) & [mpvpaper]()
 Bar & Side panel | [AGS](https://github.com/Aylur/ags)
 Launcher | [AGS](https://github.com/Aylur/ags) (Modes: *bin*, *URL*, *duckduckgo*, *bash*)
+Pi-Menu | [Kando](https://github.com/kando-menu/kando)
 Lockscreen | [Hyprlock](https://github.com/hyprwm/hyprlock) & [Hypridle](https://github.com/hyprwm/hypridle)
-|
+🎨 | ➖
 Color scheme | [Tokyonight-Dark-BL-LB](https://github.com/Fausto-Korpsvart/Tokyo-Night-GTK-Theme)
 Cursor | [Hyprcursor](https://github.com/hyprwm/hyprcursor) & [rose-pine-hyprcursor](https://github.com/ndom91/rose-pine-hyprcursor)
 Icons | [Candy Icons](https://github.com/EliverLara/candy-icons)
-|
+💻 | ➖
 Terminal emulator | [Kitty](https://github.com/kovidgoyal/kitty)
-Shell | [ZSH](https://www.zsh.org/) + [Config repo](https://github.com/tonigineer/zsh)
-Editor | [Nvim](https://github.com/neovim/neovim) + [Config repo](https://github.com/tonigineer/nvim)
-|
+Shell | [ZSH](https://www.zsh.org/) + <a href="https://github.com/tonigineer/zsh"><kbd>tonigineer/zsh</kbd></a>
+Editor | [Nvim](https://github.com/neovim/neovim) + <a href="https://github.com/tonigineer/nvim"><kbd>tonigineer/nvim</kbd>
+</a>
 Files explorer | [Yazi](https://github.com/sxyazi/yazi)
 Visualizer | [Cava](https://github.com/karlstav/cava)
 Resource monitor | [BTop++](https://github.com/aristocratos/btop)
@@ -58,3 +59,7 @@ cd ~/Dotfiles/scripts/install.sh all
 
 > [!NOTE]
 > Additionally, this configuration is designed for a 4K display. If you’re using a different resolution, certain aspects might behave differently or even break. For instance, tools like [hyprlock](https://github.com/hyprwm/hyprlock) rely on pixel-perfect positioning from anchors, so adjustments may be necessary.
+
+## Keybindings
+
+🔜

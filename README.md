@@ -8,13 +8,13 @@
 <br>
 
 <div align="center">
-<a href="#overview"><kbd>Overview</kbd></a> ❗ <a href="#installation"><kbd>Install</kbd></a> ❗ <a href="https://github.com/tonigineer/zsh"><kbd>tonigineer/zsh</kbd></a> ❗ <a href="https://github.com/tonigineer/nvim"><kbd>tonigineer/nvim</kbd>
+<a href="https://github.com/tonigineer/zsh"><kbd>tonigineer/zsh</kbd></a> ❗ <a href="https://github.com/tonigineer/nvim"><kbd>tonigineer/nvim</kbd>
 </a></div>
 
 ## 🎨 Impressions
 
 <div align="center">
-<kbd><img alt="messy-impression" src="./assets/impression-2024-10.png" style="width: 500px;"/></kbd>
+<kbd><img alt="messy-impression" src="./assets/impression.png" style="width: 500px;"/></kbd>
 </div>
 
 ## 📖 Configuration details

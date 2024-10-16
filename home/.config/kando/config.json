@@ -7,9 +7,9 @@
       "icon-color": "rgba(51, 51, 51, 1)"
     }
   },
-  "enableDarkModeForMenuThemes": false,
+  "enableDarkModeForMenuThemes": true,
   "sidebarVisible": false,
   "enableVersionCheck": true,
-  "zoomFactor": 1,
+  "zoomFactor": 1.0,
   "editorTheme": "none"
 }

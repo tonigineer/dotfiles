@@ -7,26 +7,25 @@ cd $SCRIPT_DIR/..
 git submodule update --init --recursive
 
 install_base() {
-    yay -S hyprland-git \
-        hyprpicker-git hyprlock-git hyprpaper-git hypridle-git \
+    yay -S hyprland \
+        hyprpicker hyprlock hyprpaper hypridle \
         aylurs-gtk-shell-git bun-bin sass sassc gnome-bluetooth-3.0 libdbusmenu-gtk3 \
-        socat net-tools inetutils power-profiles-daemon iwd jq \
-        polkit-gnome terminus-font brightnessctl \
+        socat inetutils iwd jq \
+        polkit-gnome terminus-font swaync \
         firefox vesktop \
-        grim-git slurp-git vlc wf-recorder swappy wl-clipboard imagemagick \
+        hyprshot grim-git slurp-git vlc wf-recorder swappy wl-clipboard imagemagick \
         mpvpaper-git yt-dlp \
         kando-bin
 
     create_symlink .config/ags
     create_symlink .config/hypr
     create_symlink .config/kando
-    create_symlink .config/MangoHud
     create_symlink .config/mpv
 
     mkdir -p "/home/$USER/.local/share"
     create_symlink .local/share/backgrounds
 
-    yay -S thunar thunar-volman gvfs xdg-user-dirs tumbler
+    yay -S xdg-user-dirs
     xdg-user-dirs-update
 }
 

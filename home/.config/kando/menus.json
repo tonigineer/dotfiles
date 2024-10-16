@@ -202,6 +202,26 @@
               {
                 "type": "command",
                 "data": {
+                  "command": "mpv https://www.youtube.com/watch?v=6UM5oAoK8L8&t=899s",
+                  "delayed": false
+                },
+                "name": "After Dark - 4h Version",
+                "icon": "applemusic",
+                "iconTheme": "simple-icons"
+              },
+              {
+                "type": "command",
+                "data": {
+                  "command": "mpv https://www.youtube.com/watch?v=LxQWv-p5BMQ",
+                  "delayed": false
+                },
+                "name": "Synthwave 80's",
+                "icon": "applemusic",
+                "iconTheme": "simple-icons"
+              },
+              {
+                "type": "command",
+                "data": {
                   "command": "mpv https://mcdn.daserste.de/daserste/de/master.m3u8",
                   "delayed": false
                 },

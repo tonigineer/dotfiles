@@ -20,7 +20,7 @@ const MediaControl = () => Widget.Box({
 
 const SidebarSettings = Widget.Window({
     class_name: "sidebar-settings",
-    name: "sidebar-settings",
+    name: "SidebarSettings",
     monitor: Hyprland.active.bind("monitor").as(m => SidebarSettings.visible ? SidebarSettings.monitor : m.id),
     anchor: ["top", "right", "bottom", "right"],
     exclusivity: "exclusive",

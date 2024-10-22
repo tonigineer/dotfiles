@@ -52,9 +52,10 @@ const IndicatorVolume = Widget.Window({
         children: [VolumeSlider()],
     }),
     visible: false,
+    exclusivity: "ignore",
     anchor: ["bottom", "left", "right"],
     layer: "overlay",
-    margins: [100, 600],
+    margins: [0, 1980 * 0.25, 1080 * 0.15, 1980 * 0.25],
 })
 
 // Automatic timeout for IndicatorVolume

@@ -1,15 +1,10 @@
 {
-  "menuTheme": "rainbow-labels",
-  "darkMenuTheme": "rainbow-labels",
+  "menuTheme": "default",
+  "darkMenuTheme": "default",
   "menuThemeColors": {},
-  "darkMenuThemeColors": {
-    "rainbow-labels": {
-      "icon-color": "rgba(51, 51, 51, 1)"
-    }
-  },
-  "enableDarkModeForMenuThemes": true,
-  "sidebarVisible": false,
+  "darkMenuThemeColors": {},
+  "enableDarkModeForMenuThemes": false,
+  "sidebarVisible": true,
   "enableVersionCheck": true,
-  "zoomFactor": 1.0,
-  "editorTheme": "none"
+  "zoomFactor": 1
 }

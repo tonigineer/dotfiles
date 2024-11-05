@@ -3,7 +3,6 @@ import GLib from "gi://GLib?version=2.0";
 
 import type { Client } from "types/service/hyprland";
 
-
 const app_icons = new Applications().list.reduce(
     (acc, app) => {
         if (app.icon_name) {
@@ -15,6 +14,10 @@ const app_icons = new Applications().list.reduce(
     { classOrNames: {}, executables: {} },
 );
 
+function trimToIconName(name: string) {
+    return name.replaceAll(" ", "-").replaceAll(".", "-");
+}
+
 export function getIconName(client: Client | undefined): string {
     if (!client) {
         return "workspace-missing";
@@ -23,13 +26,16 @@ export function getIconName(client: Client | undefined): string {
     let icon = app_icons.classOrNames[client.class];
 
     // Prioritize own .svg over findings.
-    let possibleIcon = `icon-${client.class.toLowerCase().replace(" ", "-")}`;
+    let possibleIcon = trimToIconName(`icon-${client.class.toLowerCase()}`);
+    console.log(possibleIcon);
+
     if (fileExists(`${App.configDir}/assets/${possibleIcon}.svg`)) {
         icon = possibleIcon;
         app_icons.classOrNames[client.class] = icon;
     }
 
-    possibleIcon = `icon-${client.title.toLowerCase().replace(" ", "-")}`
+    possibleIcon = trimToIconName(`icon-${client.title.toLowerCase()}`);
+    console.log(possibleIcon);
     if (fileExists(`${App.configDir}/assets/${possibleIcon}.svg`)) {
         icon = possibleIcon;
         app_icons.classOrNames[client.title] = icon;

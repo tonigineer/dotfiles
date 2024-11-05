@@ -4,7 +4,7 @@ import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
 let substitutions = {
     "steam_app_1086940": "Baldur's Gate 3",
-    "code-url-handler": "Visual Studio Code",
+    "code": "Visual Studio Code",
 }
 
 function substitute(key: string) {

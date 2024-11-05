@@ -1,7 +1,7 @@
 import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 
-
+const VANISH_TIME = 1000;
 const DYSFUNCTIONAL_OUTPUT_DEVICE = "alsa_output.usb-Razer_Razer_Leviathan_V2_X_000000000000000-01.analog-stereo"
 
 const VolumeSlider = () => Widget.Slider({
@@ -55,12 +55,12 @@ const IndicatorVolume = Widget.Window({
     exclusivity: "ignore",
     anchor: ["bottom", "left", "right"],
     layer: "overlay",
-    margins: [0, 1920 * 0.25, 1080 * 0.15, 1920 * 0.25],
+    // margins: [0, 1920 * 0.25, 1080 * 0.0, 1920 * 0.25],
 })
 
 // Automatic timeout for IndicatorVolume
 const id = Utils.interval(500, () => {
-    IndicatorVolume.visible = !(Date.now() - IndicatorVolume.attribute.last_change > 2000);
+    IndicatorVolume.visible = !(Date.now() - IndicatorVolume.attribute.last_change > VANISH_TIME);
 })
 
 export default IndicatorVolume;

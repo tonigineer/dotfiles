@@ -27,15 +27,12 @@ export function getIconName(client: Client | undefined): string {
 
     // Prioritize own .svg over findings.
     let possibleIcon = trimToIconName(`icon-${client.class.toLowerCase()}`);
-    console.log(possibleIcon);
-
     if (fileExists(`${App.configDir}/assets/${possibleIcon}.svg`)) {
         icon = possibleIcon;
         app_icons.classOrNames[client.class] = icon;
     }
 
     possibleIcon = trimToIconName(`icon-${client.title.toLowerCase()}`);
-    console.log(possibleIcon);
     if (fileExists(`${App.configDir}/assets/${possibleIcon}.svg`)) {
         icon = possibleIcon;
         app_icons.classOrNames[client.title] = icon;

@@ -66,6 +66,7 @@ const ResourceMonitor = () => Widget.Box({
             // child: resourceProgress(id.ram, "M"),
             child: Widget.Box({
                 children: [Widget.Icon({
+                    css: "margin-top: -0.3rem;",
                     icon: "resource-ram",
                     size: 18,
                 }),
@@ -116,7 +117,7 @@ const ResourceMonitor = () => Widget.Box({
                     ]
                 })
             }),
-        }).hook(Resources, self => self.reveal_child = Resources.gpu.widget_value >= 0)
+        }).hook(Resources, self => self.reveal_child = Resources.gpu.widget_value > 25)
     ]
 })
 

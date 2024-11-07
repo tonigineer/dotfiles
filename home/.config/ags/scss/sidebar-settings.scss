@@ -80,6 +80,21 @@
         }
     }
 
+    .power-profiles {
+        // padding: 1rem;
+        font-size: 12px;
+        font-weight: normal;
+        margin-top: 1rem;
+        padding: 0.4rem;
+        background: linear-gradient(235deg, $background1, $background2);
+        border-radius: 1rem;
+        border: solid 2px $background1;
+
+        .label {
+            margin-top: 0.75rem;
+        }
+    }
+
     .quick-settings {
         margin-top: 1rem;
 

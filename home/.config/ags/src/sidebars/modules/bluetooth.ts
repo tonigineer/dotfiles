@@ -23,10 +23,11 @@ function BluetoothControl() {
         child: Widget.Icon({
             icon: "button-arrow-down-symbolic",
             size: 16,
-        }),
+        }).hook(Bluetooth, self => { self.visible = Bluetooth.devices.length > 0 }),
         onClicked: (self) => {
             DeviceList.reveal_child = !DeviceList.child_revealed;
             self.child.icon_name = `button-arrow-${DeviceList.reveal_child ? "up" : "down"}-symbolic`;
+            self.visible = Bluetooth.devices.length > 0
         }
     })
 

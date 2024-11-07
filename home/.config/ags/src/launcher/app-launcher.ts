@@ -208,10 +208,9 @@ const AppLauncher = Widget.Window({
     visible: false,
     layer: "overlay",
     exclusivity: "ignore",
-    // popup: true,
     keymode: "exclusive",
     anchor: ["top", "left", "right"],
-    margins: [1080 * 0.05, 1920 * 0.4, 0, 1920 * 0.4],
+    margins: [1080 * 0.05, 1920 * 0.3, 0, 1920 * 0.3],
     child: MainWindow(),
     setup: self => self.keybind("Escape", () => {
         App.toggleWindow(WINDOW_NAME)

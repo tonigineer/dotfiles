@@ -1,9 +1,11 @@
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
+import Battery from 'resource:///com/github/Aylur/ags/service/battery.js';
 
 import AudioControl from './modules/audio';
 import BluetoothControl from './modules/bluetooth';
-import NetworkControl from './modules/network';
 import Calendar from "./modules/calendar";
+import PowerProfiles from './modules/power-profiles';
+import NetworkControl from './modules/network';
 import ShutdownMenu from "./modules/shutdown-menu";
 import QuickSettings from "./modules/quick-settings";
 
@@ -36,6 +38,7 @@ const SidebarSettings = Widget.Window({
         children: [
             ShutdownMenu(),
             Calendar(),
+            PowerProfiles(),
             QuickSettings(),
             NetworkControl(),
             AudioControl(),

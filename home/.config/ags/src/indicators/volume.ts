@@ -36,8 +36,10 @@ const VolumeSlider = () => Widget.Slider({
         // This hook changes the volume of all streams to 50%.
         // Otherwise, lowering the volume of the speaker needs to
         // go as low as 2%, which is nasty to `handle/set up`.
-        if (Audio.speaker.name !== DYSFUNCTIONAL_OUTPUT_DEVICE)
-            Audio.apps.forEach(v => v.volume = 0.50)
+        if (Audio.speakers.map(v => v.name).includes(DYSFUNCTIONAL_OUTPUT_DEVICE)) {
+            if (Audio.speaker.name !== DYSFUNCTIONAL_OUTPUT_DEVICE)
+                Audio.apps.forEach(v => v.volume = 0.50)
+        }
     }, "stream-added");
 
 const IndicatorVolume = Widget.Window({

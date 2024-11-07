@@ -1,6 +1,7 @@
 import type { Monitor } from "types/service/hyprland";
 
 import ArchIcon from "./modules/launcher";
+import Battery from "./modules/battery";
 import ClientTitle from "./modules/client";
 import Clock from "./modules/clock";
 import NetworkIndicator from "./modules/network";
@@ -37,6 +38,7 @@ const Bar = async (monitor: Monitor) => {
                 children: [
                     SystemTray(),
                     NetworkIndicator(),
+                    Battery(),
                     Clock(),
                 ]
             })

@@ -52,9 +52,9 @@ function NetworkControl() {
                         },
                         on_secondary_click: () => { Utils.execAsync(`kitty --title float -e nmtui`) },
                         child: Widget.Icon({
-                            icon: Network.wifi.bind('icon_name'),
+                            icon: Network.wifi.icon_name.replace("symbolic", "custom-symbolic")
                         }).hook(Network, self => {
-                            self.icon_name = Network.wifi.icon_name;
+                            self.icon_name = Network.wifi.icon_name.replace("symbolic", "custom-symbolic");
                             // console.log(Network.wifi.icon_name);
                         }, "changed")
                     }),

@@ -2,6 +2,8 @@ import Network from 'resource:///com/github/Aylur/ags/service/network.js';
 import NetworkSpeed from "./../../services/network";
 
 
+// App.addIcons(`${App.configDir}/assets`)
+
 const NetworkSpeeds = () => Widget.Box({
     class_name: "speeds",
     vertical: true,
@@ -38,30 +40,37 @@ const NetworkSpeeds = () => Widget.Box({
     ]
 })
 
+function adapter_tooltip(): string {
+    return `Connectivity: \t\t ${Network.connectivity}
+IP-Address: \t\t ${Utils.exec(["bash", "-c", `nmcli | grep inet4 | head -n 1 | cut -d" " -f2 | cut -d"/" -f1`])}
+${Network.primary === "wifi" ? "Signal strength: \t " + Network.wifi.strength + " " : "Network speed: \t " + Network.wired.speed + " MBit\\s"}
+
+ Toggle Settings Sidebar  `
+}
+
 const AdapterIndicator = () => Widget.Button({
-    on_clicked: () => { App.toggleWindow("sidebar-settings"); },
+    on_clicked: () => { App.toggleWindow("SidebarSettings"); },
     child: Widget.Stack({
         class_name: "indicator",
         children: {
             wifi: Widget.Box({
                 class_name: "wifi",
-                children: [Widget.Icon({
-                    css: "color: #FF6767;",
-                    icon: Network.wifi.bind('icon_name'),
-                    size: 24
-                })],
+                child: Widget.Icon({
+                    css: "margin-left: 0.5rem;",
+                    size: 20
+                }).hook(Network, self => { self.icon_name = Network.wifi.icon_name.replace("symbolic", "custom-symbolic"); }, "changed"),
             }),
             wired: Widget.Box({
                 class_name: "wired",
                 child: Widget.Icon({
-                    css: "color: #FF6767;",
+                    css: "margin-left: 0.5rem;",
                     icon: Network.wired.bind('icon_name'),
-                    size: 20
-                }).hook(Network, self => { self.icon_name = Network.wired.icon_name }, "changed")
+                    size: 17
+                }).hook(Network, self => { self.icon_name = Network.wired.icon_name; }, "changed")
             }),
         },
-        shown: Network.bind('primary').as(p => p || 'wired'),
-    })
+        shown: Network.bind('primary').as(p => p || "wifi"),
+    }).hook(Network, self => { self.tooltip_text = adapter_tooltip() })
 })
 
 const NetworkIndicator = () => Widget.Box({

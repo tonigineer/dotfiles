@@ -156,19 +156,19 @@
 
         .speeds {
             margin-left: -0.85rem;
-            margin-top: 0.25rem;
+            margin-top: 0.2rem;
 
             min-width: 3.25rem;
 
             .value {
                 color: $foreground1;
                 font-weight: bold;
-                font-size: 10px;
+                font-size: 12px;
             }
 
             .icon {
                 color: $foreground3;
-                font-size: 9px;
+                font-size: 10px;
                 font-weight: bold;
             }
 
@@ -193,6 +193,12 @@
 
         >*:last-child {
             margin-right: 1.25rem;
+        }
+    }
+
+    .battery {
+        .label {
+            font-weight: bold;
         }
     }
 

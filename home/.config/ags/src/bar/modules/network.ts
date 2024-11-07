@@ -10,40 +10,47 @@ const NetworkSpeeds = () => Widget.Box({
     children: [
         Widget.Box({
             hpack: "end",
-            children: [Widget.Label({
-                class_name: "value",
-                label: NetworkSpeed.bind("speed")
-                    .as(speed => `${(speed.upBytes / 1024 / 1000).toFixed(1)}`),
-            }),
-            Widget.Label({
-                class_name: NetworkSpeed.bind("speed")
-                    .as(speed => speed.upBytes > 1000 ? "icon tx" : "icon"),
-                label: "",
-            }),]
+            children: [
+                // Widget.Label({
+                //     class_name: "value",
+                //     label: NetworkSpeed.bind("speed")
+                //         .as(speed => `${(speed.upBytes / 1024 / 1000).toFixed(1)}`),
+                // }),
+                Widget.Label({
+                    class_name: NetworkSpeed.bind("speed")
+                        .as(speed => speed.upBytes > 1000 ? "icon tx" : "icon"),
+                    label: "",
+                }),
+            ]
         }),
         Widget.Box({
-            css: "margin-top: -0.25rem;",  // nasty bu necessary to squeeze it
+            css: "margin-top: -0.15rem;",  // nasty bu necessary to squeeze it
             hpack: "end",
-            children: [Widget.Label({
-                class_name: "value",
-                label: NetworkSpeed.bind("speed")
-                    .as(speed => `${(speed.downBytes / 1024 / 1000).toFixed(1)}`),
-            }),
-            Widget.Label({
-                class_name: NetworkSpeed.bind("speed")
-                    .as(speed => speed.downBytes > 1000 ? "icon rx" : "icon"),
-                label: "",
+            children: [
+                // Widget.Label({
+                //     class_name: "value",
+                //     label: NetworkSpeed.bind("speed")
+                //         .as(speed => `${(speed.downBytes / 1024 / 1000).toFixed(1)}`),
+                // }),
+                Widget.Label({
+                    class_name: NetworkSpeed.bind("speed")
+                        .as(speed => speed.downBytes > 1000 ? "icon rx" : "icon"),
+                    label: "",
 
-            }),
+                }),
             ]
         }),
     ]
 })
 
 function adapter_tooltip(): string {
-    return `Connectivity: \t\t ${Network.connectivity}
-IP-Address: \t\t ${Utils.exec(["bash", "-c", `nmcli | grep inet4 | head -n 1 | cut -d" " -f2 | cut -d"/" -f1`])}
-${Network.primary === "wifi" ? "Signal strength: \t " + Network.wifi.strength + " " : "Network speed: \t " + Network.wired.speed + " MBit\\s"}
+    const down_speed = NetworkSpeed.speed.downBytes;
+    return `Connectivity \t\t ${Network.connectivity}
+IP-Address \t\t\t ${Utils.exec(["bash", "-c", `nmcli | grep inet4 | head -n 1 | cut -d" " -f2 | cut -d"/" -f1`])}
+${Network.primary === "wifi" ? "Signal strength \t " + Network.wifi.strength + " " : "Network speed \t\t " + Network.wired.speed + " MBit\\s"}
+
+Download \t\t\t ${(NetworkSpeed.speed.downBytes / 1024 / 1000).toFixed(1)} Mb
+Upload \t\t\t\t ${(NetworkSpeed.speed.upBytes / 1024 / 1000).toFixed(1)} Mb
 
  Toggle Settings Sidebar  `
 }
@@ -70,7 +77,7 @@ const AdapterIndicator = () => Widget.Button({
             }),
         },
         shown: Network.bind('primary').as(p => p || "wifi"),
-    }).hook(Network, self => { self.tooltip_text = adapter_tooltip() })
+    }).hook(NetworkSpeed, self => { self.tooltip_text = adapter_tooltip() }, "changed")
 })
 
 const NetworkIndicator = () => Widget.Box({

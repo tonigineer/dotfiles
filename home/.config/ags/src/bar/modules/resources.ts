@@ -66,7 +66,6 @@ const ResourceMonitor = () => Widget.Box({
             // child: resourceProgress(id.ram, "M"),
             child: Widget.Box({
                 children: [Widget.Icon({
-                    css: "margin-top: -0.3rem;",
                     icon: "resource-ram",
                     size: 18,
                 }),
@@ -96,28 +95,28 @@ const ResourceMonitor = () => Widget.Box({
             })
 
         }),
-        Widget.Revealer({
-            revealChild: false,
-            transitionDuration: 1000,
-            transition: 'slide_right',
-            child: Widget.Button({
-                class_name: "gpu",
-                cursor: "pointer",
-                onPrimaryClick: () => Utils.execAsync(`${TASK_MANAGER}`).catch(print),
-                // child: resourceProgress(id.gpu, "G"),
-                child: Widget.Box({
-                    children: [Widget.Icon({
-                        icon: "resource-gpu",
-                        size: 18,
-                    }),
-                    Widget.Label({
-                        label: Resources.bind("gpu")
-                            .as(v => { return ` ${Resources[id.gpu].widget_value.toFixed(0).padStart(2, "0")} ` })
-                    })
-                    ]
-                })
-            }),
-        }).hook(Resources, self => self.reveal_child = Resources.gpu.widget_value > 25)
+        // Widget.Revealer({
+        //     revealChild: false,
+        //     transitionDuration: 1000,
+        //     transition: 'slide_right',
+        //     child: Widget.Button({
+        //         class_name: "gpu",
+        //         cursor: "pointer",
+        //         onPrimaryClick: () => Utils.execAsync(`${TASK_MANAGER}`).catch(print),
+        //         // child: resourceProgress(id.gpu, "G"),
+        //         child: Widget.Box({
+        //             children: [Widget.Icon({
+        //                 icon: "resource-gpu",
+        //                 size: 18,
+        //             }),
+        //             Widget.Label({
+        //                 label: Resources.bind("gpu")
+        //                     .as(v => { return ` ${Resources[id.gpu].widget_value.toFixed(0).padStart(2, "0")} ` })
+        //             })
+        //             ]
+        //         })
+        //     }),
+        // }).hook(Resources, self => self.reveal_child = Resources.gpu.widget_value > 25)
     ]
 })
 

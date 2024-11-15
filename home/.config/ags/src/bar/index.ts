@@ -26,7 +26,7 @@ const Bar = async (monitor: Monitor) => {
                     ArchIcon(),
                     ResourceMonitor(),
                     UpdateIndicator(),
-                    ClientTitle(),
+                    // ClientTitle(),
                 ]
             }),
             center_widget: Widget.Box({

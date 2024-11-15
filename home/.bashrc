@@ -29,3 +29,5 @@ function custom_prompt {
 }
 
 PROMPT_COMMAND="custom_prompt; ${PROMPT_COMMAND}"
+
+zsh

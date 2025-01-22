@@ -11,3 +11,5 @@ home/.config/cava/shaders
 # Temporary
 assets/*
 home/.local/share/backgrounds/*
+
+.archive/

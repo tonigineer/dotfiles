@@ -1,8 +1,6 @@
-[submodule "home/.config/zsh"]
-	path = home/.config/zsh
-	url = https://github.com/tonigineer/zsh.git
-	branch = main
-[submodule "home/.config/nvim"]
-	path = home/.config/nvim
-	url = https://github.com/tonigineer/nvim.git
-	branch = main
+[submodule "zsh/.config/zsh"]
+	path = zsh/.config/zsh
+	url = https://github.com/tonigineer/zsh
+[submodule "nvim/.config/nvim"]
+	path = nvim/.config/nvim
+	url = https://github.com/tonigineer/nvim

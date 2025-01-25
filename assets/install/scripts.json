@@ -1,0 +1,116 @@
+[
+  {
+    "name": "pacman",
+    "cmds_check_install": [
+      "cat /etc/pacman.conf | grep -x ILoveCandy",
+      "cat /etc/pacman.conf | grep -x Color",
+      "grep -F '[multilib]' /etc/pacman.conf"
+    ],
+    "cmds_installation": [
+      "sudo sed -i 's/#Color/Color/g' /etc/pacman.conf",
+      "sudo sed -i 's/#ParallelDownloads = 5/ILoveCandy\nParallelDownloads = 10/g' /etc/pacman.conf",
+      "sudo sed -i '/[multilib]/,/Include/''s/^#//' /etc/pacman.conf"
+    ]
+  },
+    "name": "bash",
+  {
+    "cmds_check_install": ["[ -L ~/.bashrc ] && true || false"],
+    "cmds_installation": ["cd ~/Dotfiles", "stow -v -R -t $HOME bash"]
+  },
+  {
+    "name": "vim",
+    "cmds_check_install": ["[ -L ~/.vimrc ] && true || false"],
+    "cmds_installation": ["cd ~/Dotfiles", "stow -v -R -t $HOME vim"]
+  },
+  {
+    "name": "zsh",
+    "cmds_check_install": [
+      "yay -Qa | grep 'zsh '",
+      "[ -L ~/.zshrc ] && true || false"
+    ],
+    "cmds_installation": [
+      "yay -S zsh",
+      "cd ~/Dotfiles",
+      "stow -v -R -t $HOME zsh"
+    ]
+  },
+  {
+    "name": "Hyprland",
+    "cmds_check_install": [
+      "yay -Qa | grep 'hyprland '",
+      "yay -Qa | grep 'polkit-gnome '",
+      "yay -Qa | grep 'swaync '",
+      "[ -L ~/.config/hypr ] && true || false"
+    ],
+    "cmds_installation": [
+      "yay -S hyprland polkit-gnome swaync",
+      "cd ~/Dotfiles",
+      "stow -v -R -t $HOME hyprland"
+    ]
+  },
+  {
+    "name": "Nvidia fix",
+    "cmds_check_install": [
+      "yay -Qa | grep nvidia",
+      "yay -Qa | grep nvidia-utils",
+      "yay -Qa | grep lib32-nvidia-utils",
+      "grep -F 'options nvidia_drm modeset=1 fbdev=1' /etc/modprobe.d/nvidia.conf",
+      "grep -F 'nvidia nvidia_modeset nvidia_uvm nvidia_drm' /etc/mkinitcpio.conf"
+    ],
+    "cmds_installation": [
+      "sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils egl-wayland",
+      "echo 'options nvidia_drm modeset=1 fbdev=1' > /etc/modprobe.d/nvidia.conf",
+      "sudo sed -i '/MODULES=(/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm/' /etc/mkinitcpio.conf",
+      "sudo mkinitcpio -P"
+    ]
+  },
+  {
+    "name": "Hyprpaper",
+    "cmds_check_install": ["yay -Qa | grep 'hyprpaper '"],
+    "cmds_installation": ["yay -S hyprpaper"]
+  },
+  {
+    "name": "Full theme",
+    "cmds_check_install": ["yay -Qa | grep 'rose-pine-cursor '", "yay -Qa | grep 'rose-pine-hyprcursor '"],
+    "cmds_installation": [
+        "yay -S gnome-shell",
+        "yay -S hyprcursor rose-pine-cursor rose-pine-hyprcursor",
+        "yay -S candy-icons tokyonight-gtk-theme-git",
+        "$HOME/.config/hypr/theme.sh Tokyonight-Dark candy-icons BreezeX-RosePine-Linux 32 'CaskaydiaCove Nerd Font 10'"
+    ]
+  },
+  {
+    "name": "Kitty",
+    "cmds_check_install": [
+      "yay -Qa | grep 'kitty '",
+      "[ -L ~/.config/kitty/kitty.conf ] && true || false"
+    ],
+    "cmds_installation": [
+      "yay -S kitty",
+      "cd ~/Dotfiles",
+      "stow -v -R -t $HOME kitty"
+    ]
+  },
+  {
+    "name": "Neovim",
+    "cmds_check_install": [
+      "yay -Qa | grep 'neovim '",
+      "[ -L ~/.config/nvim ] && true || false"
+    ],
+    "cmds_installation": [
+      "yay -S neovim npm wl-clipboard luarocks lua51 python-pip python-pynvim ripgrep fd",
+      "cd ~/Dotfiles",
+      "stow -v -R -t $HOME nvim"
+    ]
+  },
+  {
+    "name": "Librewolf",
+    "cmds_check_install": ["yay -Qa | grep 'librewolf-bin '"],
+    "cmds_installation": ["yay -S librewolf-bin"]
+  },
+  {
+    "name": "Steam",
+    "cmds_check_install": ["yay -Qa | grep 'steam '"],
+    "cmds_installation": ["yay -S steam"]
+  }
+]

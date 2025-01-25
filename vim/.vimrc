@@ -23,3 +23,10 @@ inoremap <silent> <C-S> <C-O>:update<CR>
 nnoremap <C-Z> u
 nnoremap <C-Y> <C-R>
 
+" In NORMAL mode: move the current line up/down
+nnoremap <S-j> :m .+1<CR>==
+nnoremap <S-k> :m .-2<CR>==
+
+" In VISUAL mode: move the selected block up/down
+xnoremap <S-j> :m '>+1<CR>gv=gv
+xnoremap <S-k> :m '<-2<CR>gv=gv

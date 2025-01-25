@@ -1,15 +1,13 @@
 # Files
-home/.local/bin/hyprls
+
 
 # Extensions
 *.log
 
 # Folder
-.vscode
-home/.config/cava/shaders
+target/
+
 
 # Temporary
-assets/*
-home/.local/share/backgrounds/*
 
-.archive/
+

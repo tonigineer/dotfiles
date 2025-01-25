@@ -30,4 +30,4 @@ function custom_prompt {
 
 PROMPT_COMMAND="custom_prompt; ${PROMPT_COMMAND}"
 
-zsh
+command -v zsh&>/dev/null && zsh

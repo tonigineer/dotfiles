@@ -1,0 +1,40 @@
+window.BottomBar {
+    border: none;
+    box-shadow: none;
+    background-color: $--color-bg;
+    color: $--color-text;
+
+    border-bottom: 1.5px solid black;
+    // > * {
+    //     padding-top: $--padding-base;
+    //     padding-bottom: $--padding-base / 2;
+    // }
+    //
+    // // Left and right edge
+    // > * {
+    //     margin-left: $--spacing-base;
+    // }
+    // > *:last-child {
+    //     margin-right: $--spacing-base;
+    // }
+    //
+    // // Within start, center, end
+    // > * > * > * {
+    //     margin-right: $--spacing-base * 1.5;
+    // }
+    // > * > * > *:last-child {
+    //     margin-right: 0rem;
+    // }
+
+    .NetworkSpeed {
+        font-size: 22px;
+    }
+
+    .full {
+        background-color: red;
+    }
+
+    .minor {
+        background-color: yellow;
+    }
+}

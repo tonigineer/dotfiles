@@ -1,0 +1,23 @@
+.Workspaces {
+    > button {
+        min-width: 16px;
+        padding-left: 0.35rem;
+        padding-right: 0.35rem;
+        transition: all 0.75s cubic-bezier(0.5, 0.25, 0, 1);
+
+        border-bottom: 2px solid transparent;
+    }
+}
+
+.Workspaces > button:hover {
+    border-bottom-left-radius: $--border-radius;
+    border-bottom-right-radius: $--border-radius;
+    border-bottom: 0.15rem solid $--color-error;
+}
+
+.Workspaces > button.focused {
+    min-width: 16px;
+    border-bottom-left-radius: $--border-radius;
+    border-bottom-right-radius: $--border-radius;
+    border-bottom: 0.15rem solid $--color-primary;
+}

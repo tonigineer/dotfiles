@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+SCREEN_DIR=~/Pictures/Screenshots/
+VID_DIR=~/Videos/Recordings/
+
+if [ ! -d "$SCREEN_DIR" ]; then
+	mkdir $SCREEN_DIR
+fi
+
+if [ ! -d "$VID_DIR" ]; then
+	mkdir $VID_DIR
+fi
+
+case $1 in
+--image)
+	# Equivalent to hyprshot -m region -z -o ~/Pictures/Screenshots
+	# See ~/.config/hypr/hyprland.conf for more modes
+	grim -g "$(slurp)" - | magick - -shave 1x1 PNG:- | wl-copy
+	wl-paste >"$SCREEN_DIR$(date +'Screenshot_%Y-%m-%d_%H-%M-%S.png')"
+	wl-paste | swappy -f -
+	;;
+--video)
+	# https://github.com/ammen99/wf-recorder
+
+	if ! pgrep -x "wf-recorder" >/dev/null; then
+		wf-recorder -g "$(slurp)" --file="$VID_DIR$(date +'Recording_%Y-%m-%d_%H-%M-%S.mkv')"
+	else
+		killall -s SIGINT wf-recorder
+		# sleep 2.0
+		# ls -t "$VID_DIR*.mkv" | tail -1 - | mpv --playlist=-
+	fi
+	;;
+esac

@@ -12,10 +12,22 @@
       "sudo sed -i '/[multilib]/,/Include/''s/^#//' /etc/pacman.conf"
     ]
   },
-    "name": "bash",
   {
-    "cmds_check_install": ["[ -L ~/.bashrc ] && true || false"],
-    "cmds_installation": ["cd ~/Dotfiles", "stow -v -R -t $HOME bash"]
+    "name": "bash",
+    "cmds_check_install": [
+      "yay -Qa | grep 'cmatrix-git '",
+      "yay -Qa | grep 'tty-clock '",
+      "[ -L ~/.bashrc ] && true || false"
+    ],
+    "cmds_installation": [
+      "yay -S cmatrix-git tty-clock",
+      "cd $HOME/Dotfiles && stow -v -R -t $HOME bash"
+    ]
+  },
+  {
+    "name": "user-dirs",
+    "cmds_check_install": ["[ -d ~/Pictures ] && true || false"],
+    "cmds_installation": ["yay -S xdg-user-dirs", "xdg-user-dirs-update"]
   },
   {
     "name": "vim",
@@ -30,8 +42,7 @@
     ],
     "cmds_installation": [
       "yay -S zsh",
-      "cd ~/Dotfiles",
-      "stow -v -R -t $HOME zsh"
+      "cd $HOME/Dotfiles && stow -v -R -t $HOME zsh"
     ]
   },
   {
@@ -43,9 +54,8 @@
       "[ -L ~/.config/hypr ] && true || false"
     ],
     "cmds_installation": [
-      "yay -S hyprland polkit-gnome swaync",
-      "cd ~/Dotfiles",
-      "stow -v -R -t $HOME hyprland"
+      "yay -S hyprland polkit-gnome swaync jq brightnessctl",
+      "cd $HOME/Dotfiles && stow -v -R -t $HOME hyprland"
     ]
   },
   {
@@ -70,13 +80,24 @@
     "cmds_installation": ["yay -S hyprpaper"]
   },
   {
+    "name": "Hypr ECO-Sys",
+    "cmds_check_install": [
+      "yay -Qa | grep 'hypridle '",
+      "yay -Qa | grep 'hyprlock '"
+    ],
+    "cmds_installation": ["yay -S hypridle hyprlock"]
+  },
+  {
     "name": "Full theme",
-    "cmds_check_install": ["yay -Qa | grep 'rose-pine-cursor '", "yay -Qa | grep 'rose-pine-hyprcursor '"],
+    "cmds_check_install": [
+      "yay -Qa | grep 'rose-pine-cursor '",
+      "yay -Qa | grep 'rose-pine-hyprcursor '"
+    ],
     "cmds_installation": [
-        "yay -S gnome-shell",
-        "yay -S hyprcursor rose-pine-cursor rose-pine-hyprcursor",
-        "yay -S candy-icons tokyonight-gtk-theme-git",
-        "$HOME/.config/hypr/theme.sh Tokyonight-Dark candy-icons BreezeX-RosePine-Linux 32 'CaskaydiaCove Nerd Font 10'"
+      "yay -S gnome-shell",
+      "yay -S hyprcursor rose-pine-cursor rose-pine-hyprcursor",
+      "yay -S candy-icons tokyonight-gtk-theme-git",
+      "$HOME/.config/hypr/theme.sh Tokyonight-Dark candy-icons BreezeX-RosePine-Linux 32 'CaskaydiaCove Nerd Font 10'"
     ]
   },
   {
@@ -87,8 +108,7 @@
     ],
     "cmds_installation": [
       "yay -S kitty",
-      "cd ~/Dotfiles",
-      "stow -v -R -t $HOME kitty"
+      "cd $HOME/Dotfiles && stow -v -R -t $HOME kitty"
     ]
   },
   {
@@ -99,8 +119,7 @@
     ],
     "cmds_installation": [
       "yay -S neovim npm wl-clipboard luarocks lua51 python-pip python-pynvim ripgrep fd",
-      "cd ~/Dotfiles",
-      "stow -v -R -t $HOME nvim"
+      "scd $HOME/Dotfiles && stow -v -R -t $HOME nvim"
     ]
   },
   {
@@ -109,8 +128,79 @@
     "cmds_installation": ["yay -S librewolf-bin"]
   },
   {
+    "name": "Audio+BT",
+    "cmds_check_install": [
+      "yay -Qa | grep 'bluez '",
+      "yay -Qa | grep 'pipewire '",
+      "systemctl status bluetooth.service | grep Running"
+    ],
+    "cmds_installation": [
+      "yay -S bluez bluez-utils",
+      "sudo systemctl enable bluetooth.service",
+      "sudo systemctl start bluetooth.service",
+      "yay -S pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack pipewire-audio pavucontrol playerctl"
+    ]
+  },
+
+  {
+    "name": "btop",
+    "cmds_check_install": [
+      "yay -Qa | grep 'btop '",
+      "[ -L ~/.config/btop ] && true || false"
+    ],
+    "cmds_installation": [
+      "yay -S btop",
+      "cd $HOME/Dotfiles && stow -v -R -t $HOME btop"
+    ]
+  },
+  {
+    "name": "cava",
+    "cmds_check_install": [
+      "yay -Qa | grep 'cava '",
+      "[ -L ~/.config/cava ] && true || false"
+    ],
+    "cmds_installation": [
+      "yay -S cava",
+      "cd $HOME/Dotfiles && stow -v -R -t $HOME cava"
+    ]
+  },
+  {
+    "name": "fastfetch",
+    "cmds_check_install": [
+      "yay -Qa | grep 'fastfetch '",
+      "[ -L ~/.config/fastfetch ] && true || false"
+    ],
+    "cmds_installation": [
+      "yay -S fastfetch",
+      "cd $HOME/Dotfiles && stow -v -R -t $HOME fastfetch"
+    ]
+  },
+  {
+    "name": "mpv",
+    "cmds_check_install": [
+      "yay -Qa | grep 'mpv '",
+      "[ -L ~/.config/mpv ] && true || false"
+    ],
+    "cmds_installation": [
+      "yay -S mpv",
+      "cd $HOME/Dotfiles && stow -v -R -t $HOME mpv"
+    ]
+  },
+  {
     "name": "Steam",
     "cmds_check_install": ["yay -Qa | grep 'steam '"],
     "cmds_installation": ["yay -S steam"]
+  },
+  {
+    "name": "Capturing",
+    "cmds_check_install": ["yay -Qa | grep 'hyprshot '"],
+    "cmds_installation": [
+      "yay -S hyprshot grim slurp wf-recorder swappy wl-clipboard imagemagick"
+    ]
+  },
+  {
+    "name": "AGS",
+    "cmds_check_install": ["yay -Qa | grep 'aylurs-gtk-shell '"],
+    "cmds_installation": ["yay -S aylurs-gtk-shell", "ags init --gtk 4"]
   }
 ]

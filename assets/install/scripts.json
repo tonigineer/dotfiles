@@ -1,6 +1,9 @@
 [
   {
     "name": "pacman",
+    "category": "base",
+    "packages": [],
+    "configs": [],
     "cmds_check_install": [
       "cat /etc/pacman.conf | grep -x ILoveCandy",
       "cat /etc/pacman.conf | grep -x Color",
@@ -14,56 +17,163 @@
   },
   {
     "name": "bash",
+    "category": "base",
+    "packages": [
+      "cmatrix",
+      "tty-clock",
+      "eza",
+      "ttf-jetbrains-mono-nerd",
+      "ttf-cascadia-code-nerd",
+      "monaspace-font",
+      "tar",
+      "curl",
+      "zip",
+      "unzip",
+      "wget",
+      "curl",
+      "terminus-font"
+    ],
+    "configs": [
+      "bash"
+    ],
     "cmds_check_install": [
-      "yay -Qa | grep 'cmatrix-git '",
-      "yay -Qa | grep 'tty-clock '",
       "[ -L ~/.bashrc ] && true || false"
     ],
     "cmds_installation": [
-      "yay -S cmatrix-git tty-clock",
-      "cd $HOME/Dotfiles && stow -v -R -t $HOME bash"
+      "fc-cache -v"
     ]
   },
   {
-    "name": "user-dirs",
-    "cmds_check_install": ["[ -d ~/Pictures ] && true || false"],
-    "cmds_installation": ["yay -S xdg-user-dirs", "xdg-user-dirs-update"]
-  },
-  {
     "name": "vim",
-    "cmds_check_install": ["[ -L ~/.vimrc ] && true || false"],
-    "cmds_installation": ["cd ~/Dotfiles", "stow -v -R -t $HOME vim"]
+    "category": "base",
+    "packages": [
+      "vim"
+    ],
+    "configs": [
+      "vim"
+    ],
+    "cmds_check_install": [
+      "[ -L ~/.vimrc ] && true || false",
+      "[ -L /home/root/.vimrc ] && true || false"
+    ],
+    "cmds_installation": [
+      "sudo ln -s ~/.vimrc /home/root/.vimrc"
+    ]
   },
   {
     "name": "zsh",
+    "category": "base",
+    "packages": [
+      "zsh",
+      "ttf-jetbrains-mono-nerd",
+      "ttf-cascadia-code-nerd",
+      "monaspace-font"
+    ],
+    "configs": [
+      "zsh"
+    ],
     "cmds_check_install": [
-      "yay -Qa | grep 'zsh '",
-      "[ -L ~/.zshrc ] && true || false"
+      "[ -L ~/.zshrc ] && true || false",
+      "[ -L ~/.config/zsh ] && true || false"
+    ],
+    "cmds_installation": []
+  },
+  {
+    "name": "Audio",
+    "category": "base",
+    "packages": [
+      "pipewire",
+      "wireplumber",
+      "pipewire-audio",
+      "pipewire-alsa",
+      "pipewire-pulse",
+      "pipewire-jack",
+      "pavucontrol",
+      "playerctl"
+    ],
+    "configs": [],
+    "cmds_check_install": [],
+    "cmds_installation": []
+  },
+  {
+    "name": "Bluetooth",
+    "category": "base",
+    "packages": [
+      "bluez",
+      "bluez-utils"
+    ],
+    "configs": [],
+    "cmds_check_install": [
+      "systemctl status bluetooth.service | grep Running"
     ],
     "cmds_installation": [
-      "yay -S zsh",
-      "cd $HOME/Dotfiles && stow -v -R -t $HOME zsh"
+      "sudo systemctl enable bluetooth.service",
+      "sudo systemctl start bluetooth.service"
     ]
   },
   {
     "name": "Hyprland",
+    "category": "hypr",
+    "packages": [
+      "hyprland",
+      "hyprpaper",
+      "hypridle",
+      "hyprlock",
+      "xdg-desktop-portal",
+      "xdg-desktop-portal-hyprland",
+      "qt5ct",
+      "qt5-wayland",
+      "qt6ct",
+      "qt6-wayland",
+      "archlinux-xdg-menu",
+      "monaspace-font",
+      "swaync",
+      "polkit-gnome",
+      "brightnessctl",
+      "libdbusmenu-gtk3",
+      "socat",
+      "jq",
+      "iwd"
+    ],
+    "configs": [
+      "hypr",
+      "swaync"
+    ],
     "cmds_check_install": [
-      "yay -Qa | grep 'hyprland '",
-      "yay -Qa | grep 'polkit-gnome '",
-      "yay -Qa | grep 'swaync '",
-      "[ -L ~/.config/hypr ] && true || false"
+      "fc-list | grep Monaspace",
+      "[ -L ~/.config/hypr ] && true || false",
+      "[ -L ~/.config/swaync ] && true || false"
     ],
     "cmds_installation": [
-      "yay -S hyprland polkit-gnome swaync jq brightnessctl",
-      "cd $HOME/Dotfiles && stow -v -R -t $HOME hyprland"
+      "fc-cache -v"
     ]
   },
   {
-    "name": "Nvidia fix",
+    "name": "Hyprland Theming",
+    "category": "hypr",
+    "packages": [
+      "tela-icon-theme",
+      "rose-pine-cursor",
+      "rose-pine-hyprcursor",
+      "gtk-theme-material-black",
+      "ttf-cascadia-code-nerd"
+    ],
+    "configs": [],
+    "cmds_check_install": [],
+    "cmds_installation": [
+      "$HOME/.config/hypr/scripts/theme.sh Material-Black-Cherry Adwaita BreezeX-RosePine-Linux 32 'CaskaydiaCove Nerd Font 10'"
+    ]
+  },
+  {
+    "name": "Hyprland Nvidia",
+    "category": "hypr",
+    "packages": [
+      "nvidia",
+      "nvidia-utils",
+      "lib32-nvidia-utils"
+    ],
+    "configs": [],
     "cmds_check_install": [
-      "yay -Qa | grep nvidia",
-      "yay -Qa | grep nvidia-utils",
-      "yay -Qa | grep lib32-nvidia-utils",
       "grep -F 'options nvidia_drm modeset=1 fbdev=1' /etc/modprobe.d/nvidia.conf",
       "grep -F 'nvidia nvidia_modeset nvidia_uvm nvidia_drm' /etc/mkinitcpio.conf"
     ],
@@ -75,132 +185,140 @@
     ]
   },
   {
-    "name": "Hyprpaper",
-    "cmds_check_install": ["yay -Qa | grep 'hyprpaper '"],
-    "cmds_installation": ["yay -S hyprpaper"]
-  },
-  {
-    "name": "Hypr ECO-Sys",
-    "cmds_check_install": [
-      "yay -Qa | grep 'hypridle '",
-      "yay -Qa | grep 'hyprlock '"
-    ],
-    "cmds_installation": ["yay -S hypridle hyprlock"]
-  },
-  {
-    "name": "Full theme",
-    "cmds_check_install": [
-      "yay -Qa | grep 'rose-pine-cursor '",
-      "yay -Qa | grep 'rose-pine-hyprcursor '"
-    ],
-    "cmds_installation": [
-      "yay -S gnome-shell",
-      "yay -S hyprcursor rose-pine-cursor rose-pine-hyprcursor",
-      "yay -S candy-icons tokyonight-gtk-theme-git",
-      "$HOME/.config/hypr/theme.sh Tokyonight-Dark candy-icons BreezeX-RosePine-Linux 32 'CaskaydiaCove Nerd Font 10'"
-    ]
-  },
-  {
     "name": "Kitty",
+    "category": "hypr",
+    "packages": [
+      "kitty",
+      "monaspace-font",
+      "lazygit",
+      "yazi"
+    ],
+    "configs": [
+      "kitty",
+      "yazi"
+    ],
     "cmds_check_install": [
-      "yay -Qa | grep 'kitty '",
+      "[ -L ~/.config/yazi ] && true || false",
       "[ -L ~/.config/kitty/kitty.conf ] && true || false"
     ],
     "cmds_installation": [
-      "yay -S kitty",
-      "cd $HOME/Dotfiles && stow -v -R -t $HOME kitty"
+      "fc-cache -v"
     ]
   },
   {
+    "name": "Aylurs GTK Shell",
+    "category": "hypr",
+    "packages": [
+      "aylurs-gtk-shell-git"
+    ],
+    "configs": [
+      "ags"
+    ],
+    "cmds_check_install": [],
+    "cmds_installation": []
+  },
+  {
     "name": "Neovim",
+    "category": "tool",
+    "packages": [
+      "neovim",
+      "wl-clipboard",
+      "npm",
+      "luarocks",
+      "lua51",
+      "python-pip",
+      "python-pynvim",
+      "ripgrep",
+      "fd",
+      "wget",
+      "go",
+      "lazygit"
+    ],
+    "configs": [
+      "nvim"
+    ],
     "cmds_check_install": [
-      "yay -Qa | grep 'neovim '",
       "[ -L ~/.config/nvim ] && true || false"
     ],
     "cmds_installation": [
-      "yay -S neovim npm wl-clipboard luarocks lua51 python-pip python-pynvim ripgrep fd",
-      "scd $HOME/Dotfiles && stow -v -R -t $HOME nvim"
+      "sudo npm install -g tree-sitter-cli"
     ]
   },
   {
     "name": "Librewolf",
-    "cmds_check_install": ["yay -Qa | grep 'librewolf-bin '"],
-    "cmds_installation": ["yay -S librewolf-bin"]
-  },
-  {
-    "name": "Audio+BT",
-    "cmds_check_install": [
-      "yay -Qa | grep 'bluez '",
-      "yay -Qa | grep 'pipewire '",
-      "systemctl status bluetooth.service | grep Running"
+    "category": "tool",
+    "packages": [
+      "librewolf-bin"
     ],
-    "cmds_installation": [
-      "yay -S bluez bluez-utils",
-      "sudo systemctl enable bluetooth.service",
-      "sudo systemctl start bluetooth.service",
-      "yay -S pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack pipewire-audio pavucontrol playerctl"
-    ]
+    "configs": [],
+    "cmds_check_install": [],
+    "cmds_installation": []
   },
-
   {
-    "name": "btop",
-    "cmds_check_install": [
-      "yay -Qa | grep 'btop '",
-      "[ -L ~/.config/btop ] && true || false"
+    "name": "CLI Tools",
+    "category": "util",
+    "packages": [
+      "btop",
+      "cava",
+      "fastfetch"
     ],
-    "cmds_installation": [
-      "yay -S btop",
-      "cd $HOME/Dotfiles && stow -v -R -t $HOME btop"
-    ]
-  },
-  {
-    "name": "cava",
-    "cmds_check_install": [
-      "yay -Qa | grep 'cava '",
-      "[ -L ~/.config/cava ] && true || false"
+    "configs": [
+      "btop",
+      "cava",
+      "fastfetch"
     ],
-    "cmds_installation": [
-      "yay -S cava",
-      "cd $HOME/Dotfiles && stow -v -R -t $HOME cava"
-    ]
-  },
-  {
-    "name": "fastfetch",
     "cmds_check_install": [
-      "yay -Qa | grep 'fastfetch '",
+      "[ -L ~/.config/btop ] && true || false",
+      "[ -L ~/.config/cava ] && true || false",
       "[ -L ~/.config/fastfetch ] && true || false"
     ],
-    "cmds_installation": [
-      "yay -S fastfetch",
-      "cd $HOME/Dotfiles && stow -v -R -t $HOME fastfetch"
-    ]
+    "cmds_installation": []
   },
   {
-    "name": "mpv",
+    "name": "mpv Youtube Player",
+    "category": "util",
+    "packages": [
+      "mpv",
+      "yt-dlp"
+    ],
+    "configs": [
+      "mpv"
+    ],
     "cmds_check_install": [
-      "yay -Qa | grep 'mpv '",
       "[ -L ~/.config/mpv ] && true || false"
     ],
-    "cmds_installation": [
-      "yay -S mpv",
-      "cd $HOME/Dotfiles && stow -v -R -t $HOME mpv"
-    ]
+    "cmds_installation": []
   },
   {
-    "name": "Steam",
-    "cmds_check_install": ["yay -Qa | grep 'steam '"],
-    "cmds_installation": ["yay -S steam"]
-  },
-  {
-    "name": "Capturing",
-    "cmds_check_install": ["yay -Qa | grep 'hyprshot '"],
+    "name": "Image/Video Capture",
+    "category": "util",
+    "packages": [],
+    "configs": [],
+    "cmds_check_install": [
+      "yay -Qa | grep 'hyprshot '"
+    ],
     "cmds_installation": [
       "yay -S hyprshot grim slurp wf-recorder swappy wl-clipboard imagemagick"
     ]
   },
   {
-    "name": "AGS",
-    "cmds_check_install": ["yay -Qa | grep 'aylurs-gtk-shell '"],
-    "cmds_installation": ["yay -S aylurs-gtk-shell", "ags init --gtk 4"]
+    "name": "Steam",
+    "category": "game",
+    "packages": [
+      "steam",
+      "mangohud",
+      "lib32-fontconfig",
+      "ttf-liberation",
+      "wqz-zenhei"
+    ],
+    "configs": [
+      "Mangohud"
+    ],
+    "cmds_check_install": [
+      "[ -L ~/.config/Mangohud ] && true || false"
+    ],
+    "cmds_installation": [
+      "fc-cache -v"
+    ]
   }
 ]

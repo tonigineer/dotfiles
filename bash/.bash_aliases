@@ -10,6 +10,7 @@ if command -v eza &>/dev/null; then
     alias la="eza -a --grid --color=auto --icons"
     alias ll="eza -l --icons --no-user --group-directories-first  --time-style long-iso -T -L2"
     alias lla="eza -la --icons --no-user --group-directories-first  --time-style long-iso -T -L2"
+    alias llt="eza -la --icons --no-user --group-directories-first  --time-style long-iso -T -L4"
 fi
 
 # Program
@@ -55,4 +56,6 @@ alias .3='cd ../../..'
 alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
-alias mkdir='mkdir -p'
+alias mkdir="mkdir -p"
+
+alias hypr="$HOME/.local/bin/hyprland"

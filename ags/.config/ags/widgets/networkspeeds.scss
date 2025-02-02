@@ -1,0 +1,40 @@
+.NetworkSpeeds {
+    .label {
+        color: $--color-text;
+    }
+
+    .down-val-on {
+        padding-top: 2px;
+        font-size: 14px;
+        color: $--color-success;
+    }
+
+    .up-val-on {
+        padding-top: 2px;
+        font-size: 14px;
+        color: $--color-error;
+    }
+
+    .down-val,
+    .up-val {
+        padding-top: 2px;
+        font-size: 14px;
+        color: $--color-bg-accent;
+    }
+
+    .down-icon-on {
+        font-size: 14px;
+        color: $--color-success;
+    }
+    .up-icon-on {
+        font-size: 14px;
+        color: $--color-error;
+    }
+
+    // Group normal values
+    .down-icon,
+    .up-icon {
+        font-size: 14px;
+        color: $--color-bg-accent;
+    }
+}

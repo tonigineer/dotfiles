@@ -1,40 +1,80 @@
+// @import "./../../widgets/networkspeeds.scss";
+// @import "./../../widgets/updates.scss";
+
+$--font-size-bottom: 14px;
+
 window.BottomBar {
     border: none;
     box-shadow: none;
     background-color: $--color-bg;
     color: $--color-text;
-
     border-bottom: 1.5px solid black;
-    // > * {
-    //     padding-top: $--padding-base;
-    //     padding-bottom: $--padding-base / 2;
-    // }
-    //
-    // // Left and right edge
-    // > * {
-    //     margin-left: $--spacing-base;
-    // }
-    // > *:last-child {
-    //     margin-right: $--spacing-base;
-    // }
-    //
-    // // Within start, center, end
-    // > * > * > * {
-    //     margin-right: $--spacing-base * 1.5;
-    // }
-    // > * > * > *:last-child {
-    //     margin-right: 0rem;
-    // }
 
-    .NetworkSpeed {
-        font-size: 22px;
+    .NetworkSpeeds {
+        .label {
+            color: $--color-text;
+        }
+
+        .down-val-on {
+            padding-top: 2px;
+            font-size: $--font-size-bottom;
+            color: $--color-success;
+        }
+
+        .up-val-on {
+            padding-top: 2px;
+            font-size: $--font-size-bottom;
+            color: $--color-error;
+        }
+
+        .down-val,
+        .up-val {
+            padding-top: 2px;
+            font-size: $--font-size-bottom;
+            color: $--color-bg-accent;
+        }
+
+        .down-icon-on {
+            font-size: $--font-size-bottom;
+            color: $--color-success;
+        }
+        .up-icon-on {
+            font-size: $--font-size-bottom;
+            color: $--color-error;
+        }
+
+        // Group normal values
+        .down-icon,
+        .up-icon {
+            font-size: $--font-size-bottom;
+            color: $--color-bg-accent;
+        }
     }
 
-    .full {
-        background-color: red;
-    }
+    .Updates {
+        > * {
+            margin-right: 1rem;
+        }
 
-    .minor {
-        background-color: yellow;
+        .icon {
+            // font-size: 12px;
+            // background-color: blue;
+            font-size: $--font-size-bottom;
+        }
+        .value {
+            font-size: $--font-size-bottom;
+            // font-size: 12px;
+            // background-color: red;
+        }
+    }
+    .SystemStats {
+        > * {
+            margin-right: 2rem;
+        }
+
+        .icon {
+        }
+        .value {
+        }
     }
 }

@@ -6,6 +6,9 @@ use std::process::{Command, Stdio};
 #[derive(Debug, Deserialize)]
 struct Script {
     name: String,
+    category: String,
+    packages: Vec<String>,
+    configs: Vec<String>,
     cmds_check_install: Vec<String>,
     cmds_installation: Vec<String>,
 
@@ -16,20 +19,54 @@ struct Script {
 impl Script {
     fn item_string(&self) -> String {
         match self.is_installed {
-            true => format!("{:15} \t \x1b[0m[\x1b[32mInstalled\x1b[0m]", self.name),
-            false => format!("{} ", self.name),
+            true => format!(
+                "{:15} \t [{}] \x1b[0m[\x1b[32mInstalled\x1b[0m]",
+                self.name, self.category
+            ),
+            false => format!("{:15} \t [{}]", self.name, self.category),
         }
     }
 }
 
 fn update_scripts(scripts: &mut Vec<Script>) {
     for script in scripts {
+        script.is_installed = match Command::new("sh")
+            .arg("-c")
+            .arg(format!("yay -Q {}", script.packages.join(" ")))
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .status()
+        {
+            Ok(status) => status.success(),
+            Err(_) => false,
+        };
+
+        if !script.is_installed {
+            continue;
+        }
+
         script.is_installed = script.cmds_check_install.iter().all(|cmd| {
             match Command::new("sh")
                 .arg("-c")
                 .arg(cmd)
                 .stdout(Stdio::null())
-                // .stderr(Stdio::null())
+                .stderr(Stdio::null())
+                .status()
+            {
+                Ok(status) => status.success(),
+                Err(_) => false,
+            }
+        });
+
+        if !script.is_installed {
+            continue;
+        }
+        script.is_installed = script.cmds_check_install.iter().all(|cmd| {
+            match Command::new("sh")
+                .arg("-c")
+                .arg(cmd)
+                .stdout(Stdio::null())
+                .stderr(Stdio::null())
                 .status()
             {
                 Ok(status) => status.success(),
@@ -64,15 +101,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .interact()
             .unwrap();
 
-        // let mut work = Vec::new();
-        //
-        // for item in selection.iter() {
-        //     let script = &scripts[*item];
-        //     if !script.is_installed {
-        //         work.push(script);
-        //     }
-        // }
-
         let work = selection
             .iter()
             .map(|&idx| &scripts[idx])
@@ -85,17 +113,44 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         for job in work.iter() {
             println!("Running installation for {}", job.name);
-            job.cmds_installation.iter().all(|cmd| {
+
+            if !job.packages.is_empty() {
+                println!("  installing packages ");
                 match Command::new("sh")
                     .arg("-c")
-                    .arg(cmd)
-                    // .stdout(Stdio::null())
+                    .arg(format!("yay -S {}", job.packages.join(" ")))
                     .status()
                 {
                     Ok(status) => status.success(),
                     Err(_) => panic!(),
-                }
-            });
+                };
+            };
+
+            if !job.configs.is_empty() {
+                match Command::new("sh")
+                    .arg("-c")
+                    .arg("cd $HOME/Dotfiles & ")
+                    .arg(format!("stow -v -R -t $HOME {}", job.configs.join(" ")))
+                    .status()
+                {
+                    Ok(status) => status.success(),
+                    Err(_) => panic!(),
+                };
+            };
+
+            if !job.cmds_installation.is_empty() {
+                job.cmds_installation.iter().all(|cmd| {
+                    match Command::new("sh")
+                        .arg("-c")
+                        .arg(cmd)
+                        // .stdout(Stdio::null())
+                        .status()
+                    {
+                        Ok(status) => status.success(),
+                        Err(_) => panic!(),
+                    }
+                });
+            }
         }
     }
 

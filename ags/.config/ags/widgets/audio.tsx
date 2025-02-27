@@ -22,13 +22,6 @@ export default function Audio() {
                     visibility_toggle.set(true);
                     hook_count++;
                     timeout(2000, () => { hook_count--; if (hook_count === 0) { visibility_toggle.set(false) } });
-
-                    // NOTE: Workaround for my Razor speaker! Fucking annoying :(
-                    execAsync([
-                        "bash",
-                        "-c",
-                        String.raw`pactl list sink-inputs | grep -oP '(?<=Sink Input #)\d+' | xargs -I{} pactl set-sink-input-volume {} ${speaker.volume * 100}%`
-                    ]);
                 });
             }}
             transitionType={Gtk.RevealerTransitionType.SLIDE_LEFT}

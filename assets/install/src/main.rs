@@ -9,8 +9,9 @@ struct Script {
     category: String,
     packages: Vec<String>,
     configs: Vec<String>,
-    cmds_check_install: Vec<String>,
-    cmds_installation: Vec<String>,
+    checks: Vec<String>,
+    prior_install: Vec<String>,
+    post_install: Vec<String>,
 
     #[serde(default)]
     is_installed: bool,
@@ -45,23 +46,7 @@ fn update_scripts(scripts: &mut Vec<Script>) {
             continue;
         }
 
-        script.is_installed = script.cmds_check_install.iter().all(|cmd| {
-            match Command::new("sh")
-                .arg("-c")
-                .arg(cmd)
-                .stdout(Stdio::null())
-                .stderr(Stdio::null())
-                .status()
-            {
-                Ok(status) => status.success(),
-                Err(_) => false,
-            }
-        });
-
-        if !script.is_installed {
-            continue;
-        }
-        script.is_installed = script.cmds_check_install.iter().all(|cmd| {
+        script.is_installed = script.checks.iter().all(|cmd| {
             match Command::new("sh")
                 .arg("-c")
                 .arg(cmd)
@@ -112,10 +97,38 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         for job in work.iter() {
-            println!("Running installation for {}", job.name);
+            println!("Running installation for \x1b[33m{}\x1b[0m", job.name);
+
+            println!("\x1b[31m>\x1b[0m (1/4) Prior install commands ...");
+            job.prior_install.iter().all(|cmd| {
+                match Command::new("sh")
+                    .arg("-c")
+                    .arg(cmd)
+                    // .stdout(Stdio::null())
+                    .status()
+                {
+                    Ok(status) => status.success(),
+                    Err(_) => panic!(),
+                }
+            });
+
+            println!("\x1b[31m>\x1b[0m (2/4) Linking configs ... \x1b[0m");
+            if !job.configs.is_empty() {
+                match Command::new("sh")
+                    .arg("-c")
+                    .arg(format!(
+                        "cd $HOME/Dotfiles; stow -v -R -t $HOME {}",
+                        job.configs.join(" ")
+                    ))
+                    .status()
+                {
+                    Ok(status) => status.success(),
+                    Err(_) => panic!(),
+                };
+            };
 
             if !job.packages.is_empty() {
-                println!("  installing packages ");
+                println!("\x1b[31m>\x1b[0m (3/4) Installing packages ... \x1b[0m");
                 match Command::new("sh")
                     .arg("-c")
                     .arg(format!("yay -S {}", job.packages.join(" ")))
@@ -126,31 +139,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 };
             };
 
-            if !job.configs.is_empty() {
+            println!("\x1b[31m>\x1b[0m (4/4) Post install commands ... \x1b[0m");
+            job.post_install.iter().all(|cmd| {
                 match Command::new("sh")
                     .arg("-c")
-                    .arg("cd $HOME/Dotfiles & ")
-                    .arg(format!("stow -v -R -t $HOME {}", job.configs.join(" ")))
+                    .arg(cmd)
+                    // .stdout(Stdio::null())
                     .status()
                 {
                     Ok(status) => status.success(),
                     Err(_) => panic!(),
-                };
-            };
-
-            if !job.cmds_installation.is_empty() {
-                job.cmds_installation.iter().all(|cmd| {
-                    match Command::new("sh")
-                        .arg("-c")
-                        .arg(cmd)
-                        // .stdout(Stdio::null())
-                        .status()
-                    {
-                        Ok(status) => status.success(),
-                        Err(_) => panic!(),
-                    }
-                });
-            }
+                }
+            });
         }
     }
 

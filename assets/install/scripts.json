@@ -4,15 +4,18 @@
     "category": "base",
     "packages": [],
     "configs": [],
-    "cmds_check_install": [
+    "checks": [
       "cat /etc/pacman.conf | grep -x ILoveCandy",
-      "cat /etc/pacman.conf | grep -x Color",
-      "grep -F '[multilib]' /etc/pacman.conf"
+      "cat /etc/pacman.conf | grep -x 'ParallelDownloads = 10'",
+      "cat /etc/pacman.conf | grep -x Color"
     ],
-    "cmds_installation": [
-      "sudo sed -i 's/#Color/Color/g' /etc/pacman.conf",
-      "sudo sed -i 's/#ParallelDownloads = 5/ILoveCandy\nParallelDownloads = 10/g' /etc/pacman.conf",
-      "sudo sed -i '/[multilib]/,/Include/''s/^#//' /etc/pacman.conf"
+    "prior_install": [],
+    "post_install": [
+      "sudo sh -c 'sed -i \"s/#Color/Color/g\" /etc/pacman.conf'",
+      "sudo sh -c 'sed -i \"s/#NoProgressBar/ILoveCandy/g\" /etc/pacman.conf'",
+      "sudo sh -c 'sed -i \"s/#ParallelDownloads = 5/ParallelDownloads = 10/g\" /etc/pacman.conf'",
+      "sudo sh -c 'echo ''\\[multilib\\]'' >> /etc/pacman.conf'",
+      "sudo sh -c 'echo ''Include = /etc/pacman.d/mirrorlist'' >> /etc/pacman.conf'"
     ]
   },
   {
@@ -30,16 +33,18 @@
       "zip",
       "unzip",
       "wget",
+      "fontconfig",
       "curl",
       "terminus-font"
     ],
     "configs": [
       "bash"
     ],
-    "cmds_check_install": [
+    "checks": [
       "[ -L ~/.bashrc ] && true || false"
     ],
-    "cmds_installation": [
+    "prior_install": [],
+    "post_install": [
       "fc-cache -v"
     ]
   },
@@ -52,13 +57,16 @@
     "configs": [
       "vim"
     ],
-    "cmds_check_install": [
+    "checks": [
       "[ -L ~/.vimrc ] && true || false",
-      "[ -L /home/root/.vimrc ] && true || false"
+      "sudo [ -L /home/root/.vimrc ] && true || false",
+      "sudo [ -L /root/.vimrc ] && true || false"
     ],
-    "cmds_installation": [
-      "sudo ln -s ~/.vimrc /home/root/.vimrc"
-    ]
+    "prior_install": [
+      "sudo ln -sf $HOME/.vimrc /home/root/.vimrc",
+      "sudo ln -sf /home/root/.vimrc /root/.vimrc"
+    ],
+    "post_install": []
   },
   {
     "name": "zsh",
@@ -72,11 +80,12 @@
     "configs": [
       "zsh"
     ],
-    "cmds_check_install": [
+    "checks": [
       "[ -L ~/.zshrc ] && true || false",
       "[ -L ~/.config/zsh ] && true || false"
     ],
-    "cmds_installation": []
+    "prior_install": [],
+    "post_install": []
   },
   {
     "name": "Audio",
@@ -92,8 +101,9 @@
       "playerctl"
     ],
     "configs": [],
-    "cmds_check_install": [],
-    "cmds_installation": []
+    "checks": [],
+    "prior_install": [],
+    "post_install": []
   },
   {
     "name": "Bluetooth",
@@ -103,12 +113,33 @@
       "bluez-utils"
     ],
     "configs": [],
-    "cmds_check_install": [
+    "checks": [
       "systemctl status bluetooth.service | grep Running"
     ],
-    "cmds_installation": [
-      "sudo systemctl enable bluetooth.service",
-      "sudo systemctl start bluetooth.service"
+    "prior_install": [],
+    "post_install": [
+      "sudo systemctl enable bluetooth",
+      "sudo systemctl start bluetooth"
+    ]
+  },
+  {
+    "name": "Nvidia",
+    "category": "hypr",
+    "packages": [
+      "nvidia",
+      "nvidia-utils"
+    ],
+    "configs": [],
+    "checks": [
+      "grep -F 'options nvidia_drm modeset=1 fbdev=1' /etc/modprobe.d/nvidia.conf",
+      "grep -F 'nvidia nvidia_modeset nvidia_uvm nvidia_drm' /etc/mkinitcpio.conf"
+    ],
+    "prior_install": [
+      "sudo sh -c 'echo \"options nvidia_drm modeset=0 fbdev=1\" > /etc/modprobe.d/nvidia.conf'",
+      "sudo sh -c 'sed -i \"s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/\" /etc/mkinitcpio.conf'"
+    ],
+    "post_install": [
+      "sudo mkinitcpio -P"
     ]
   },
   {
@@ -136,52 +167,34 @@
       "iwd"
     ],
     "configs": [
-      "hypr",
+      "hyprland",
       "swaync"
     ],
-    "cmds_check_install": [
+    "checks": [
       "fc-list | grep Monaspace",
       "[ -L ~/.config/hypr ] && true || false",
       "[ -L ~/.config/swaync ] && true || false"
     ],
-    "cmds_installation": [
+    "prior_install": [],
+    "post_install": [
       "fc-cache -v"
     ]
   },
   {
-    "name": "Hyprland Theming",
+    "name": "Theming",
     "category": "hypr",
     "packages": [
-      "tela-icon-theme",
+      "morewaita-icon-theme-git",
       "rose-pine-cursor",
       "rose-pine-hyprcursor",
       "gtk-theme-material-black",
       "ttf-cascadia-code-nerd"
     ],
     "configs": [],
-    "cmds_check_install": [],
-    "cmds_installation": [
-      "$HOME/.config/hypr/scripts/theme.sh Material-Black-Cherry Adwaita BreezeX-RosePine-Linux 32 'CaskaydiaCove Nerd Font 10'"
-    ]
-  },
-  {
-    "name": "Hyprland Nvidia",
-    "category": "hypr",
-    "packages": [
-      "nvidia",
-      "nvidia-utils",
-      "lib32-nvidia-utils"
-    ],
-    "configs": [],
-    "cmds_check_install": [
-      "grep -F 'options nvidia_drm modeset=1 fbdev=1' /etc/modprobe.d/nvidia.conf",
-      "grep -F 'nvidia nvidia_modeset nvidia_uvm nvidia_drm' /etc/mkinitcpio.conf"
-    ],
-    "cmds_installation": [
-      "sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils egl-wayland",
-      "echo 'options nvidia_drm modeset=1 fbdev=1' > /etc/modprobe.d/nvidia.conf",
-      "sudo sed -i '/MODULES=(/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm/' /etc/mkinitcpio.conf",
-      "sudo mkinitcpio -P"
+    "checks": [],
+    "prior_install": [],
+    "post_install": [
+      "$HOME/.config/hypr/scripts/theme.sh Material-Black-Cherry MoreWaita BreezeX-RosePine-Linux 32 'CaskaydiaCove Nerd Font 10'"
     ]
   },
   {
@@ -197,11 +210,12 @@
       "kitty",
       "yazi"
     ],
-    "cmds_check_install": [
+    "checks": [
       "[ -L ~/.config/yazi ] && true || false",
-      "[ -L ~/.config/kitty/kitty.conf ] && true || false"
+      "[ -L ~/.config/kitty ] && true || false"
     ],
-    "cmds_installation": [
+    "prior_install": [],
+    "post_install": [
       "fc-cache -v"
     ]
   },
@@ -214,8 +228,11 @@
     "configs": [
       "ags"
     ],
-    "cmds_check_install": [],
-    "cmds_installation": []
+    "checks": [
+      "[ -L ~/.config/ags ] && true || false"
+    ],
+    "prior_install": [],
+    "post_install": []
   },
   {
     "name": "Neovim",
@@ -237,10 +254,11 @@
     "configs": [
       "nvim"
     ],
-    "cmds_check_install": [
+    "checks": [
       "[ -L ~/.config/nvim ] && true || false"
     ],
-    "cmds_installation": [
+    "prior_install": [],
+    "post_install": [
       "sudo npm install -g tree-sitter-cli"
     ]
   },
@@ -251,8 +269,9 @@
       "librewolf-bin"
     ],
     "configs": [],
-    "cmds_check_install": [],
-    "cmds_installation": []
+    "checks": [],
+    "prior_install": [],
+    "post_install": []
   },
   {
     "name": "CLI Tools",
@@ -267,12 +286,13 @@
       "cava",
       "fastfetch"
     ],
-    "cmds_check_install": [
+    "checks": [
       "[ -L ~/.config/btop ] && true || false",
       "[ -L ~/.config/cava ] && true || false",
       "[ -L ~/.config/fastfetch ] && true || false"
     ],
-    "cmds_installation": []
+    "prior_install": [],
+    "post_install": []
   },
   {
     "name": "mpv Youtube Player",
@@ -284,22 +304,32 @@
     "configs": [
       "mpv"
     ],
-    "cmds_check_install": [
+    "checks": [
       "[ -L ~/.config/mpv ] && true || false"
     ],
-    "cmds_installation": []
+    "prior_install": [],
+    "post_install": []
   },
   {
     "name": "Image/Video Capture",
     "category": "util",
-    "packages": [],
-    "configs": [],
-    "cmds_check_install": [
-      "yay -Qa | grep 'hyprshot '"
+    "packages": [
+      "hyprshot",
+      "grim",
+      "slurp",
+      "wf-recorder",
+      "swappy",
+      "wl-clipboard",
+      "imagemagick"
     ],
-    "cmds_installation": [
-      "yay -S hyprshot grim slurp wf-recorder swappy wl-clipboard imagemagick"
-    ]
+    "configs": [
+      "local"
+    ],
+    "checks": [
+      "[ -e ~/.local/bin/capture ] && true || false"
+    ],
+    "prior_install": [],
+    "post_install": []
   },
   {
     "name": "Steam",
@@ -314,10 +344,11 @@
     "configs": [
       "Mangohud"
     ],
-    "cmds_check_install": [
+    "checks": [
       "[ -L ~/.config/Mangohud ] && true || false"
     ],
-    "cmds_installation": [
+    "prior_install": [],
+    "post_install": [
       "fc-cache -v"
     ]
   }

@@ -8,6 +8,7 @@ import Workspaces from "@widgets/workspaces"
 import Audio from "@widgets/audio"
 import SystemTray from "@widgets/systemtray"
 import Clock from "@widgets/clock"
+import { PowerButton } from "@widgets/powermenu"
 
 
 export default function BarTop(monitor: Gdk.Monitor) {
@@ -32,6 +33,7 @@ export default function BarTop(monitor: Gdk.Monitor) {
                 <Audio />
                 <SystemTray />
                 <Clock />
+                <PowerButton />
             </box>
         </centerbox>
     </window>

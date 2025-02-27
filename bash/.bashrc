@@ -30,5 +30,4 @@ function custom_prompt {
 
 PROMPT_COMMAND="custom_prompt; ${PROMPT_COMMAND}"
 
-command -v zsh&>/dev/null && zsh
-[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
+# command -v zsh&>/dev/null && zsh

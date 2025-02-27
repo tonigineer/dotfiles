@@ -24,7 +24,6 @@ export default function NetworkSpeeds() {
             />
             <label
                 className="label"
-                css="font-size: 10px; margin-top: 0.3rem;"
                 label="Mb/s"
             />
             <label

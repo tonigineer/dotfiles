@@ -8,6 +8,7 @@ export default class SystemStats extends GObject.Object {
     @property(Number) declare cpuUsage: number;
     @property(Number) declare ramUsage: number;
     @property(Number) declare diskUsage: number;
+    @property(Number) declare diskAvail: number;
     @property(Number) declare gpuUsage: number;
 
     constructor() {
@@ -17,6 +18,7 @@ export default class SystemStats extends GObject.Object {
         this.cpuUsage = 0;
         this.ramUsage = 0;
         this.diskUsage = 0;
+        this.diskAvail = 0;
         this.gpuUsage = 0;
 
         this.initializeStats().then(() => {
@@ -58,6 +60,14 @@ export default class SystemStats extends GObject.Object {
             ]);
             this.diskUsage = parseFloat(diskOut.trim());
 
+            // Disk usage: percentage used on root partition.
+            const diskAvail = await execAsync([
+                "bash",
+                "-c",
+                `df -BG / | tail -1 | awk '{print $4}' | sed 's/G//'`,
+            ]);
+            this.diskAvail = parseFloat(diskAvail.trim());
+
             // GPU usage: using nvidia-smi (if available), else 0.
             try {
                 const gpuOut = await execAsync([
@@ -70,10 +80,11 @@ export default class SystemStats extends GObject.Object {
                 this.gpuUsage = 0;
             }
 
-            (GObject.Object.prototype as any).notify.call(this, "cpuUsage");
-            (GObject.Object.prototype as any).notify.call(this, "ramUsage");
-            (GObject.Object.prototype as any).notify.call(this, "diskUsage");
-            (GObject.Object.prototype as any).notify.call(this, "gpuUsage");
+            // Not needed, cause critical error logs, while still working.
+            // (GObject.Object.prototype as any).notify.call(this, "cpuUsage");
+            // (GObject.Object.prototype as any).notify.call(this, "ramUsage");
+            // (GObject.Object.prototype as any).notify.call(this, "diskUsage");
+            // (GObject.Object.prototype as any).notify.call(this, "gpuUsage");
         } catch (error) {
             console.error("Error updating system stats:", error);
         }

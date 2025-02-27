@@ -7,6 +7,7 @@ import { compileScss } from "./css_hot_reload";
 
 import BarTop from "@windows/bar_top/main";
 import BarBottom from "@windows/bar_bottom/main";
+import { PowerMenu } from "@widgets/powermenu";
 
 // import requestHandler from './request_handler'
 
@@ -15,6 +16,7 @@ App.start({
     main() {
         App.get_monitors().map(BarTop);
         App.get_monitors().map(BarBottom);
+        App.get_monitors().map(PowerMenu);
     },
     // requestHandler
 });

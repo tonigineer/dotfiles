@@ -7,8 +7,8 @@ $--color-primary: rgba(97, 255, 202, 1);
 $--color-success: rgba(37, 201, 243, 1);
 $--color-error: rgba(255, 103, 103, 1);
 
-$--padding-base: 0.4rem;
-$--spacing-base: 0.6rem;
+$--padding-base: 0.3rem;
+$--spacing-base: 1rem;
 $--border-radius: 2px;
 
 @import "./windows/bar_top/styles.scss";
@@ -16,7 +16,8 @@ $--border-radius: 2px;
 
 * {
     all: unset;
-    font-size: 16px;
-    font-family: "Monaspace Neon SemiBold", sans-serif;
+    font-size: 13px;
+    // font-family: "Monaspace Neon SemiBold", sans-serif;
+    font-family: "Monaspace Krypton SemiBold", sans-serif;
     color: $--color-text;
 }

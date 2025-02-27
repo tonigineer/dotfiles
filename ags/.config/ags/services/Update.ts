@@ -1,16 +1,18 @@
 import { GObject, register, property } from "astal/gobject";
-import { execAsync, interval } from "astal";
+import { exec, execAsync, interval } from "astal";
 
 @register()
 export default class PackageUpdates extends GObject.Object {
     declare private _updateRate: number;
 
     @property(Number) declare updatesCount: number;
+    @property(Boolean) declare isMajor: boolean;
 
     constructor() {
         super();
         this._updateRate = 3 * 60 * 1000;
         this.updatesCount = 0;
+        this.isMajor = false;
 
         this.checkUpdates().then(() => {
             interval(this._updateRate, () => this.checkUpdates());
@@ -19,8 +21,16 @@ export default class PackageUpdates extends GObject.Object {
 
     private async checkUpdates(): Promise<void> {
         try {
-            const stdout = await execAsync(["bash", "-c", "yay -Qyu | wc -l"]);
-            this.updatesCount = parseInt(stdout.trim(), 10);
+            // const stdout = await execAsync(["bash", "-c", "yay -Sy; yay -Qyu"]);
+            const stdout = "nvidia 1212\nhyper 1212\naua 233";
+            const lines = stdout.split("\n");
+            this.updatesCount = lines.length;
+            this.isMajor = lines.some(
+                (line: any) =>
+                    line.startsWith("linux ") ||
+                    line.startsWith("nvidia ") ||
+                    line.startsWith("hyprland "),
+            );
         } catch (error) {
             console.error("Error checking yay updates:", error);
         }

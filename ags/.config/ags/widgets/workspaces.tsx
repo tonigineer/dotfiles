@@ -6,8 +6,8 @@ import Hyprland from "gi://AstalHyprland"
 // NOTE: Currently, i don't know how to get the monitor index from Gdk.Monitor
 // Therefore this workaround is applied.
 const MONITORS: { [key: number]: string } = {
-    0: "LG Ultra HD",
-    1: "ROG XG27UQR",
+    0: "ROG XG27UQR",
+    1: "PG27UQR",
 };
 
 export default function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {

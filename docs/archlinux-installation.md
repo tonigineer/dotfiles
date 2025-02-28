@@ -83,7 +83,7 @@ vda    254:0  0    20G  0 disk
 Install kernel and other stuff:
 
 ```bash
-pacstrap -i /mnt base base-devel linux linux-headers linux-firmware vim git sudo networkmanager
+pacstrap -i /mnt base base-devel linux linux-headers linux-firmware vim git sudo networkmanager curl
 ```
 
 Now generate `fstab` for current partition configuration:

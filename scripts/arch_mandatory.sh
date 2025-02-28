@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$EUID" -qe 0 ]; then
+if [ "$EUID" -eq 0 ]; then
   echo "Do not execute as root!"
   exit
 fi

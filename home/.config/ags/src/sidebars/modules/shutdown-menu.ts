@@ -3,7 +3,7 @@ function ShutdownMenu() {
         "shutdown": "systemctl poweroff",
         "reboot": "systemctl reboot",
         "hibernate": "systemctl hibernate",
-        "suspend": "systemctl hybrid-sleep",
+        "suspend": "systemctl suspend",
     }
 
     const ICONS = {

@@ -59,14 +59,12 @@
     ],
     "checks": [
       "[ -L ~/.vimrc ] && true || false",
-      "sudo [ -L /home/root/.vimrc ] && true || false",
       "sudo [ -L /root/.vimrc ] && true || false"
     ],
-    "prior_install": [
-      "sudo ln -sf $HOME/.vimrc /home/root/.vimrc",
-      "sudo ln -sf /home/root/.vimrc /root/.vimrc"
-    ],
-    "post_install": []
+    "prior_install": [],
+    "post_install": [
+      "sudo ln -sf $HOME/.vimrc /root/.vimrc"
+    ]
   },
   {
     "name": "zsh",
@@ -204,7 +202,8 @@
       "kitty",
       "monaspace-font",
       "lazygit",
-      "yazi"
+      "yazi",
+      "ttf-joypixels"
     ],
     "configs": [
       "kitty",

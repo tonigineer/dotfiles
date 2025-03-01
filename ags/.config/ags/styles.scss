@@ -6,7 +6,9 @@ $--color-text: #edecee;
 $--color-primary: rgba(97, 255, 202, 1);
 $--color-success: rgba(37, 201, 243, 1);
 $--color-error: rgba(255, 103, 103, 1);
+$--color-warning: rgba(255, 202, 133, 0.75);
 
+$--font-size: 13px;
 $--padding-base: 0.3rem;
 $--spacing-base: 1rem;
 $--border-radius: 2px;
@@ -16,7 +18,7 @@ $--border-radius: 2px;
 
 * {
     all: unset;
-    font-size: 13px;
+    font-size: $--font-size;
     // font-family: "Monaspace Neon SemiBold", sans-serif;
     font-family: "Monaspace Krypton SemiBold", sans-serif;
     color: $--color-text;

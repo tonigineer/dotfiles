@@ -9,9 +9,9 @@ export default function NetworkSpeeds() {
     return (
         <box className="NetworkSpeeds">
             <label
-                className={bind(networkSpeed, "downloadSpeed").as(
-                    v => (v >= 0.1 ? "down-val-on" : "down-val")
-                )}
+                className={`value ${bind(networkSpeed, "downloadSpeed").as(
+                    v => (v >= 0.1 ? "down" : "")
+                )} `}
                 label={bind(networkSpeed, "downloadSpeed").as(
                     v => `${v.toFixed(1).padStart(4)}`
                 )}

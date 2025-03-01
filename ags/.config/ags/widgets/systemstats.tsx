@@ -29,15 +29,21 @@ export default function System() {
             <label className="icon" label="RAM" />
 
 
-            <label
-                className={bind(system, "gpuUsage").as((value: number) => getValueClass(value))}
-                label={bind(system, "gpuUsage").as((value: number) => `${value.toFixed(0).padStart(3, ' ')}`)}
-            />
-            <label className="separator" label="" />
-            <label className="icon" label="GPU" />
+            {bind(system, "gpuUsage").as((value: number) =>
+                value >= 0 ? (
+                    <>
+                        <label
+                            className={getValueClass(value)}
+                            label={`${value.toFixed(0).padStart(3, ' ')}`}
+                        />
+                        <label className="separator" label="" />
+                        <label className="icon" label="GPU" />
+                    </>
+                ) : <box />
+            )}
 
             <label
-                className="label"
+                className="label capacity"
                 label={bind(system, "diskAvail").as((value: number) => `${value.toFixed(0).padStart(5, ' ')}Gb`)} />
             <label className="separator" label="" />
             <label className="icon" label="on /" />

@@ -77,7 +77,7 @@ export default class SystemStats extends GObject.Object {
                 ]);
                 this.gpuUsage = parseFloat(gpuOut.trim());
             } catch (gpuErr) {
-                this.gpuUsage = 0;
+                this.gpuUsage = -1;
             }
 
             // Not needed, cause critical error logs, while still working.

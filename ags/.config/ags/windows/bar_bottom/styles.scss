@@ -1,1 +1,109 @@
+window.BottomBar {
+    box-shadow: none;
+    background-color: $--color-bg;
+    color: $--color-text;
+
+    border-bottom: 1px solid;
+
+    border-color: rgba($--color-bg-accent, 1);
+    > * {
+        padding-top: $--padding-base;
+        padding-bottom: $--padding-base;
+    }
+
+    // ------ Left and right edge ------
+    > * > *:first-child {
+        margin-left: $--spacing-base * 1.25;
+    }
+    > * > *:last-child {
+        margin-right: $--spacing-base * 1.25;
+    }
+
+    // ------ Between widgets ------
+    > * > * > * {
+        margin-right: $--spacing-base;
+    }
+    > * > * > *:last-child {
+        margin-right: 0rem;
+    }
+
+    // ------ Left side ------
+    .SystemStats {
         > * {
+            margin-right: $--padding-base;
+        }
+
+        .label {
+            font-size: $--font-size * 0.9;
+
+            @for $i from 0 through 9 {
+                &.color-#{$i * 10}-#{$i * 10 + 9} {
+                    color: rgba(
+                        mix($--color-error, $--color-primary, ($i * 10%)),
+                        0.75
+                    );
+                }
+            }
+
+            &.capacity {
+                color: $--color-warning;
+            }
+        }
+
+        .separator {
+            color: rgba($--color-text, 0.75);
+            font-size: $--font-size * 0.5;
+        }
+        .icon {
+            font-size: $--font-size * 0.9;
+        }
+    }
+
+    .Updates {
+        button {
+            padding: 0px;
+            margin-top: -0.25rem;
+            margin-bottom: -0.25rem;
+
+            > * :not(:last-child) {
+                margin-right: $--padding-base * 2;
+            }
+            font-size: $--font-size * 0.9;
+
+            .icon {
+                padding: 0px;
+                // margin: 0px;
+                font-size: $--font-size * 1.4;
+                color: $--color-warning;
+
+                &.major {
+                    color: $--color-error;
+                }
+            }
+
+            .value {
+                color: $--color-text;
+            }
+        }
+    }
+
+    // ------ Center ------
+    .NetworkSpeeds {
+        .label {
+            font-size: $--font-size * 0.75;
+        }
+
+        .value {
+            font-size: 20px;
+            color: orange;
+            .down {
+                color: red;
+            }
+            .up {
+                color: yellow;
+            }
+        }
+    }
+
+    // ------ Right side ------
+}

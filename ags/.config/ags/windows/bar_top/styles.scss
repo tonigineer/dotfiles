@@ -4,8 +4,8 @@ window.TopBar {
     color: $--color-text;
 
     border-bottom: 1px solid;
-
     border-color: rgba($--color-bg-accent, 1);
+
     > * {
         padding-top: $--padding-base;
         padding-bottom: $--padding-base;

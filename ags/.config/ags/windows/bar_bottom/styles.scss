@@ -3,9 +3,9 @@ window.BottomBar {
     background-color: $--color-bg;
     color: $--color-text;
 
-    border-bottom: 1px solid;
-
+    border-top: 1px solid;
     border-color: rgba($--color-bg-accent, 1);
+
     > * {
         padding-top: $--padding-base;
         padding-bottom: $--padding-base;
@@ -36,12 +36,36 @@ window.BottomBar {
         .label {
             font-size: $--font-size * 0.9;
 
+            // @for $i from 0 through 9 {
+            //     &.color-#{$i * 10}-#{$i * 10 + 9} {
+            //         color: rgba(
+            //             mix($--color-error, $--color-primary, ($i * 10%)),
+            //             0.75
+            //         );
+            //     }
+            // }
+
             @for $i from 0 through 9 {
                 &.color-#{$i * 10}-#{$i * 10 + 9} {
-                    color: rgba(
-                        mix($--color-error, $--color-primary, ($i * 10%)),
-                        0.75
+                    $percentage: ($i * 10%);
+
+                    // Define color blending logic
+                    $color: if(
+                        $percentage <= 50%,
+                        mix(
+                            $--color-warning,
+                            $--color-success,
+                            ($percentage * 2%)
+                        ),
+                        // Blend from green to yellow (0-50%)
+                        mix(
+                                $--color-error,
+                                $--color-warning,
+                                (($percentage - 50%) * 2%)
+                            ) // Blend from yellow to red (51-100%)
                     );
+
+                    color: rgba($color, 0.75);
                 }
             }
 
@@ -89,18 +113,51 @@ window.BottomBar {
 
     // ------ Center ------
     .NetworkSpeeds {
-        .label {
-            font-size: $--font-size * 0.75;
+        .rx {
+            font-size: $--font-size * 0.8;
+            &.label {
+                color: $--color-bg-accent;
+
+                &.active {
+                    color: $--color-text;
+                }
+            }
+
+            &.icon {
+                margin-top: 1px;
+                font-weight: bold;
+                color: $--color-bg-accent;
+
+                &.active {
+                    color: $--color-primary;
+                }
+            }
         }
 
-        .value {
-            font-size: 20px;
-            color: orange;
-            .down {
-                color: red;
+        .label {
+            font-size: $--font-size * 0.75;
+            color: rgba($--color-text, 0.35);
+        }
+
+        .tx {
+            font-size: $--font-size * 0.85;
+
+            &.label {
+                color: $--color-bg-accent;
+
+                &.active {
+                    color: $--color-text;
+                }
             }
-            .up {
-                color: yellow;
+
+            &.icon {
+                margin-top: 1px;
+                font-weight: bold;
+                color: $--color-bg-accent;
+
+                &.active {
+                    color: $--color-warning;
+                }
             }
         }
     }

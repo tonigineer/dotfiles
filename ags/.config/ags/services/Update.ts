@@ -21,8 +21,7 @@ export default class PackageUpdates extends GObject.Object {
 
     private async checkUpdates(): Promise<void> {
         try {
-            // const stdout = await execAsync(["bash", "-c", "yay -Sy; yay -Qyu"]);
-            const stdout = "nvidia 1212\nhyper 1212\naua 233";
+            const stdout = await execAsync(["bash", "-c", "yay -Sy; yay -Qyu"]);
             const lines = stdout.split("\n");
             this.updatesCount = lines.length;
             this.isMajor = lines.some(

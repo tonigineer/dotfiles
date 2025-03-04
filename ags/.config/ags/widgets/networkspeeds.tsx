@@ -5,21 +5,23 @@ import NetSpeeds from "@services/NetSpeed";
 
 export default function NetworkSpeeds() {
     const networkSpeed = new NetSpeeds();
+    const active_min_mega_bytes = 0.05;
 
     return (
         <box className="NetworkSpeeds">
             <label
-                className={`value ${bind(networkSpeed, "downloadSpeed").as(
-                    v => (v >= 0.1 ? "down" : "")
-                )} `}
-                label={bind(networkSpeed, "downloadSpeed").as(
-                    v => `${v.toFixed(1).padStart(4)}`
-                )}
+                className={bind(networkSpeed, "downloadSpeed").as(
+                    v => { return `rx label ${v >= active_min_mega_bytes ? "active" : ""}` })}
+
+                label={
+                    bind(networkSpeed, "downloadSpeed").as(
+                        v => `${v.toFixed(1).padStart(4)}`
+                    )
+                }
             />
             <label
                 className={bind(networkSpeed, "downloadSpeed").as(
-                    v => (v >= 0.1 ? "down-icon-on" : "down-icon")
-                )}
+                    v => { return `rx icon ${v >= active_min_mega_bytes ? "active" : ""}` })}
                 label=" ⇣ "
             />
             <label
@@ -28,14 +30,12 @@ export default function NetworkSpeeds() {
             />
             <label
                 className={bind(networkSpeed, "uploadSpeed").as(
-                    v => (v >= 0.1 ? "up-icon-on" : "up-icon")
-                )}
+                    v => { return `tx icon ${v >= active_min_mega_bytes ? "active" : ""}` })}
                 label=" ⇡ "
             />
             <label
                 className={bind(networkSpeed, "uploadSpeed").as(
-                    v => (v >= 0.1 ? "up-val-on" : "up-val")
-                )}
+                    v => { return `tx label ${v >= active_min_mega_bytes ? "active" : ""}` })}
                 label={bind(networkSpeed, "uploadSpeed").as(
                     v => `${v.toFixed(1).padEnd(3)}`
                 )}

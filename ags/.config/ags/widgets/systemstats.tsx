@@ -5,7 +5,7 @@ import SystemStats from "@services/SystemStats";
 
 const getValueClass = (value: number) => {
     const rangeStart = Math.floor(value / 10) * 10;
-    const rangeEnd = rangeStart + 9;
+    const rangeEnd = Math.min(rangeStart + 9, 99);
     return `label color-${rangeStart}-${rangeEnd}`;
 };
 

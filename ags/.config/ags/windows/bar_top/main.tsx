@@ -8,17 +8,19 @@ import Workspaces from "@widgets/workspaces"
 import Audio from "@widgets/audio"
 import SystemTray from "@widgets/systemtray"
 import Clock from "@widgets/clock"
-import { PowerButton } from "@widgets/powermenu"
-
+// import { PowerButton } from "@widgets/powermenu"
+import { PowerButton } from "@windows/shutdown/main"
 
 export default function BarTop(monitor: Gdk.Monitor) {
     const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
 
     return <window
-        className="TopBar"
+        name="bar_top"
+        className="top_bar"
         gdkmonitor={monitor}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
-        anchor={TOP | LEFT | RIGHT}>
+        anchor={TOP | LEFT | RIGHT
+        }>
         <centerbox>
             <box hexpand halign={Gtk.Align.START}>
                 <icon
@@ -36,5 +38,5 @@ export default function BarTop(monitor: Gdk.Monitor) {
                 <PowerButton />
             </box>
         </centerbox>
-    </window>
+    </window >
 }

@@ -10,7 +10,8 @@ export default function BarBottom(monitor: Gdk.Monitor) {
     const { BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
 
     return <window
-        className="BottomBar"
+        name="bar_bottom"
+        className="bar_bottom"
         gdkmonitor={monitor}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={BOTTOM | LEFT | RIGHT}>

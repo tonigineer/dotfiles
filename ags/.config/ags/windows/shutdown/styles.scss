@@ -1,0 +1,110 @@
+window.shutdown {
+    background-color: $--color-bg;
+    box-shadow: none;
+    color: $--color-text;
+
+    border-bottom: 1px solid;
+    border-color: rgba($--color-bg-accent, 1);
+
+    // > * {
+    //     padding-top: $--padding-base;
+    //     padding-bottom: $--padding-base;
+    // }
+    //
+    // // ------ Left and right edge ------
+    // > * > *:first-child {
+    //     margin-left: $--spacing-base * 1.25;
+    // }
+    // > * > *:last-child {
+    //     margin-right: $--spacing-base * 1.25;
+    // }
+    //
+    // // ------ Between widgets ------
+    // > * > * > * {
+    //     margin-right: $--spacing-base;
+    // }
+    // > * > * > *:last-child {
+    //     margin-right: 0rem;
+    // }
+
+    // > * > * > * > * > * {
+    //     padding: $--padding-base;
+    //     // > * {
+    //     font-size: 20px;
+    //     //     color: red;
+    //     // }
+    //     button {
+    //         color: orange;
+    //     }
+    // }
+
+    // .shutdownclass.container.label {
+    //     color: green;
+    // }
+    // .shutdownclass {
+    //     margin: 10px;
+    //     color: blue;
+    //     .container {
+    //         margin: 10px;
+    //         color: blue;
+    //         button {
+    //             color: red;
+    //         }
+    //     }
+    //     // color: blue;
+    // }
+    // .shutdownclass.container {
+    //     button.reboot {
+    //         color: blue;
+    //     }
+    // }
+
+    // .shutdown.container {
+    //     // button {
+    //     //     color: red;
+    //     //     border: 2px solid blue !important; // Adds a visible border for debugging
+    //     // }
+    //     button.poweroff,
+    //     button.reboot,
+    //     button.suspend,
+    //     button.hibernate {
+    //         color: red !important;
+    //     }
+    // }
+
+    // .shutdown {
+    //     .container {
+    //         &button {
+    //             .reboot {
+    //                 color: red;
+    //             }
+    //             padding: $--padding-base;
+    //         }
+    //         // &button {
+    //         //     font-size: 30px;
+    //         // }
+    //     }
+    // }
+    // &.button {
+    //     padding: 10px;
+    //     color: red;
+    // }
+    // .shutdown.container.button {
+    //     padding: 10px;
+    // }
+    // .shutdown {
+    //     .container {
+    //         button {
+    //             color: red; // Changes text color to red
+    //             //             background-color: transparent; // Optional: ensures the background is clear if needed
+    //             //             border: none; // Optional: removes borders if necessary
+    //             //             font-size: 1.5rem; // Optional: adjust size for icons
+    //             //             cursor: pointer;
+    //             //
+    //             //             &:hover {
+    //             //                 color: darkred; // Changes color when hovered
+    //             //             }
+    //         }
+    //     }
+    // }
+}

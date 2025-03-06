@@ -6,7 +6,7 @@ import { App } from "astal/gtk3";
 export function PowerButton() {
 
     return <button onClicked={() => {
-        const win = App.get_window("powermenu");
+        const win = App.get_window("shutdown");
         if (win) {
             win.visible ? win.hide() : win.show();
         }
@@ -27,9 +27,8 @@ export function PowerMenu(monitor: Gdk.Monitor) {
     ];
 
 
-    return <window
-        name="PowerMenu"
-        className="TopBar2"
+    return <window name="shutdown"
+        className="shutdown"
         gdkmonitor={monitor}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={TOP | RIGHT}
@@ -45,3 +44,4 @@ export function PowerMenu(monitor: Gdk.Monitor) {
         </box>
     </window >
 }
+

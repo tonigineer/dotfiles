@@ -21,8 +21,13 @@ export default class PackageUpdates extends GObject.Object {
 
     private async checkUpdates(): Promise<void> {
         try {
-            const stdout = await execAsync(["bash", "-c", "yay -Sy; yay -Qyu"]);
+            const stdout = await execAsync([
+                "bash",
+                "-c",
+                "yay -Sy >&/dev/null; yay -Qyu",
+            ]);
             const lines = stdout.split("\n");
+            console.log(lines);
             this.updatesCount = lines.length;
             this.isMajor = lines.some(
                 (line: any) =>

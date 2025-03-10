@@ -43,7 +43,9 @@
     "checks": [
       "[ -L ~/.bashrc ] && true || false"
     ],
-    "prior_install": [],
+    "prior_install": [
+      "git config --global credential.helper store"
+    ],
     "post_install": [
       "fc-cache -v"
     ]

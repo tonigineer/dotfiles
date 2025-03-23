@@ -13,15 +13,14 @@ $--padding-base: 0.3rem;
 $--spacing-base: 1rem;
 $--border-radius: 2px;
 
-@import "./windows/bar_top/styles.scss";
-@import "./windows/bar_bottom/styles.scss";
-@import "./windows/shutdown/styles.scss";
+@import "./windows/system/styles.scss";
+@import "./windows/bars/styles.scss";
 
 * {
     all: unset;
     font-size: $--font-size;
-    // font-family: "Monaspace Neon SemiBold", sans-serif;
     font-family: "Monaspace Krypton SemiBold", sans-serif;
+    // font-family: "Monaspace Neon SemiBold", sans-serif;
     color: $--color-text;
 }
 

@@ -1,4 +1,4 @@
-window#shutdown_menu {
+window#window_shutdown {
     background-color: rgba($--color-bg, 1);
     box-shadow: none;
     color: $--color-text;
@@ -8,6 +8,12 @@ window#shutdown_menu {
     border-color: rgba($--color-bg-accent, 1);
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
+
+    .hint {
+        padding-top: $--padding-base * 2;
+        color: rgba($--color-text, 0.5);
+        font-size: $--font-size * 0.5;
+    }
 
     box.buttons {
         padding: $--padding-base;
@@ -71,6 +77,60 @@ window#shutdown_menu {
 
         .label {
             color: rgba($--color-text, 0.75);
+        }
+    }
+}
+
+window#window_system_updates {
+    background-color: rgba($--color-bg, 1);
+    box-shadow: none;
+    color: $--color-text;
+
+    border-right: 1px solid;
+    border-left: 1px solid;
+    border-top: 1px solid;
+    border-color: rgba($--color-bg-accent, 1);
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+
+    .hint {
+        color: rgba($--color-text, 0.5);
+        font-size: $--font-size * 0.5;
+    }
+
+    box.Updates {
+        padding: $--padding-base;
+
+        button {
+            padding-left: $--spacing-base;
+            padding-right: $--spacing-base;
+
+            label {
+                font-size: 20px;
+                color: $--color-text;
+            }
+        }
+
+        button:hover {
+            label {
+                color: $--color-success;
+            }
+        }
+    }
+
+    box.update_line {
+        font-size: 10px;
+
+        .part-1 {
+            color: $--color-warning;
+        }
+
+        .part-2 {
+            color: $--color-bg-accent;
+        }
+
+        .part-3 {
+            color: $--color-primary;
         }
     }
 }

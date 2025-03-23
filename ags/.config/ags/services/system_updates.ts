@@ -3,6 +3,8 @@ import { GObject, register, property } from "astal/gobject";
 
 import { Logger } from "@logging";
 
+export const keywordsMajorUpdates = ["linux", "hyprland", "nvidia"];
+
 export interface Options {
     pollInterval?: number;
     checkUpdatesCommand?: string;
@@ -15,6 +17,7 @@ export default class SystemUpdates extends GObject.Object {
 
     @property(Number) declare updatesCount: number;
     @property(Boolean) declare hasMajorUpdates: boolean;
+    @property(String) declare stdout: String;
 
     constructor(options: Options = {}) {
         super();
@@ -22,6 +25,7 @@ export default class SystemUpdates extends GObject.Object {
         this._checkUpdateCommand = options.checkUpdatesCommand ?? "yay -Qus";
         this.updatesCount = 0;
         this.hasMajorUpdates = false;
+        this.stdout = "";
 
         interval(this._pollInterval, () => this.refresh());
     }
@@ -33,7 +37,6 @@ export default class SystemUpdates extends GObject.Object {
                 "-c",
                 this._checkUpdateCommand,
             ]);
-            Logger.debug(stdout);
 
             const packages = stdout.trim().split("\n").filter(Boolean);
             this.updatesCount = packages.length;
@@ -41,6 +44,9 @@ export default class SystemUpdates extends GObject.Object {
 
             this.hasMajorUpdates = this.containsCriticalUpdates(packages);
             Logger.info(`Major updates pending: ${this.hasMajorUpdates}`);
+
+            this.stdout = stdout;
+            Logger.debug(`Update command stdout: ${this.stdout}`);
         } catch (err: any) {
             if (err.matches || err.matches(Gio.IOErrorEnum)) {
                 Logger.info("No updates are pending.");
@@ -57,11 +63,12 @@ export default class SystemUpdates extends GObject.Object {
     }
 
     private containsCriticalUpdates(lines: string[]): boolean {
-        return lines.some(
-            (line) =>
-                line.startsWith("linux ") ||
-                line.startsWith("nvidia ") ||
-                line.startsWith("hyprland "),
+        return (
+            lines.filter((line) =>
+                keywordsMajorUpdates.some((keyword) =>
+                    line.toLowerCase().startsWith(keyword),
+                ),
+            ).length > 0
         );
     }
 

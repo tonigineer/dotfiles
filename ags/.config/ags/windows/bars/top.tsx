@@ -8,15 +8,16 @@ import Workspaces from "@widgets/workspaces"
 import Audio from "@widgets/audio"
 import SystemTray from "@widgets/systemtray"
 import Clock from "@widgets/clock"
-import { ShutdownMenuButton } from "@windows/shutdown/main"
+
+import { WidgetShutdown } from "@windows/system/shutdown"
 
 
 export default function BarTop(monitor: Gdk.Monitor) {
     const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
 
     return <window
-        name="bar_top"
-        className="top_bar"
+        name="window_bar_top"
+        className="TopBar"
         gdkmonitor={monitor}
         exclusivity={Astal.Exclusivity.EXCLUSIVE}
         anchor={TOP | LEFT | RIGHT
@@ -35,7 +36,7 @@ export default function BarTop(monitor: Gdk.Monitor) {
                 <Audio />
                 <SystemTray />
                 <Clock />
-                <ShutdownMenuButton />
+                <WidgetShutdown />
             </box>
         </centerbox>
     </window >

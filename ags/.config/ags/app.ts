@@ -7,9 +7,11 @@ import { App } from "astal/gtk3";
 import { Logger } from "@logging";
 import { compileScss } from "./css_hot_reload";
 
-import BarTop from "@windows/bar_top/main";
-import BarBottom from "@windows/bar_bottom/main";
-import ShutdownMenu from "@windows/shutdown/main";
+import BarTop from "@windows/bars/top";
+import BarBottom from "@windows/bars/bottom";
+
+import { WindowShutdown } from "@windows/system/shutdown";
+import { WindowSystemUpdates } from "@windows/system/updates";
 
 // import requestHandler from './request_handler'
 
@@ -21,9 +23,8 @@ App.start({
         App.get_monitors().map(BarTop);
         App.get_monitors().map(BarBottom);
 
-        ShutdownMenu(App.get_monitors().at(0));
-        const win = App.get_window("shutdown_menu");
-        win.hide();
+        WindowShutdown();
+        WindowSystemUpdates();
     },
 
     // requestHandler

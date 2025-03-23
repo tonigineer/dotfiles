@@ -9,7 +9,7 @@ export enum LogLevel {
 
 export const Logger = {
     level: LogLevel.DEBUG,
-    logfile: `${GLib.get_home_dir()}/.config/ags/log`,
+    logfile: `${GLib.get_home_dir()}/.config/ags/ags.log`,
 
     fileLogger(message: string) {
         const file = Gio.File.new_for_path(this.logfile);
@@ -35,7 +35,7 @@ export const Logger = {
         if (level < this.level) return;
 
         const timestamp = new Date().toISOString();
-        const levelName = LogLevel[level].toUpperCase().padStart(5, " "); // Get enum name as string
+        const levelName = LogLevel[level].toUpperCase().padStart(5, " ");
         const fullMessage = `[${timestamp}] [${levelName}] ${message}`;
 
         this.fileLogger(fullMessage);

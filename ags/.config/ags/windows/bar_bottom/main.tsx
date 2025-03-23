@@ -1,4 +1,3 @@
-import { Variable, execAsync, bind } from "astal"
 import { Astal, Gtk, Gdk } from "astal/gtk3"
 
 import NetworkSpeeds from "@widgets/networkspeeds"

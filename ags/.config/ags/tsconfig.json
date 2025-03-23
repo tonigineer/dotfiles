@@ -16,7 +16,8 @@
       "@root/*": ["./*"],
       "@widgets/*": ["./widgets/*"],
       "@services/*": ["./services/*"],
-      "@windows/*": ["./windows/*"]
+      "@windows/*": ["./windows/*"],
+      "@logging": ["./logging"]
     }
   }
 }

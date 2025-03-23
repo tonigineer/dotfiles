@@ -1,20 +1,23 @@
 // @ts-nocheck
 
 import { bind } from "astal";
-import PackageUpdates from "@services/Update";
+import SystemUpdates from "@services/system_updates";
 
-export default function Updates() {
-    const updates = new PackageUpdates();
+import { Logger } from "@logging";
 
-    return bind(updates, "updatesCount").as((value: number) => value === 0 ? <box /> :
+
+export default function SystemUpdatesWidget() {
+    const service = SERVICES.SystemUpdates;
+
+    return bind(service, "updatesCount").as((value: number) => value === 0 ? <box /> :
         <box className="Updates">
-            <button><box>
+            <button onClicked={() => service.refresh()}><box>
                 <label
-                    className={bind(updates, "isMajor").as((flag: boolean) => flag ? "icon major" : "icon")}
+                    className={bind(service, "hasMajorUpdates").as((flag: boolean) => flag ? "icon major" : "icon")}
                     label="" />
                 <label
                     className="value"
-                    label={bind(updates, "updatesCount").as(String)}
+                    label={bind(service, "updatesCount").as(String)}
                 />
             </box>
             </button >

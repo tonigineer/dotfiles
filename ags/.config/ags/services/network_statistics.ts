@@ -1,6 +1,8 @@
 import { GObject, register, property } from "astal/gobject";
 import { execAsync, interval } from "astal";
 
+import { Logger } from "@logging";
+
 @register()
 export default class NetSpeed extends GObject.Object {
     declare private _prevRxBytes: number;
@@ -29,8 +31,11 @@ export default class NetSpeed extends GObject.Object {
             const { rxBytes, txBytes } = await this.getNetworkBytes();
             this._prevRxBytes = rxBytes;
             this._prevTxBytes = txBytes;
-        } catch (error) {
-            console.error("Error initializing network bytes:", error);
+            Logger.debug(
+                `Initial network speed - RX: ${this.downloadSpeed.toFixed(3).padStart(6, " ")} Mb/s | TX: ${this.uploadSpeed.toFixed(3).padStart(6, " ")}`,
+            );
+        } catch (error: any) {
+            Logger.error(error.toString());
         }
     }
 
@@ -43,6 +48,8 @@ export default class NetSpeed extends GObject.Object {
             "-c",
             "cat /sys/class/net/[ew]*/statistics/*_bytes",
         ]);
+
+        // Logger.debug(`Network adpter bytes: ${stdout.split("\n").join()}`);
 
         const lines = stdout.split("\n").filter((line) => line.trim() !== "");
         const rxBytes = lines
@@ -66,8 +73,11 @@ export default class NetSpeed extends GObject.Object {
 
             this._prevRxBytes = newRxBytes;
             this._prevTxBytes = newTxBytes;
-        } catch (error) {
-            console.error("Error updating network speeds:", error);
+            Logger.debug(
+                `Network speed - RX: ${this.downloadSpeed.toFixed(3).padStart(6, " ")} Mb/s | TX: ${this.uploadSpeed.toFixed(3).padStart(6, " ")}`,
+            );
+        } catch (error: any) {
+            Logger.error(error.toString());
         }
     }
 

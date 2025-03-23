@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import { bind } from "astal";
-import SystemStats from "@services/SystemStats";
 
 const getValueClass = (value: number) => {
     const rangeStart = Math.floor(value / 10) * 10;
@@ -10,26 +9,26 @@ const getValueClass = (value: number) => {
 };
 
 export default function System() {
-    const system = new SystemStats();
+    const service = SERVICES.SystemStatistics;
 
     return (
         <box className="SystemStats">
             <label
-                className={bind(system, "cpuUsage").as((value: number) => getValueClass(value))}
-                label={bind(system, "cpuUsage").as((value: number) => `${value.toFixed(0).padStart(3, ' ')}`)}
+                className={bind(service, "cpuUsage").as((value: number) => getValueClass(value))}
+                label={bind(service, "cpuUsage").as((value: number) => `${value.toFixed(0).padStart(3, ' ')}`)}
             />
             <label className="separator" label="" />
             <label className="icon" label="CPU" />
 
             <label
-                className={bind(system, "ramUsage").as((value: number) => getValueClass(value))}
-                label={bind(system, "ramUsage").as((value: number) => `${value.toFixed(0).padStart(3, ' ')}`)}
+                className={bind(service, "ramUsage").as((value: number) => getValueClass(value))}
+                label={bind(service, "ramUsage").as((value: number) => `${value.toFixed(0).padStart(3, ' ')}`)}
             />
             <label className="separator" label="" />
             <label className="icon" label="RAM" />
 
 
-            {bind(system, "gpuUsage").as((value: number) =>
+            {bind(service, "gpuUsage").as((value: number) =>
                 value >= 0 ? (
                     <>
                         <label
@@ -44,7 +43,7 @@ export default function System() {
 
             <label
                 className="label capacity"
-                label={bind(system, "diskAvail").as((value: number) => `${value.toFixed(0).padStart(5, ' ')}Gb`)} />
+                label={bind(service, "diskAvail").as((value: number) => `${value.toFixed(0).padStart(5, ' ')}Gb`)} />
             <label className="separator" label="" />
             <label className="icon" label="on /" />
         </box>

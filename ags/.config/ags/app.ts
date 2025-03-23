@@ -5,6 +5,8 @@ import "./globals";
 import { App } from "astal/gtk3";
 import { compileScss } from "./css_hot_reload";
 
+import { Logger } from "@logging";
+
 import BarTop from "@windows/bar_top/main";
 import BarBottom from "@windows/bar_bottom/main";
 import ShutdownMenu from "@windows/shutdown/main";
@@ -14,6 +16,8 @@ import ShutdownMenu from "@windows/shutdown/main";
 App.start({
     css: compileScss(),
     main() {
+        Logger.info("App.start executed ...");
+
         App.get_monitors().map(BarTop);
         App.get_monitors().map(BarBottom);
 
@@ -21,5 +25,6 @@ App.start({
         const win = App.get_window("shutdown_menu");
         win.hide();
     },
+
     // requestHandler
 });

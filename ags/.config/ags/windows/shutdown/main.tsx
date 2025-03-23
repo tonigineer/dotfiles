@@ -27,17 +27,7 @@ export default function ShutdownMenu(monitor: Gdk.Monitor) {
         { label: "", command: "loginctl lock-session; systemctl hibernate" },
     ];
 
-    const stdout = exec(["bash", "-c", "uptime"]).trim().split(",").at(0).split(" ").filter(Boolean);
-
-    let uptime_value, uptime_unit;
-
-    if (stdout.length === 3) {
-        uptime_value = stdout[2];
-        uptime_unit = "h";
-    } else {
-        uptime_value = stdout[2];
-        uptime_unit = stdout[3];
-    }
+    const uptime_string = exec(["bash", "-c", "uptime -p | sed -e 's/up //;s/ hours,/h/;s/ hour,/h/;s/ minutes/m/;s/ minute/m/;s/ days,/d/;s/ day,/d/'"]);
 
     const current_selection = Variable(powerActions.length - 1);
 
@@ -59,7 +49,7 @@ export default function ShutdownMenu(monitor: Gdk.Monitor) {
             <box className="uptime" halign={Gtk.Align.CENTER}>
                 <label label="Uptime" className="label" />
                 <label label="   " />
-                <label label={`${uptime_value} ${uptime_unit}`} className="value" />
+                <label label={`${uptime_string}`} className="value" />
             </box>
             <box className="buttons">
                 {powerActions.map(({ label, }, index) => (

@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 
-# Gets metadata using playerctl
 get_metadata() {
     local key="$1"
     playerctl metadata --format "{{ $key }}" 2>/dev/null
 }
 
-# Determine the source of the playing media (e.g., Firefox or Spotify)
 get_source_info() {
     local trackid
     trackid=$(get_metadata "mpris:trackid")
@@ -18,7 +16,6 @@ get_source_info() {
     esac
 }
 
-# Handle command-line arguments
 case "$1" in
 --title)
     title=$(get_metadata "xesam:title")

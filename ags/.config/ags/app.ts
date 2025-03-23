@@ -3,9 +3,9 @@
 import "./globals";
 
 import { App } from "astal/gtk3";
-import { compileScss } from "./css_hot_reload";
 
 import { Logger } from "@logging";
+import { compileScss } from "./css_hot_reload";
 
 import BarTop from "@windows/bar_top/main";
 import BarBottom from "@windows/bar_bottom/main";

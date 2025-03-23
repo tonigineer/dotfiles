@@ -3,6 +3,10 @@ import { execAsync, interval } from "astal";
 
 import { Logger } from "@logging";
 
+export interface Options {
+    pollInterval: number;
+}
+
 @register()
 export default class SystemStats extends GObject.Object {
     declare private _updateRate: number;
@@ -13,9 +17,9 @@ export default class SystemStats extends GObject.Object {
     @property(Number) declare diskAvail: number;
     @property(Number) declare gpuUsage: number;
 
-    constructor() {
+    constructor(options: Options) {
         super();
-        this._updateRate = 1 * 1000;
+        this._updateRate = options.pollInterval ?? 1000;
 
         this.cpuUsage = 0;
         this.ramUsage = 0;

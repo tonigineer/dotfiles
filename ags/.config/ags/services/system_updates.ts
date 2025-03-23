@@ -3,16 +3,23 @@ import { GObject, register, property } from "astal/gobject";
 
 import { Logger } from "@logging";
 
+export interface Options {
+    pollInterval?: number;
+    checkUpdatesCommand?: string;
+}
+
 @register()
 export default class SystemUpdates extends GObject.Object {
     declare private _pollInterval: number;
+    declare private _checkUpdateCommand: string;
 
     @property(Number) declare updatesCount: number;
     @property(Boolean) declare hasMajorUpdates: boolean;
 
-    constructor() {
+    constructor(options: Options = {}) {
         super();
-        this._pollInterval = 3 * 60 * 1000; // 3 minutes
+        this._pollInterval = options.pollInterval ?? 3 * 60 * 1000;
+        this._checkUpdateCommand = options.checkUpdatesCommand ?? "yay -Qus";
         this.updatesCount = 0;
         this.hasMajorUpdates = false;
 
@@ -21,7 +28,11 @@ export default class SystemUpdates extends GObject.Object {
 
     async refresh(): Promise<void> {
         try {
-            const stdout = await execAsync(["bash", "-c", "yay -Qus"]);
+            const stdout = await execAsync([
+                "bash",
+                "-c",
+                this._checkUpdateCommand,
+            ]);
             Logger.debug(stdout);
 
             const packages = stdout.trim().split("\n").filter(Boolean);

@@ -1,19 +1,13 @@
 import { exec } from "astal";
 
-import NetworkStatistics from "@services/network_statistics";
 import SystemStatistics from "@services/system_statistics";
+import NetworkStatistics from "@services/network_statistics";
 import SystemUpdates from "@services/system_updates";
 
 declare global {
     const USER: string;
     const HOME_DIR: string;
     const TMP: string;
-
-    const CPU_POLL: number;
-    const RAM_POLL: number;
-    const DISKS_POLL: number;
-
-    const ANIMATION_SPEED: number;
 
     const SERVICES: {
         NetworkStatistics: NetworkStatistics;
@@ -30,17 +24,14 @@ Object.assign(globalThis, {
     HOME_DIR: homeDir,
     TMP: "/tmp",
 
-    CPU_POLL: 5000,
-    RAM_POLL: 5000,
-    DISKS_POLL: 600000,
-
-    ANIMATION_SPEED: 100,
-
     SERVICES: {
-        NetworkStatistics: new NetworkStatistics(),
-        SystemStatistics: new SystemStatistics(),
-        SystemUpdates: new SystemUpdates(),
+        NetworkStatistics: new NetworkStatistics({ updateRate: 500 }),
+        SystemStatistics: new SystemStatistics({ pollInterval: 1000 }),
+        SystemUpdates: new SystemUpdates({
+            pollInterval: 3 * 60 * 1000,
+            checkUpdatesCommand: "yay -Qus",
+        }),
     },
 });
 
-export {}; // Makes this a module so global augmentation works
+export {};

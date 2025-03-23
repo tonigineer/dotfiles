@@ -3,6 +3,10 @@ import { execAsync, interval } from "astal";
 
 import { Logger } from "@logging";
 
+export interface Options {
+    updateRate?: number;
+}
+
 @register()
 export default class NetSpeed extends GObject.Object {
     declare private _prevRxBytes: number;
@@ -13,9 +17,9 @@ export default class NetSpeed extends GObject.Object {
     @property(Number) declare downloadSpeed: number;
     @property(Number) declare uploadSpeed: number;
 
-    constructor() {
+    constructor(options: Options = {}) {
         super();
-        this._updateRate = 1000; // ms
+        this._updateRate = options.updateRate ?? 500;
         this._conversionFactor = (this._updateRate / 1000) * 1e6; // Convert KB to Mb
 
         this.downloadSpeed = 0;

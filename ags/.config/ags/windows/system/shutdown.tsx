@@ -36,13 +36,12 @@ function createContent() {
 
     const current_selection = Variable(powerActions.length - 1);
 
-    const child = <box valign={Gtk.Align.CENTER} vertical >
+    const child = <box valign={Gtk.Align.CENTER} vertical>
         <box className="uptime" halign={Gtk.Align.CENTER}>
             <label label="Uptime" className="label" />
             <label label="   " />
             <label label={uptime()} className="value" />
         </box>
-        <label label="Use j+k for navigation." className="hint" />
         <box className="buttons">
             {powerActions.map(({ label, }, index) => (
                 <button
@@ -56,6 +55,7 @@ function createContent() {
                 </button>
             ))}
         </box>
+        <label label="Use j+k for navigation." className="hint" />
     </box >
 
     const keys = function(window: Gdk.Window, event: Gdk.Event) {

@@ -5,12 +5,13 @@ window#window_shutdown {
 
     border-right: 1px solid;
     border-left: 1px solid;
+    border-bottom: 1px solid;
     border-color: rgba($--color-bg-accent, 1);
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
 
     .hint {
-        padding-top: $--padding-base * 2;
+        padding: $--padding-base 0px $--padding-base 0px;
         color: rgba($--color-text, 0.5);
         font-size: $--font-size * 0.5;
     }
@@ -123,6 +124,10 @@ window#window_system_updates {
 
         .part-1 {
             color: $--color-warning;
+        }
+
+        .part-1-major {
+            color: $--color-error;
         }
 
         .part-2 {

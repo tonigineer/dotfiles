@@ -77,9 +77,9 @@ export default class NetSpeed extends GObject.Object {
 
             this._prevRxBytes = newRxBytes;
             this._prevTxBytes = newTxBytes;
-            Logger.debug(
-                `Network speed - RX: ${this.downloadSpeed.toFixed(3).padStart(6, " ")} Mb/s | TX: ${this.uploadSpeed.toFixed(3).padStart(6, " ")}`,
-            );
+            // Logger.debug(
+            //     `Network speed - RX: ${this.downloadSpeed.toFixed(3).padStart(6, " ")} Mb/s | TX: ${this.uploadSpeed.toFixed(3).padStart(6, " ")}`,
+            // );
         } catch (error: any) {
             Logger.error(error.toString());
         }

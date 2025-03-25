@@ -32,21 +32,24 @@ export default class SystemUpdates extends GObject.Object {
 
     async refresh(): Promise<void> {
         try {
-            const stdout = await execAsync([
+            this.stdout = await execAsync(["bash", "-c", "yay -Sy"]);
+            Logger.debug(
+                `Fetch update info: ${this.stdout.split("\n").join("")}`,
+            );
+
+            this.stdout = await execAsync([
                 "bash",
                 "-c",
                 this._checkUpdateCommand,
             ]);
+            Logger.debug(`Update command: ${this.stdout.split("\n").join("")}`);
 
-            const packages = stdout.trim().split("\n").filter(Boolean);
+            const packages = this.stdout.trim().split("\n").filter(Boolean);
             this.updatesCount = packages.length;
             Logger.info(`Available updates: ${this.updatesCount}`);
 
             this.hasMajorUpdates = this.containsCriticalUpdates(packages);
             Logger.info(`Major updates pending: ${this.hasMajorUpdates}`);
-
-            this.stdout = stdout;
-            Logger.debug(`Update command stdout: ${this.stdout}`);
         } catch (err: any) {
             if (err.matches || err.matches(Gio.IOErrorEnum)) {
                 Logger.info("No updates are pending.");

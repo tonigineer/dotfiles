@@ -226,6 +226,19 @@ window.TopBar {
     }
 
     // ------ Right side ------
+    .SysTray {
+        // > * > * {
+        //     color: red;
+        //     font-size: 30px;
+        // }
+
+        > button {
+            .icon {
+                font-size: $--font-size * 1.25;
+            }
+        }
+    }
+
     .AudioSlider {
         * {
             all: unset;

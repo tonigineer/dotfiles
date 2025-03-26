@@ -33,9 +33,9 @@ export default function BarTop(monitor: Gdk.Monitor) {
                 <Workspaces monitor={monitor} />
             </box>
             <box hexpand halign={Gtk.Align.END}>
+                <SystemTray />
                 <WidgetHypridle />
                 <Audio />
-                <SystemTray />
                 <Clock />
                 <WidgetShutdown />
             </box>

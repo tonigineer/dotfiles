@@ -13,7 +13,7 @@ export default function SystemTray() {
                 usePopover={false}
                 actionGroup={bind(item, "actionGroup").as(ag => ["dbusmenu", ag])}
                 menuModel={bind(item, "menuModel")}>
-                <icon gicon={bind(item, "gicon")} />
+                <icon className="icon" gicon={bind(item, "gicon")} />
             </menubutton>
         )))}
     </box>

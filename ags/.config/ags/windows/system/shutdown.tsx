@@ -22,8 +22,8 @@ function createContent() {
     const powerActions = [
         { label: "", command: "poweroff" },
         { label: "", command: "reboot" },
-        { label: "", command: "loginctl lock-session; systemctl hybrid-sleep" },
-        { label: "", command: "loginctl lock-session; systemctl hibernate" },
+        { label: "", command: "loginctl lock-session; sleep 3; systemctl hybrid-sleep" },
+        { label: "", command: "loginctl lock-session; sleep 3; systemctl hibernate" },
     ];
 
     const uptime = Variable<string>("").poll(1000, () =>
@@ -47,9 +47,10 @@ function createContent() {
                 <button
                     className={bind(current_selection).as(v => v === index ? "selected" : "")}
                     onClicked={(async () => {
-                        Logger.info(`Execute shutdown command: ${powerActions[current_selection.get()].command}`)
-                        await execAsync(["bash", "-c", "ags toggle shutdown_menu"])
-                        await execAsync(["bash", "-c", `${powerActions[current_selection.get()].command}`])
+                        const action = powerActions[current_selection.get()].command;
+                        Logger.info(`Execute shutdown command: ${action}`)
+                        await execAsync(["bash", "-c", `ags toggle ${WINDOW_NAME}`])
+                        await execAsync(["bash", "-c", action])
                     })}>
                     <label label={label} />
                 </button>

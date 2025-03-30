@@ -151,6 +151,7 @@
       "hypridle",
       "hyprlock",
       "hyprpolkitagent",
+      "hypr-zoom",
       "xdg-desktop-portal",
       "xdg-desktop-portal-hyprland",
       "qt5ct",
@@ -333,14 +334,15 @@
     "post_install": []
   },
   {
-    "name": "Steam",
+    "name": "Gaming",
     "category": "game",
     "packages": [
       "steam",
+      "vesktop-bin",
       "mangohud",
       "lib32-fontconfig",
       "ttf-liberation",
-      "wqz-zenhei"
+      "wqy-microhei"
     ],
     "configs": [
       "Mangohud"

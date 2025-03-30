@@ -97,8 +97,8 @@ window.BarBottom {
 
             .icon {
                 padding: 0px;
-                // margin: 0px;
-                font-size: $--font-size * 1.4;
+                margin-top: 2px;
+                font-size: $--font-size * 1.2;
                 color: $--color-warning;
 
                 &.major {
@@ -199,6 +199,24 @@ window.TopBar {
     }
 
     // ------ Left side ------
+    .Client {
+        .Submap {
+            .icon {
+                padding-right: $--padding-base;
+                font-size: 18px;
+                padding: 0 $--padding-base 0 $--padding-base;
+                color: $--color-bg-accent;
+            }
+            .name {
+                font-size: $--font-size;
+                padding: 0 $--padding-base 0 $--padding-base;
+            }
+            border-radius: $--border-radius;
+            background-color: rgba($--color-primary, 0.75);
+            padding: 0 $--padding-base 0 $--padding-base;
+            margin-right: $--spacing-base;
+        }
+    }
 
     // ------ Center side ------
     .Workspaces {
@@ -226,16 +244,19 @@ window.TopBar {
     }
 
     // ------ Right side ------
-    .SysTray {
-        // > * > * {
-        //     color: red;
-        //     font-size: 30px;
-        // }
-
+    .Tray {
         > button {
             .icon {
+                padding-right: $--padding-base;
                 font-size: $--font-size * 1.25;
             }
+        }
+    }
+
+    .Hypridle {
+        > button {
+            padding-right: $--padding-base;
+            font-size: $--font-size * 1.25;
         }
     }
 
@@ -244,7 +265,8 @@ window.TopBar {
             all: unset;
         }
 
-        margin-right: 0rem;
+        // margin-right: 1rem;
+        padding-right: $--padding-base;
 
         icon {
             margin-right: 0em;
@@ -270,5 +292,10 @@ window.TopBar {
             // min-width: 1em;
             // margin: -0.2em;
         }
+    }
+
+    .Clock {
+        color: $--color-text;
+        font-size: $--font-size;
     }
 }

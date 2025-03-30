@@ -1,5 +1,5 @@
+import { Variable, bind, exec, execAsync, GLib } from "astal"
 import { App, Astal, Gtk, Gdk } from "astal/gtk3"
-import { Variable, bind, exec, execAsync } from "astal"
 
 import { Logger } from "@logging";
 import { InteractiveWindow } from "@windows/templates"
@@ -34,12 +34,42 @@ function createContent() {
         ])
     )
 
+    async function getInstallDate(): Promise<string> {
+        try {
+            const output = await execAsync([
+                "bash",
+                "-c",
+                "sudo stat /lost+found | grep 'Birth' || sudo stat / | grep 'Change'"
+            ])
+
+            const dateMatch = output.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/)
+            if (!dateMatch) return "Unknown"
+
+            const rawDate = dateMatch[0]
+            const [dateStr] = rawDate.split(" ")
+            const [year, month, day] = dateStr.split("-").map(Number)
+
+            const installTime = GLib.DateTime.new_local(year, month, day, 0, 0, 0)
+            const now = GLib.DateTime.new_now_local()
+
+            const daysBetween = Math.floor(Math.abs(Number(now.difference(installTime)) / (1_000_000 * 60 * 60 * 24)))
+
+            return `${day.toString().padStart(2, "0")}.${month
+                .toString()
+                .padStart(2, "0")}.${year}`
+        } catch (e) {
+            return `Failed to get date. ${e}`
+        }
+    }
+
+    const installDate = Variable<string>("Fetching...").poll(1_000 * 60 * 60, getInstallDate)
+
     const current_selection = Variable(powerActions.length - 1);
 
     const child = <box valign={Gtk.Align.CENTER} vertical>
         <box className="uptime" halign={Gtk.Align.CENTER}>
             <label label="Uptime" className="label" />
-            <label label="   " />
+            <label label=" " />
             <label label={uptime()} className="value" />
         </box>
         <box className="buttons">
@@ -56,7 +86,11 @@ function createContent() {
                 </button>
             ))}
         </box>
-        <label label="Use j+k for navigation." className="hint" />
+        <box className="birth" halign={Gtk.Align.CENTER}>
+            <label label="Birth" className="label" />
+            <label label=" " />
+            <label label={installDate()} className="value" />
+        </box>
     </box >
 
     const keys = function(window: Gdk.Window, event: Gdk.Event) {

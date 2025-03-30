@@ -33,15 +33,17 @@ checkHypridleStatus();
 setInterval(checkHypridleStatus, 1000);
 
 export function WidgetHypridle() {
-    return <button
-        onClicked={toggleHypridle}
-        tooltip="dfadsfa"
-    >
-        <label
-            label={bind(hypridleIsRunning).as(running => running ? "" : "")}
-            css="font-size: 18px;"
-        />
-    </button>
+    return <box className="Hypridle">
+        <button
+            onClicked={toggleHypridle}
+            tooltipMarkup={!SHOW_TOOLTIPS ? null : bind(hypridleIsRunning).as(running => running ? "Hypridle is enabled" : "Hypridle is disabled")}
+        >
+            <label
+                label={bind(hypridleIsRunning).as(running => running ? "󰒲" : "󰤄")}
+                css="font-size: 18px;"
+            />
+        </button>
+    </box >
 }
 
 // function createContent() {

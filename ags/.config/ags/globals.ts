@@ -9,6 +9,8 @@ declare global {
     const HOME_DIR: string;
     const TMP: string;
 
+    const SHOW_TOOLTIPS: boolean;
+
     const SERVICES: {
         NetworkStatistics: NetworkStatistics;
         SystemStatistics: SystemStatistics;
@@ -23,6 +25,8 @@ Object.assign(globalThis, {
     USER: user,
     HOME_DIR: homeDir,
     TMP: "/tmp",
+
+    SHOW_TOOLTIPS: true,
 
     SERVICES: {
         NetworkStatistics: new NetworkStatistics({ updateRate: 500 }),

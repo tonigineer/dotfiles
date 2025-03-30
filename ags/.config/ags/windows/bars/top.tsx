@@ -7,7 +7,7 @@ import Workspaces from "@widgets/workspaces"
 
 import { WidgetHypridle } from "@windows/system/hypridle"
 import Audio from "@widgets/audio"
-import SystemTray from "@widgets/systemtray"
+import { WidgetTray } from "@windows/system/tray"
 import Clock from "@widgets/clock"
 import { WidgetShutdown } from "@windows/system/shutdown"
 
@@ -33,7 +33,7 @@ export default function BarTop(monitor: Gdk.Monitor) {
                 <Workspaces monitor={monitor} />
             </box>
             <box hexpand halign={Gtk.Align.END}>
-                <SystemTray />
+                <WidgetTray />
                 <WidgetHypridle />
                 <Audio />
                 <Clock />

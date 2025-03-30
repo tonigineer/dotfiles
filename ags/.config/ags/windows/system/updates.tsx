@@ -47,11 +47,14 @@ export function WidgetSystemUpdates() {
 function createContent() {
     const child = bind(service, "stdout").as(
         (value: number) => {
+            service.updatesCount > 0
             const allUpdates = service.stdout
                 .trim()
                 .split("\n")
                 .map(line => line.trim())
                 .filter(line => line.length > 0);
+
+            const hasUpdates = service.updatesCount > 0;
 
             const majorUpdates = allUpdates.filter(line =>
                 keywordsMajorUpdates.some(keyword => line.toLowerCase().startsWith(keyword))
@@ -61,7 +64,6 @@ function createContent() {
                 !keywordsMajorUpdates.some(keyword => line.startsWith(keyword))
             );
 
-            const hasUpdates = allUpdates.length > 0;
             const labelText = Variable(hasUpdates ? "Pending Updates" : "No Updates Available");
 
             const max_width_package = allUpdates
@@ -96,7 +98,6 @@ function createContent() {
                     <Gtk.Separator visible />
 
                     {hasUpdates && (
-
                         <>
                             {majorUpdates.length > 0 && (
                                 <>

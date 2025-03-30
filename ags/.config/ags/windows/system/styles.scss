@@ -25,46 +25,50 @@ window#window_shutdown {
 
             label {
                 font-size: 26px;
-                color: $--color-text;
+                color: $--color-bg-accent;
             }
         }
 
         .selected {
-            border-bottom: 1px solid transparent;
-            border-image: linear-gradient(
-                    45deg,
-                    $--color-primary,
-                    $--color-success
-                )
-                1;
-
-            animation:
-                borderAnimation 1.5s ease-in-out infinite alternate,
-                transform 2s ease-in-out;
-
-            @keyframes borderAnimation {
-                0% {
-                    border-image: linear-gradient(
-                            45deg,
-                            $--color-primary,
-                            $--color-success
-                        )
-                        1;
-                }
-                100% {
-                    border-image: linear-gradient(
-                            45deg,
-                            $--color-success,
-                            $--color-primary
-                        )
-                        1;
-                }
+            > * {
+                color: rgba($--color-text, 0.75);
             }
+            // border-bottom: 1px solid transparent;
+            //
+            // border-image: linear-gradient(
+            //         45deg,
+            //         $--color-primary,
+            //         $--color-success
+            //     )
+            //     1;
+            //
+            // animation:
+            //     borderAnimation 1.5s ease-in-out infinite alternate,
+            //     transform 2s ease-in-out;
+            //
+            // @keyframes borderAnimation {
+            //     0% {
+            //         border-image: linear-gradient(
+            //                 45deg,
+            //                 $--color-primary,
+            //                 $--color-success
+            //             )
+            //             1;
+            //     }
+            //     100% {
+            //         border-image: linear-gradient(
+            //                 45deg,
+            //                 $--color-success,
+            //                 $--color-primary
+            //             )
+            //             1;
+            //     }
+            // }
         }
 
         button:hover {
             label {
-                color: $--color-success;
+                color: rgba($--color-text, 0.75);
             }
         }
     }
@@ -73,11 +77,27 @@ window#window_shutdown {
         padding-top: $--padding-base;
 
         .value {
-            color: $--color-primary;
+            font-size: $--font-size;
+            color: $--color-text;
         }
 
         .label {
-            color: rgba($--color-text, 0.75);
+            font-size: $--font-size;
+            color: rgba($--color-text, 0.5);
+        }
+    }
+
+    box.birth {
+        padding-bottom: $--padding-base;
+
+        .value {
+            font-size: $--font-size * 0.75;
+            color: rgba($--color-text, 0.5);
+        }
+
+        .label {
+            font-size: $--font-size * 0.75;
+            color: rgba($--color-text, 0.25);
         }
     }
 }

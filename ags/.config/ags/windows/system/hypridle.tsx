@@ -20,16 +20,17 @@ async function checkHypridleStatus() {
 async function toggleHypridle() {
     Logger.debug(`toggle hypridle called ${hypridleIsRunning.get()}`);
     if (hypridleIsRunning.get()) {
+        Logger.debug("Hypridle running, kill it");
         await execAsync(["bash", "-c", "killall -9 hypridle"]);
     } else {
-        await execAsync(["bash", "-c", "killall -9 hypridle"]);
-        await execAsync(["bash", "-c", "hypridle"]);
+        Logger.debug("Start hypridle");
+        const result = await execAsync(["bash", "-c", "killall -9 hypridle; hypridle"]);
+        Logger.debug(result);
     }
-    await checkHypridleStatus();
 }
 
 checkHypridleStatus();
-setInterval(checkHypridleStatus, 5000);
+setInterval(checkHypridleStatus, 1000);
 
 export function WidgetHypridle() {
     return <button

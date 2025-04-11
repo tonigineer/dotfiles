@@ -11,6 +11,8 @@ import { WidgetTray } from "@windows/system/tray"
 import Clock from "@widgets/clock"
 import { WidgetShutdown } from "@windows/system/shutdown"
 
+import { WidgetWallpaper } from "@windows/misc/wallpaper"
+
 
 export default function BarTop(monitor: Gdk.Monitor) {
     const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -33,6 +35,7 @@ export default function BarTop(monitor: Gdk.Monitor) {
                 <Workspaces monitor={monitor} />
             </box>
             <box hexpand halign={Gtk.Align.END}>
+                <WidgetWallpaper />
                 <WidgetTray />
                 <WidgetHypridle />
                 <Audio />

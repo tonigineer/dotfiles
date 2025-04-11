@@ -33,18 +33,18 @@ export default function Client() {
     const focused = bind(hypr, "focusedClient")
 
     return <box
-        className="Client"
-        visible={focused.as(Boolean)}>
+        className="Client">
         <box>
             {submap().as(value => value === "default" ? <box /> :
                 <box className="Submap">
                     <label className="icon" label="󰥻" />
                     <label className="name" label={value} />
                 </box>
-            )}
+            )}</box>
+        <box
+            visible={focused.as(Boolean)}>
             {focused.as(client => (
                 client && <label label={bind(client, "class").as(v => getSubstitute(v)).as(String)} />
-            ))}
-        </box>
+            ))}</box>
     </box >
 }

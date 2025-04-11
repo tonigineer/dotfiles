@@ -5,9 +5,10 @@ import Hyprland from "gi://AstalHyprland"
 
 // NOTE: Currently, i don't know how to get the monitor index from Gdk.Monitor
 // Therefore this workaround is applied.
-const MONITORS: { [key: number]: string } = {
-    0: "ROG XG27UQR",
-    1: "PG27UQR",
+const MONITORS: { [key: string]: number } = {
+    "ROG XG27UQR": 0,
+    "PG27UQR": 1,
+    "0x6693": 0
 };
 
 export default function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
@@ -15,7 +16,7 @@ export default function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
 
     return <box className="Workspaces">
         {bind(hypr, "workspaces").as(wss => wss
-            .filter((ws: any) => MONITORS[ws.monitor.id] === monitor.get_model())
+            .filter((ws: any) => MONITORS[monitor.get_model()] === ws.monitor.id)
             .filter((ws: any) => !(ws.id >= -99 && ws.id <= -2))
             .sort((a: any, b: any) => a.id - b.id)
             .map((ws: any) => (

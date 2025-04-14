@@ -11,6 +11,7 @@ import { WidgetTray } from "@windows/system/tray"
 import Clock from "@widgets/clock"
 import { WidgetShutdown } from "@windows/system/shutdown"
 
+import { WidgetBattery } from "@windows/system/battery"
 import { WidgetWallpaper } from "@windows/misc/wallpaper"
 
 
@@ -39,6 +40,7 @@ export default function BarTop(monitor: Gdk.Monitor) {
                 <WidgetTray />
                 <WidgetHypridle />
                 <Audio />
+                <WidgetBattery />
                 <Clock />
                 <WidgetShutdown />
             </box>

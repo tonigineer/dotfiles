@@ -6,7 +6,7 @@ import Tray from "gi://AstalTray"
 import { InteractiveWindow } from "@windows/templates"
 import { Logger } from "@logging"
 
-// const WINDOW_NAME = "window_wallpaper";
+const WINDOW_NAME = "window_wallpaper";
 
 // export function WidgetWallpaper() {
 //     const tray = Tray.get_default()
@@ -41,20 +41,27 @@ export function WidgetWallpaper() {
         )))}
 
         {/* 🖼️ Wallpaper Picker Button */}
-        <button tooltipMarkup="Choose wallpaper" onClicked={() => App.toggle_window("wallpaper_picker")}>
+        <button
+            tooltipMarkup="Choose wallpaper"
+            onClicked={() => {
+                const win = App.get_window(WINDOW_NAME);
+                if (win) {
+                    win.visible ? win.hide() : win.show();
+                }
+            }}>
             <label label="🖼️" css="font-size: 16px;" />
         </button>
-    </box>
+    </box >
 }
 
 
 async function createWallpaperPicker() {
-    const wallpapers = Variable<string[]>([])
+    // const wallpapers = Variable<string[]>([])
 
 
-    wallpapers.set(["fdasf", "dfasf"]);
+    // wallpapers.set(["fdasf", "dfasf"]);
 
-    Logger.debug(`!!!!!!!!!!!!!!!!!!!! ${wallpapers}`);
+    // Logger.debug(`!!!!!!!!!!!!!!!!!!!! ${wallpapers}`);
 
     // Load wallpapers from dir
     // exec(["bash", "-c", "find ~/.config/hypr/backgrounds -type f"])
@@ -62,18 +69,18 @@ async function createWallpaperPicker() {
 
 
     // const stdout = exec(["bash", "-c", "find ~/.config/hypr/backgrounds -type f"]);
-    await execAsync(["bash", "-c", "find ~/.config/hypr/backgrounds -type f"]).then(out => wallpapers.set(out.split("\n")));
+    // await execAsync(["bash", "-c", "find ~/.config/hypr/backgrounds -type f"]).then(out => wallpapers.set(out.split("\n")));
     // wallpapers.set(stdout.split("\n"));
-    Logger.debug(`!!!!!!!!!!!!!!!!!!!! ${wallpapers}`);
+    // Logger.debug(`!!!!!!!!!!!!!!!!!!!! ${wallpapers}`);
     // Logger.debug(`@!!!!!!!!!!!!!!!!!!!! ${out}`);
 
-    bind(wallpapers).as(
-        list => list.map(
-            file => {
-                Logger.debug("!!!!!!!!!!!!!!!!");
-                Logger.debug(`f!!!!!! ${file}`);
-            }));
-    const child = <box> <label label="dfasfsafs" /></box>
+    // bind(wallpapers).as(
+    //     list => list.map(
+    //         file => {
+    //             Logger.debug("!!!!!!!!!!!!!!!!");
+    //             Logger.debug(`f!!!!!! ${file}`);
+    //         }));
+    const child = <box> <label css="font-size: 48px; color: red;" label="dfasfsafs" /></box>
     // const preview = Variable<string | null>(null)
     //
     // const child = <flow vertical homogeneous className="wallpaper-picker">
@@ -103,8 +110,8 @@ async function createWallpaperPicker() {
 
 export function WindowWallpaper() {
     return InteractiveWindow(
-        "wallpaper_picker",
-        Astal.WindowAnchor.FILL, // fullscreen
+        WINDOW_NAME,
+        Astal.WindowAnchor.CENTER, // fullscreen
         createWallpaperPicker,
         true
     )

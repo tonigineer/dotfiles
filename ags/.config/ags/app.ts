@@ -10,6 +10,7 @@ import { compileScss } from "./css_hot_reload";
 import BarTop from "@windows/bars/top";
 import BarBottom from "@windows/bars/bottom";
 
+import { WindowLauncher } from "@windows/misc/launcher";
 import { WindowWallpaper } from "@windows/misc/wallpaper";
 import { WindowShutdown } from "@windows/system/shutdown";
 import { WindowSystemUpdates } from "@windows/system/updates";
@@ -24,6 +25,7 @@ App.start({
         App.get_monitors().map(BarTop);
         App.get_monitors().map(BarBottom);
 
+        // WindowLauncher();
         WindowWallpaper();
         WindowShutdown();
         WindowSystemUpdates();

@@ -14,7 +14,7 @@
       "astal": ["/usr/share/astal/gjs"],
       "astal/*": ["/usr/share/astal/gjs/*"],
       "@root/*": ["./*"],
-      "@widgets/*": ["./widgets/*"],
+      "@components/*": ["./components/*"],
       "@services/*": ["./services/*"],
       "@windows/*": ["./windows/*"],
       "@logging": ["./logging"]

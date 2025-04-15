@@ -1,12 +1,22 @@
-// @ts-nocheck
+import { App, Astal, Gtk, Gdk } from "astal/gtk3"
+import { Variable, bind, exec, execAsync, GLib } from "astal"
 
-import { bind } from "astal";
+import { Logger } from "@logging";
+import { InteractiveWindow } from "@windows/lib"
 
-export default function NetworkSpeeds() {
+const WINDOW_NAME = "window_system_stats";
+
+export function WidgetNetworkStats() {
     const service = SERVICES.NetworkStatistics;
     const active_min_mega_bytes = 0.05;
 
-    return (
+    return <button
+        onClicked={() => {
+            const win = App.get_window(WINDOW_NAME);
+            if (win) {
+                win.visible ? win.hide() : win.show();
+            }
+        }}>
         <box className="NetworkSpeeds">
             <label
                 className={bind(service, "downloadSpeed").as(
@@ -39,7 +49,30 @@ export default function NetworkSpeeds() {
                     v => `${v.toFixed(1).padEnd(3)}`
                 )}
             />
-        </box>
-    );
+        </box>    </button>
+}
+
+function createContent() {
+    Logger.debug(`CreateContent called for window: ${WINDOW_NAME}`);
+
+    const child = <box className="network-stats">
+        <label css="font-size: 30px; color: red;" label="SYSTEM_STATS" />
+    </box >
+
+    const keys = function(window: Gdk.Window, event: Gdk.Event) {
+        if (event.get_keyval()[1] === Gdk.KEY_Escape)
+            window.hide()
+    }
+
+    return { child, keys }
+}
+
+export function WindowNetworkStats() {
+    return InteractiveWindow(
+        WINDOW_NAME,
+        Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.CENTER,
+        createContent,
+        false
+    )
 }
 

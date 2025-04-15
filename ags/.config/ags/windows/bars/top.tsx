@@ -1,19 +1,15 @@
 import { GLib } from "astal"
 import { Astal, Gtk, Gdk } from "astal/gtk3"
 
-import Client from "@widgets/client"
-
-import Workspaces from "@widgets/workspaces"
-
-import { WidgetHypridle } from "@windows/system/hypridle"
-import Audio from "@widgets/audio"
-import { WidgetTray } from "@windows/system/tray"
-import Clock from "@widgets/clock"
-import { WidgetShutdown } from "@windows/system/shutdown"
-
-import { WidgetBattery } from "@windows/system/battery"
-import { WidgetWallpaper } from "@windows/misc/wallpaper"
-
+import { WidgetHyprlandClient } from "@components/hyprland_client"
+import { WidgetHyprlandWorkspaces } from "@components/hyprland_workspaces"
+import { WidgetHypridle } from "@components/hypridle"
+import { WidgetSpeaker } from "@components/speaker"
+import { WidgetBattery } from "@components/battery"
+import { WidgetSystemtray } from "@components/systemtray"
+import { WidgetNetwork } from "@components/network_adapter"
+import { WidgetClock } from "@components/clock"
+import { WidgetShutdown } from "@components/shutdown"
 
 export default function BarTop(monitor: Gdk.Monitor) {
     const { TOP, LEFT, RIGHT } = Astal.WindowAnchor
@@ -30,18 +26,18 @@ export default function BarTop(monitor: Gdk.Monitor) {
                 <icon
                     css="font-size: 18px;"
                     icon={GLib.get_os_info("LOGO") || "missing-symbolic"} />
-                <Client />
+                <WidgetHyprlandClient />
             </box>
             <box>
-                <Workspaces monitor={monitor} />
+                <WidgetHyprlandWorkspaces monitor={monitor} />
             </box>
             <box hexpand halign={Gtk.Align.END}>
-                <WidgetWallpaper />
-                <WidgetTray />
                 <WidgetHypridle />
-                <Audio />
+                <WidgetSpeaker />
                 <WidgetBattery />
-                <Clock />
+                <WidgetSystemtray />
+                <WidgetNetwork />
+                <WidgetClock />
                 <WidgetShutdown />
             </box>
         </centerbox>

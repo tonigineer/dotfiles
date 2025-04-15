@@ -1,7 +1,8 @@
-import { Gdk } from "astal/gtk3"
-import { bind } from "astal"
+import { App, Astal, Gtk, Gdk } from "astal/gtk3"
+import { Variable, bind, exec, execAsync, GLib } from "astal"
 
-import Hyprland from "gi://AstalHyprland"
+import Hyprland from "gi://AstalHyprland";
+import { Logger } from "@logging";
 
 // NOTE: Currently, i don't know how to get the monitor index from Gdk.Monitor
 // Therefore this workaround is applied.
@@ -11,7 +12,7 @@ const MONITORS: { [key: string]: number } = {
     "0x6693": 0
 };
 
-export default function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
+export function WidgetHyprlandWorkspaces({ monitor }: { monitor: Gdk.Monitor }) {
     const hypr = Hyprland.get_default()
 
     return <box className="Workspaces">
@@ -30,3 +31,4 @@ export default function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
         )}
     </box>
 }
+

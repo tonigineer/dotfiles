@@ -9,30 +9,32 @@ window.BarBottom {
     border-top: 1px solid;
     border-color: rgba($--color-bg-accent, 1);
 
-    > * {
+    >* {
         padding-top: $--padding-base;
         padding-bottom: $--padding-base;
     }
 
     // ------ Left and right edge ------
-    > * > *:first-child {
+    >*>*:first-child {
         margin-left: $--spacing-base * 1.25;
     }
-    > * > *:last-child {
+
+    >*>*:last-child {
         margin-right: $--spacing-base * 1.25;
     }
 
     // ------ Between widgets ------
-    > * > * > * {
+    >*>*>* {
         margin-right: $--spacing-base;
     }
-    > * > * > *:last-child {
+
+    >*>*>*:last-child {
         margin-right: 0rem;
     }
 
     // ------ Left side ------
     .SystemStats {
-        > * {
+        >* {
             margin-right: $--padding-base;
         }
 
@@ -50,120 +52,119 @@ window.BarBottom {
 
             @for $i from 0 through 9 {
                 &.color-#{$i * 10}-#{$i * 10 + 9} {
-                    $percentage: ($i * 10%);
-
-                    $color: if(
-                        $percentage <= 50%,
-                        mix(
-                            $--color-warning,
-                            $--color-success,
-                            ($percentage * 2%)
-                        ),
-                        mix(
-                            $--color-error,
-                            $--color-warning,
-                            (($percentage - 50%) * 2%)
-                        )
+                    $percentage: (
+                        $i * 10%
                     );
 
-                    color: rgba($color, 0.75);
-                }
-            }
+                $color: if($percentage <=50%,
+                        mix($--color-warning,
+                            $--color-success,
+                            ($percentage * 2%)),
+                        mix($--color-error,
+                            $--color-warning,
+                            (($percentage - 50%) * 2%)));
 
-            &.capacity {
-                color: $--color-warning;
+                color: rgba($color, 0.75);
             }
         }
 
-        .separator {
-            color: rgba($--color-text, 0.75);
-            font-size: $--font-size * 0.5;
-        }
-        .icon {
-            font-size: $--font-size * 0.9;
+        &.capacity {
+            color: $--color-warning;
         }
     }
 
-    .Updates {
-        button {
+    .separator {
+        color: rgba($--color-text, 0.75);
+        font-size: $--font-size * 0.5;
+    }
+
+    .icon {
+        font-size: $--font-size * 0.9;
+    }
+}
+
+.Updates {
+    button {
+        padding: 0px;
+        margin-top: -0.25rem;
+        margin-bottom: -0.25rem;
+
+        >* :not(:last-child) {
+            margin-right: $--padding-base * 2;
+        }
+
+        font-size: $--font-size * 0.9;
+
+        .icon {
             padding: 0px;
-            margin-top: -0.25rem;
-            margin-bottom: -0.25rem;
+            margin-top: 2px;
+            font-size: $--font-size * 1.2;
+            color: $--color-warning;
 
-            > * :not(:last-child) {
-                margin-right: $--padding-base * 2;
+            &.major {
+                color: $--color-error;
             }
-            font-size: $--font-size * 0.9;
+        }
 
-            .icon {
-                padding: 0px;
-                margin-top: 2px;
-                font-size: $--font-size * 1.2;
-                color: $--color-warning;
+        .value {
+            color: $--color-text;
+        }
+    }
+}
 
-                &.major {
-                    color: $--color-error;
-                }
-            }
+// ------ Center ------
+.NetworkSpeeds {
+    .rx {
+        font-size: $--font-size * 0.8;
 
-            .value {
+        &.label {
+            color: $--color-bg-accent;
+
+            &.active {
                 color: $--color-text;
             }
         }
-    }
 
-    // ------ Center ------
-    .NetworkSpeeds {
-        .rx {
-            font-size: $--font-size * 0.8;
-            &.label {
-                color: $--color-bg-accent;
+        &.icon {
+            margin-top: 1px;
+            font-weight: bold;
+            color: $--color-bg-accent;
 
-                &.active {
-                    color: $--color-text;
-                }
-            }
-
-            &.icon {
-                margin-top: 1px;
-                font-weight: bold;
-                color: $--color-bg-accent;
-
-                &.active {
-                    color: $--color-primary;
-                }
-            }
-        }
-
-        .label {
-            font-size: $--font-size * 0.75;
-            color: rgba($--color-text, 0.35);
-        }
-
-        .tx {
-            font-size: $--font-size * 0.85;
-
-            &.label {
-                color: $--color-bg-accent;
-
-                &.active {
-                    color: $--color-text;
-                }
-            }
-
-            &.icon {
-                margin-top: 1px;
-                font-weight: bold;
-                color: $--color-bg-accent;
-
-                &.active {
-                    color: $--color-warning;
-                }
+            &.active {
+                color: $--color-primary;
             }
         }
     }
 
-    // ------ Right side ------
+    .label {
+        font-size: $--font-size * 0.75;
+        color: rgba($--color-text, 0.35);
+    }
+
+    .tx {
+        font-size: $--font-size * 0.85;
+
+        &.label {
+            color: $--color-bg-accent;
+
+            &.active {
+                color: $--color-text;
+            }
+        }
+
+        &.icon {
+            margin-top: 1px;
+            font-weight: bold;
+            color: $--color-bg-accent;
+
+            &.active {
+                color: $--color-warning;
+            }
+        }
+    }
+}
+
+// ------ Right side ------
 }
 
 // -----------------------------------------------------------------------------------------------
@@ -177,24 +178,26 @@ window.TopBar {
     border-bottom: 1px solid;
     border-color: rgba($--color-bg-accent, 1);
 
-    > * {
+    >* {
         padding-top: $--padding-base;
         padding-bottom: $--padding-base;
     }
 
     // ------ Left and right edge ------
-    > * > *:first-child {
+    >*>*:first-child {
         margin-left: $--spacing-base * 1.25;
     }
-    > * > *:last-child {
+
+    >*>*:last-child {
         margin-right: $--spacing-base * 1.25;
     }
 
     // ------ Between widgets ------
-    > * > * > * {
+    >*>*>* {
         margin-right: $--spacing-base;
     }
-    > * > * > *:last-child {
+
+    >*>*>*:last-child {
         margin-right: 0rem;
     }
 
@@ -207,10 +210,12 @@ window.TopBar {
                 padding: 0 $--padding-base 0 $--padding-base;
                 color: $--color-bg-accent;
             }
+
             .name {
                 font-size: $--font-size;
                 padding: 0 $--padding-base 0 $--padding-base;
             }
+
             border-radius: $--border-radius;
             background-color: rgba($--color-primary, 0.75);
             padding: 0 $--padding-base 0 $--padding-base;
@@ -220,7 +225,7 @@ window.TopBar {
 
     // ------ Center side ------
     .Workspaces {
-        > button {
+        >button {
             min-width: 16px;
             padding-left: 0.35rem;
             padding-right: 0.35rem;
@@ -230,13 +235,13 @@ window.TopBar {
         }
     }
 
-    .Workspaces > button:hover {
+    .Workspaces>button:hover {
         border-bottom-left-radius: $--border-radius;
         border-bottom-right-radius: $--border-radius;
         border-bottom: 0.15rem solid $--color-error;
     }
 
-    .Workspaces > button.focused {
+    .Workspaces>button.focused {
         min-width: 16px;
         border-bottom-left-radius: $--border-radius;
         border-bottom-right-radius: $--border-radius;
@@ -244,17 +249,8 @@ window.TopBar {
     }
 
     // ------ Right side ------
-    .Tray {
-        > button {
-            .icon {
-                padding-right: $--padding-base;
-                font-size: $--font-size * 1.25;
-            }
-        }
-    }
-
     .Hypridle {
-        > button {
+        >button {
             padding-right: $--padding-base;
             font-size: $--font-size * 1.25;
         }
@@ -278,12 +274,14 @@ window.TopBar {
             border-radius: $--border-radius * 3;
             margin-left: 0.5rem;
         }
+
         //
         highlight {
             background-color: $--color-primary;
             min-height: 0.7em;
             border-radius: $--border-radius * 3;
         }
+
         //
         slider {
             background-color: $--color-primary;
@@ -291,6 +289,18 @@ window.TopBar {
             // min-height: 1em;
             // min-width: 1em;
             // margin: -0.2em;
+        }
+    }
+
+    .Tray {
+        margin-left: -15px;
+
+        >button {
+            .icon {
+                padding-left: $--padding-base;
+                padding-right: $--padding-base;
+                font-size: $--font-size * 1.25;
+            }
         }
     }
 

@@ -3,17 +3,19 @@
 import "./globals";
 
 import { App } from "astal/gtk3";
-
 import { Logger } from "@logging";
 import { compileScss } from "./css_hot_reload";
 
 import BarTop from "@windows/bars/top";
 import BarBottom from "@windows/bars/bottom";
 
-import { WindowLauncher } from "@windows/misc/launcher";
-import { WindowWallpaper } from "@windows/misc/wallpaper";
-import { WindowShutdown } from "@windows/system/shutdown";
-import { WindowSystemUpdates } from "@windows/system/updates";
+import { WindowShutdown } from "@components/shutdown"
+import { WindowNetwork } from "@components/network_adapter"
+import { WindowSystemUpdates } from "@components/system_updates"
+
+// import { WindowLauncher } from "@windows/misc/launcher";
+// import { WindowWallpaper } from "@windows/misc/wallpaper";
+// import { WindowShutdown } from "@windows/system/shutdown";
 
 // import requestHandler from './request_handler'
 
@@ -25,8 +27,10 @@ App.start({
         App.get_monitors().map(BarTop);
         App.get_monitors().map(BarBottom);
 
+        // WindowTemplate()
         // WindowLauncher();
-        WindowWallpaper();
+        // WindowWallpaper();
+        WindowNetwork();
         WindowShutdown();
         WindowSystemUpdates();
     },

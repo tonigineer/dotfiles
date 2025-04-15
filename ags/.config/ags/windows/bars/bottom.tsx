@@ -1,9 +1,9 @@
 import { Astal, Gtk, Gdk } from "astal/gtk3"
 
-import NetworkSpeeds from "@widgets/networkspeeds"
-import SystemStats from "@widgets/systemstats"
-import { WidgetSystemUpdates } from "@windows/system/updates"
-
+import { WidgetSystemStats } from "@components/system_statistics"
+import { WidgetSystemUpdates } from "@components/system_updates"
+import { WidgetNetworkStats } from "@components/network_statistics"
+import { WidgetMedia } from "@components/media"
 
 export default function BarBottom(monitor: Gdk.Monitor) {
     const { BOTTOM, LEFT, RIGHT } = Astal.WindowAnchor
@@ -16,13 +16,14 @@ export default function BarBottom(monitor: Gdk.Monitor) {
         anchor={BOTTOM | LEFT | RIGHT}>
         <centerbox>
             <box hexpand halign={Gtk.Align.START}>
-                <SystemStats />
+                <WidgetSystemStats />
                 <WidgetSystemUpdates />
             </box>
             <box>
-                <NetworkSpeeds />
+                <WidgetNetworkStats />
             </box>
             <box hexpand halign={Gtk.Align.END} >
+                <WidgetMedia />
             </box>
         </centerbox>
     </window >

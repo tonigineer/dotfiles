@@ -1,16 +1,14 @@
-// @ts-nocheck
-
 import { App, Astal, Gtk, Gdk } from "astal/gtk3"
-import { Variable, bind, exec, execAsync } from "astal"
+import { Variable, bind, exec, execAsync, GLib } from "astal"
 
 import { Logger } from "@logging";
-import { InteractiveWindow } from "@windows/templates"
-import Cava from "gi://AstalCava"
-
-import { SystemUpdates, keywordsMajorUpdates } from "@services/system_updates";
+import { InteractiveWindow } from "@windows/lib"
+import { keywordsMajorUpdates } from "@services/system_updates";
 
 const WINDOW_NAME = "window_system_updates";
 const service = SERVICES.SystemUpdates;
+
+service.refresh();
 
 export function WidgetSystemUpdates() {
     const actions: Record<number, () => void> = {
@@ -25,7 +23,6 @@ export function WidgetSystemUpdates() {
         },
     };
 
-    // const button = event.get_button()[0];
     return bind(service, "updatesCount").as((value: number) => value === 0 ? <box /> :
         <box className="Updates">
             <button
@@ -46,7 +43,7 @@ export function WidgetSystemUpdates() {
 
 function createContent() {
     const child = bind(service, "stdout").as(
-        (value: number) => {
+        (_: number) => {
             service.updatesCount > 0
             const allUpdates = service.stdout
                 .trim()
@@ -76,7 +73,7 @@ function createContent() {
                 .reduce((acc, x) => Math.max(acc, x), 0);
             Logger.debug(`Max length of all versions: ${max_width_version}`);
 
-            return value === 0 ? <box /> :
+            return allUpdates.length === 0 ? <box /> :
                 <box className="Updates" vertical spacing={8}>
                     <button
                         sensitive={hasUpdates}
@@ -146,25 +143,24 @@ function createContent() {
     );
 
     const keys = function(window: Gdk.Window, event: Gdk.Event) {
-
-        if (event.get_keyval()[1] === Gdk.KEY_Escape)
-            window.hide()
         if (event.get_keyval()[1] === Gdk.KEY_Escape)
             window.hide()
         if (event.get_keyval()[1] === Gdk.KEY_U) {
-            execAsync(["bash", "-c", "kitty -e yay -Syu"]);
             window.hide();
+            execAsync(["bash", "-c", "kitty -e yay -Syu"]);
         }
     }
 
     return { child, keys }
 }
 
+
 export function WindowSystemUpdates() {
     return InteractiveWindow(
         WINDOW_NAME,
         Astal.WindowAnchor.BOTTOM | Astal.WindowAnchor.LEFT,
-        createContent
+        createContent,
+        false
     )
 }
 

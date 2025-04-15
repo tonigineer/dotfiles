@@ -1,7 +1,7 @@
-import { bind, exec, Variable } from "astal"
+import { App, Astal, Gtk, Gdk } from "astal/gtk3"
+import { Variable, bind, exec, execAsync, GLib } from "astal"
 
 import Hyprland from "gi://AstalHyprland"
-
 import { Logger } from "@logging"
 
 // Here, a solution with the Hyprland object must be found.
@@ -12,8 +12,7 @@ const submap = Variable<string>("").poll(500, () => {
         "hyprctl submap"
     ]);
     return submap;
-}
-)
+})
 
 function getSubstitute(input: string): string {
     const SUBSTITUTIONS: Record<string, string> = {
@@ -21,14 +20,10 @@ function getSubstitute(input: string): string {
         "nvim": "Neovim",
     };
 
-    if (input in SUBSTITUTIONS) {
-        return SUBSTITUTIONS[input];
-    }
-
-    return input
+    return input in SUBSTITUTIONS ? SUBSTITUTIONS[input] : input;
 }
 
-export default function Client() {
+export function WidgetHyprlandClient() {
     const hypr = Hyprland.get_default()
     const focused = bind(hypr, "focusedClient")
 
@@ -40,11 +35,18 @@ export default function Client() {
                     <label className="icon" label="󰥻" />
                     <label className="name" label={value} />
                 </box>
-            )}</box>
+            )}
+        </box>
         <box
             visible={focused.as(Boolean)}>
             {focused.as(client => (
                 client && <label label={bind(client, "class").as(v => getSubstitute(v)).as(String)} />
-            ))}</box>
+            ))}
+        </box>
     </box >
 }
+
+
+
+
+

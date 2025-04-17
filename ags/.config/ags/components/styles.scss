@@ -1,4 +1,5 @@
 // Shared window base style
+window#window_wallpaper,
 window#window_shutdown,
 window#window_system_updates,
 window#window_network {
@@ -179,5 +180,12 @@ window#window_network {
     box.test {
         margin: 0px;
         padding: 1ex;
+    }
+}
+
+window#window_wallpaper {
+    box.main {
+        min-width: 500px;
+        min-height: 800px;
     }
 }

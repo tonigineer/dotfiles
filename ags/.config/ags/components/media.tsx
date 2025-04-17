@@ -1,59 +1,109 @@
 import { App, Astal, Gtk, Gdk } from "astal/gtk3"
 import { Variable, bind, exec, execAsync, GLib } from "astal"
+
 import Mpris from "gi://AstalMpris"
-
 import { Logger } from "@logging";
-import { InteractiveWindow } from "@windows/lib"
 
-const WINDOW_NAME = "window_media";
+const mpris = Mpris.get_default()
+
+function playerToIcon(name: string) {
+    let icons: {
+        [key: string]: string
+    } = {
+        spotify: "󰓇",
+        VLC: "󰓈",
+        YouTube: "󰓉",
+        Brave: "",
+        Audacious: "󰓋",
+        Rhythmbox: "󰓌",
+        Chromium: "",
+        Firefox: "󰈹",
+        firefox: "󰈹",
+    }
+    return icons[name] || ""
+}
+
+
+
+const lookupIcon = (name: string) => {
+    let result = Astal.Icon.lookup_icon(name) ? Astal.Icon.lookup_icon(name) : "audio-x-generic-symbolic"
+    return result
+}
 
 export function WidgetMedia() {
-    const mpris = Mpris.get_default()
+    const progress = (player: Mpris.Player) => {
+        const playerIcon = bind(player, "entry").as((e) => playerToIcon(e));
+        return (
+            <circularprogress
+                className="progress"
+                rounded={true}
+                inverted={false}
+                // startAt={0.25}
+                borderWidth={1}
+                value={bind(player, "position").as((p) =>
+                    player.length > 0 ? p / player.length : 0
+                )}
+                halign={Gtk.Align.CENTER}
+                valign={Gtk.Align.CENTER}
+                child={
+                    // <icon className="icon" icon={playerIcon}/>
+                    <label className={"icon"} label={playerIcon} />
+                }></circularprogress>
+        );
+    };
 
-    return <box className="Media">
-        {bind(mpris, "players").as(ps => ps[0] ? (
-            <box>
-                <box
-                    className="Cover"
-                    valign={Gtk.Align.CENTER}
-                    css={bind(ps[0], "coverArt").as(cover =>
-                        `background-image: url('${cover}');`
-                    )}
-                />
-                <label
-                    label={bind(ps[0], "metadata").as(() =>
-                        `${ps[0].title} - ${ps[0].artist}`
-                    )}
-                />
+    const coverArtToCss = (player: Mpris.Player) =>
+        bind(player, "coverArt").as(
+            (c) => {
+                `
+        background-image: linear-gradient(
+          to right,
+        #000000,
+        rgba(0, 0, 0, 0.5)
+            ),
+            url("${c}");
+        `;
+            });
+
+    const title = (player: Mpris.Player) => (
+        <label
+            className="title"
+            max_width_chars={25}
+            truncate={true}
+            label={bind(player, "title").as((t) => t || "Unknown Track")}></label>
+    );
+
+    const artist = (player: Mpris.Player) => (
+        <label
+            className="artist"
+            max_width_chars={20}
+            truncate={true}
+            label={bind(player, "artist").as(
+                (a) => `by ${a}` || "Unknown Artist"
+            )}></label>
+    );
+
+    function Player(player: Mpris.Player) {
+        return (
+            <box
+                className={bind(player, "entry").as((entry) => `media ${entry}`)}
+                css={coverArtToCss(player)}
+                spacing={10}>
+                {title(player)}
+                {artist(player)}
             </box>
-        ) : (
-            <label label="Nothing Playing" />
-        ))}
-    </box>
-}
-
-function createContent() {
-    Logger.debug(`CreateContent called for window: ${WINDOW_NAME}`);
-
-    const child = <box className="media">
-        <label css="font-size: 30px; color: red;" label="media" />
-    </box >
-
-    const keys = function(window: Gdk.Window, event: Gdk.Event) {
-        if (event.get_keyval()[1] === Gdk.KEY_Escape)
-            window.hide()
+        );
     }
 
-    return { child, keys }
-}
+    const activePlayer = () =>
+        Player(
+            mpris.players.find(
+                (player) => player.playbackStatus === Mpris.PlaybackStatus.PLAYING
+            ) || mpris.players[0]
+        );
 
-export function WindowMedia() {
-    return InteractiveWindow(
-        WINDOW_NAME,
-        Astal.WindowAnchor.CENTER,
-        createContent,
-        true
-    )
+    return <box className="WidgetMedia">
+        {activePlayer()}
+    </box>
 }
-
 

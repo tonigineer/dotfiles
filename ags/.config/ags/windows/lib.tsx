@@ -7,6 +7,9 @@ const InactivityHandler = {
     duration: 5000 as number,
 
     start(window: any, duration?: number) {
+        if (!HIDE_WIN_ON_INACTIVITY) {
+            return;
+        }
         this.stop();
         this.duration = duration ?? this.duration;
 

@@ -1,11 +1,12 @@
-window#window_shutdown {
+// Shared window base style
+window#window_shutdown,
+window#window_system_updates,
+window#window_network {
     background-color: rgba($--color-bg, 1);
     box-shadow: none;
     color: $--color-text;
 
-    border-right: 1px solid;
-    border-left: 1px solid;
-    border-bottom: 1px solid;
+    border: 1px solid;
     border-color: rgba($--color-bg-accent, 1);
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
@@ -15,6 +16,10 @@ window#window_shutdown {
         color: rgba($--color-text, 0.5);
         font-size: $--font-size * 0.5;
     }
+}
+
+window#window_shutdown {
+    border-top: 0px;
 
     box.buttons {
         padding: $--padding-base;
@@ -104,21 +109,7 @@ window#window_shutdown {
 }
 
 window#window_system_updates {
-    background-color: rgba($--color-bg, 1);
-    box-shadow: none;
-    color: $--color-text;
-
-    border-right: 1px solid;
-    border-left: 1px solid;
-    border-top: 1px solid;
-    border-color: rgba($--color-bg-accent, 1);
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-
-    .hint {
-        color: rgba($--color-text, 0.5);
-        font-size: $--font-size * 0.5;
-    }
+    border-bottom: 0px;
 
     box.Updates {
         padding: $--padding-base;
@@ -158,5 +149,35 @@ window#window_system_updates {
         .part-3 {
             color: $--color-primary;
         }
+    }
+}
+
+window#window_network {
+    box.network {
+        padding-left: $--spacing-base;
+        padding-right: $--spacing-base;
+        // padding-bottom: $--spacing-base;
+    }
+
+    border-top: 0px;
+
+    box.ipaddress {
+        .ip {
+            color: transparentize($--color-text, 0.5);
+        }
+    }
+
+    box.wifi,
+    box.wired {
+        .state {
+            color: transparentize($--color-text, 0.75);
+            font-style: italic;
+            font-size: 10px;
+        }
+    }
+
+    box.test {
+        margin: 0px;
+        padding: 1ex;
     }
 }

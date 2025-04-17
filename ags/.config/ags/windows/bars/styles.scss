@@ -168,6 +168,80 @@ window.BarBottom {
 }
 
 // -----------------------------------------------------------------------------------------------
+box.WidgetCava {
+    label {
+        color: $--color-text;
+        padding: 0px;
+        margin-bottom: -5px;
+        font-size: 0.70em;
+    }
+
+    // background-color: $--color-bg-accent;
+}
+
+
+
+box.WidgetMedia {
+    background-size: cover;
+    background-position: center;
+    margin: 0px;
+    padding: 0px 10px;
+
+    &.spotify {
+        color: #1ed760;
+    }
+
+    &.vlc {
+        color: #ff9500;
+    }
+
+    &.youtube {
+        color: #ff0000;
+    }
+
+    &.brave {
+        color: #ff9500;
+    }
+
+    &.audacious {
+        color: #ff9500;
+    }
+
+    &.rhythmbox {
+        color: #ff9500;
+    }
+
+    &.chromium {
+        color: #ff9500;
+    }
+
+    &.firefox {
+        color: #ff9500;
+    }
+
+    .progress {
+        min-width: 15px;
+        /* its size is min(min-height, min-width) */
+        margin: 0px;
+        /* you can set margin on it */
+        font-size: 1px;
+        padding: 0px;
+        margin: 0px;
+
+        .icon {
+            color: unset;
+            /* you can set color on it */
+        }
+    }
+
+    .artist {
+        color: transparentize($--color-text, 0.5);
+        font-style: italic;
+    }
+
+    .title {}
+}
+
 // --------------------------------------------- TOP BAR -----------------------------------------
 // -----------------------------------------------------------------------------------------------
 window.TopBar {
@@ -222,6 +296,7 @@ window.TopBar {
             margin-right: $--spacing-base;
         }
     }
+
 
     // ------ Center side ------
     .Workspaces {

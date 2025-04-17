@@ -2,6 +2,7 @@ import { GLib } from "astal"
 import { Astal, Gtk, Gdk } from "astal/gtk3"
 
 import { WidgetHyprlandClient } from "@components/hyprland_client"
+import { WidgetCava } from "@components/cava"
 import { WidgetHyprlandWorkspaces } from "@components/hyprland_workspaces"
 import { WidgetHypridle } from "@components/hypridle"
 import { WidgetSpeaker } from "@components/speaker"
@@ -22,10 +23,11 @@ export default function BarTop(monitor: Gdk.Monitor) {
         anchor={TOP | LEFT | RIGHT
         }>
         <centerbox>
-            <box hexpand halign={Gtk.Align.START}>
+            <box>
                 <icon
                     css="font-size: 18px;"
-                    icon={GLib.get_os_info("LOGO") || "missing-symbolic"} />
+                    icon={GLib.get_os_info("LOGO") || "missing-symbolic"}
+                />
                 <WidgetHyprlandClient />
             </box>
             <box>

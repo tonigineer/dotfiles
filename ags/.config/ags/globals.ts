@@ -10,6 +10,7 @@ declare global {
     const TMP: string;
 
     const SHOW_TOOLTIPS: boolean;
+    const HIDE_WIN_ON_INACTIVITY: boolean;
 
     const SERVICES: {
         NetworkStatistics: NetworkStatistics;
@@ -27,6 +28,7 @@ Object.assign(globalThis, {
     TMP: "/tmp",
 
     SHOW_TOOLTIPS: true,
+    HIDE_WIN_ON_INACTIVITY: false,
 
     SERVICES: {
         NetworkStatistics: new NetworkStatistics({ updateRate: 500 }),
@@ -38,4 +40,4 @@ Object.assign(globalThis, {
     },
 });
 
-export {};
+export { };

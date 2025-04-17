@@ -1,109 +1,94 @@
-import { App, Astal, Gtk, Gdk } from "astal/gtk3"
-import { Variable, bind, exec, execAsync, GLib } from "astal"
+import { App, Astal, Gtk, Gdk } from "astal/gtk3";
+import { Variable, bind, exec, execAsync, GLib } from "astal";
 
-import Mpris from "gi://AstalMpris"
+import Mpris from "gi://AstalMpris";
 import { Logger } from "@logging";
 
-const mpris = Mpris.get_default()
+const mpris = Mpris.get_default();
 
-function playerToIcon(name: string) {
-    let icons: {
-        [key: string]: string
-    } = {
-        spotify: "󰓇",
-        VLC: "󰓈",
-        YouTube: "󰓉",
-        Brave: "",
-        Audacious: "󰓋",
-        Rhythmbox: "󰓌",
-        Chromium: "",
-        Firefox: "󰈹",
-        firefox: "󰈹",
-    }
-    return icons[name] || ""
+const playerToIcon = (name: string): string => ({
+    spotify: "󰓇",
+    LibreWolf: "󰈹",
+}[name] || "");
+
+const lookupIcon = (name: string): string =>
+    Astal.Icon.lookup_icon(name) || "audio-x-generic-symbolic";
+
+function progress(player: Mpris.Player) {
+    const icon = bind(player, "entry").as(playerToIcon);
+
+    return (
+        <circularprogress
+            className="progress"
+            rounded
+            inverted={false}
+            borderWidth={1}
+            value={bind(player, "position").as(pos =>
+                player.length > 0 ? pos / player.length : 0
+            )}
+            halign={Gtk.Align.CENTER}
+            valign={Gtk.Align.CENTER}
+            child={<label className={player.entry} label={icon} />}
+        />
+    );
 }
 
-
-
-const lookupIcon = (name: string) => {
-    let result = Astal.Icon.lookup_icon(name) ? Astal.Icon.lookup_icon(name) : "audio-x-generic-symbolic"
-    return result
-}
-
-export function WidgetMedia() {
-    const progress = (player: Mpris.Player) => {
-        const playerIcon = bind(player, "entry").as((e) => playerToIcon(e));
-        return (
-            <circularprogress
-                className="progress"
-                rounded={true}
-                inverted={false}
-                // startAt={0.25}
-                borderWidth={1}
-                value={bind(player, "position").as((p) =>
-                    player.length > 0 ? p / player.length : 0
-                )}
-                halign={Gtk.Align.CENTER}
-                valign={Gtk.Align.CENTER}
-                child={
-                    // <icon className="icon" icon={playerIcon}/>
-                    <label className={"icon"} label={playerIcon} />
-                }></circularprogress>
-        );
-    };
-
-    const coverArtToCss = (player: Mpris.Player) =>
-        bind(player, "coverArt").as(
-            (c) => {
-                `
-        background-image: linear-gradient(
-          to right,
-        #000000,
-        rgba(0, 0, 0, 0.5)
-            ),
-            url("${c}");
-        `;
-            });
-
-    const title = (player: Mpris.Player) => (
+function title(player: Mpris.Player) {
+    return (
         <label
             className="title"
             max_width_chars={25}
-            truncate={true}
-            label={bind(player, "title").as((t) => t || "Unknown Track")}></label>
+            truncate
+            label={bind(player, "title").as(title => title || "Unknown Track")}
+        />
     );
+}
 
-    const artist = (player: Mpris.Player) => (
+function artist(player: Mpris.Player) {
+    return (
         <label
             className="artist"
             max_width_chars={20}
-            truncate={true}
-            label={bind(player, "artist").as(
-                (a) => `by ${a}` || "Unknown Artist"
-            )}></label>
+            truncate
+            label={bind(player, "artist").as(artist => artist || "Unknown Artist")}
+        />
     );
+}
 
-    function Player(player: Mpris.Player) {
-        return (
-            <box
-                className={bind(player, "entry").as((entry) => `media ${entry}`)}
-                css={coverArtToCss(player)}
-                spacing={10}>
-                {title(player)}
-                {artist(player)}
-            </box>
-        );
-    }
+function Player(player: Mpris.Player) {
+    return (
+        <box
+            className={bind(player, "entry").as(() => "media")}
+            spacing={10}
+        >
+            {progress(player)}
+            {title(player)}
+            <label
+                css="font-size: 10px; font-style: italic;"
+                label="by"
+            />
+            {artist(player)}
+        </box>
+    );
+}
 
-    const activePlayer = () =>
-        Player(
-            mpris.players.find(
-                (player) => player.playbackStatus === Mpris.PlaybackStatus.PLAYING
-            ) || mpris.players[0]
-        );
+function activePlayer(): Mpris.Player | null {
+    return (
+        mpris.players.find(p => p.playbackStatus === Mpris.PlaybackStatus.PLAYING)
+        || mpris.players[0]
+        || null
+    );
+}
 
-    return <box className="WidgetMedia">
-        {activePlayer()}
-    </box>
+export function WidgetMedia() {
+    return (
+        <box className="WidgetMedia">
+            {bind(mpris, "players").as(players =>
+                players.length > 0 && activePlayer()
+                    ? Player(activePlayer()!)
+                    : <box />
+            )}
+        </box>
+    );
 }
 

@@ -13,7 +13,7 @@ import { WindowShutdown } from "@components/shutdown"
 import { WindowNetwork } from "@components/network_adapter"
 import { WindowSystemUpdates } from "@components/system_updates"
 
-import { WindowWallpaper } from "@windows/wallpaper";
+import { WindowWallpaper } from "@windows/wallpaper/wallpaper";
 // import { WindowLauncher } from "@windows/misc/launcher";
 // import { WindowShutdown } from "@windows/system/shutdown";
 

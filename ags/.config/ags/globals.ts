@@ -11,6 +11,7 @@ declare global {
 
     const SHOW_TOOLTIPS: boolean;
     const HIDE_WIN_ON_INACTIVITY: boolean;
+    const THUMBNAIL_WIDTH: number;
 
     const SERVICES: {
         NetworkStatistics: NetworkStatistics;
@@ -29,6 +30,7 @@ Object.assign(globalThis, {
 
     SHOW_TOOLTIPS: true,
     HIDE_WIN_ON_INACTIVITY: false,
+    THUMBNAIL_WIDTH: 300,
 
     SERVICES: {
         NetworkStatistics: new NetworkStatistics({ updateRate: 500 }),

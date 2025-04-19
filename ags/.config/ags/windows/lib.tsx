@@ -13,7 +13,7 @@ const InactivityHandler = {
         this.stop();
         this.duration = duration ?? this.duration;
 
-        Logger.debug(`Inactivity timer started: ${window.name}`);
+        // Logger.debug(`Inactivity timer started: ${window.name}`);
 
         this.timeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, this.duration, () => {
             Logger.debug(`Inactivity timeout reached: ${window.name}`);
@@ -62,13 +62,13 @@ export function InteractiveWindow(
         events={Gdk.EventMask.POINTER_MOTION_MASK}
         onKeyPressEvent={
             function(self: any, event: Gdk.Event) {
-                Logger.debug("Inactivity timer reset by key press");
+                // Logger.debug("Inactivity timer reset by key press");
                 InactivityHandler.reset(self);
                 keys(self, event)
             }
         }
         onMotionNotifyEvent={(self: any, _event: Gdk.Event) => {
-            Logger.debug("Inactivity timer reset mouse movement.");
+            // Logger.debug("Inactivity timer reset mouse movement.");
             InactivityHandler.reset(self);
         }}>
         {child}

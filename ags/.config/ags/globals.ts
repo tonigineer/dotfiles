@@ -30,7 +30,7 @@ Object.assign(globalThis, {
 
     SHOW_TOOLTIPS: true,
     HIDE_WIN_ON_INACTIVITY: false,
-    THUMBNAIL_WIDTH: 300,
+    THUMBNAIL_WIDTH: 200,
 
     SERVICES: {
         NetworkStatistics: new NetworkStatistics({ updateRate: 500 }),

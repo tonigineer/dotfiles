@@ -17,17 +17,9 @@ window#window_wallpaper {
 
   box.main {
     padding: 10px;
-    min-width: 500px;
-    min-height: 800px;
 
     .scrollable {
-      margin: 20px;
-
-      label {
-        color: yellow;
-      }
-
-
+      margin: $--padding-base;
 
       .wallbox {
         margin: 0;
@@ -37,55 +29,41 @@ window#window_wallpaper {
           background-position: center;
           background-repeat: no-repeat;
           transition: all 0.5s;
-          border: none;
-          min-height: 300px;
-          min-width: 300px;
+          border: 2px solid $--color-bg-accent;
+          background-size: 100%;
+          transition: background-size 0.3s ease;
+          // min-height: 300px;
+          // min-width: 300px;
           // border-radius: 10%;
-          border-radius: 30px 30px 30px 30px;
+          border-radius: 5px;
           padding: 0px;
           margin: 0px;
         }
 
         button.wallpaper:hover {
           background-color: rgba(255, 255, 255, 0.1);
-          /* example hover effect */
-          /* if supported */
-
-          min-height: 310px;
-          min-width: 310px;
+          // min-height: 500px;
+          // min-width: 310px;
+          background-size: 110%;
           background-position: center;
           background-repeat: no-repeat;
-          border-radius: 20px;
+          border: 2px solid transparentize($--color-text, 0.8);
+          // border-radius: 20px;
         }
 
-        // .wallpaper {
-        //   margin: 10px;
-        //   transition: all 0.5s;
-        //   border: none;
-        //
-        //   background-size: contain;
-        //   background-position: center;
-        //   background-repeat: no-repeat;
-        //
-        //   min-height: 300px;
-        //   border-radius: 5%;
-        //
-        //   padding: 0px;
-        //   margin: 30px;
-        // }
-        //
-        // label {
-        //   color: green;
-        // }
-        //
-        // &.hover {
-        //   color: orange;
-        // }
-        //
-        // button {
-        //
-        //   margin: 100px;
-        // }
+        label {
+          .size {
+            color: $--color-text;
+          }
+        }
+
+        label.filename.image {
+          color: $--color-primary;
+        }
+
+        label.filename.gif {
+          color: $--color-success;
+        }
       }
 
 

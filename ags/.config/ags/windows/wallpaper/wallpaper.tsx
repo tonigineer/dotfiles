@@ -13,13 +13,6 @@ const wallpapers = Variable<{ path: string; isVideo: boolean; resolution: string
 const width = THUMBNAIL_WIDTH;
 const height = THUMBNAIL_WIDTH * 9 / 16;
 
-async function initCurrentWallpaper() {
-    const output = await execAsync(["bash", "-c", "hyprctl hyprpaper listactive"]);
-    const line = output.split("\n")[0];
-    const wallpaper = line?.split(" = ")[1]?.trim() || "";
-    currentWallpaper.set(wallpaper);
-}
-
 async function fetchWallpapers() {
     // hyprpaper: 
     // mpvpaper: https://motionbgs.com/
@@ -60,9 +53,6 @@ async function fetchWallpapers() {
 
         const hash = await execAsync(["bash", "-c", `echo -n "${path}{width}" | md5sum | cut -d' ' -f1`]);
         const thumbPath = `${thumbDir}/${hash.trim()}.jpg`;
-
-        Logger.warn(hash);
-        Logger.warn(thumbPath);
 
         if (!isVideo) {
             await execAsync([
@@ -110,12 +100,14 @@ async function killProgram(name: string): Promise<boolean> {
 }
 
 async function setWallpaper(path: string) {
+    Logger.info(`Call: setWallpaper ${path}`);
+
     if (await programIsRunning("mpvpaper")) {
         killProgram("mpvpaper")
     }
 
     if (!await programIsRunning("hyprpaper")) {
-        await execAsync(["bash", "-c", "hyprpaper&"]);
+        await execAsync(["bash", "-c", "nohup hyprpaper"]);
     }
 
     const loadedOutput = await execAsync(["bash", "-c", "hyprctl hyprpaper listloaded"]);
@@ -129,6 +121,8 @@ async function setWallpaper(path: string) {
 }
 
 async function setMpvpaper(path: string) {
+    Logger.info(`Call: setMpvpaper ${path}`);
+
     if (await programIsRunning("mpvpaper")) {
         killProgram("mpvpaper")
     }
@@ -194,14 +188,13 @@ function createContent() {
 }
 
 export function WindowWallpaper() {
-    initCurrentWallpaper();
     fetchWallpapers();
 
     return InteractiveWindow(
         WINDOW_NAME,
         Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.TOP | Astal.WindowAnchor.BOTTOM,
         createContent,
-        true
+        false
     );
 }
 

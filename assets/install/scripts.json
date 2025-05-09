@@ -225,7 +225,8 @@
     "name": "Aylurs GTK Shell",
     "category": "hypr",
     "packages": [
-      "aylurs-gtk-shell-git"
+      "aylurs-gtk-shell-git",
+      "mpvpaper"
     ],
     "configs": [
       "ags"
@@ -345,7 +346,7 @@
       "wqy-microhei"
     ],
     "configs": [
-      "Mangohud"
+      "mangohud"
     ],
     "checks": [
       "[ -L ~/.config/Mangohud ] && true || false"

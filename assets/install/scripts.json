@@ -179,11 +179,9 @@
     "prior_install": [],
     "post_install": [
       "fc-cache -v",
-      "ya pack -a yazi-rs/plugins:arrow",
       "ya pack -a yazi-rs/plugins:no-status",
       "ya pack -a yazi-rs/plugins:git",
-      "ya pack -a yazi-rs/plugins:smart-enter",
-      "ya pack -a gosxrgxx/flexoki-dark"
+      "ya pack -a yazi-rs/plugins:smart-enter"
     ]
   },
   {

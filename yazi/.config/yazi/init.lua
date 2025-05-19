@@ -1,2 +1,2 @@
-require("git"):setup({})
+require("git"):setup()
 require("no-status"):setup()

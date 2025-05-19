@@ -37,36 +37,22 @@
       "curl",
       "terminus-font"
     ],
-    "configs": [
-      "bash"
-    ],
-    "checks": [
-      "[ -L ~/.bashrc ] && true || false"
-    ],
-    "prior_install": [
-      "git config --global credential.helper store"
-    ],
-    "post_install": [
-      "fc-cache -v"
-    ]
+    "configs": ["bash"],
+    "checks": ["[ -L ~/.bashrc ] && true || false"],
+    "prior_install": ["git config --global credential.helper store"],
+    "post_install": ["fc-cache -v"]
   },
   {
     "name": "vim",
     "category": "base",
-    "packages": [
-      "vim"
-    ],
-    "configs": [
-      "vim"
-    ],
+    "packages": ["vim"],
+    "configs": ["vim"],
     "checks": [
       "[ -L ~/.vimrc ] && true || false",
       "sudo [ -L /root/.vimrc ] && true || false"
     ],
     "prior_install": [],
-    "post_install": [
-      "sudo ln -sf $HOME/.vimrc /root/.vimrc"
-    ]
+    "post_install": ["sudo ln -sf $HOME/.vimrc /root/.vimrc"]
   },
   {
     "name": "zsh",
@@ -77,9 +63,7 @@
       "ttf-cascadia-code-nerd",
       "monaspace-font"
     ],
-    "configs": [
-      "zsh"
-    ],
+    "configs": ["zsh"],
     "checks": [
       "[ -L ~/.zshrc ] && true || false",
       "[ -L ~/.config/zsh ] && true || false"
@@ -108,14 +92,9 @@
   {
     "name": "Bluetooth",
     "category": "base",
-    "packages": [
-      "bluez",
-      "bluez-utils"
-    ],
+    "packages": ["bluez", "bluez-utils"],
     "configs": [],
-    "checks": [
-      "systemctl status bluetooth.service | grep Running"
-    ],
+    "checks": ["systemctl status bluetooth.service | grep Running"],
     "prior_install": [],
     "post_install": [
       "sudo systemctl enable bluetooth",
@@ -125,10 +104,7 @@
   {
     "name": "Nvidia",
     "category": "hypr",
-    "packages": [
-      "nvidia",
-      "nvidia-utils"
-    ],
+    "packages": ["nvidia", "nvidia-utils"],
     "configs": [],
     "checks": [
       "grep -F 'options nvidia_drm modeset=1 fbdev=1' /etc/modprobe.d/nvidia.conf",
@@ -138,9 +114,7 @@
       "sudo sh -c 'echo \"options nvidia_drm modeset=0 fbdev=1\" > /etc/modprobe.d/nvidia.conf'",
       "sudo sh -c 'sed -i \"s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/\" /etc/mkinitcpio.conf'"
     ],
-    "post_install": [
-      "sudo mkinitcpio -P"
-    ]
+    "post_install": ["sudo mkinitcpio -P"]
   },
   {
     "name": "Hyprland",
@@ -167,19 +141,14 @@
       "jq",
       "iwd"
     ],
-    "configs": [
-      "hyprland",
-      "swaync"
-    ],
+    "configs": ["hyprland", "swaync"],
     "checks": [
       "fc-list | grep Monaspace",
       "[ -L ~/.config/hypr ] && true || false",
       "[ -L ~/.config/swaync ] && true || false"
     ],
     "prior_install": [],
-    "post_install": [
-      "fc-cache -v"
-    ]
+    "post_install": ["fc-cache -v"]
   },
   {
     "name": "Theming",
@@ -201,39 +170,28 @@
   {
     "name": "Kitty",
     "category": "hypr",
-    "packages": [
-      "kitty",
-      "monaspace-font",
-      "lazygit",
-      "yazi",
-      "ttf-joypixels"
-    ],
-    "configs": [
-      "kitty",
-      "yazi"
-    ],
+    "packages": ["kitty", "monaspace-font", "lazygit", "yazi", "ttf-joypixels"],
+    "configs": ["kitty", "yazi"],
     "checks": [
       "[ -L ~/.config/yazi ] && true || false",
       "[ -L ~/.config/kitty ] && true || false"
     ],
     "prior_install": [],
     "post_install": [
-      "fc-cache -v"
+      "fc-cache -v",
+      "ya pack -a yazi-rs/plugins:arrow",
+      "ya pack -a yazi-rs/plugins:no-status",
+      "ya pack -a yazi-rs/plugins:git",
+      "ya pack -a yazi-rs/plugins:smart-enter",
+      "ya pack -a gosxrgxx/flexoki-dark"
     ]
   },
   {
     "name": "Aylurs GTK Shell",
     "category": "hypr",
-    "packages": [
-      "aylurs-gtk-shell-git",
-      "mpvpaper"
-    ],
-    "configs": [
-      "ags"
-    ],
-    "checks": [
-      "[ -L ~/.config/ags ] && true || false"
-    ],
+    "packages": ["aylurs-gtk-shell-git", "mpvpaper"],
+    "configs": ["ags"],
+    "checks": ["[ -L ~/.config/ags ] && true || false"],
     "prior_install": [],
     "post_install": []
   },
@@ -254,23 +212,15 @@
       "go",
       "lazygit"
     ],
-    "configs": [
-      "nvim"
-    ],
-    "checks": [
-      "[ -L ~/.config/nvim ] && true || false"
-    ],
+    "configs": ["nvim"],
+    "checks": ["[ -L ~/.config/nvim ] && true || false"],
     "prior_install": [],
-    "post_install": [
-      "sudo npm install -g tree-sitter-cli"
-    ]
+    "post_install": ["sudo npm install -g tree-sitter-cli"]
   },
   {
     "name": "Librewolf",
     "category": "tool",
-    "packages": [
-      "librewolf-bin"
-    ],
+    "packages": ["librewolf-bin"],
     "configs": [],
     "checks": [],
     "prior_install": [],
@@ -279,16 +229,8 @@
   {
     "name": "CLI Tools",
     "category": "util",
-    "packages": [
-      "btop",
-      "cava",
-      "fastfetch"
-    ],
-    "configs": [
-      "btop",
-      "cava",
-      "fastfetch"
-    ],
+    "packages": ["btop", "cava", "fastfetch"],
+    "configs": ["btop", "cava", "fastfetch"],
     "checks": [
       "[ -L ~/.config/btop ] && true || false",
       "[ -L ~/.config/cava ] && true || false",
@@ -300,16 +242,9 @@
   {
     "name": "mpv Youtube Player",
     "category": "util",
-    "packages": [
-      "mpv",
-      "yt-dlp"
-    ],
-    "configs": [
-      "mpv"
-    ],
-    "checks": [
-      "[ -L ~/.config/mpv ] && true || false"
-    ],
+    "packages": ["mpv", "yt-dlp"],
+    "configs": ["mpv"],
+    "checks": ["[ -L ~/.config/mpv ] && true || false"],
     "prior_install": [],
     "post_install": []
   },
@@ -325,12 +260,8 @@
       "wl-clipboard",
       "imagemagick"
     ],
-    "configs": [
-      "local"
-    ],
-    "checks": [
-      "[ -e ~/.local/bin/capture ] && true || false"
-    ],
+    "configs": ["local"],
+    "checks": ["[ -e ~/.local/bin/capture ] && true || false"],
     "prior_install": [],
     "post_install": []
   },
@@ -345,15 +276,9 @@
       "ttf-liberation",
       "wqy-microhei"
     ],
-    "configs": [
-      "mangohud"
-    ],
-    "checks": [
-      "[ -L ~/.config/Mangohud ] && true || false"
-    ],
+    "configs": ["mangohud"],
+    "checks": ["[ -L ~/.config/Mangohud ] && true || false"],
     "prior_install": [],
-    "post_install": [
-      "fc-cache -v"
-    ]
+    "post_install": ["fc-cache -v"]
   }
 ]

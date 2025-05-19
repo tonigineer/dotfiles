@@ -1,0 +1,31 @@
+[edit]
+run = "nvim \"$1\""
+block = true
+for = [
+  "*.txt",
+  "*.md",
+  "*.rs",
+  "*.ts",
+  "*.js",
+  "*.json",
+  "*.toml",
+  "*.py",
+  "*.c",
+  "*.cpp",
+  "*.h",
+  "text/*",
+]
+
+[view]
+run = "imv \"$1\""
+block = false
+for = [
+  "*.jpg",
+  "*.jpeg",
+  "*.png",
+  "*.webp",
+  "*.bmp",
+  "*.gif",
+  "*.svg",
+  "image/*",
+]

@@ -62,13 +62,13 @@ fn update_scripts(scripts: &mut Vec<Script>) {
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let json_data = fs::read_to_string("scripts.json")?;
+    let json_data = fs::read_to_string("./../instructions.json")?;
     let mut scripts: Vec<Script> = serde_json::from_str(&json_data)?;
 
     loop {
         update_scripts(&mut scripts);
         let selection = MultiSelect::with_theme(&ColorfulTheme::default())
-            .with_prompt("Select installation scripts!")
+            .with_prompt("Select Installation[s] with <SPC> and confirm with <RET>")
             .items(
                 &scripts
                     .iter()

@@ -13,7 +13,10 @@
 
 ## 🎨 Impressions
 
-<div align="center">
+I’m currently reworking my entire setup, switching from [AGS](https://github.com/Aylur/ags) to [Fabric](https://github.com/Fabric-Development/fabric).
+github.com
+
+<!-- <div align="center">
 <kbd><img alt="messy-impression" src="./assets/impression.png" style="width: 500px;"/></kbd>
 </div>
 
@@ -61,4 +64,4 @@ cd ~/Dotfiles/scripts/install.sh all
 
 ## Keybindings
 
-🔜
+🔜 -->

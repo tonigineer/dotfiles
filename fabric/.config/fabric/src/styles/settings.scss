@@ -1,0 +1,21 @@
+@use "./themes/catpuccin-mocha.scss" as theme;
+
+$font-name: "Monaspace Krypton";
+$font-size: 1rem;
+$font-weight: 500;
+$font-style: normal;
+/* $border-radius: 10px;
+$padding: 7pt;
+$spacing: 12pt;
+$border-width: 1px;
+$dock-scaling: 100;
+$dock-opacity: 50; */
+$corners-color: theme.$background-dark;
+$desktop-info-time-color: theme.$accent-yellow;
+$desktop-info-date-color: theme.$accent-red;
+$desktop-info-time-size: 9rem;
+$desktop-info-date-size: 3rem;
+$topbar-background-color: theme.$background-dark;
+$topbar-bottom-border-color: theme.$background;
+$clock-color: theme.$text-main;
+$clock-font-weight: bold;

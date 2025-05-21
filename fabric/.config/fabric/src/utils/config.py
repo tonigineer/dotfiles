@@ -12,9 +12,15 @@ CONFIG_FULLFILE = CONFIG_DIR / "config.json"
 
 DEFAULT_CONFIG = {
     "windows": {
-        "topbar": {"enabled": True},
+        "topbar": {
+            "enabled": True,
+            "icon-size": 24,
+            "spacing": 4
+        },
         "bottombar": {"enabled": True},
-        "corners": {"enabled": True, "size": 20},
+        "corners": {"enabled": True, "size": 100},
+        # always, empty-only, hide
+        "desktop-info": {"show": "hide"}
     },
     "styles": {
         "monitor_dir": "src/styles",

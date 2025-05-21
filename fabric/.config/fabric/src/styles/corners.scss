@@ -1,0 +1,12 @@
+@use "./settings" as settings;
+
+#corner-container {
+    background-color: transparent;
+    /* NOTE: set in code with config parameter
+    min-width: 100px;
+    min-height: 100px; */
+
+    #corner {
+        background-color: settings.$corners-color;
+    }
+}

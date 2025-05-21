@@ -1,0 +1,20 @@
+@use "./settings" as settings;
+
+#desktop-clock-box {
+    font-family: settings.$font-name;
+    margin: 0 10rem 10rem 10rem;
+    // TODO: Only when created
+    transition: all 0.25s cubic-bezier(0.5, 0.25, 0, 1);
+
+    #clock > label {
+        color: settings.$desktop-info-time-color;
+        font-size: settings.$desktop-info-time-size;
+        font-weight: settings.$font-weight;
+    }
+
+    #date > label {
+        color: settings.$desktop-info-date-color;
+        font-size: settings.$desktop-info-date-size;
+        font-weight: settings.$font-weight;
+    }
+}

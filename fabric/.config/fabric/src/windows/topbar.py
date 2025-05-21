@@ -1,60 +1,52 @@
-from typing import Dict
-
 from fabric.widgets.box import Box
 from fabric.widgets.centerbox import CenterBox
 from fabric.widgets.datetime import DateTime
 from fabric.widgets.wayland import WaylandWindow as Window
 
-from fabric.widgets.image import Image
-from fabric.widgets.label import Label
-from fabric.widgets.svg import Svg
-from fabric.widgets.button import Button
-from fabric.utils import (
-    DesktopApp,
-    bulk_connect,
-    exec_shell_command,
-    exec_shell_command_async,
-    get_desktop_applications,
-    get_relative_path,
-    idle_add,
-    invoke_repeater,
-    monitor_file,
-    remove_handler,
-    set_stylesheet_from_file,
-)
+from src.utils.config import Config
+from src.widgets.arch_logo import ArchLogo
+from src.widgets.clock import Clock
 
+cfg = Config.get()["windows"]["topbar"]
 
-
+widget_list = {
+    "left": ["ArchLogo", "Client", "Submap"],
+    "center": ["Workspace"],
+    "right": ["Clock", "Powerbutton"],
+}
 
 class TopBar(Window):
+    """Bar for the top of the screen."""
+
     def __init__(self, **kwargs):
         layout = self.make_layout()
 
-        anchor = "left top right"
-
         self.box = CenterBox(
-            name="panel-inner",
+            name="container",
             start_children=Box(
-                spacing=4,
+                name="left",
+                spacing=cfg["spacing"],
                 orientation="h",
                 children=layout["left"],
             ),
             center_children=Box(
-                spacing=4,
+                name="center",
+                spacing=cfg["spacing"],
                 orientation="h",
                 children=layout["middle"],
             ),
             end_children=Box(
-                spacing=4,
+                name="right",
+                spacing=cfg["spacing"],
                 orientation="h",
                 children=layout["right"],
             ),
         )
 
         super().__init__(
-            name="panel",
+            name="top-bar",
             layer="top",
-            anchor=anchor,
+            anchor= "left top right",
             pass_through=False,
             exclusivity="auto",
             visible=True,
@@ -63,21 +55,13 @@ class TopBar(Window):
             **kwargs,
         )
 
-    def make_layout(self) -> Dict:
-        # logo = Button(
-        #     name="logo",
-        #     child=Svg(
-        #         size=20,
-        #         svg_file="arch-symbolic.svg",
-        #         style="fill: #FFFFFF;",
-        #     )
-        # )
+    def make_layout(self) -> dict:
         layout = {
-            "left": [DateTime()
+            "left": [ Box(style="min-width: 0.5rem;"), ArchLogo()
             #     Box(),
             #     logo
             ],
-          "middle": [DateTime()],
-            "right": [DateTime()],
+          "middle": [DateTime(formatters="%H:%M")],
+            "right": [Clock(), Box(style="min-width: 0.5rem;")],
         }
         return layout

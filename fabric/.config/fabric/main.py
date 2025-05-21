@@ -4,8 +4,7 @@ from fabric import Application
 from src.utils.config import APPLICATION_NAME, Config
 from src.utils.monitors import HyprlandWithMonitors
 from src.utils.styles import Styles
-from src.windows.corners import ScreenCorners
-from src.windows.topbar import TopBar
+from src.windows import DesktopClock, ScreenCorners, TopBar
 
 
 def main():
@@ -13,11 +12,16 @@ def main():
 
     # TODO: implement primary display only
     if Config.get()["windows"]["topbar"]["enabled"]:
-        for monitor_id in HyprlandWithMonitors().get_all_monitors():
-            windows.append(TopBar(monitor=monitor_id))
+        for monitor in HyprlandWithMonitors().get_all_monitors():
+            windows.extend(TopBar(monitor=monitor))
 
     if Config.get()["windows"]["corners"]["enabled"]:
-        windows.append(ScreenCorners())
+        for monitor in HyprlandWithMonitors().get_all_monitors():
+            windows.extend(ScreenCorners(monitor=monitor))
+
+    if Config.get()["windows"]["corners"]["enabled"]:
+        for monitor in HyprlandWithMonitors().get_all_monitors():
+            windows.extend(DesktopClock(monitor=monitor, date_format="%A, %d %B %Y"))
 
     app = Application(APPLICATION_NAME, windows=windows)
 

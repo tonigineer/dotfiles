@@ -1,9 +1,12 @@
 from fabric.widgets.box import Box
 from fabric.widgets.shapes import Corner
+from fabric.widgets.wayland import WaylandWindow as Window
+
 from src.utils.config import Config
 
-from fabric.widgets.svg import compile_css
-from fabric.widgets.wayland import WaylandWindow as Window
+cfg = Config.get()["windows"]["corners"]
+
+
 class SideCorner(Box):
     """A container for a corner shape."""
 
@@ -11,7 +14,7 @@ class SideCorner(Box):
         super().__init__(
             name="corner-container",
             children=Corner(
-                style=f"background-color: black; min-width: {size}px; min-height: {size}px",
+                style=f"min-width: {size}px; min-height: {size}px",
                 name="corner",
                 orientation=corner,
                 size=size,
@@ -22,7 +25,7 @@ class SideCorner(Box):
 class ScreenCorners(Window):
     """A window that displays all four corners."""
 
-    def __init__(self, size=Config.get()["windows"]["corners"]["size"]):
+    def __init__(self, size=cfg["size"], **kwargs):
         super().__init__(
             name="corners",
             layer="top",
@@ -31,6 +34,7 @@ class ScreenCorners(Window):
             pass_through=True,
             visible=False,
             all_visible=False,
+            **kwargs
         )
 
         self.all_corners = Box(
@@ -66,5 +70,4 @@ class ScreenCorners(Window):
         )
 
         self.add(self.all_corners)
-
         self.show_all()

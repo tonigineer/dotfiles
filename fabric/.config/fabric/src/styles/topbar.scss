@@ -1,0 +1,20 @@
+@use "./settings" as settings;
+
+#top-bar {
+    background-color: settings.$topbar-background-color;
+    border-bottom: 2px solid settings.$topbar-bottom-border-color;
+    #container {
+        /* border: 1px solid orange; */
+    }
+
+    #arch-logo {
+        /* border: 1px solid red; */
+    }
+
+    #clock {
+        font-family: settings.$font-name;
+        font-size: settings.$font-size;
+        font-weight: settings.$clock-font-weight;
+        color: settings.$clock-color;
+    }
+}

@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
 cd $SCRIPT_DIR
-git submodule update --init --recursive
+# git submodule update --init --recursive
 
 if ! command -v yay &>/dev/null; then
     echo " Bootstrapping yay ..."
@@ -12,7 +12,7 @@ if ! command -v yay &>/dev/null; then
     cd /opt
     sudo git clone https://aur.archlinux.org/yay.git
     sudo chown -R $USER:wheel ./yay
-    cd yay 
+    cd yay
     makepkg -si
 
     yay -Syu
@@ -30,6 +30,6 @@ if ! command -v stow &>/dev/null; then
     yay -S stow
 fi
 
-cd "$SCRIPT_DIR/assets/install" || exit 1
+cd "$SCRIPT_DIR/.installer" || exit 1
 
 cargo run --release

@@ -1,0 +1,9 @@
+* {
+  all: unset;
+}
+
+#corner-container {
+  background-color: transparent;
+  /* min-width: 100px;
+  min-height: 100px; */
+}

@@ -1,0 +1,6 @@
+/.ropeproject
+/.venv
+
+__pycache__
+
+config.json

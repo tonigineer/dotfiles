@@ -146,7 +146,16 @@
         "post_install": ["fc-cache -v", "ya pack -a yazi-rs/plugins:no-status", "ya pack -a yazi-rs/plugins:git", "ya pack -a yazi-rs/plugins:smart-enter"]
     },
     {
-        "name": "Neovim (clone repo)",
+        "name": "Fabric",
+        "category": "hypr",
+        "packages": [],
+        "configs": ["fabric"],
+        "checks": ["[ -L ~/.config/fabric ] && true || false"],
+        "prior_install": [],
+        "post_install": ["python -m venv /home/$USER/.config/fabric/.venv", "/home/$USER/.config/fabric/.venv/bin/pip install -r /home/$USER/.config/fabric/requirements.txt"]
+    },
+    {
+        "name": "Neovim (clone Repo)",
         "category": "tool",
         "packages": ["neovim", "wl-clipboard", "npm", "luarocks", "lua51", "python-pip", "python-pynvim", "ripgrep", "fd", "wget", "go", "lazygit"],
         "configs": ["nvim"],

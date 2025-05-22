@@ -1,59 +1,68 @@
-from fabric import Fabricator
-from fabric.utils import exec_shell_command_async, get_relative_path
+import json
+
+from fabric.hyprland.widgets import WorkspaceButton as WsButton
+from fabric.hyprland.widgets import Workspaces, get_hyprland_connection
 from fabric.widgets.box import Box
-from fabric.widgets.label import Label
-from fabric.widgets.image import Image
 
-# import utils.functions as helpers
-from fabric.widgets.button import Button
-# from utils import BarConfig, ExecutableNotFoundError
-from gi.repository import Gtk
-#
-# icon_theme = Gtk.IconTheme.get_default()
+from src.utils.config import Config
+from src.utils.widgets import setup_cursor_hover
 
-# print(icon_theme)
-# breakpoint()
+cfg = Config.get()["widgets"]["workspaces"]
 
-class ArchLogo(Button):
-    """A widget to display the Cava audio visualizer."""
+
+class WorkspaceButton(WsButton):
+    """A button to represent a workspace."""
 
     def __init__(self, **kwargs):
-        super().__init__(
-            name="arch-logo",
-            # child=Label("ArchLogo"),
-            image=Image(icon_size=22, icon_name="arch-logo"),
-            tooltip_text="dfasfdfa",
-            on_clicked=lambda *_: exec_shell_command_async("kitty"),
-            **kwargs
+        super().__init__(**kwargs)
+        setup_cursor_hover(self)
+
+class HyprWorkspaces(Box):
+    """A widget to display the current workspaces."""
+
+    ws_numbers = cfg["numberings"][cfg["numbering"]]
+
+    def __init__(self, monitor, **kwargs):
+        super().__init__(name="workspaces", **kwargs)
+        self.monitor = monitor
+        self.connection = get_hyprland_connection()
+
+        @staticmethod
+        def create_workspace_label(ws_id: int) -> str:
+            # TODO: add icons of windows
+            return self.ws_numbers[ws_id - 1]
+
+        @staticmethod
+        def set_up_buttons(button: WsButton) -> WsButton:
+            """Set button state including filter for monitors."""
+            workspaces = json.loads(str(
+                self.connection.send_command("j/workspaces").reply.decode()
+            ))
+            monitor_id = next(
+                ws["monitorID"] for ws in workspaces if ws["id"] == button.id
+            )
+            button.set_visible(monitor_id == self.monitor)
+
+            def update_empty_state(*_):
+                if button.get_empty():
+                    button.add_style_class("unoccupied")
+                else:
+                    button.remove_style_class("unoccupied")
+
+            button.connect("notify::empty", update_empty_state)
+            update_empty_state()
+
+            return button
+
+        self.children = Workspaces(
+            name="workspaces",
+            spacing=4,
+            buttons_factory=lambda ws_id: set_up_buttons(
+                WorkspaceButton(
+                    id=ws_id,
+                    label=create_workspace_label(ws_id),
+                )
+            ),
+            invert_scroll=True,
+            empty_scroll=False  # must be false, because of not showing unoccupied
         )
-
-
-        # cava_command = "cava"
-
-        # if not helpers.executable_exists(cava_command):
-        #     raise ExecutableNotFoundError(cava_command)
-
-        # if not helpers.is_valid_gjs_color(self.config["color"]):
-        #     raise ValueError("Invalid color supplied for cava widget")
-
-        # command = f"kitty --title systemupdate sh -c '{cava_command}'"
-
-        # cava_label = Label(
-        #     v_align="center",
-        #     h_align="center",
-        #     style=f"color: {self.config['color']};",
-        # )
-
-        # script_path = get_relative_path("../assets/scripts/cava.sh")
-
-        # self.box.children = Box(spacing=1, children=[cava_label]).build(
-        #     lambda box, _: Fabricator(
-        #         poll_from=f"bash -c '{script_path} {self.config['bars']}'",
-        #         stream=True,
-        #         on_changed=lambda f, line: cava_label.set_label(line),
-        #     )
-        # )
-
-        # self.connect(
-        #     "clicked", lambda _: exec_shell_command_async(command, lambda *_: None)
-        # )

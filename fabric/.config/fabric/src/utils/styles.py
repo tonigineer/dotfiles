@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from fabric import Application
-from fabric.utils import exec_shell_command, get_relative_path, monitor_file
+from fabric.utils import exec_shell_command, monitor_file
 from loguru import logger
 
 from src.utils.config import CONFIG_DIR, Config

@@ -1,9 +1,121 @@
+/* ---------------------------- */
+/* Base Colors                  */
+/* ---------------------------- */
+/* Text Colors */
+/* Surface Colors */
+/* Accent Colors */
+/* Overlay Colors */
+/* Additional UI Elements */
+/* $border-radius: 10px;
+$padding: 7pt;
+$spacing: 12pt;
+$border-width: 1px;
+$dock-scaling: 100;
+$dock-opacity: 50; */
+#corner-container {
+  background-color: transparent;
+  /* NOTE: set in code with config parameter
+  min-width: 100px;
+  min-height: 100px; */
+}
+#corner-container #corner {
+  background-color: #11111b;
+}
+
+#desktop-clock-box {
+  font-family: "Monaspace Krypton";
+  margin: 0 10rem 10rem 10rem;
+  transition: all 0.25s cubic-bezier(0.5, 0.25, 0, 1);
+}
+#desktop-clock-box #clock > label {
+  color: #f9e2af;
+  font-size: 9rem;
+  font-weight: 500;
+}
+#desktop-clock-box #date > label {
+  color: #f38ba8;
+  font-size: 3rem;
+  font-weight: 500;
+}
+
+#top-bar {
+  font-family: "Monaspace Krypton";
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #11111b;
+  border-bottom: 2px solid #1e1e2e;
+}
+#top-bar #container {
+  /* border: 1px solid orange; */
+}
+#top-bar #arch-logo {
+  /* border: 1px solid red; */
+}
+#top-bar #submap {
+  color: #f38ba8;
+  border: 1px solid #a6adc8;
+  padding: 0 5px 0 4px;
+  border-radius: 5px;
+  margin: 2px;
+  background-color: #585b70;
+}
+#top-bar #client {
+  color: #cdd6f4;
+}
+#top-bar #workspaces {
+  font-weight: 700;
+  padding: 0.19em 1em;
+  border-radius: 16px;
+  border: none;
+  border-width: 1px;
+}
+#top-bar #workspaces > button {
+  padding: 0.125em 0.5em;
+  transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px;
+  background-color: #11111b;
+}
+#top-bar #workspaces > button label {
+  color: #7f849c;
+  transition: inherit;
+}
+#top-bar #workspaces > button:hover {
+  background-color: #f5c2e7;
+}
+#top-bar #workspaces > button:hover label {
+  color: #11111b;
+}
+#top-bar #workspaces > button.active {
+  font-weight: 600;
+  min-width: 1.4rem;
+  transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-left: 1em;
+  padding-right: 1em;
+  background-color: #a6adc8;
+}
+#top-bar #workspaces > button.active > label {
+  color: #7f849c;
+}
+#top-bar #workspaces > button.unoccupied {
+  opacity: 0.5;
+}
+#top-bar #workspaces > button.unoccupied:hover {
+  opacity: 1;
+}
+#top-bar #clock {
+  color: #cdd6f4;
+}
+
 * {
   all: unset;
+  font-size: 1rem;
+  font-family: "Monaspace Krypton";
+  font-style: normal;
 }
 
 #corner-container {
   background-color: transparent;
-  /* min-width: 100px;
+  /* handled in code via config values
+  min-width: 100px;
   min-height: 100px; */
 }

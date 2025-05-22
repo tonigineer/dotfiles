@@ -5,6 +5,7 @@ from fabric.hyprland.widgets import get_hyprland_connection
 from fabric.utils import bulk_connect
 from fabric.widgets.box import Box
 from fabric.widgets.datetime import DateTime
+from fabric.widgets.label import Label
 from fabric.widgets.wayland import WaylandWindow as Window
 from loguru import logger
 
@@ -14,6 +15,7 @@ from src.utils.types import Anchor, Layer
 # TODO: check in config.py
 # TODO: make config a class
 cfg = Config.get()["windows"]["desktop-info"]
+
 
 if cfg["show"] not in ["always", "empty-only", "hide"]:
     logger.error(
@@ -67,6 +69,10 @@ class DesktopClock(Window):
             self.on_ready(None)
         else:
             self.connection.connect("event::ready", self.on_ready)
+
+
+    def update_widget(self, *_):
+        print("dfsafsdaf")
 
     def on_ready(self, _):
         return self.get_window_count(None, _), logger.info(

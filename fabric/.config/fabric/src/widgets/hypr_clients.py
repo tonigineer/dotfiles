@@ -1,59 +1,46 @@
-from fabric import Fabricator
-from fabric.utils import exec_shell_command_async, get_relative_path
+import re
+
+from fabric.hyprland.widgets import ActiveWindow
+from fabric.utils import FormattedString
 from fabric.widgets.box import Box
-from fabric.widgets.label import Label
-from fabric.widgets.image import Image
 
-# import utils.functions as helpers
-from fabric.widgets.button import Button
-# from utils import BarConfig, ExecutableNotFoundError
-from gi.repository import Gtk
-#
-# icon_theme = Gtk.IconTheme.get_default()
+from src.utils.windows import WINDOW_REGEX_MAP
 
-# print(icon_theme)
-# breakpoint()
 
-class ArchLogo(Button):
-    """A widget to display the Cava audio visualizer."""
+class HyprClient(Box):
+    """A widget to display the current clients window title."""
 
     def __init__(self, **kwargs):
-        super().__init__(
-            name="arch-logo",
-            # child=Label("ArchLogo"),
-            image=Image(icon_size=22, icon_name="arch-logo"),
-            tooltip_text="dfasfdfa",
-            on_clicked=lambda *_: exec_shell_command_async("kitty"),
-            **kwargs
+        super().__init__(name="client", orientation='horizontal', spacing=5, **kwargs)
+        self.active_window = ActiveWindow(
+            formatter=FormattedString(
+                "{ get_title(win_title, win_class) }",
+                get_title=self.get_title,
+            ),
+        )
+        self.children = [self.active_window]
+
+    def get_title(self, win_title, win_class):
+        # Give prio to more specific window titles (e.g., whatsapp in librewolf)
+        prio_window_title_list = list(reversed(WINDOW_REGEX_MAP))
+        matched_window = next(
+            (wt for wt in prio_window_title_list
+             if re.search(wt[0], win_title.lower())),
+            None
         )
 
+        if not matched_window:
+            matched_window = next(
+                (wt for wt in prio_window_title_list
+                 if re.search(wt[0], win_class.lower())),
+                None
+            )
 
-        # cava_command = "cava"
+        if not matched_window:
+            return f"MISSING | class: {win_class.lower()} title: {win_class.lower()}"
 
-        # if not helpers.executable_exists(cava_command):
-        #     raise ExecutableNotFoundError(cava_command)
-
-        # if not helpers.is_valid_gjs_color(self.config["color"]):
-        #     raise ValueError("Invalid color supplied for cava widget")
-
-        # command = f"kitty --title systemupdate sh -c '{cava_command}'"
-
-        # cava_label = Label(
-        #     v_align="center",
-        #     h_align="center",
-        #     style=f"color: {self.config['color']};",
-        # )
-
-        # script_path = get_relative_path("../assets/scripts/cava.sh")
-
-        # self.box.children = Box(spacing=1, children=[cava_label]).build(
-        #     lambda box, _: Fabricator(
-        #         poll_from=f"bash -c '{script_path} {self.config['bars']}'",
-        #         stream=True,
-        #         on_changed=lambda f, line: cava_label.set_label(line),
-        #     )
-        # )
-
-        # self.connect(
-        #     "clicked", lambda _: exec_shell_command_async(command, lambda *_: None)
-        # )
+        return (
+            f"{matched_window[1]} {matched_window[2]}"
+            if False
+            else f"{matched_window[2]}"
+        )

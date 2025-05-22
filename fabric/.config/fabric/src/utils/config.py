@@ -14,13 +14,27 @@ DEFAULT_CONFIG = {
     "windows": {
         "topbar": {
             "enabled": True,
-            "icon-size": 24,
-            "spacing": 4
+            "icon-size": 28,
+            "spacing": 4,
+            "separator-width": "1rem"
         },
         "bottombar": {"enabled": True},
-        "corners": {"enabled": True, "size": 100},
+        "corners": {"enabled": True, "size": 45},
         # always, empty-only, hide
-        "desktop-info": {"show": "hide"}
+        "desktop-info": {"show": "empty-only"}
+    },
+    "widgets": {
+        "clock": {"formats": ["%H:%M", "%d.%m.%Y  %H:%M"]},
+        "workspaces": {
+            "numbering": "arabic",
+            "numberings": {
+                "chinese": ["一", "二", "三", "四", "五", "六", "七", "八", "九", "〇"],
+                "arabic":  ["1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9",  "0"],
+                "roman":   ["I",  "II", "III","IV", "V", "VI", "VII","VIII","IX", "N"]
+            },
+            "monitor-specific": True,
+            "window-icons": True
+        }
     },
     "styles": {
         "monitor_dir": "src/styles",

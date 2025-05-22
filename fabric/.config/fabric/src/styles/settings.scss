@@ -11,11 +11,31 @@ $border-width: 1px;
 $dock-scaling: 100;
 $dock-opacity: 50; */
 $corners-color: theme.$background-dark;
+
 $desktop-info-time-color: theme.$accent-yellow;
 $desktop-info-date-color: theme.$accent-red;
 $desktop-info-time-size: 9rem;
 $desktop-info-date-size: 3rem;
+
 $topbar-background-color: theme.$background-dark;
 $topbar-bottom-border-color: theme.$background;
-$clock-color: theme.$text-main;
+$submap-background: theme.$surface-highlight;
+$submap-icon-color: theme.$text-muted-light;
+$submap-text-color: theme.$accent-red;
+$submap-border-color: theme.$text-muted;
+$submap-border-radius: 5px;
+$submap-border-width: 1px;
+$client-text-color: theme.$text-main;
+$workspaces-text-color: theme.$text-muted-light;
+$workspaces-spacing: 0.125em;
+$workspaces-pill-height: 0.125em;
+$workspaces-pill-width: 0.5em;
+$workspaces-pill-active_width: 1em;
+$workspaces-border-enabled: false;
+$workspaces-border-width: 1px;
+$workspaces-border-radius: 16px;
+$workspaces-hover-color: theme.$accent-pink;
+$workspaces-active-color: theme.$text-muted;
+
+$clock-text-color: theme.$text-main;
 $clock-font-weight: bold;

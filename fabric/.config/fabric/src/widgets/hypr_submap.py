@@ -1,59 +1,35 @@
-from fabric import Fabricator
-from fabric.utils import exec_shell_command_async, get_relative_path
+from fabric.hyprland.widgets import get_hyprland_connection
 from fabric.widgets.box import Box
-from fabric.widgets.label import Label
 from fabric.widgets.image import Image
+from fabric.widgets.label import Label
 
-# import utils.functions as helpers
-from fabric.widgets.button import Button
-# from utils import BarConfig, ExecutableNotFoundError
-from gi.repository import Gtk
-#
-# icon_theme = Gtk.IconTheme.get_default()
 
-# print(icon_theme)
-# breakpoint()
-
-class ArchLogo(Button):
-    """A widget to display the Cava audio visualizer."""
+class HyprSubmap(Box):
+    """A widget to display the current sub map."""
 
     def __init__(self, **kwargs):
-        super().__init__(
-            name="arch-logo",
-            # child=Label("ArchLogo"),
-            image=Image(icon_size=22, icon_name="arch-logo"),
-            tooltip_text="dfasfdfa",
-            on_clicked=lambda *_: exec_shell_command_async("kitty"),
-            **kwargs
+        super().__init__(name="submap", orientation='horizontal', spacing=5, **kwargs)
+        self.submap_label = Label(label="default")
+        self.children = [
+            Image(icon_size=18, icon_name="submap-icon"),
+            self.submap_label
+        ]
+
+        self.connection = get_hyprland_connection()
+        self.connection.connect("event::submap", self.get_submap)
+
+        self.on_ready(None) if self.connection.ready else \
+            self.connection.connect("event::ready", self.on_ready)
+
+    def on_ready(self, _):
+        return self.get_submap()
+
+    def get_submap(self, *_):
+        submap = str(self.connection.send_command("submap").reply.decode()).strip("\n")
+
+        self.submap_label.set_label(f"{submap}")
+        self.set_tooltip_text(
+            f"Current submap: {submap}\n\nReset with <ESC>\nChange with <MOD>+<SPACE>",
         )
 
-
-        # cava_command = "cava"
-
-        # if not helpers.executable_exists(cava_command):
-        #     raise ExecutableNotFoundError(cava_command)
-
-        # if not helpers.is_valid_gjs_color(self.config["color"]):
-        #     raise ValueError("Invalid color supplied for cava widget")
-
-        # command = f"kitty --title systemupdate sh -c '{cava_command}'"
-
-        # cava_label = Label(
-        #     v_align="center",
-        #     h_align="center",
-        #     style=f"color: {self.config['color']};",
-        # )
-
-        # script_path = get_relative_path("../assets/scripts/cava.sh")
-
-        # self.box.children = Box(spacing=1, children=[cava_label]).build(
-        #     lambda box, _: Fabricator(
-        #         poll_from=f"bash -c '{script_path} {self.config['bars']}'",
-        #         stream=True,
-        #         on_changed=lambda f, line: cava_label.set_label(line),
-        #     )
-        # )
-
-        # self.connect(
-        #     "clicked", lambda _: exec_shell_command_async(command, lambda *_: None)
-        # )
+        self.set_visible(submap != "default")

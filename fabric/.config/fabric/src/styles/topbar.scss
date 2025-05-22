@@ -1,8 +1,13 @@
 @use "./settings" as settings;
 
 #top-bar {
+    font-family: settings.$font-name;
+    font-size: settings.$font-size;
+    font-weight: settings.$clock-font-weight;
+
     background-color: settings.$topbar-background-color;
     border-bottom: 2px solid settings.$topbar-bottom-border-color;
+
     #container {
         /* border: 1px solid orange; */
     }
@@ -11,10 +16,73 @@
         /* border: 1px solid red; */
     }
 
+    #submap {
+        color: settings.$submap-text-color;
+        border: settings.$submap-border-width solid settings.$submap-border-color;
+        padding: 0 5px 0 4px;
+        border-radius: settings.$submap-border-radius;
+        margin: 2px;
+        background-color: settings.$submap-background;
+    }
+
+    #client {
+        color: settings.$client-text-color;
+    }
+
+    $workspace-transition:
+        padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    #workspaces {
+        font-weight: 700;
+        padding: 0.19em 1em;
+        border-radius: settings.$workspaces-border-radius;
+        border: if(settings.$workspaces-border-enabled, settings.$border, none);
+        border-width: settings.$workspaces-border-width;
+
+        & > button {
+            padding: settings.$workspaces-pill-height settings.$workspaces-pill-width;
+            transition: $workspace-transition;
+            border-radius: 9999px;
+            background-color: settings.$topbar-background-color;
+
+            label {
+                color: settings.$workspaces-text-color;
+                transition: inherit;
+            }
+
+            &:hover {
+                background-color: settings.$workspaces-hover-color;
+
+                label {
+                    color: settings.$topbar-background-color;
+                }
+            }
+
+            &.active {
+                font-weight: 600;
+                min-width: 1.4rem;
+                transition: $workspace-transition;
+                padding-left: settings.$workspaces-pill-active_width;
+                padding-right: settings.$workspaces-pill-active_width;
+                background-color: settings.$workspaces-active-color;
+
+                & > label {
+                    color: settings.$workspaces-text-color;
+                }
+            }
+
+            &.unoccupied {
+                opacity: 0.5;
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
     #clock {
-        font-family: settings.$font-name;
-        font-size: settings.$font-size;
-        font-weight: settings.$clock-font-weight;
-        color: settings.$clock-color;
+        color: settings.$clock-text-color;
     }
 }

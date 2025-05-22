@@ -1,25 +1,32 @@
 from fabric.widgets.box import Box
 from fabric.widgets.centerbox import CenterBox
-from fabric.widgets.datetime import DateTime
 from fabric.widgets.wayland import WaylandWindow as Window
+from loguru import logger
 
 from src.utils.config import Config
-from src.widgets.arch_logo import ArchLogo
-from src.widgets.clock import Clock
+from src.widgets import (
+    ArchLogo,
+    Clock,
+    HyprClient,
+    HyprSubmap,
+    HyprWorkspaces,
+    PowerButton,
+    Separator,
+)
 
 cfg = Config.get()["windows"]["topbar"]
 
 widget_list = {
-    "left": ["ArchLogo", "Client", "Submap"],
-    "center": ["Workspace"],
-    "right": ["Clock", "Powerbutton"],
+    "left": ["ArchLogo", "HyprClient", "HyprSubmap"],
+    "center": ["HyprWorkspaces"],
+    "right": ["Clock", "PowerButton"],
 }
 
 class TopBar(Window):
     """Bar for the top of the screen."""
 
     def __init__(self, **kwargs):
-        layout = self.make_layout()
+        layout = self.make_layout(kwargs['monitor'])
 
         self.box = CenterBox(
             name="container",
@@ -55,13 +62,22 @@ class TopBar(Window):
             **kwargs,
         )
 
-    def make_layout(self) -> dict:
+    def make_layout(self, monitor) -> dict:
         layout = {
-            "left": [ Box(style="min-width: 0.5rem;"), ArchLogo()
-            #     Box(),
-            #     logo
+            "left": [
+                Separator(style=f"min-width: {cfg['separator-width']}"),
+                ArchLogo(),
+                HyprSubmap(),
+                HyprClient()
             ],
-          "middle": [DateTime(formatters="%H:%M")],
-            "right": [Clock(), Box(style="min-width: 0.5rem;")],
+            "middle": [
+                HyprWorkspaces(monitor=monitor)
+            ],
+            "right": [
+                Clock(),
+                PowerButton(),
+                Separator(style=f"min-width: {cfg['separator-width']}"),
+            ]
         }
+
         return layout

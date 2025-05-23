@@ -125,7 +125,7 @@
         "configs": ["hyprland", "swaync"],
         "checks": ["fc-list | grep Monaspace", "[ -L ~/.config/hypr ] && true || false", "[ -L ~/.config/swaync ] && true || false"],
         "prior_install": [],
-        "post_install": ["fc-cache -v", "mkdir -p /home/$USER/.local/backgrounds/live /home/$USER/.local/background/linux-elitists"]
+        "post_install": ["fc-cache -v", "mkdir -p /home/$USER/.local/share/backgrounds/live /home/$USER/.local/share/backgrounds/linux-elitists", "cp /home/$USER/.config/hypr/assets/ecatherina-farias.png /home/$USER/.local/share/backgrounds"]
     },
     {
         "name": "Theming",

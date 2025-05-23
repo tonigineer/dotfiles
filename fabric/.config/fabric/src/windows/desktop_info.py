@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import json
+from posix import kill
 
 from fabric.hyprland.service import HyprlandEvent
 from fabric.hyprland.widgets import get_hyprland_connection
@@ -10,21 +13,45 @@ from fabric.widgets.wayland import WaylandWindow as Window
 from loguru import logger
 
 from src.utils.config import Config
+from src.utils.system_stats import util_fabricator
 from src.utils.types import Anchor, Layer
-
-# TODO: check in config.py
-# TODO: make config a class
-cfg = Config.get()["windows"]["desktop-info"]
+from src.widgets.misc import Separator
 
 
-if cfg["show"] not in ["always", "empty-only", "hide"]:
-    logger.error(
-        f'Value `{cfg["show"]}` not correct for ["windows"]["desktop-info"]["show"]'
-    )
-    config_show = "hide"
+class CategoryLabel(Box):
+    """Widget to put two labels next to each other as `CATEGORY  Content`."""
+    def __init__(self, category: str, content: str, **kwargs):
+        super().__init__(**kwargs)
+
+        self.children=[
+            Label(name="category", label=category),
+            Label(name="content", label=content)
+        ]
+
+# BAR_STYLES: dict[str, list[str]] = {
+#     "blocks":      ["█", "░"],
+#     "half_blocks": ["█", "▁"],
+#     "shades":      ["▓", "░"],
+#     "dots":        ["●", "·"],
+#     "squares":     ["■", "□"],
+#     "thin":        ["▉", "▏"],
+#     "braille":     ["⣿", "⠀"],
+#     "emoji":       ["🔋", "🟥"],
+# }
+
+def bar_from_percent(percent: float, width: int = 8,
+    filled_char: str = "⣿", empty_char: str = "⠀"
+) -> str:
+    """Return a simple text bar like: [ ███░░░ ]."""
+
+    percent = max(0, min(100, percent))        # clamp
+    filled  = int(percent * width / 100)
+    empty   = width - filled
+    bar     = filled_char * filled + empty_char * empty
+    return f"[ {bar} ]"
 
 
-class DesktopClock(Window):
+class DesktopInfo(Window):
     """A simple desktop clock widget."""
 
     def __init__(self,
@@ -33,27 +60,33 @@ class DesktopClock(Window):
         layer: Layer = "background",
         **kwargs
     ):
+        self.system_info_widget = self.system_info(None)
+
         super().__init__(
             name="desktop-info",
             layer=layer,
             anchor=anchor,
             child=Box(
-                name="desktop-clock-box",
+                name="desktop-info-container",
                 orientation="v",
                 children=[
                     DateTime(formatters=["%H:%M"], name="clock"),
                     DateTime(formatters=[date_format], interval=10000, name="date"),
+                    Separator(style="min-height: 2rem;"),
+                    self.system_info_widget
                 ],
             ),
             all_visible=True,
             **kwargs,
         )
 
-        if cfg["show"] == "hide":
+        if Config.Windows.DesktopInfo.show == "hide":
             self.hide()
             return
 
-        if cfg["show"] == "always":
+        util_fabricator.connect("changed", self.update_system_info)
+
+        if Config.Windows.DesktopInfo.show == "always":
             return
 
         self.connection = get_hyprland_connection()
@@ -70,9 +103,54 @@ class DesktopClock(Window):
         else:
             self.connection.connect("event::ready", self.on_ready)
 
+    def update_system_info(self, _, values):
+        self.system_info_widget.children = [self.system_info(values)]
 
-    def update_widget(self, *_):
-        print("dfsafsdaf")
+    def system_info(self, values: dict | None) -> Box:
+        if values is None:
+            return Box()
+
+        return Box(name="system-info", h_align="center", orientation="vertical", spacing=8, children=[
+            Box(h_align="center", orientation="h", spacing=25,
+                children=[
+                    CategoryLabel("NAME:", Config.General.hostname, spacing=8),
+                    CategoryLabel("KERNEL:", values.get("kernel", ""), spacing=8),
+                ]
+            ),
+            Box(h_align="center", orientation="h", spacing=25,
+                children=[
+                    CategoryLabel("DATE_TIME:", values.get("datetime", "NA"), spacing=8),
+                    CategoryLabel("UP_TIME:", values.get("uptime", "NA"), spacing=8),
+                ]
+            ),
+            Box(h_align="center", orientation="h", spacing=25,
+                children=[
+                    CategoryLabel("CPU:", f"{bar_from_percent(values.get("cpu_usage", 100))}", spacing=8),
+                    CategoryLabel("MEM:", f"{bar_from_percent(values.get("ram_usage", 100))}", spacing=8),
+                    CategoryLabel("GPU:", f"{bar_from_percent(values.get("gpu_usage", 100))}", spacing=8),
+
+                ]
+            ),
+            Box(h_align="center", orientation="h", spacing=25,
+                children=[
+                    CategoryLabel("CPU_TEMP:", f"{values.get("cpu_temp", 100):0.1f} 󰔄", spacing=8),
+                    CategoryLabel("GPU_TEMP:", f"{values.get("gpu_temp", 100):0.1f} 󰔄", spacing=8),
+                ]
+            ),
+            Box(h_align="center", orientation="h", spacing=25,
+                children=[
+                    CategoryLabel("/", f"{bar_from_percent(values.get("disk", 100))}", spacing=8),
+                    CategoryLabel(str(Config.Paths.home_dir), f"{bar_from_percent(values.get("disk_home", 100))}", spacing=8),
+                    CategoryLabel("SWAP", f"{bar_from_percent(values.get("disk_swap", 100))}", spacing=8),
+                ]
+            ),
+            Box(h_align="center", orientation="h", spacing=25,
+                children=[
+                    CategoryLabel("fabricCORE", f"{values.get("app_cpu", 100)} 󰏰", spacing=8),
+                    CategoryLabel("fabricMEM", f"{values.get("app_memory", 100)} MiB", spacing=8),
+                ]
+            ),
+        ])
 
     def on_ready(self, _):
         return self.get_window_count(None, _), logger.info(

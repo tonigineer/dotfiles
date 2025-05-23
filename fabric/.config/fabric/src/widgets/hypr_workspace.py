@@ -7,8 +7,6 @@ from fabric.widgets.box import Box
 from src.utils.config import Config
 from src.utils.widgets import setup_cursor_hover
 
-cfg = Config.get()["widgets"]["workspaces"]
-
 
 class WorkspaceButton(WsButton):
     """A button to represent a workspace."""
@@ -20,7 +18,9 @@ class WorkspaceButton(WsButton):
 class HyprWorkspaces(Box):
     """A widget to display the current workspaces."""
 
-    ws_numbers = cfg["numberings"][cfg["numbering"]]
+    ws_numbers = Config.Widgets.Workspaces.numberings[
+        Config.Widgets.Workspaces.numbering
+    ]
 
     def __init__(self, monitor, **kwargs):
         super().__init__(name="workspaces", **kwargs)

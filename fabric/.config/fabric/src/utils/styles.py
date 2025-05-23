@@ -1,10 +1,8 @@
-from pathlib import Path
-
 from fabric import Application
 from fabric.utils import exec_shell_command, monitor_file
 from loguru import logger
 
-from src.utils.config import CONFIG_DIR, Config
+from src.utils.config import Config
 
 from .colors import Colors
 
@@ -26,7 +24,7 @@ class Styles:
     @classmethod
     def monitor_files(cls):
         cls.style_monitor = monitor_file(
-            Path(CONFIG_DIR / Config.get()["styles"]["monitor_dir"]).as_uri()
+            str(Config.Paths.config_dir / Config.Styles.monitor_dir)
         )
         cls.style_monitor.connect("changed", Styles.apply)
 
@@ -38,15 +36,15 @@ class Styles:
 
         logger.info(f"{Colors.INFO}[Styles] Compiling CSS")
         stdout = exec_shell_command(
-            f"sass {CONFIG_DIR / Config.get()['styles']['compile_source']} \
-            {CONFIG_DIR / Config.get()['styles']['compile_target']} --no-source-map"
+            f"sass {Config.Paths.config_dir / Config.Styles.compile_source} \
+            {Config.Paths.config_dir / Config.Styles.compile_target} --no-source-map"
         )
 
         if stdout == "":
             logger.info(f"{Colors.INFO}[Styles] CSS applied")
-            cls._app.set_stylesheet_from_file(
-                CONFIG_DIR / Config.get()["styles"]["compile_target"]
-            )
+            cls._app.set_stylesheet_from_file(str(
+                Config.Paths.config_dir / Config.Styles.compile_target
+            ))
         else:
             cls._app.set_stylesheet_from_string(
                 """* {

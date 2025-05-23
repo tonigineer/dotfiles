@@ -3,13 +3,14 @@ from fabric.widgets.datetime import DateTime
 
 from src.utils.config import Config
 
-formattings = Config.get()["widgets"]["clock"]["formats"]
+formattings = Config.Widgets.Clock.formats
 
 
 class Clock(Box):
     """A widget to display time and datetime."""
 
     format_idx = 0
+
 
     def __init__(self, **kwargs):
         super().__init__(name="clock", **kwargs)

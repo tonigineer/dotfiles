@@ -128,6 +128,10 @@ class RevealPopUpWindow(Window):
             else:
                 self.revealer.reveal()
 
+import psutil
+
+from src.utils.system_stats import util_fabricator
+
 
 class PowerButton(EventBox):
     """A widget to display time and datetime."""
@@ -152,6 +156,10 @@ class PowerButton(EventBox):
         self.pm = Button("   X    ")
         self.pm.connect("clicked", self.toggle_popup)
         self.children = self.pm
+
+
+
+
 
         # self.set_can_focus(True)
         # self.pm.set_can_focus(True)
@@ -178,6 +186,8 @@ class PowerButton(EventBox):
                 content=self.content
             )
         return PowerButton._pop_up_menu
+
+
 
     def toggle_popup(self, *_):
         if self.get_pop_up_menu().revealer.child_revealed:

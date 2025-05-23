@@ -7,8 +7,6 @@ from src.utils.common import ttl_lru_cache
 from src.utils.config import Config
 from src.utils.icons import text_icons
 
-cfg = Config.get()["windows"]["topbar"]
-
 
 @ttl_lru_cache(600, 10)
 def get_distro_icon():
@@ -22,8 +20,10 @@ class ArchLogo(Button):
     def __init__(self, **kwargs):
         super().__init__(
             name="arch-logo",
-            # child=Label("ArchLogo"),
-            image=Image(icon_size=cfg["icon-size"], icon_name="arch-logo"),
+            image=Image(
+                icon_size=Config.Windows.Topbar.icon_size,
+                icon_name="arch-logo"
+            ),
             tooltip_text=f"{get_distro_icon()}dfasfdfa",
             on_clicked=lambda *_: exec_shell_command_async("kitty"),
             **kwargs

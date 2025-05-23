@@ -1,77 +1,112 @@
-import json
+from __future__ import annotations
+
 import os
+from enum import Enum
 from pathlib import Path
-
-APPLICATION_NAME = "tgshell"
-
-USERNAME = os.getlogin()
-HOSTNAME = os.uname().nodename
-# CACHE_DIR = str(GLib.get_user_cache_dir()) + f"/{APP_NAME}"
-CONFIG_DIR = Path.home() / ".config" / "fabric"
-CONFIG_FULLFILE = CONFIG_DIR / "config.json"
-
-DEFAULT_CONFIG = {
-    "windows": {
-        "topbar": {
-            "enabled": True,
-            "icon-size": 28,
-            "spacing": 4,
-            "separator-width": "1rem"
-        },
-        "bottombar": {"enabled": True},
-        "corners": {"enabled": True, "size": 45},
-        # always, empty-only, hide
-        "desktop-info": {"show": "empty-only"}
-    },
-    "widgets": {
-        "clock": {"formats": ["%H:%M", "%d.%m.%Y  %H:%M"]},
-        "workspaces": {
-            "numbering": "arabic",
-            "numberings": {
-                "chinese": ["一", "二", "三", "四", "五", "六", "七", "八", "九", "〇"],
-                "arabic":  ["1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9",  "0"],
-                "roman":   ["I",  "II", "III","IV", "V", "VI", "VII","VIII","IX", "N"]
-            },
-            "monitor-specific": True,
-            "window-icons": True
-        }
-    },
-    "styles": {
-        "monitor_dir": "src/styles",
-        "compile_source": "src/styles/styles.scss",
-        "compile_target": "src/styles.css"
-    }
-}
+from typing import ClassVar, Literal
 
 
 class Config:
-    """Handles configuration loading and saving."""
+    """Fabric app configuration."""
+    application_name: str = "tgshell"
 
-    _config = None
+    class General:
+        """Basic runtime info."""
+        username: str = os.getlogin()
+        hostname: str = os.uname().nodename
+        show_on: Literal["primary", "all"] = "all"
 
-    @classmethod
-    def _load_config(cls) -> dict:
-        try:
-            with open(CONFIG_FULLFILE, "r") as file:
-                return json.load(file)
-        except (FileNotFoundError, json.decoder.JSONDecodeError):
-            cls._save_config(DEFAULT_CONFIG)
-            return DEFAULT_CONFIG
+    class Paths:
+        """Filesystem locations."""
+        home_dir: Path = Path.home()
+        config_dir: Path = home_dir / ".config" / "fabric"
 
-    @classmethod
-    def get(cls) -> dict:
-        if cls._config is None:
-            cls._config = cls._load_config()
-        return cls._config
+    class Styles:
+        """Style compilation paths."""
+        monitor_dir: Path = Path("src/styles")
+        compile_source: Path = Path("src/styles/styles.scss")
+        compile_target: Path = Path("src/styles.css")
 
-    @classmethod
-    def _save_config(cls, config: dict | None = None) -> None:
-        with open(CONFIG_FULLFILE, "w") as file:
-            json.dump(cls._config if config is None else config, file, indent=4)
+    class Windows:
+        """Window-related UI."""
 
-    @classmethod
-    def set(cls, config: dict):
-        if cls._config is None:
-            cls._config = cls._load_config()
-        cls._config.update(config)
-        cls._save_config()
+        class Topbar:
+            """Top bar settings."""
+            enabled: bool = True
+            icon_size: int = 28
+            spacing: int = 4
+            separator_width: str = "1rem"
+
+        class Bottombar:
+            """Bottom bar settings."""
+            enabled: bool = False
+
+        class Corners:
+            """Rounded corner size."""
+            enabled: bool = True
+            size: int = 45
+
+        class DesktopInfo:
+            """When to show desktop info."""
+            enabled: bool = True
+            show: Literal["always", "empty-only", "hide"] = "always"
+
+            class Instruments(Enum):
+                """Enum with keys for `system_stats` service.
+
+                USAGE:
+                    class Stats:
+                        util_fabricator = Fabricator(poll_from=stats_poll, stream=True)
+                        util_fabricator.connect("changed", self.update)
+
+                        def update(self, _, values):
+                            self.label1.set_label(f"{values.get(Instruments.memory)}")
+                """
+                cpu = "cpu_usage"
+                memory = "ram_usage"
+                gpu = "gpu"
+                disk = "disk"
+                disk_home = "disk_home"
+
+            instruments: ClassVar = [
+                Instruments.cpu,
+                Instruments.memory,
+                Instruments.memory,
+                Instruments.disk,
+                Instruments.disk_home
+            ]
+
+    class Widgets:
+        """Individual widget defaults."""
+
+        class Clock:
+            """Clock formats."""
+            formats: ClassVar = [
+                "%H:%M",
+                "%d.%m.%Y  %H:%M",
+            ]
+
+        class PowerButton:
+            icon: Path | str = Path("shutdown-symbolic")
+
+            class Overlay:
+                timeout: int = 500
+                transition_direction = "slide-down"
+                transition_duration = 500
+
+                class Buttons:
+                    class Shutdown:
+                        icon: Path | str = Path("shutdown.svg")
+                        cmd: str = "poweroff"
+
+
+        class Workspaces:
+            """Workspace indicator settings."""
+            numbering: Literal["chinese", "arabic", "roman"] = "chinese"
+            numberings: ClassVar = {
+                "chinese": ["一", "二", "三", "四", "五", "六", "七", "八", "九", "〇"],
+                "arabic":  ["1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9",  "0"],
+                "roman":   ["I",  "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "N"],
+            }
+            monitor_specific: bool = True
+            window_icons: bool = True

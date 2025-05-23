@@ -22,20 +22,39 @@ $dock-opacity: 50; */
   background-color: #11111b;
 }
 
-#desktop-clock-box {
+#desktop-info-container {
   font-family: "Monaspace Krypton";
-  margin: 0 10rem 10rem 10rem;
+  margin: 5rem;
+  padding: 30px;
   transition: all 0.25s cubic-bezier(0.5, 0.25, 0, 1);
 }
-#desktop-clock-box #clock > label {
+#desktop-info-container #clock > label {
   color: #f9e2af;
   font-size: 9rem;
   font-weight: 500;
 }
-#desktop-clock-box #date > label {
-  color: #f38ba8;
+#desktop-info-container #date > label {
+  color: #a6e3a1;
   font-size: 3rem;
   font-weight: 500;
+}
+#desktop-info-container #system-info {
+  font-family: "Monaspace Krypton";
+  /* background-color: yellow; */
+  /* color: red; */
+}
+#desktop-info-container #system-info #category {
+  color: #585b70;
+  font-size: 13px;
+  /* color: red; */
+  font-weight: bold;
+}
+#desktop-info-container #system-info #content {
+  color: #cdd6f4;
+  font-size: 13px;
+  /* color: red; */
+  font-weight: 400;
+  /* font-weight: normal; */
 }
 
 #top-bar {

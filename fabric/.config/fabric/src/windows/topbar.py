@@ -1,7 +1,7 @@
 from fabric.widgets.box import Box
 from fabric.widgets.centerbox import CenterBox
 from fabric.widgets.wayland import WaylandWindow as Window
-from loguru import logger
+from gi.repository.Gio import AppInfo
 
 from src.utils.config import Config
 from src.widgets import (
@@ -14,8 +14,9 @@ from src.widgets import (
     Separator,
 )
 
-cfg = Config.get()["windows"]["topbar"]
+Config.Windows.Topbar.spacing
 
+# TODO implement dynamic building
 widget_list = {
     "left": ["ArchLogo", "HyprClient", "HyprSubmap"],
     "center": ["HyprWorkspaces"],
@@ -32,19 +33,19 @@ class TopBar(Window):
             name="container",
             start_children=Box(
                 name="left",
-                spacing=cfg["spacing"],
+                spacing=Config.Windows.Topbar.spacing,
                 orientation="h",
                 children=layout["left"],
             ),
             center_children=Box(
                 name="center",
-                spacing=cfg["spacing"],
+                spacing=Config.Windows.Topbar.spacing,
                 orientation="h",
                 children=layout["middle"],
             ),
             end_children=Box(
                 name="right",
-                spacing=cfg["spacing"],
+                spacing=Config.Windows.Topbar.spacing,
                 orientation="h",
                 children=layout["right"],
             ),
@@ -65,7 +66,7 @@ class TopBar(Window):
     def make_layout(self, monitor) -> dict:
         layout = {
             "left": [
-                Separator(style=f"min-width: {cfg['separator-width']}"),
+                Separator(style=f"min-width: {Config.Windows.Topbar.separator_width}"),
                 ArchLogo(),
                 HyprSubmap(),
                 HyprClient()
@@ -76,7 +77,7 @@ class TopBar(Window):
             "right": [
                 Clock(),
                 PowerButton(),
-                Separator(style=f"min-width: {cfg['separator-width']}"),
+                Separator(style=f"min-width: {Config.Windows.Topbar.separator_width}"),
             ]
         }
 

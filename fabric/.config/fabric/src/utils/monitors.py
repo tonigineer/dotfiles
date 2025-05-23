@@ -21,7 +21,7 @@ class HyprlandWithMonitors(Hyprland):
         self.display: Gdk.Display = Gdk.Display.get_default()
         super().__init__(commands_only, **kwargs)
 
-    def get_all_monitors(self) -> Dict:
+    def get_all_monitors(self) -> dict[str, str]:
         monitors = json.loads(self.send_command("j/monitors").reply)
         return {monitor["id"]: monitor["name"] for monitor in monitors}
 
@@ -37,6 +37,7 @@ class HyprlandWithMonitors(Hyprland):
             return self.get_gdk_monitor_id_from_name(monitors[hyprland_id])
         return None
 
-    def get_current_gdk_monitor_id(self) -> int | None:
+    def get_current_gdk_monitor_id(self) -> int:
         active_workspace = json.loads(self.send_command("j/activeworkspace").reply)
-        return self.get_gdk_monitor_id_from_name(active_workspace["monitor"])
+        id = self.get_gdk_monitor_id_from_name(active_workspace["monitor"])
+        return id if id else 0

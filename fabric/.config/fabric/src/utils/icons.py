@@ -1,3 +1,17 @@
+# Power
+from dataclasses import dataclass
+
+
+@dataclass
+class nerd_font_icons:
+    class powermenu:
+        lock: str = ""
+        suspend: str = ""
+        logout: str = ""
+        reboot: str = ""
+        shutdown: str = ""
+
+
 common_text_icons = {
     "playing": "",
     "paused": "",

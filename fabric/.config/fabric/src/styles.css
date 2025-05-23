@@ -119,3 +119,21 @@ $dock-opacity: 50; */
   min-width: 100px;
   min-height: 100px; */
 }
+
+#fabric-overlay {
+  background-color: red;
+}
+#fabric-overlay #revealer {
+  padding: 10px;
+}
+
+#power-menu {
+  color: red;
+  background-color: transparent;
+  min-height: 1px;
+  min-width: 1px;
+}
+
+#power-menu-pop-up {
+  border: 2px solid yellow;
+}

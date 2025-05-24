@@ -33,8 +33,8 @@ class Config:
         class Topbar:
             """Top bar settings."""
             enabled: bool = True
-            icon_size: int = 28
-            spacing: int = 4
+            icon_size: int = 16
+            spacing: int = 12
             separator_width: str = "1rem"
 
         class Bottombar:
@@ -86,16 +86,42 @@ class Config:
                 "%d.%m.%Y  %H:%M",
             ]
 
-        class PowerButton:
+        class PowerMenuButton:
             icon: Path | str = Path("shutdown-symbolic")
+
+            class Actions:
+                class Lock:
+                    name: str = "Lock"
+                    cmd: str = "loginctl lock-session"
+                    icon: str = "system-log-out"
+                class Suspend:
+                    name: str = "Supend"
+                    cmd: str = "systemctl suspend"
+                    icon: str = "system-suspend"
+                class Hibernation:
+                    name: str = "Hibernation"
+                    cmd: str = "systemctl hibernate"
+                    icon: str = "system-suspend-hibernate"
+                class Restart:
+                    name: str = "Restart"
+                    cmd: str = "reboot"
+                    icon: str = "system-reboot"
+                class Shutdown:
+                    name: str = "Shutdown"
+                    cmd: str = "poweroff"
+                    icon: str = "system-shutdown"
 
             class Overlay:
                 timeout: int = 500
                 transition_direction = "slide-down"
                 transition_duration = 500
 
-                class Buttons:
+                class Actions:
+
                     class Shutdown:
+                        icon: Path | str = Path("shutdown.svg")
+                        cmd: str = "poweroff"
+                    class Shutdow2n:
                         icon: Path | str = Path("shutdown.svg")
                         cmd: str = "poweroff"
 
@@ -110,3 +136,7 @@ class Config:
             }
             monitor_specific: bool = True
             window_icons: bool = True
+
+        class SystemTray:
+            monitor_id: int = 1
+            svg_icon_map: ClassVar = {"steam": "steam-logo-white", "spotify": "spotify-logo"}

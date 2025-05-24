@@ -1,0 +1,41 @@
+@use "./settings" as settings;
+
+/* #power-menu-button {
+    border: 3px solid white;
+} */
+
+#power-menu {
+    min-height: 1px;
+    min-width: 1px;
+}
+
+#grid {
+    /* border: 3px solid orange; */
+    #power-control-button {
+        /* border: 3px solid pink; */
+    }
+}
+
+#power-menu-pop-up {
+    color: settings.$popup-font-color;
+    background-color: settings.$popup-bg-color;
+    padding: settings.$popup-padding;
+    border: settings.$popup-border;
+    border-radius: settings.$popup-border-radius;
+    border-top: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+
+    /* border: 2px solid yellow; */
+}
+#power-control-button {
+    padding: 0.5rem;
+    .panel-text {
+        font-weight: settings.$popup-font-weight;
+        margin-left: 1rem;
+    }
+}
+#power-control-button:hover {
+    border-radius: 4px;
+    background-color: settings.$popup-hover-bg-color;
+}

@@ -1,23 +1,20 @@
-from select import EPOLLEXCLUSIVE
-from typing import Literal
+import inspect
 
 from fabric.utils import bulk_connect
 from fabric.utils.helpers import exec_shell_command_async
 from fabric.widgets.box import Box
 from fabric.widgets.button import Button
-from fabric.widgets.datetime import DateTime
 from fabric.widgets.eventbox import EventBox
+from fabric.widgets.image import Image
 from fabric.widgets.label import Label
 from fabric.widgets.revealer import Revealer
-from fabric.widgets.stack import Stack
 from fabric.widgets.wayland import WaylandWindow as Window
 from fabric.widgets.widget import Widget
 from gi.repository import Gdk, GdkPixbuf, GLib, Gtk
-from loguru import logger
 
-from src.utils.icons import nerd_font_icons
-from src.utils.monitors import HyprlandWithMonitors
+from src.utils.config import Config
 from src.utils.types import Anchor, KeyboardMode, Layer, TransitionType
+from src.widgets.misc import Grid, HoverButton
 
 
 class Padding(Box):
@@ -128,13 +125,54 @@ class RevealPopUpWindow(Window):
             else:
                 self.revealer.reveal()
 
-import psutil
 
-from src.utils.system_stats import util_fabricator
+class PowerControlButton(HoverButton):
+    """A widget to show power options."""
 
+    def __init__(
+        self, name: str,
+        icon: str,
+        command: str,
+        size: int,
+        show_label: bool=True, **kwargs
+    ):
+        # self.dialog = Dialog(
+        #     title=name,
+        #     body=f"Are you sure you want to {name}?",
+        #     command=command,
+        #     **kwargs,
+        # )
 
-class PowerButton(EventBox):
-    """A widget to display time and datetime."""
+        super().__init__(
+            orientation="v",
+            name="power-control-button",
+            on_clicked=lambda _: exec_shell_command_async(command),
+            child=Box(
+                # style="min-width:8rem;",
+                children=[
+                    Image(
+                        icon_name=icon,
+                        size=size,
+                    ),
+                    Label(
+                        label=name.capitalize(),
+                        style_classes="panel-text",
+                        visible=show_label,
+                    ),
+                ],
+            ),
+            **kwargs,
+        )
+
+    # def on_button_press(
+    #     self,
+    # ):
+    #     self.dialog.toggle_popup()
+    #     return True
+
+# TODO: generalize
+class PowerMenuButton(EventBox):
+    """A widget button to reveal a menu."""
 
     _pop_up_menu = None
 
@@ -149,45 +187,28 @@ class PowerButton(EventBox):
             **kwargs,
         )
 
-        self.set_can_focus(True)
+        self.content = Grid(name="grid")
 
-        self.content = Label("New Revealer")
+        aa =[obj for name, obj in vars(Config.Widgets.PowerMenuButton.Actions).items() if inspect.isclass(obj) and not name.startswith("__")]
+        for idx, a in enumerate(aa):
+            self.content.attach(PowerControlButton(
+                a.name, a.icon, a.cmd, 8, show_label=False
+            ), idx, 0, 1, 1)
 
-        self.pm = Button("   X    ")
+
+        self.pm = Button(image=Image(
+            icon_name="power-menu-button", icon_size=Config.Windows.Topbar.icon_size
+        ))
         self.pm.connect("clicked", self.toggle_popup)
         self.children = self.pm
 
-
-
-
-
-        # self.set_can_focus(True)
-        # self.pm.set_can_focus(True)
-
-        # bulk_connect(
-        #     self,
-        #     {
-        #         "button-press-event": self.test,
-        #         "enter-notify-event": self.test,
-        #         "leave-notify-event": self.test,
-        #     },
-        # )
-
-
-
-        # self.pm.connect("focus-out-event", self.test)
-        # self.pm.connect("focus-in-event", self.test)
-    def test(self, *_):
-        logger.info("dasrfsdfsad")
     def get_pop_up_menu(self):
-        if PowerButton._pop_up_menu is None:
-            PowerButton._pop_up_menu = RevealPopUpWindow(
+        if PowerMenuButton._pop_up_menu is None:
+            PowerMenuButton._pop_up_menu = RevealPopUpWindow(
                 name="power-menu-pop-up",
                 content=self.content
             )
-        return PowerButton._pop_up_menu
-
-
+        return PowerMenuButton._pop_up_menu
 
     def toggle_popup(self, *_):
         if self.get_pop_up_menu().revealer.child_revealed:

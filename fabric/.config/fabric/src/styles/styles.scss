@@ -4,6 +4,8 @@
 @use "./corners.scss";
 @use "./desktop-info.scss";
 @use "./topbar.scss";
+@use "./powermenu.scss";
+@use "./common.scss";
 
 * {
     all: unset;
@@ -17,23 +19,4 @@
     /* handled in code via config values
     min-width: 100px;
     min-height: 100px; */
-}
-
-#fabric-overlay {
-    background-color: red;
-
-    #revealer {
-        padding: 10px;
-    }
-}
-
-#power-menu {
-    color: red;
-    background-color: transparent;
-    min-height: 1px;
-    min-width: 1px;
-}
-
-#power-menu-pop-up {
-    border: 2px solid yellow;
 }

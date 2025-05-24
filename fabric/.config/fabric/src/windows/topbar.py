@@ -1,7 +1,6 @@
 from fabric.widgets.box import Box
 from fabric.widgets.centerbox import CenterBox
 from fabric.widgets.wayland import WaylandWindow as Window
-from gi.repository.Gio import AppInfo
 
 from src.utils.config import Config
 from src.widgets import (
@@ -10,8 +9,9 @@ from src.widgets import (
     HyprClient,
     HyprSubmap,
     HyprWorkspaces,
-    PowerButton,
+    PowerMenuButton,
     Separator,
+    SystemTray,
 )
 
 Config.Windows.Topbar.spacing
@@ -75,8 +75,13 @@ class TopBar(Window):
                 HyprWorkspaces(monitor=monitor)
             ],
             "right": [
+                *(
+                    [SystemTray()]
+                    if monitor == Config.Widgets.SystemTray.monitor_id
+                    else []
+                ),
                 Clock(),
-                PowerButton(),
+                PowerMenuButton(),
                 Separator(style=f"min-width: {Config.Windows.Topbar.separator_width}"),
             ]
         }

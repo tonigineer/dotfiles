@@ -4,6 +4,24 @@ $font-name: "Monaspace Krypton";
 $font-size: 1rem;
 $font-weight: 500;
 $font-style: normal;
+
+$menu-font-color: theme.$surface-neutral;
+$menu-font-weight: bold;
+$menu-background-color: theme.$background-dark;
+$menu-border-radius: 5px;
+$menu-border: 1px solid theme.$background;
+$menu-shadow: 0 4px 16px rgba(theme.$accent-red, 0.55);
+$menu-hover-font-color: theme.$accent-light;
+$menu-hover-bg-color: theme.$surface-highlight;
+
+$tooltip-font-color: theme.$accent-light;
+$tooltip-font-weight: normal;
+$tooltip-padding: 2px 4px;
+$tooltip-border-radius: 5px;
+$tooltip-bg-color: theme.$background;
+$tooltip-opacity: 1;
+$tooltip-shadow: 0 4px 16px rgba(theme.$accent-red, 0.55);
+$tooltip-border: 1px solid theme.$surface-neutral;
 /* $border-radius: 10px;
 $padding: 7pt;
 $spacing: 12pt;
@@ -39,5 +57,13 @@ $workspaces-border-radius: 16px;
 $workspaces-hover-color: theme.$accent-pink;
 $workspaces-active-color: theme.$text-muted;
 
-$clock-text-color: theme.$text-main;
+$popup-font-color: theme.$accent-light;
+$popup-font-weight: normal;
+$popup-bg-color: theme.$background-dark;
+$popup-padding: 2px 4px;
+$popup-border-radius: 5px;
+$popup-border: 1px solid theme.$background;
+$popup-hover-bg-color: theme.$surface-highlight;
+
+$clock-text-color: theme.$accent-yellow;
 $clock-font-weight: bold;

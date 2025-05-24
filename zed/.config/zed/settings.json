@@ -1,0 +1,162 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+    // ------ General ------
+    "agent": {
+        "model_parameters": [],
+        "inline_assistant_model": {
+            "provider": "zed.dev",
+            "model": "claude-3-7-sonnet-thinking-latest"
+        },
+        "version": "2"
+    },
+    "vim_mode": true,
+    "base_keymap": "VSCode",
+    "telemetry": {
+        "metrics": false,
+        "diagnostics": false
+    },
+    // ------ Agent, AI, whatever ------
+    "features": { "edit_prediction_provider": "zed", "copilot": false },
+    // Vanity
+    "theme": {
+        "mode": "system",
+        "light": "Catppuccin Mocha",
+        "dark": "Tokyo Night"
+    },
+    "icon_theme": "Catppuccin Mocha",
+    "ui_font_size": 13,
+    "buffer_font_size": 13,
+    "ui_font_family": "Monaspace Neon",
+    "buffer_font_family": "Monaspace Krypton",
+    // ------ Layout ------
+    "tab_bar": {
+        "show": true,
+        "show_nav_history_buttons": false
+    },
+    "tabs": {
+        "file_icons": true,
+        "git_status": true
+    },
+    "toolbar": {
+        "breadcrumbs": true,
+        "quick_actions": false,
+        "selections_menu": true
+    },
+    "scrollbar": { "show": "never" },
+    "project_panel": { "dock": "left", "indent_size": 16 },
+    // ------ Editor ------
+    "cursor_blink": true,
+    "git": { "git_gutter": "tracked_files", "inline_blame": { "enabled": true } },
+    "relative_line_numbers": true,
+    "preferred_line_length": 160,
+    // "wrap_guides": [120],
+    // "show_wrap_guides": true,
+    "inlay_hints": { "enabled": true },
+    "diagnostics": {
+        "include_warnings": true,
+        "inline": {
+            "enabled": true,
+            "update_debounce_ms": 150,
+            "padding": 16,
+            "min_column": 0
+        }
+    },
+    "diagnostic": {
+        "include_warnings": false,
+        "inline": {
+            "enabled": true,
+            "update_debounce_ms": 150,
+            "padding": 4,
+            "min_column": 0,
+            "max_severity": null
+        },
+        "cargo": null
+    },
+    "tab_size": 4,
+    // ------ VIM ------
+    "vim": {
+        "default_mode": "normal",
+        "use_system_clipboard": "always",
+        "use_multiline_find": true,
+        "use_smartcase_find": true,
+        "highlight_on_yank_duration": 150
+    },
+    "vertical_scroll_margin": 8,
+    // ------ Terminal ------
+    "terminal": {
+        "font_family": "Monaspace Krypton",
+        "copy_on_select": true,
+        "cursor_shape": "bar",
+        "shell": {
+            "program": "zsh"
+        }
+    },
+    "experimental.theme_overrides": {
+        "players": [
+            {
+                "cursor": "#FF6767",
+                "background": "#0f0f0f",
+                "selection": "#8d32503d"
+            }
+        ],
+        "syntax": {
+            "comment": {
+                "font_style": "italic"
+            },
+            "comment.doc": {
+                "font_style": "italic"
+            }
+        }
+        // "background.appearance": "blurred",
+        // "background": "#121212",
+        // "editor.background": "#121212",
+        // "editor.gutter.background": "#121212",
+        // "tab_bar.background": "#121212",
+        // "terminal.background": "#121212",
+        // "toolbar.background": "#121212",
+        // "tab.active_background": "#0f0f0f",
+        // "tab.inactive_background": "#121212",
+        // "status_bar.background": "#121212",
+        // "title_bar.background": "#121212",
+        // "panel.background": "#121212",
+        // "border.variant": "#121212",
+        // "scrollbar.track.border": "#121212",
+        // "editor.active_line.background": "#121212"
+    },
+    "lsp": {
+        "pyright": {
+            "settings": {
+                "python.analysis": {
+                    "diagnosticMode": "workspace",
+                    "typeCheckingMode": "basic"
+                },
+                "python": {
+                    "pythonPath": ".venv/bin/python"
+                }
+            }
+        }
+    },
+    "languages": {
+        "Python": {
+            "language_servers": ["pyright", "ruff"],
+            "format_on_save": "on",
+            "formatter": [
+                {
+                    "code_actions": {
+                        // Fix all auto-fixable lint violations
+                        "source.fixAll.ruff": false,
+                        // Organize imports
+                        "source.organizeImports.ruff": true
+                    }
+                }
+            ]
+        }
+    }
+}

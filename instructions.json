@@ -158,7 +158,7 @@
         "name": "Neovim (clone Repo)",
         "category": "tool",
         "packages": ["neovim", "wl-clipboard", "npm", "luarocks", "lua51", "python-pip", "python-pynvim", "ripgrep", "fd", "wget", "go", "lazygit"],
-        "configs": ["nvim"],
+        "configs": [],
         "checks": ["[[ \"$(git -C /home/$USER/.config/nvim remote get-url origin 2>/dev/null)\" == \"https://github.com/tonigineer/nvim\" ]] && true || false"],
         "prior_install": ["git clone https://github.com/tonigineer/nvim /home/$USER/.config/nvim"],
         "post_install": ["sudo npm install -g tree-sitter-cli"]
@@ -171,6 +171,15 @@
         "checks": [],
         "prior_install": [],
         "post_install": ["xdg-settings set default-web-browser librewolf.desktop"]
+    },
+    {
+        "name": "Zed",
+        "category": "tool",
+        "packages": ["zed", "xdg-desktop-portal", "xdg-desktop-portal-wlr", "xdg-desktop-portal-hyprland"],
+        "configs": ["zed"],
+        "checks": [],
+        "prior_install": [],
+        "post_install": []
     },
     {
         "name": "CLI Tools",

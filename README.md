@@ -22,6 +22,6 @@ The aim is a workflow‑centred desktop environment—focused on speed and clari
 Anyway, here are the remnants of my first two ricing attempts.
 
 <div align="center">
-    <kbd><img src=.assets/impressions/legacy_first_rice.png style="width: 200px;"></kbd>
-    <kbd><img src=.assets/impressions/legacy_second_rice.png style="width: 200px"></kbd>
+    <kbd><img src=.assets/impressions/legacy_first_rice.png style="width: 300px;"></kbd>
+    <kbd><img src=.assets/impressions/legacy_second_rice.png style="width: 300px"></kbd>
 </a></div>

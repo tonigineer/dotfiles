@@ -243,7 +243,9 @@
         "checks": [
             "[ -L ~/.config/fabric ] && true || false"
         ],
-        "prior_install": [],
+        "prior_install": [
+            "ln -s ~/Dotfiles/fabric/.config/fabric/assets/icons ~/.local/share"
+        ],
         "post_install": [
             "python -m venv $HOME/.config/fabric/.venv",
             "$HOME/.config/fabric/.venv/bin/pip install -r $HOME/.config/fabric/requirements.txt"

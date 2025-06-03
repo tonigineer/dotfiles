@@ -37,36 +37,71 @@
             "curl",
             "terminus-font"
         ],
-        "configs": ["bash"],
-        "checks": ["[ -L ~/.bashrc ] && true || false"],
-        "prior_install": ["git config --global credential.helper store"],
-        "post_install": ["fc-cache -v"]
+        "configs": [
+            "bash"
+        ],
+        "checks": [
+            "[ -L ~/.bashrc ] && true || false"
+        ],
+        "prior_install": [
+            "git config --global credential.helper store"
+        ],
+        "post_install": [
+            "fc-cache -v"
+        ]
     },
     {
         "name": "VIm",
         "category": "base",
-        "packages": ["vim"],
-        "configs": ["vim"],
-        "checks": ["[ -L ~/.vimrc ] && true || false", "sudo [ -L /root/.vimrc ] && true || false"],
+        "packages": [
+            "vim"
+        ],
+        "configs": [
+            "vim"
+        ],
+        "checks": [
+            "[ -L ~/.vimrc ] && true || false",
+            "sudo [ -L /root/.vimrc ] && true || false"
+        ],
         "prior_install": [],
-        "post_install": ["sudo ln -sf $HOME/.vimrc /root/.vimrc"]
+        "post_install": [
+            "sudo ln -sf $HOME/.vimrc /root/.vimrc"
+        ]
     },
     {
         "name": "ZSH (clone Repo)",
         "category": "base",
-        "packages": ["zsh", "ttf-jetbrains-mono-nerd", "ttf-cascadia-code-nerd", "monaspace-font"],
-        "configs": ["zsh"],
+        "packages": [
+            "zsh",
+            "ttf-jetbrains-mono-nerd",
+            "ttf-cascadia-code-nerd",
+            "monaspace-font"
+        ],
+        "configs": [],
         "checks": [
-            "[[ \"$(git -C /home/$USER/.config/zsh remote get-url origin 2>/dev/null)\" == \"https://github.com/tonigineer/zsh\" ]] && true || false",
+            "[[ \"$(git -C $HOME/.config/zsh remote get-url origin 2>/dev/null)\" == \"https://github.com/tonigineer/zsh\" ]] && true || false",
             "[ -L ~/.zshrc ] && true || false"
         ],
-        "prior_install": ["git clone https://github.com/tonigineer/zsh /home/$USER/.config/zsh"],
-        "post_install": ["ln -s /home/$USER/.config/zsh/.zshrc /home/$USER/.zshrc"]
+        "prior_install": [
+            "git clone https://github.com/tonigineer/zsh $HOME/.config/zsh"
+        ],
+        "post_install": [
+            "ln -s $HOME/.config/zsh/.zshrc $HOME/.zshrc"
+        ]
     },
     {
         "name": "Audio",
         "category": "base",
-        "packages": ["pipewire", "wireplumber", "pipewire-audio", "pipewire-alsa", "pipewire-pulse", "pipewire-jack", "pavucontrol", "playerctl"],
+        "packages": [
+            "pipewire",
+            "wireplumber",
+            "pipewire-audio",
+            "pipewire-alsa",
+            "pipewire-pulse",
+            "pipewire-jack",
+            "pavucontrol",
+            "playerctl"
+        ],
         "configs": [],
         "checks": [],
         "prior_install": [],
@@ -75,16 +110,27 @@
     {
         "name": "Bluetooth",
         "category": "base",
-        "packages": ["bluez", "bluez-utils"],
+        "packages": [
+            "bluez",
+            "bluez-utils"
+        ],
         "configs": [],
-        "checks": ["systemctl status bluetooth.service | grep Running"],
+        "checks": [
+            "systemctl status bluetooth.service | grep Running"
+        ],
         "prior_install": [],
-        "post_install": ["sudo systemctl enable bluetooth", "sudo systemctl start bluetooth"]
+        "post_install": [
+            "sudo systemctl enable bluetooth",
+            "sudo systemctl start bluetooth"
+        ]
     },
     {
         "name": "Nvidia",
         "category": "hypr",
-        "packages": ["nvidia", "nvidia-utils"],
+        "packages": [
+            "nvidia",
+            "nvidia-utils"
+        ],
         "configs": [],
         "checks": [
             "grep -F 'options nvidia_drm modeset=1 fbdev=1' /etc/modprobe.d/nvidia.conf",
@@ -94,7 +140,9 @@
             "sudo sh -c 'echo \"options nvidia_drm modeset=0 fbdev=1\" > /etc/modprobe.d/nvidia.conf'",
             "sudo sh -c 'sed -i \"s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/\" /etc/mkinitcpio.conf'"
         ],
-        "post_install": ["sudo mkinitcpio -P"]
+        "post_install": [
+            "sudo mkinitcpio -P"
+        ]
     },
     {
         "name": "Hyprland",
@@ -122,61 +170,141 @@
             "jq",
             "iwd"
         ],
-        "configs": ["hyprland", "swaync"],
-        "checks": ["fc-list | grep Monaspace", "[ -L ~/.config/hypr ] && true || false", "[ -L ~/.config/swaync ] && true || false"],
-        "prior_install": [],
-        "post_install": ["fc-cache -v", "mkdir -p /home/$USER/.local/share/backgrounds/live /home/$USER/.local/share/backgrounds/linux-elitists", "cp /home/$USER/.config/hypr/assets/ecatherina-farias.png /home/$USER/.local/share/backgrounds"]
+        "configs": [
+            "hyprland",
+            "swaync"
+        ],
+        "checks": [
+            "fc-list | grep Monaspace",
+            "[ -L $HOME/.config/hypr ] && true || false",
+            "[ -L $HOME/.config/swaync ] && true || false",
+            "[ -L $HOME/.local/share/backgrounds ] && true || false"
+        ],
+        "prior_install": [
+            "[ -d $HOME/Documents/Storage_Repo/ ] || git clone https://github.com/tonigineer/storage.git $HOME/Documents/Storage_Repo"
+        ],
+        "post_install": [
+            "fc-cache -v",
+            "ln -s $HOME/Documents/Storage_Repo/backgrounds $HOME/.local/share/backgrounds"
+        ]
     },
     {
         "name": "Theming",
         "category": "hypr",
-        "packages": ["morewaita-icon-theme-git", "rose-pine-cursor", "rose-pine-hyprcursor", "gtk-theme-material-black", "ttf-cascadia-code-nerd"],
+        "packages": [
+            "morewaita-icon-theme-git",
+            "rose-pine-cursor",
+            "rose-pine-hyprcursor",
+            "gtk-theme-material-black",
+            "ttf-cascadia-code-nerd"
+        ],
         "configs": [],
         "checks": [],
         "prior_install": [],
-        "post_install": ["$HOME/.config/hypr/scripts/theme.sh Material-Black-Cherry MoreWaita BreezeX-RosePine-Linux 32 'CaskaydiaCove Nerd Font 10'"]
+        "post_install": [
+            "$HOME/.config/hypr/scripts/theme.sh Material-Black-Cherry MoreWaita BreezeX-RosePine-Linux 32 'CaskaydiaCove Nerd Font 10'"
+        ]
     },
     {
         "name": "Kitty",
         "category": "hypr",
-        "packages": ["kitty", "monaspace-font", "lazygit", "yazi", "ttf-joypixels"],
-        "configs": ["kitty", "yazi"],
-        "checks": ["[ -L ~/.config/yazi ] && true || false", "[ -L ~/.config/kitty ] && true || false"],
+        "packages": [
+            "kitty",
+            "monaspace-font",
+            "lazygit",
+            "yazi",
+            "ttf-joypixels"
+        ],
+        "configs": [
+            "kitty",
+            "yazi"
+        ],
+        "checks": [
+            "[ -L ~/.config/yazi ] && true || false",
+            "[ -L ~/.config/kitty ] && true || false"
+        ],
         "prior_install": [],
-        "post_install": ["fc-cache -v", "ya pack -a yazi-rs/plugins:no-status", "ya pack -a yazi-rs/plugins:git", "ya pack -a yazi-rs/plugins:smart-enter"]
+        "post_install": [
+            "fc-cache -v",
+            "ya pack -a yazi-rs/plugins:no-status",
+            "ya pack -a yazi-rs/plugins:git",
+            "ya pack -a yazi-rs/plugins:smart-enter"
+        ]
     },
     {
         "name": "Fabric",
         "category": "hypr",
-        "packages": [],
-        "configs": ["fabric"],
-        "checks": ["[ -L ~/.config/fabric ] && true || false"],
+        "packages": [
+            "gray-git"
+        ],
+        "configs": [
+            "fabric"
+        ],
+        "checks": [
+            "[ -L ~/.config/fabric ] && true || false"
+        ],
         "prior_install": [],
-        "post_install": ["python -m venv /home/$USER/.config/fabric/.venv", "/home/$USER/.config/fabric/.venv/bin/pip install -r /home/$USER/.config/fabric/requirements.txt"]
+        "post_install": [
+            "python -m venv $HOME/.config/fabric/.venv",
+            "$HOME/.config/fabric/.venv/bin/pip install -r $HOME/.config/fabric/requirements.txt"
+        ]
     },
     {
         "name": "Neovim (clone Repo)",
         "category": "tool",
-        "packages": ["neovim", "wl-clipboard", "npm", "luarocks", "lua51", "python-pip", "python-pynvim", "ripgrep", "fd", "wget", "go", "lazygit"],
+        "packages": [
+            "neovim",
+            "wl-clipboard",
+            "npm",
+            "luarocks",
+            "lua51",
+            "python-pip",
+            "python-pynvim",
+            "ripgrep",
+            "fd",
+            "wget",
+            "go",
+            "lazygit"
+        ],
         "configs": [],
-        "checks": ["[[ \"$(git -C /home/$USER/.config/nvim remote get-url origin 2>/dev/null)\" == \"https://github.com/tonigineer/nvim\" ]] && true || false"],
-        "prior_install": ["git clone https://github.com/tonigineer/nvim /home/$USER/.config/nvim"],
-        "post_install": ["sudo npm install -g tree-sitter-cli"]
+        "checks": [
+            "[[ \"$(git -C $HOME/.config/nvim remote get-url origin 2>/dev/null)\" == \"https://github.com/tonigineer/nvim\" ]] && true || false"
+        ],
+        "prior_install": [
+            "git clone https://github.com/tonigineer/nvim $HOME/.config/nvim"
+        ],
+        "post_install": [
+            "sudo npm install -g tree-sitter-cli"
+        ]
     },
     {
         "name": "Librewolf",
         "category": "tool",
-        "packages": ["librewolf-bin", "xdg-desktop-portal", "xdg-desktop-portal-wlr", "xdg-desktop-portal-hyprland"],
+        "packages": [
+            "librewolf-bin",
+            "xdg-desktop-portal",
+            "xdg-desktop-portal-wlr",
+            "xdg-desktop-portal-hyprland"
+        ],
         "configs": [],
         "checks": [],
         "prior_install": [],
-        "post_install": ["xdg-settings set default-web-browser librewolf.desktop"]
+        "post_install": [
+            "xdg-settings set default-web-browser librewolf.desktop"
+        ]
     },
     {
         "name": "Zed",
         "category": "tool",
-        "packages": ["zed", "xdg-desktop-portal", "xdg-desktop-portal-wlr", "xdg-desktop-portal-hyprland"],
-        "configs": ["zed"],
+        "packages": [
+            "zed",
+            "xdg-desktop-portal",
+            "xdg-desktop-portal-wlr",
+            "xdg-desktop-portal-hyprland"
+        ],
+        "configs": [
+            "zed"
+        ],
         "checks": [],
         "prior_install": [],
         "post_install": []
@@ -184,34 +312,70 @@
     {
         "name": "CLI Tools",
         "category": "util",
-        "packages": ["btop", "cava", "fastfetch"],
-        "configs": ["btop", "cava", "fastfetch"],
-        "checks": ["[ -L ~/.config/btop ] && true || false", "[ -L ~/.config/cava ] && true || false", "[ -L ~/.config/fastfetch ] && true || false"],
+        "packages": [
+            "btop",
+            "cava",
+            "fastfetch"
+        ],
+        "configs": [
+            "btop",
+            "cava",
+            "fastfetch"
+        ],
+        "checks": [
+            "[ -L ~/.config/btop ] && true || false",
+            "[ -L ~/.config/cava ] && true || false",
+            "[ -L ~/.config/fastfetch ] && true || false"
+        ],
         "prior_install": [],
         "post_install": []
     },
     {
         "name": "mpv Youtube Player",
         "category": "util",
-        "packages": ["mpv", "yt-dlp"],
-        "configs": ["mpv"],
-        "checks": ["[ -L ~/.config/mpv ] && true || false"],
+        "packages": [
+            "mpv",
+            "yt-dlp"
+        ],
+        "configs": [
+            "mpv"
+        ],
+        "checks": [
+            "[ -L ~/.config/mpv ] && true || false"
+        ],
         "prior_install": [],
         "post_install": []
     },
     {
         "name": "Image/Video Capture",
         "category": "util",
-        "packages": ["hyprshot", "grim", "slurp", "wf-recorder", "swappy", "wl-clipboard", "imagemagick"],
-        "configs": ["local"],
-        "checks": ["[ -e ~/.local/bin/capture ] && true || false"],
+        "packages": [
+            "hyprshot",
+            "grim",
+            "slurp",
+            "wf-recorder",
+            "swappy",
+            "wl-clipboard",
+            "imagemagick"
+        ],
+        "configs": [
+            "local"
+        ],
+        "checks": [
+            "[ -e ~/.local/bin/capture ] && true || false"
+        ],
         "prior_install": [],
         "post_install": []
     },
     {
         "name": "File Explorer",
         "category": "util",
-        "packages": ["evince", "nemo", "ffmpegthumbnailer", "imv"],
+        "packages": [
+            "evince",
+            "nemo",
+            "ffmpegthumbnailer",
+            "imv"
+        ],
         "configs": [],
         "checks": [],
         "prior_install": [],
@@ -220,10 +384,23 @@
     {
         "name": "Gaming",
         "category": "game",
-        "packages": ["steam", "vesktop-bin", "mangohud", "lib32-fontconfig", "ttf-liberation", "wqy-microhei"],
-        "configs": ["mangohud"],
-        "checks": ["[ -L ~/.config/Mangohud ] && true || false"],
+        "packages": [
+            "steam",
+            "vesktop-bin",
+            "mangohud",
+            "lib32-fontconfig",
+            "ttf-liberation",
+            "wqy-microhei"
+        ],
+        "configs": [
+            "mangohud"
+        ],
+        "checks": [
+            "[ -L ~/.config/Mangohud ] && true || false"
+        ],
         "prior_install": [],
-        "post_install": ["fc-cache -v"]
+        "post_install": [
+            "fc-cache -v"
+        ]
     }
 ]

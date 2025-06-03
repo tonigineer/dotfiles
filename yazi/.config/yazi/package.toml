@@ -27,3 +27,13 @@ hash = "5fd7aa0bf4e7d9753ad8a4660a6eb94f"
 use = "gosxrgxx/flexoki-dark"
 rev = "3e8cfba"
 hash = "56a96293138f09da7fae25ee405a4393"
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:catppuccin-mocha"
+rev = "d04a298"
+hash = "288a0dedd5d13b28605cf82c05326dcd"
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:catppuccin-frappe"
+rev = "d04a298"
+hash = "d659c6fde5148fb5c066518d7fdecddc"

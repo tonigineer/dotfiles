@@ -59,22 +59,6 @@ inoremap kj <esc>
 inoremap jk <esc>" > ~/.vimrc
 ```
 
-## Apply Dotfiles
-
-Clone the repo and submodules:
-
-```sh
-git clone --recurse-submodules https://github.com/tonigineer/dotfiles.git ~/Dotfiles
-```
-
-Run installation script:
-
-```sh
-cd ~/Dotfiles
-scripts/install.all base
-```
-
-
 ## Enable hibernation
 
 Create a swap file and add to filesystem table. Refer to [ArchLinux Wiki](https://wiki.archlinux.org/title/Swap) for more information.

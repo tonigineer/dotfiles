@@ -44,6 +44,8 @@
             "[ -L ~/.bashrc ] && true || false"
         ],
         "prior_install": [
+	    "mv $HOME/.bashrc $HOME/.bashrc_bak",
+	    "mv $HOME/.bash_profile $HOME/.bash_profile_bak",
             "git config --global credential.helper store"
         ],
         "post_install": [
@@ -133,11 +135,11 @@
         ],
         "configs": [],
         "checks": [
-            "grep -F 'options nvidia_drm modeset=1 fbdev=1' /etc/modprobe.d/nvidia.conf",
+            "grep -F 'options nvidia_drm modeset=1' /etc/modprobe.d/nvidia.conf",
             "grep -F 'nvidia nvidia_modeset nvidia_uvm nvidia_drm' /etc/mkinitcpio.conf"
         ],
         "prior_install": [
-            "sudo sh -c 'echo \"options nvidia_drm modeset=0 fbdev=1\" > /etc/modprobe.d/nvidia.conf'",
+            "sudo sh -c 'echo \"options nvidia_drm modeset=1\" > /etc/modprobe.d/nvidia.conf'",
             "sudo sh -c 'sed -i \"s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/\" /etc/mkinitcpio.conf'"
         ],
         "post_install": [
@@ -168,7 +170,8 @@
             "libdbusmenu-gtk3",
             "socat",
             "jq",
-            "iwd"
+            "iwd",
+            "rofi"
         ],
         "configs": [
             "hyprland",
@@ -181,11 +184,12 @@
             "[ -L $HOME/.local/share/backgrounds ] && true || false"
         ],
         "prior_install": [
-            "[ -d $HOME/Documents/Storage_Repo/ ] || git clone https://github.com/tonigineer/storage.git $HOME/Documents/Storage_Repo"
+            "[ -d $HOME/Storage ] || git clone https://github.com/tonigineer/dotfiles-data.git $HOME/DotfilesData"
         ],
         "post_install": [
             "fc-cache -v",
-            "ln -s $HOME/Documents/Storage_Repo/backgrounds $HOME/.local/share/backgrounds"
+            "mkdir -p ~/.local/share",
+            "ln -s $HOME/DotfilesData/backgrounds $HOME/.local/share/backgrounds"
         ]
     },
     {
@@ -226,9 +230,9 @@
         "prior_install": [],
         "post_install": [
             "fc-cache -v",
-            "ya pack -a yazi-rs/plugins:no-status",
-            "ya pack -a yazi-rs/plugins:git",
-            "ya pack -a yazi-rs/plugins:smart-enter"
+            "ya pkg -a yazi-rs/plugins:no-status",
+            "ya pkg -a yazi-rs/plugins:git",
+            "ya pkg -a yazi-rs/plugins:smart-enter"
         ]
     },
     {
@@ -249,6 +253,25 @@
         "post_install": [
             "python -m venv $HOME/.config/fabric/.venv",
             "$HOME/.config/fabric/.venv/bin/pip install -r $HOME/.config/fabric/requirements.txt"
+        ]
+    },
+    {
+        "name": "Quickshell",
+        "category": "hypr",
+        "packages": [
+            "quickshell",
+            "ddcutil-service",
+            "ttf-material-symbols-variable-git"
+        ],
+        "configs": [
+            "quickshell"
+        ],
+        "checks": [
+            "[ -L ~/.config/quickshell ] && true || false"
+        ],
+        "prior_install": [
+        ],
+        "post_install": [
         ]
     },
     {

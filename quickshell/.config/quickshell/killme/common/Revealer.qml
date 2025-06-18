@@ -1,11 +1,8 @@
 import QtQuick
-import Quickshell
+// import Quickshell
 
 import "root:/config"
 
-/*
-Recreation of GTK revealer. Expects one single child.
-*/
 Item {
     id: root
     property bool reveal

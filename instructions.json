@@ -261,7 +261,8 @@
         "packages": [
             "quickshell",
             "ddcutil-service",
-            "ttf-material-symbols-variable-git"
+            "ttf-material-symbols-variable-git",
+            "qt6-5compat"
         ],
         "configs": [
             "quickshell"

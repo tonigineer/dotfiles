@@ -1,12 +1,11 @@
 import QtQuick
-// import QtQuick.Controls
 import QtQuick.Layouts
 
 import "root:/"
 import "root:/config"
 import "root:/common"
 
-Revealer { // Scroll hint
+Revealer {
     id: root
     property string icon
     property string side: "left"
@@ -24,15 +23,12 @@ Revealer { // Scroll hint
         onExited: hovered = false
         acceptedButtons: Qt.NoButton
 
-        // StyledToolTip {
-        //     extraVisibleCondition: tooltipText.length > 0
-        //     content: tooltipText
-        // }
-
         ColumnLayout {
             id: contentColumnLayout
             anchors.centerIn: parent
             spacing: -5
+
+            // https://fonts.google.com/icons
             MaterialSymbol {
                 Layout.leftMargin: 5
                 Layout.rightMargin: 5

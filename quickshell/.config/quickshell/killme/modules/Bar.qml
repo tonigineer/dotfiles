@@ -7,6 +7,7 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Wayland
+import Qt5Compat.GraphicalEffects
 
 import "root:/config"
 import "root:/common"
@@ -26,7 +27,7 @@ Scope {
             property double margin: Vanity.bar.marginContent
             screen: modelData
 
-            property var brightnessMonitor: Brightness.getMonitorForScreen(modelData)
+            // property var brightnessMonitor: Brightness.getMonitorForScreen(modelData)
 
             anchors {
                 top: !Settings.bar.atBottom
@@ -74,10 +75,10 @@ Scope {
                         barLeftSideArea.trackingScroll = false;
                     }
                     onPressed: event => {
-                        if (event.button === Qt.LeftButton) {
-                            // TODO: SCHAUEN, OB HERE AUCH PANEL geöffnet werden soll
-                            Hyprland.dispatch('global quickshell:sidebarLeftOpen');
-                        }
+                        if (event.button === Qt.LeftButton)
+                        // TODO: SCHAUEN, OB HERE AUCH PANEL geöffnet werden soll
+                        // Hyprland.dispatch('global quickshell:sidebarLeftOpen');
+                        {}
                     }
 
                     WheelHandler {
@@ -99,70 +100,58 @@ Scope {
                         implicitHeight: leftSectionRowLayout.implicitHeight
                         implicitWidth: leftSectionRowLayout.implicitWidth
 
-                        ScrollHint {
-                            reveal: barLeftSideArea.hovered
-                            icon: "light_mode"
-                            tooltipText: qsTr("Scroll to change brightness")
-                            side: "left"
-                            anchors.left: parent.left
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
+                        // ScrollHint {
+                        //     reveal: barLeftSideArea.hovered
+                        //     icon: "light_mode"
+                        //     tooltipText: qsTr("Scroll to change brightness")
+                        //     side: "left"
+                        //     anchors.left: parent.left
+                        //     anchors.verticalCenter: parent.verticalCenter
+                        // }
 
                         RowLayout { // Content
                             id: leftSectionRowLayout
                             anchors.fill: parent
                             spacing: 10
 
-                            // anchors.centerIn: parent
-                            ClockWidget {}
+                            CustomIcon {
+                                id: distroIcon
+                                anchors.left: parent.left
 
-                            // anchors.centerIn: parent
-                            ClockWidget {}
+                                // anchors.left: parent.left
+                                // anchors.right: parent.right
+                                width: 20
+                                height: 20
+                                // source: Settings.bar.topLeftIcon == 'distro' ? SystemInfo.distroIcon : "spark-symbolic"
+                                source: 'arch'
+                            }
 
-                            // RippleButton {
-                            //     // Left sidebar button
-                            //     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                            //     Layout.leftMargin: Appearance.rounding.screenRounding
-                            //     Layout.fillWidth: false
-                            //     property real buttonPadding: 5
-                            //     implicitWidth: distroIcon.width + buttonPadding * 2
-                            //     implicitHeight: distroIcon.height + buttonPadding * 2
-
-                            //     buttonRadius: Appearance.rounding.full
-                            //     colBackground: barLeftSideMouseArea.hovered ? Appearance.colors.colLayer1Hover : ColorUtils.transparentize(Appearance.colors.colLayer1Hover, 1)
-                            //     colBackgroundHover: Appearance.colors.colLayer1Hover
-                            //     colRipple: Appearance.colors.colLayer1Active
-                            //     colBackgroundToggled: Appearance.colors.colSecondaryContainer
-                            //     colBackgroundToggledHover: Appearance.colors.colSecondaryContainerHover
-                            //     colRippleToggled: Appearance.colors.colSecondaryContainerActive
-                            //     toggled: GlobalStates.sidebarLeftOpen
-                            //     property color colText: toggled ? Appearance.m3colors.m3onSecondaryContainer : Appearance.colors.colOnLayer0
-
-                            //     onPressed: {
-                            //         Hyprland.dispatch('global quickshell:sidebarLeftToggle');
-                            //     }
-
-                            //     CustomIcon {
-                            //         id: distroIcon
-                            //         anchors.centerIn: parent
-                            //         width: 19.5
-                            //         height: 19.5
-                            //         source: ConfigOptions.bar.topLeftIcon == 'distro' ? SystemInfo.distroIcon : "spark-symbolic"
-                            //     }
-
-                            //     ColorOverlay {
-                            //         anchors.fill: distroIcon
-                            //         source: distroIcon
-                            //         color: Appearance.colors.colOnLayer0
-                            //     }
+                            // ColorOverlay {
+                            //     anchors.fill: distroIcon
+                            //     source: distroIcon
+                            //     color: "#FFFFFF"
                             // }
 
-                            // ActiveWindow {
-                            //     visible: barRoot.useShortenedForm === 0 && width > 0 && height > 0
-                            //     Layout.rightMargin: Appearance.rounding.screenRounding
-                            //     Layout.fillWidth: true
-                            //     bar: barRoot
-                            // }
+                            ActiveWindow {
+                                id: acwin
+                                visible: true
+                                Layout.rightMargin: 10
+                                Layout.fillWidth: false
+                                Layout.fillHeight: true
+                                bar: root
+                            }
+
+                            CustomIcon {
+                                id: distroIcon2
+                                anchors.left: acwin.right
+
+                                // anchors.left: parent.left
+                                // anchors.right: parent.right
+                                width: 20
+                                height: 20
+                                // source: Settings.bar.topLeftIcon == 'distro' ? SystemInfo.distroIcon : "spark-symbolic"
+                                source: 'arch'
+                            }
                         }
                     }
                 }

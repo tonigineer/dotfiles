@@ -61,6 +61,13 @@ Singleton {
 
     color: QtObject {
         property color background: theme.background
+
+        property QtObject activeWindow: QtObject {
+            property color background: "#FF00FF"
+            property color link: "#FF00FF"
+            property color app_id: "#00FF00"
+            property color title: "#0000FF"
+        }
     }
 
     font: QtObject {

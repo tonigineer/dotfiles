@@ -10,8 +10,10 @@ Singleton {
 
     bar: QtObject {
         property bool atBottom: false
-        property bool borderless: false
-        property bool showBackground: true
+
+        // spark-symbolic
+        property string leftHandIcon: "distro"
+        property bool showActiveWindowTitle: true
 
         property QtObject workspaces: QtObject {
             property int shown: 10

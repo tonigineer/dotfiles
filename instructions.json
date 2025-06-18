@@ -44,8 +44,8 @@
             "[ -L ~/.bashrc ] && true || false"
         ],
         "prior_install": [
-	    "mv $HOME/.bashrc $HOME/.bashrc_bak",
-	    "mv $HOME/.bash_profile $HOME/.bash_profile_bak",
+            "mv $HOME/.bashrc $HOME/.bashrc_bak",
+            "mv $HOME/.bash_profile $HOME/.bash_profile_bak",
             "git config --global credential.helper store"
         ],
         "post_install": [
@@ -230,9 +230,10 @@
         "prior_install": [],
         "post_install": [
             "fc-cache -v",
-            "ya pkg -a yazi-rs/plugins:no-status",
-            "ya pkg -a yazi-rs/plugins:git",
-            "ya pkg -a yazi-rs/plugins:smart-enter"
+            "ya pkg add yazi-rs/plugins:no-status",
+            "ya pkg add yazi-rs/plugins:git",
+            "ya pkg add yazi-rs/plugins:smart-enter",
+            "ya pkg add marcosvnmelo/kanagawa-dragon"
         ]
     },
     {
@@ -270,10 +271,8 @@
         "checks": [
             "[ -L ~/.config/quickshell ] && true || false"
         ],
-        "prior_install": [
-        ],
-        "post_install": [
-        ]
+        "prior_install": [],
+        "post_install": []
     },
     {
         "name": "Neovim (clone Repo)",

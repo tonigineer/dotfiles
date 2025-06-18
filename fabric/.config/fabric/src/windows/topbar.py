@@ -13,6 +13,7 @@ from src.widgets import (
     Separator,
     SystemTray,
 )
+from src.widgets.hypr_picker import HyprPicker
 
 Config.Windows.Topbar.spacing
 
@@ -72,7 +73,8 @@ class TopBar(Window):
                 HyprClient()
             ],
             "middle": [
-                HyprWorkspaces(monitor=monitor)
+                HyprWorkspaces(monitor=monitor),
+                HyprPicker()
             ],
             "right": [
                 *(

@@ -128,7 +128,7 @@ class Config:
 
         class Workspaces:
             """Workspace indicator settings."""
-            numbering: Literal["chinese", "arabic", "roman"] = "chinese"
+            numbering: Literal["chinese", "arabic", "roman"] = "arabic"
             numberings: ClassVar = {
                 "chinese": ["一", "二", "三", "四", "五", "六", "七", "八", "九", "〇"],
                 "arabic":  ["1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9",  "0"],

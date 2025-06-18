@@ -45,4 +45,5 @@ WINDOW_REGEX_MAP = [
     ["dropbox", "󰇣", "Dropbox"],
     # Desktop
     ["^$", "󰇄", "Desktop"],
+    ["unknown", "󰇄", "Desktop"],
 ]

@@ -1,5 +1,6 @@
 pragma Singleton
 pragma ComponentBehavior: Bound
+
 import QtQuick
 import Quickshell
 
@@ -7,12 +8,12 @@ Singleton {
     id: rosepine
 
     /* Background Colors */
-    property color background: "#2f2a4a"        // Main background (dark purple with a hint of brown)
-    property color background_alt: "#3a314e"    // Secondary background (dark rose with a touch of purple)
-    property color background_dark: "#26233a"   // Darkest background (deep rose-purple)
+    property color background: "#121212"        // Main background (dark purple with a hint of brown)
+    property color background_alt: "#64748B"    // Secondary background (dark rose with a touch of purple)
+    property color background_dark: "#121212"   // Darkest background (deep rose-purple)
 
     /* Text Colors */
-    property color text_main: "#ebbcba"         // Primary text color (soft off-white with a hint of lavender)
+    property color text_main: "#edecee"         // Primary text color (soft off-white with a hint of lavender)
     property color text_secondary: "#c4b8e3"    // Secondary text color (light lavender-gray)
     property color text_muted: "#a89bb9"        // Tertiary text, muted (soft grayish lavender)
 

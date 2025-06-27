@@ -1,5 +1,6 @@
 pragma Singleton
 pragma ComponentBehavior: Bound
+
 import QtQuick
 import Quickshell
 
@@ -9,6 +10,10 @@ Singleton {
     id: root
 
     /* General settings */
+    property string fontFamily: "Monaspace Krypton"
+    property int fontSize: 12
+    property color textColor: Theme.text_main
+    property color backgroundColor: Theme.background
 
     /* Appearance */
     // property QtObject theme: Theme
@@ -19,16 +24,18 @@ Singleton {
     bar: QtObject {
         /* General settings */
         property bool showAtBottom: false
-        property int margin: 0
-        property color backgroundColor: "white"
+        property bool marginOnlyBottom: true
+        property real margin: 2
+        property int min_height: 30
+        property color marginColor: Theme.background_alt
 
         property int radius: 0
         property real borderWidth: 0
-        property color borderColor: Theme.accent_red
+        property color borderColor: Theme.accent_blue
 
         property real leftMargin: 10
         property real rightMargin: 10
-        property int widgetSpacing: -1
+        property int widgetSpacing: 10
 
         /* Widgets */
         property QtObject widgetIcon
@@ -40,6 +47,8 @@ Singleton {
         widgetIcon: QtObject {
             property bool showDistro: false
             property string customIcon: "arch"
+            property int iconSize: 14
+            property color iconColor: Theme.accent_red
         }
 
         widgetActiveWindow: QtObject {

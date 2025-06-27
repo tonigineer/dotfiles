@@ -1,20 +1,21 @@
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
+import QtQuick.Layouts
+
+import "root:/config"
 
 // TODO: TOOLTIPS
 
 Rectangle {
     id: root
     Layout.preferredWidth: contentContainer.implicitWidth + 10
-    Layout.preferredHeight: 30
+    Layout.preferredHeight: Config.bar.min_height
 
     required property Item content
 
     property var leftClick: function () {}
     property var rightClick: function () {}
     property var middleClick: function () {}
-    property string hoverColor: "transparent"
     property string hoverBgColor: "transparent"
     property string hoverUnderlineColor: "transparent"
 

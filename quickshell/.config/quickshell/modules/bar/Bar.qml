@@ -7,7 +7,8 @@ import Quickshell.Widgets
 // import Quickshell.Wayland
 // import Qt5Compat.GraphicalEffects
 
-import "widgets" as Widgets
+import "components" as Widgets
+import "components"
 import "root:/config"
 import "root:/common"
 
@@ -34,21 +35,19 @@ Scope {
                 right: true
             }
 
-            color: "transparent"
+            color: Config.bar.marginColor
             implicitWidth: content.implicitWidth + margin * 2
-            implicitHeight: content.implicitHeight + margin * 2
+            implicitHeight: content.implicitHeight + margin * (Config.bar.marginOnlyBottom ? 1 : 2)
 
             Rectangle {
                 id: background
                 radius: Config.bar.radius
                 border.width: Config.bar.borderWidth
                 border.color: Config.bar.borderColor
-
                 anchors.fill: parent
-                anchors.margins: bar.margin
-                color: Config.bar.backgroundColor
-                implicitWidth: 30
-                implicitHeight: 30
+                anchors.margins: Config.bar.marginOnlyBottom ? 0 : Config.bar.margin
+                anchors.bottomMargin: Config.bar.margin
+                color: Config.backgroundColor
             }
 
             RowLayout {
@@ -66,6 +65,11 @@ Scope {
 
                     Widgets.DistroIcon {}
 
+                    ActiveWindow {
+                        id: activeWindow
+                        // TODO: Brightness and Audio scrolling somewhere else
+                        // monitor: Brightness.getMonitorForScreen(root.screen)
+                    }
                     //     Image {
                     //         id: iconImage
                     //         // anchors.fill: parent
@@ -108,8 +112,9 @@ Scope {
 
                     // anchors.horizontalCenter: parent.horizontalCenter
 
-                    Widgets.Clock {}
-                    Widgets.Clock {}
+                    // Widgets.Clock {}
+                    // Widgets.Clock {}
+
                 }
 
                 Item {
@@ -122,6 +127,9 @@ Scope {
                     Layout.alignment: Qt.AlignRight
                     Layout.fillWidth: true
 
+                    Widgets.Tray {
+                        bar: bar
+                    }
                     Widgets.Clock {}
                 }
             }

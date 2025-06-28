@@ -130,7 +130,21 @@ Scope {
                     Widgets.Tray {
                         bar: bar
                     }
-                    Widgets.Clock {}
+                    Widgets.Clock {
+                        id: clock
+
+                        // anchors.verticalCenter: parent.verticalCenter
+                        // anchors.bottom: statusIcons.top
+                        // anchors.bottomMargin: Appearance.spacing.normal
+                    }
+
+                    Power {
+                        id: power
+
+                        // anchors.verticalCenter: parent.verticalCenter
+                        // anchors.bottom: parent.bottom
+                        // anchors.bottomMargin: Appearance.padding.large
+                    }
                 }
             }
         }

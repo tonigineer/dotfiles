@@ -79,7 +79,7 @@ Item {
             text: Hyprland.activeClient?.wmClass ?? qsTr("Desktop")
             // text: Hyprland.activeClient?.title ?? qsTr("Desktop")
 
-            font.pointSize: Appearance.font.size.normal
+            font.pointSize: Appearance.font.size.small
             font.family: Appearance.font.family.mono
 
             onTextChanged: {

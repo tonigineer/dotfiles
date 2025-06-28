@@ -1,15 +1,17 @@
 pragma Singleton
 
 import Quickshell
-import QtQuick
 
 Singleton {
-    id: root
+    property alias enabled: clock.enabled
+    readonly property date date: clock.date
+    readonly property int hours: clock.hours
+    readonly property int minutes: clock.minutes
+    readonly property int seconds: clock.seconds
 
-    readonly property string dateLong: Qt.formatDate(clock.date, "dddd, d.MMM.yyyy")
-    readonly property string timeLong: Qt.formatTime(clock.date, "hh:mm:ss")
-    readonly property string date: Qt.formatDate(clock.date, "dd.MM.yyyy")
-    readonly property string time: Qt.formatTime(clock.date, "hh:mm")
+    function format(fmt: string): string {
+        return Qt.formatDateTime(clock.date, fmt);
+    }
 
     SystemClock {
         id: clock

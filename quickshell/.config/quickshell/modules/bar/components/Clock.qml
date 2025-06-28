@@ -1,36 +1,34 @@
 import QtQuick
-import Quickshell.Hyprland
 
-import "root:/common"
-import "root:/config"
-import "root:/services"
 import "root:/widgets"
+import "root:/services"
+import "root:/config"
 
-WidgetContainer {
-    id: widgetClock
+Row {
+    id: root
 
-    property bool showDate: false
-    property int currentFormatIdx: 0
+    property color colour: Colors.palette.m3tertiary
 
-    readonly property var formats: [() => Time.time, () => Time.timeLong]
+    spacing: Appearance.spacing.small
 
-    content: Text {
-        text: widgetClock.formats[widgetClock.currentFormatIdx]()
-        // renderType: Text.NativeRendering
-        color: Config.textColor
-        font.family: Config.fontFamily
-        font.pointSize: Config.fontSize
-        font.bold: true
+    MaterialIcon {
+        id: icon
+
+        text: "calendar_month"
+        color: root.colour
+        anchors.verticalCenter: parent.verticalCenter
     }
 
-    leftClick: function () {
-        currentFormatIdx = (currentFormatIdx + 1) % formats.length;
+    StyledText {
+        id: text
+
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.top: icon.top
+
+        verticalAlignment: StyledText.AlignVCenter
+        text: Time.format("hh:mm")
+        font.pointSize: Appearance.font.size.smaller
+        font.family: Appearance.font.family.mono
+        color: root.colour
     }
-
-    // rightClick: function () {
-    //     Hyprland.dispatch("exec kitty");
-    // }
-
-    hoverUnderlineColor: Theme.accent_orange
-    hoverBgColor: Theme.background_dark
 }

@@ -1,15 +1,18 @@
 //@ pragma Env QS_NO_RELOAD_POPUP=1
 
-import QtQuick
+// import "modules"
+import "modules/drawers"
+// import "modules/background"
+// import "modules/areapicker"
+// import "modules/lock"
 import Quickshell
 
-import "root:/modules/bar"
+ShellRoot {
 
-Scope {
-    property bool enableBar: true
+    // Background {}
+    Drawers {}
+    // AreaPicker {}
+    // Lock {}
 
-    LazyLoader {
-        active: enableBar
-        component: Bar {}
-    }
+    // Shortcuts {}
 }

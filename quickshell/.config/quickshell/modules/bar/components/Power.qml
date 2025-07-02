@@ -1,8 +1,7 @@
-import Quickshell
-
 import "root:/widgets"
 import "root:/services"
 import "root:/config"
+import Quickshell
 
 MaterialIcon {
     text: "power_settings_new"

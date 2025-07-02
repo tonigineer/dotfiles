@@ -1,74 +1,42 @@
 pragma Singleton
-pragma ComponentBehavior: Bound
 
-import QtQuick
+import "root:/utils"
 import Quickshell
-
-import "root:/config"
+import Quickshell.Io
 
 Singleton {
     id: root
 
-    /* General settings */
-    property string fontFamily: "Monaspace Krypton"
-    property int fontSize: 12
-    property color textColor: Theme.text_main
-    property color backgroundColor: Theme.background
+    property alias bar: adapter.bar
+    property alias border: adapter.border
+    // property alias dashboard: adapter.dashboard
+    // property alias launcher: adapter.launcher
+    // property alias notifs: adapter.notifs
+    // property alias osd: adapter.osd
+    property alias session: adapter.session
+    // property alias winfo: adapter.winfo
+    // property alias lock: adapter.lock
+    property alias paths: adapter.paths
 
-    /* Appearance */
-    // property QtObject theme: Theme
+    FileView {
+        path: `${Paths.config}/shell.json`
+        watchChanges: true
+        onFileChanged: reload()
+        onAdapterUpdated: writeAdapter()
 
-    /* Windows */
-    property QtObject bar
+        JsonAdapter {
+            id: adapter
 
-    bar: QtObject {
-        /* General settings */
-        property bool showAtBottom: false
-        property bool marginOnlyBottom: true
-        property real margin: 2
-        property int min_height: 30
-        property color marginColor: Theme.background_alt
-
-        property int radius: 0
-        property real borderWidth: 0
-        property color borderColor: Theme.accent_blue
-
-        property real leftMargin: 10
-        property real rightMargin: 10
-        property int widgetSpacing: 10
-
-        /* Widgets */
-        property QtObject widgetIcon
-        property QtObject widgetActiveWindow
-        property QtObject widgetWorkspaces
-        property QtObject widgetUtilButtons
-        property QtObject widgetClock
-
-        widgetIcon: QtObject {
-            property bool showDistro: false
-            property string customIcon: "arch"
-            property int iconSize: 14
-            property color iconColor: Theme.accent_red
-        }
-
-        widgetActiveWindow: QtObject {
-            property bool showTitle: false
-        }
-
-        widgetWorkspaces: QtObject {
-            property int shown: 10
-            property bool alwaysShowNumbers: false
-            property int showNumberDelay: 150
-        }
-        widgetUtilButtons: QtObject {
-            property bool showScreenSnip: true
-            property bool showColorPicker: false
-            property bool showMicToggle: false
-            property bool showKeyboardToggle: true
-        }
-        widgetClock: QtObject {
-            property string format: "hh:mm"
-            property string dateFormat: "dddd, dd/MM"
+            property JsonObject bar: BarConfig {}
+            property JsonObject border: BorderConfig {}
+            // property JsonObject dashboard: DashboardConfig {}
+            // property JsonObject launcher: LauncherConfig {}
+            // property JsonObject notifs: NotifsConfig {}
+            // property JsonObject osd: OsdConfig {}
+            property JsonObject session: SessionConfig {}
+            // property JsonObject winfo: WInfoConfig {}
+            // property JsonObject lock: LockConfig {}
+            property JsonObject paths: UserPaths {}
         }
     }
 }

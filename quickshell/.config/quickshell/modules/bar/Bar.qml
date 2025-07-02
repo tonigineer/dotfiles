@@ -1,152 +1,96 @@
-import QtQuick
-import QtQuick.Layouts
-// import QtQuick.Controls
-// import Qt5Compat.GraphicalEffects
-import Quickshell
-import Quickshell.Widgets
-// import Quickshell.Wayland
-// import Qt5Compat.GraphicalEffects
-
-import "components" as Widgets
-import "components"
+import "components" as Components
+// import "components/workspaces" as HyprlandWorkspaces
 import "root:/config"
 import "root:/common"
+import "root:/services"
+import "root:/widgets"
+import Quickshell
+import Quickshell.Widgets
+import QtQuick
+import QtQuick.Layouts
 
-// import "root:/common"
-// import "root:/services"
+Item {
+    id: bar
 
-Scope {
-    id: scope
+    property ShellScreen modelData
 
-    Variants {
-        model: Quickshell.screens
+    implicitHeight: 30
 
-        PanelWindow {
-            id: bar
+    Rectangle {
+        id: background
+        // radius: 20
+        // border.width: 0
+        // border.color: "white"
+        anchors.fill: parent
+        color: Colors.palette.m3background
+    }
 
-            property var modelData
-            property double margin: Config.bar.margin
-            screen: modelData
+    RowLayout {
+        id: content
+        spacing: 20
 
-            anchors {
-                top: !Config.bar.showAtBottom
-                bottom: Config.bar.showAtBottom
-                left: true
-                right: true
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        anchors.centerIn: parent
+        anchors.fill: parent
+        anchors.leftMargin: 20
+        anchors.rightMargin: 20
+
+        RowLayout {
+            id: leftSection
+            spacing: 20
+            Layout.alignment: Qt.AlignLeft
+            Layout.fillWidth: true
+
+            Components.OsIcon {}
+
+            // TODO: Brightness and Audio scrolling somewhere else
+            // monitor: Brightness.getMonitorForScreen(root.screen)
+            Components.ActiveWindow {}
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        RowLayout {
+            id: centerSection
+
+            spacing: 20
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.fillWidth: true
+
+            // TODO: below truely centers it, but throws warning
+            //   WARN scene: QML RowLayout at **/modules/bar/Bar.qml[55:9]: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.
+            // anchors.verticalCenter: parent.verticalCenter
+            // anchors.horizontalCenter: parent.horizontalCenter
+            Components.Workspaces {
+                bar: bar
             }
+        }
 
-            color: Config.bar.marginColor
-            implicitWidth: content.implicitWidth + margin * 2
-            implicitHeight: content.implicitHeight + margin * (Config.bar.marginOnlyBottom ? 1 : 2)
+        Item {
+            Layout.fillWidth: true
+        }
 
-            Rectangle {
-                id: background
-                radius: Config.bar.radius
-                border.width: Config.bar.borderWidth
-                border.color: Config.bar.borderColor
-                anchors.fill: parent
-                anchors.margins: Config.bar.marginOnlyBottom ? 0 : Config.bar.margin
-                anchors.bottomMargin: Config.bar.margin
-                color: Config.backgroundColor
-            }
+        RowLayout {
+            id: rightSection
+            spacing: 20
+            Layout.alignment: Qt.AlignRight
+            Layout.fillWidth: true
 
-            RowLayout {
-                id: content
-                spacing: Config.bar.widgetSpacing
-                anchors.fill: parent
-                anchors.leftMargin: Config.bar.leftMargin
-                anchors.rightMargin: Config.bar.rightMargin
+            // Rectangle {
+            //     radius: 0
+            //     border.width: 2
+            //     border.color: "yellow"
+            //     anchors.fill: parent
+            //     color: "transparent"
+            // }
 
-                RowLayout {
-                    id: leftSection
-                    spacing: Config.bar.widgetSpacing
-                    Layout.alignment: Qt.AlignLeft
-                    Layout.fillWidth: true
+            Components.Tray {}
 
-                    Widgets.DistroIcon {}
+            Components.Clock {}
 
-                    ActiveWindow {
-                        id: activeWindow
-                        // TODO: Brightness and Audio scrolling somewhere else
-                        // monitor: Brightness.getMonitorForScreen(root.screen)
-                    }
-                    //     Image {
-                    //         id: iconImage
-                    //         // anchors.fill: parent
-                    //         // source: Quickshell.iconPath(root.appIcon, "image-missing")
-                    //         source: "root:/assets/icons/arxiv"
-                    //         // fillMode: Image.PreserveAspectCrop
-                    //         // cache: false
-                    //         antialiasing: true
-                    //         asynchronous: true
-                    //         // anchors.fill: parent
-                    //         // width: root.rowHeight * modelData.aspect_ratio
-                    //         // height: root.rowHeight
-                    //         visible: opacity > 0
-                    //         opacity: status === Image.Ready ? 1 : 0
-                    //         fillMode: Image.PreserveAspectFit
-                    //         // source: modelData.preview_url
-                    //         sourceSize.width: 50
-                    //         // sourceSize.height: 30
-
-                    //         layer.enabled: true
-                    //         // layer.effect: OpacityMask {
-                    //         //     maskSource: Rectangle {
-                    //         //         width: root.rowHeight * modelData.aspect_ratio
-                    //         //         height: root.rowHeight
-                    //         //         radius: imageRadius
-                    //         //     }
-                    //         // }
-                    //     }
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                RowLayout {
-                    id: centerSection
-                    spacing: Config.bar.widgetSpacing
-                    // Layout.alignment: Qt.AlignLeft
-                    // Layout.fillWidth: true
-
-                    // anchors.horizontalCenter: parent.horizontalCenter
-
-                    // Widgets.Clock {}
-                    // Widgets.Clock {}
-
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                RowLayout {
-                    id: rightSection
-                    spacing: Config.bar.widgetSpacing
-                    Layout.alignment: Qt.AlignRight
-                    Layout.fillWidth: true
-
-                    Widgets.Tray {
-                        bar: bar
-                    }
-                    Widgets.Clock {
-                        id: clock
-
-                        // anchors.verticalCenter: parent.verticalCenter
-                        // anchors.bottom: statusIcons.top
-                        // anchors.bottomMargin: Appearance.spacing.normal
-                    }
-
-                    Power {
-                        id: power
-
-                        // anchors.verticalCenter: parent.verticalCenter
-                        // anchors.bottom: parent.bottom
-                        // anchors.bottomMargin: Appearance.padding.large
-                    }
-                }
-            }
+            Components.Power {}
         }
     }
 }

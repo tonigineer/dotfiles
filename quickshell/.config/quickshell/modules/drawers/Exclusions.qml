@@ -34,7 +34,7 @@ Scope {
     component ExclusionZone: StyledWindow {
         screen: root.screen
         name: "border-exclusion"
-        // exclusiveZone: root.bar.implicitHeight
+        exclusiveZone: Config.border.thickness
         mask: Region {}
     }
 }

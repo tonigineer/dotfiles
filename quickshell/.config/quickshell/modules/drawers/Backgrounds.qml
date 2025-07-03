@@ -19,14 +19,14 @@ Shape {
     anchors.margins: Config.border.thickness
     anchors.leftMargin: bar.implicitWidth
     preferredRendererType: Shape.CurveRenderer
-    opacity: Colours.transparency.enabled ? Colours.transparency.base : 1
+    opacity: Colors.transparency.enabled ? Colors.transparency.base : 1
 
-    Osd.Background {
-        wrapper: panels.osd
+    // Osd.Background {
+    //     wrapper: panels.osd
 
-        startX: root.width - panels.session.width
-        startY: (root.height - wrapper.height) / 2 - rounding
-    }
+    //     startX: root.width - panels.session.width
+    //     startY: (root.height - wrapper.height) / 2 - rounding
+    // }
 
     // Notifications.Background {
     //     wrapper: panels.notifications

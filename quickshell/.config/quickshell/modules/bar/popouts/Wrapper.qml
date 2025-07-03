@@ -13,8 +13,11 @@ Item {
 
     required property ShellScreen screen
 
-    readonly property real nonAnimWidth: x > 0 || hasCurrent ? children.find(c => c.shouldBeActive)?.implicitWidth ?? content.implicitWidth : 0
-    readonly property real nonAnimHeight: children.find(c => c.shouldBeActive)?.implicitHeight ?? content.implicitHeight
+    // readonly property real nonAnimWidth: x > 0 || hasCurrent ? children.find(c => c.shouldBeActive)?.implicitWidth ?? content.implicitWidth : 0
+    // readonly property real nonAnimHeight: children.find(c => c.shouldBeActive)?.implicitHeight ?? content.implicitHeight
+
+    readonly property real nonAnimHeight: y > 0 || hasCurrent ? children.find(c => c.shouldBeActive)?.implicitHeight ?? content.implicitHeight : 0
+    readonly property real nonAnimWidth: children.find(c => c.shouldBeActive)?.implicitWidth ?? content.implicitWidth
 
     property string currentName
     property real currentCenter
@@ -62,14 +65,12 @@ Item {
         value: WlrKeyboardFocus.OnDemand
     }
 
-    Text {text: "dfasfdddddddddddddddddddd"}
     Comp {
         id: content
 
-        shouldBeActive: !root.detachedMode
+        shouldBeActive: root.hasCurrent
         asynchronous: true
-        anchors.top: bar.bottom
-        anchors.verticalCenter: parent.verticalCenter
+        // anchors.verticalCenter: parent.verticalCenter
 
         sourceComponent: Content {
             wrapper: root

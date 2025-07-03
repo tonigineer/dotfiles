@@ -6,7 +6,7 @@ import QtQuick
 Column {
     id: root
 
-    spacing: Appearance.spacing.normal
+    spacing: Appearance.spacing.small
 
     StyledText {
         text: qsTr("Connected to: %1").arg(Network.active?.ssid ?? "None")

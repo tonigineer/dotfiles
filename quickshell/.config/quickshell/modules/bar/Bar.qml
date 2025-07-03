@@ -16,21 +16,69 @@ Item {
     property ShellScreen modelData
     required property BarPopouts.Wrapper popouts
 
-    // function updatePopouts(): void {
-    //     popouts.currentName = "network";
-    //     popouts.currentCenter = 10;
-    //     popouts.hasCurrent = true;
-    //     // popouts.detachedMode  = "winfo";
-    //     console.log("called")
+    function checkPopout(x: real): void {
+        // const spacing = Appearance.spacing.small;
+        // const aw = activeWindow.child;
+        // const awy = activeWindow.y + aw.y;
 
-    //     console.log(popouts.currentName)
-    //     console.log(popouts.hasCurrent)
-    //     console.log(popouts.detachedMode)
+        // const ty = tray.y;
+        // const th = tray.implicitHeight;
+        // const trayItems = tray.items;
 
+        // const n = statusIconsInner.network;
+        // const ny = statusIcons.y + statusIconsInner.y + n.y - spacing / 2;
 
-    //     // root.detachedMode === "winfo"
-    // }
-    // Component.onCompleted: updatePopouts()
+        // const bls = statusIcons.y + statusIconsInner.y + statusIconsInner.bs - spacing / 2;
+        // const ble = statusIcons.y + statusIconsInner.y + statusIconsInner.be + spacing / 2;
+
+        // const b = statusIconsInner.battery;
+        // const by = statusIcons.y + statusIconsInner.y + b.y - spacing / 2;
+        //
+        // rightSection.clock.x;
+        // rightSection.power.x;
+        const n = statusIconsInner.network;
+        const network_x = rightSection.x + statusIcons.x + statusIconsInner.x + n.x + Appearance.spacing.normal * 2;
+        const network_dx = n.implicitWidth;
+
+        // console.log(x);
+        // console.log(network_x);
+        // console.log(network_dx);
+
+        // console.log(network_x + n.implicitWidth / 2);
+
+        if (x > network_x && x < network_x + network_dx)
+        // if (y >= awy && y <= awy + aw.implicitHeight) {
+        //     popouts.currentName = "activewindow";
+        //     popouts.currentCenter = Qt.binding(() => activeWindow.y + aw.y + aw.implicitHeight / 2);
+        //     popouts.hasCurrent = true;
+        // } else if (y > ty && y < ty + th) {
+        //     const index = Math.floor(((y - ty) / th) * trayItems.count);
+        //     const item = trayItems.itemAt(index);
+
+        //     popouts.currentName = `traymenu${index}`;
+        //     popouts.currentCenter = Qt.binding(() => tray.y + item.y + item.implicitHeight / 2);
+        //     popouts.hasCurrent = true;
+        // } else if (y >= ny && y <= ny + n.implicitHeight + spacing) {
+        //     popouts.currentName = "network";
+        //     popouts.currentCenter = Qt.binding(() => statusIcons.y + statusIconsInner.y + n.y + n.implicitHeight / 2);
+        //     popouts.hasCurrent = true;
+        // } else if (y >= bls && y <= ble) {
+        //     popouts.currentName = "bluetooth";
+        //     popouts.currentCenter = Qt.binding(() => statusIcons.y + statusIconsInner.y + statusIconsInner.bs + (statusIconsInner.be - statusIconsInner.bs) / 2);
+        //     popouts.hasCurrent = true;
+        // } else if (y >= by && y <= by + b.implicitHeight + spacing) {
+        //     popouts.currentName = "battery";
+        //     popouts.currentCenter = Qt.binding(() => statusIcons.y + statusIconsInner.y + b.y + b.implicitHeight / 2);
+        //     popouts.hasCurrent = true;
+        {
+            popouts.currentName = "network";
+            popouts.currentCenter = Qt.binding(() => rightSection.x + statusIcons.x + statusIconsInner.x + n.x + Appearance.spacing.normal * 2);
+            popouts.hasCurrent = true;
+        } else {
+            console.log("close")
+            popouts.hasCurrent = false;
+        }
+    }
 
     implicitHeight: 30
 

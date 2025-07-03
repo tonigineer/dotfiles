@@ -16,7 +16,7 @@ ShapePath {
     property real sideRounding: startX > 0 ? -1 : 1
 
     strokeWidth: -1
-    fillColor: Colours.palette.m3surface
+    fillColor: Colors.palette.m3surface
 
     PathArc {
         relativeX: root.roundingX

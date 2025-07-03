@@ -11,56 +11,19 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import QtQuick
+import QtQuick.Effects
 
 Variants {
     model: Quickshell.screens
-
 
     Scope {
         id: scope
 
         required property ShellScreen modelData
-        readonly property BarPopouts.Wrapper popouts: popouts
 
         Exclusions {
             screen: scope.modelData
             bar: bar
-        }
-
-        BarPopouts.Wrapper {
-            id: popouts
-
-            screen: scope.modelData
-            x: 100
-            y: 100
-
-            // currentName:"network"
-            // currentCenter:0
-            // hasCurrent: true
-
-            // visible: true
-            // x: isDetached ? (root.width - nonAnimWidth) / 2 : 0
-            // y: {
-            //     if (isDetached)
-            //         return (root.height - nonAnimHeight) / 2;
-
-            //     const off = currentCenter - Config.border.thickness - nonAnimHeight / 2;
-            //     const diff = root.height - Math.floor(off + nonAnimHeight);
-            //     if (diff < 0)
-            //         return off + diff;
-            //     return off;
-            // }
-        }
-
-        PersistentProperties {
-            id: visibilities
-
-            property bool osd
-            property bool session
-            property bool launcher
-            property bool dashboard
-
-            Component.onCompleted: Visibilities.screens[scope.modelData] = this
         }
 
         StyledWindow {
@@ -78,6 +41,15 @@ Variants {
                 y: 0
                 width: win.width
                 height: 30
+
+
+                // x: Config.border.thickness
+                // y: bar.implicitWidth
+                // width: win.width - Config.border.thickness * 2
+                // height: bar.implicitWidth
+                // intersection: Intersection.Xor
+
+                regions: regions.instances
             }
 
             anchors.top: true
@@ -85,111 +57,25 @@ Variants {
             anchors.left: true
             anchors.right: true
 
-            Item {
-                id: bar
+            Variants {
+                id: regions
 
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    top: parent.top
+                model: panels.children
+
+                Region {
+                    required property Item modelData
+
+                    // x: modelData.x + Config.border.thickness
+                    // y: modelData.y + bar.implicitHeight
+                    // width: modelData.width - Config.border.thickness * 2
+                    // height: modelData.height - bar.implicitHeight
+                    x: modelData.x
+                    y: modelData.y
+                    width: modelData.width
+                    height: modelData.height
+
+                    // intersection: Intersection.Add
                 }
-
-                implicitHeight: content.implicitHeight
-
-                // Interactions {
-                //     screen: scope.modelData
-                //     popouts: panels.popouts
-                //     visibilities: visibilities
-                //     panels: panels
-                //     bar: content
-
-                //     Panels {
-                //         id: panels
-
-                //         screen: scope.modelData
-                //         visibilities: visibilities
-                //         bar: bar
-                //     }
-                // }
-
-                Bar {
-                    id: content
-                    modelData: scope.modelData
-                    popouts: scope.popouts
-
-                    anchors.fill: parent
-                }
-            }
-
-
-
-
-            // BarPopouts.Wrapper {
-            //     id: barpopouts
-            //     screen: scope.modelData
-
-            //     visibilities: visibilities
-
-            //     // anchors.horizontalCenter: parent.horizontalCenter
-            //     // anchors.top: bar.bottom
-            //     x: 100
-            //     y: 100
-            // }
-
-            // BarPopouts.Wrapper2 {
-            //     id: barpopouts2
-            //     screen: scope.modelData
-
-            //     currentName: "traymenu0"
-            //     // currentCenter: 0
-            //     // hasCurrent: true
-
-            //     detachedMode: "winfo"
-
-            //     // visibilities: visibilities
-
-            //     // anchors.horizontalCenter: parent.horizontalCenter
-            //     // anchors.top: bar.bottom
-            //     x: 1500
-            //     y: 30
-            // }
-
-
-            // Interactions {
-            //     screen: scope.modelData
-            //     popouts: panels.popouts
-            //     visibilities: visibilities
-            //     panels: panels
-            //     bar: bar
-
-            //     Panels {
-            //         id: panels
-
-            //         screen: scope.modelData
-            //         visibilities: visibilities
-            //         bar: bar
-            //     }
-            // }
-
-
-
-            //
-            //     BarPopouts.Wrapper {
-            //     id: popouts
-
-            //     screen: root.screen
-
-            //     x: 100
-            //     y: 100
-            // }
-
-            Session.Wrapper {
-                id: session
-
-                visibilities: visibilities
-
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
             }
 
             // Allow to interact with drawers
@@ -203,27 +89,78 @@ Variants {
             }
 
             // Dim screen when session is open
-            // StyledRect {
-            //     anchors.fill: parent
-            //     opacity: visibilities.session ? 0.75 : 0
-            //     color: Colors.palette.m3scrim
+            StyledRect {
+                anchors.fill: parent
+                opacity: visibilities.session ? 0.75 : 0
+                color: Colors.palette.m3scrim
 
-            //     Behavior on opacity {
-            //         NumberAnimation {
-            //             duration: Appearance.anim.durations.normal
-            //             easing.type: Easing.BezierSpline
-            //             easing.bezierCurve: Appearance.anim.curves.standard
-            //         }
-            //     }
-            // }
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: Appearance.anim.durations.normal
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: Appearance.anim.curves.standard
+                    }
+                }
+            }
 
-            // MultiEffect {
-            //     anchors.fill: source
-            //     source: background
-            //     shadowEnabled: true
-            //     blurMax: 15
-            //     shadowColor: Qt.alpha(Colors.palette.m3shadow, 0.7)
-            // }
+            Item {
+                anchors.fill: parent
+                layer.enabled: true
+                layer.effect: MultiEffect {
+                    shadowEnabled: true
+                    blurMax: 15
+                    shadowColor: Qt.alpha(Colors.palette.m3shadow, 0.7)
+                }
+
+                Border {
+                    bar: bar
+                }
+
+                Backgrounds {
+                    panels: panels
+                    bar: bar
+                }
+            }
+
+            PersistentProperties {
+                id: visibilities
+
+                property bool osd
+                property bool session
+                property bool launcher
+                property bool dashboard
+
+                Component.onCompleted: Visibilities.screens[scope.modelData] = this
+            }
+
+            Interactions {
+                screen: scope.modelData
+                popouts: panels.popouts
+                visibilities: visibilities
+                panels: panels
+                bar: bar
+
+                Panels {
+                    id: panels
+
+                    screen: scope.modelData
+                    visibilities: visibilities
+                    bar: bar
+                }
+            }
+
+            Bar {
+                id: bar
+
+                modelData: scope.modelData
+                popouts: panels.popouts
+
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                }
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import "root:/config"
 import "root:/common"
 import "root:/services"
 import "root:/widgets"
+import "root:/modules/bar/popouts" as BarPopouts
 import Quickshell
 import Quickshell.Widgets
 import QtQuick
@@ -13,6 +14,23 @@ Item {
     id: bar
 
     property ShellScreen modelData
+    required property BarPopouts.Wrapper popouts
+
+    // function updatePopouts(): void {
+    //     popouts.currentName = "network";
+    //     popouts.currentCenter = 10;
+    //     popouts.hasCurrent = true;
+    //     // popouts.detachedMode  = "winfo";
+    //     console.log("called")
+
+    //     console.log(popouts.currentName)
+    //     console.log(popouts.hasCurrent)
+    //     console.log(popouts.detachedMode)
+
+
+    //     // root.detachedMode === "winfo"
+    // }
+    // Component.onCompleted: updatePopouts()
 
     implicitHeight: 30
 
@@ -78,18 +96,29 @@ Item {
             Layout.alignment: Qt.AlignRight
             Layout.fillWidth: true
 
-            // Rectangle {
-            //     radius: 0
-            //     border.width: 2
-            //     border.color: "yellow"
-            //     anchors.fill: parent
-            //     color: "transparent"
-            // }
-
             Components.Tray {}
+            StyledRect {
+                id: statusIcons
 
+                // anchors.left: parent.left
+                // anchors.right: parent.right
+                // anchors.bottom: power.top
+                anchors.bottomMargin: Appearance.spacing.normal
+
+                radius: Appearance.rounding.full
+                // color: Colors.palette.m3surfaceContainer
+                color: "white"
+
+                implicitHeight: parent.implicitHeight
+                implicitWidth: 300
+
+                Components.StatusIcons {
+                    id: statusIconsInner
+
+                    anchors.centerIn: parent
+                }
+            }
             Components.Clock {}
-
             Components.Power {}
         }
     }

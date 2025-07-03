@@ -12,7 +12,7 @@ import Quickshell.Io
 Singleton {
     id: root
     property bool sloppySearch: false
-    property real scoreThreshold: 0.2
+    property real scoreThreshold: 0.1
     property var substitutions: ({
             "code-url-handler": "visual-studio-code",
             "Code": "visual-studio-code",
@@ -71,8 +71,9 @@ Singleton {
     }
 
     function guessIcon(str) {
-        if (!str || str.length == 0)
+        if (!str || str.length == 0) {
             return "image-missing";
+        }
 
         // Normal substitutions
         if (substitutions[str])

@@ -33,20 +33,20 @@ Item {
             }
         }
 
-        // Popout {
-        //     name: "network"
-        //     source: "Network.qml"
-        // }
+        Popout {
+            name: "network"
+            source: "Network.qml"
+        }
 
-        // Popout {
-        //     name: "bluetooth"
-        //     source: "Bluetooth.qml"
-        // }
+        Popout {
+            name: "bluetooth"
+            source: "Bluetooth.qml"
+        }
 
-        // Popout {
-        //     name: "battery"
-        //     source: "Battery.qml"
-        // }
+        Popout {
+            name: "battery"
+            source: "Battery.qml"
+        }
 
         Repeater {
             model: ScriptModel {

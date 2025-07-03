@@ -37,13 +37,24 @@ StyledRect {
 
     Component.onCompleted: recomputeWorkspaceMaps()
 
+    // Connections {
+    //     target: Hyprland.workspaces
+    //     function onValuesChanged() {
+    //         recomputeWorkspaceMaps();
+    //     // console.log(JSON.stringify(wsIdxIsOccupied));
+    //     // console.log(monitor.id);
+    //     // console.log(Hyprland.focusedMonitor);
+    //     }
+    // }
+
     Connections {
-        target: Hyprland.workspaces
-        function onValuesChanged() {
+        target: Hyprland
+        function onRawEvent() {
             recomputeWorkspaceMaps();
         // console.log(JSON.stringify(wsIdxIsOccupied));
         // console.log(monitor.id);
         // console.log(Hyprland.focusedMonitor);
+        // console.log(Hyprland.workspaces.);
         }
     }
 

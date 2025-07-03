@@ -14,10 +14,10 @@ MouseArea {
     required property Panels panels
     required property Item bar
 
-    property bool osdHovered
-    property point dragStart
-    property bool dashboardShortcutActive
-    property bool osdShortcutActive
+    // property bool osdHovered
+    // property point dragStart
+    // property bool dashboardShortcutActive
+    // property bool osdShortcutActive
 
     function withinPanelHeight(panel: Item, x: real, y: real): bool {
         const panelY = Config.border.thickness + panel.y;
@@ -40,13 +40,13 @@ MouseArea {
     onContainsMouseChanged: {
         if (!containsMouse) {
             // Only hide if not activated by shortcut
-            if (!osdShortcutActive) {
-                visibilities.osd = false;
-                osdHovered = false;
-            }
-            if (!dashboardShortcutActive) {
-                visibilities.dashboard = false;
-            }
+            // if (!osdShortcutActive) {
+            //     visibilities.osd = false;
+            //     osdHovered = false;
+            // }
+            // if (!dashboardShortcutActive) {
+            //     visibilities.dashboard = false;
+            // }
             popouts.hasCurrent = false;
         }
     }

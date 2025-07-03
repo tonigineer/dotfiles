@@ -62,12 +62,13 @@ Item {
         value: WlrKeyboardFocus.OnDemand
     }
 
+    Text {text: "dfasfdddddddddddddddddddd"}
     Comp {
         id: content
 
         shouldBeActive: !root.detachedMode
         asynchronous: true
-        anchors.right: parent.right
+        anchors.top: bar.bottom
         anchors.verticalCenter: parent.verticalCenter
 
         sourceComponent: Content {

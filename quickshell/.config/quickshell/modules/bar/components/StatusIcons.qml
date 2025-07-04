@@ -10,21 +10,44 @@ Item {
     id: root
 
     property color colour: Colors.palette.m3secondary
+    readonly property real spacing: Appearance.spacing.normal
 
     readonly property Item network: network
-    // readonly property real bs: bluetooth.y
-    // readonly property real be: repeater.count > 0 ? devices.y + devices.implicitHeight : bluetooth.y + bluetooth.implicitHeight
-    // readonly property Item battery: battery
+    readonly property Item battery: battery
+    readonly property Item bluetooth: bluetooth
 
     clip: true
-    // implicitWidth: Math.max(network.implicitWidth, bluetooth.implicitWidth, devices.implicitWidth, battery.implicitWidth)
-    // implicitHeight: network.implicitHeight + bluetooth.implicitHeight + bluetooth.anchors.topMargin + (repeater.count > 0 ? devices.implicitHeight + devices.anchors.topMargin : 0) + battery.implicitHeight + battery.anchors.topMargin
     implicitHeight: parent.implicitHeight
-    implicitWidth: parent.implicitWidth
+    implicitWidth: network.implicitWidth + bluetooth.implicitWidth + battery.implicitWidth + spacing * 4
 
-    Text {
-        text: "dfsf"
-        color: "red"
+    MaterialIcon {
+        id: battery
+
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: spacing
+
+        animate: true
+        text: {
+            if (!UPower.displayDevice.isLaptopBattery) {
+                if (PowerProfiles.profile === PowerProfile.PowerSaver)
+                    return "energy_savings_leaf";
+                if (PowerProfiles.profile === PowerProfile.Performance)
+                    return "rocket_launch";
+                return "balance";
+            }
+
+            const perc = UPower.displayDevice.percentage;
+            const charging = !UPower.onBattery;
+            if (perc === 1)
+                return charging ? "battery_charging_full" : "battery_full";
+            let level = Math.floor(perc * 7);
+            if (charging && (level === 4 || level === 1))
+                level--;
+            return charging ? `battery_charging_${(level + 3) * 10}` : `battery_${level}_bar`;
+        }
+        color: !UPower.onBattery || UPower.displayDevice.percentage > 0.2 ? root.colour : Colors.palette.m3error
+        fill: 1
     }
 
     MaterialIcon {
@@ -34,77 +57,23 @@ Item {
         text: Network.active ? Icons.getNetworkIcon(Network.active.strength ?? 0) : "wifi_off"
         color: root.colour
 
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: battery.left
+        anchors.rightMargin: spacing
     }
 
-    // MaterialIcon {
-    //     id: bluetooth
+    MaterialIcon {
+        id: bluetooth
 
-    //     anchors.horizontalCenter: network.horizontalCenter
-    //     anchors.top: network.bottom
-    //     anchors.topMargin: Appearance.spacing.smaller / 2
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: network.left
+        anchors.rightMargin: spacing
+        anchors.leftMargin: spacing
 
-    //     animate: true
-    //     text: Bluetooth.powered ? "bluetooth" : "bluetooth_disabled"
-    //     color: root.colour
-    // }
-
-    // Column {
-    //     id: devices
-
-    //     anchors.horizontalCenter: bluetooth.horizontalCenter
-    //     anchors.top: bluetooth.bottom
-    //     anchors.topMargin: Appearance.spacing.smaller / 2
-
-    //     spacing: Appearance.spacing.smaller / 2
-
-    //     Repeater {
-    //         id: repeater
-
-    //         model: ScriptModel {
-    //             values: Bluetooth.devices.filter(d => d.connected)
-    //         }
-
-    //         MaterialIcon {
-    //             required property Bluetooth.Device modelData
-
-    //             animate: true
-    //             text: Icons.getBluetoothIcon(modelData.icon)
-    //             color: root.colour
-    //             fill: 1
-    //         }
-    //     }
-    // }
-
-    // MaterialIcon {
-    //     id: battery
-
-    //     anchors.horizontalCenter: devices.horizontalCenter
-    //     anchors.top: repeater.count > 0 ? devices.bottom : bluetooth.bottom
-    //     anchors.topMargin: Appearance.spacing.smaller / 2
-
-    //     animate: true
-    //     text: {
-    //         if (!UPower.displayDevice.isLaptopBattery) {
-    //             if (PowerProfiles.profile === PowerProfile.PowerSaver)
-    //                 return "energy_savings_leaf";
-    //             if (PowerProfiles.profile === PowerProfile.Performance)
-    //                 return "rocket_launch";
-    //             return "balance";
-    //         }
-
-    //         const perc = UPower.displayDevice.percentage;
-    //         const charging = !UPower.onBattery;
-    //         if (perc === 1)
-    //             return charging ? "battery_charging_full" : "battery_full";
-    //         let level = Math.floor(perc * 7);
-    //         if (charging && (level === 4 || level === 1))
-    //             level--;
-    //         return charging ? `battery_charging_${(level + 3) * 10}` : `battery_${level}_bar`;
-    //     }
-    //     color: !UPower.onBattery || UPower.displayDevice.percentage > 0.2 ? root.colour : Colours.palette.m3error
-    //     fill: 1
-    // }
+        animate: true
+        text: Bluetooth.powered ? "bluetooth" : "bluetooth_disabled"
+        color: root.colour
+    }
 
     Behavior on implicitWidth {
         NumberAnimation {

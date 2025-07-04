@@ -12,8 +12,10 @@ Item {
 
     required property Item wrapper
 
-    implicitWidth: Hyprland.activeToplevel ? child.implicitWidth : -Appearance.padding.large * 2
-    implicitHeight: child.implicitHeight
+    // implicitHeight: Hyprland.activeToplevel ? child.implicitHeight : -Appearance.padding.large * 2
+    // implicitWidth: child.implicitWidth
+    implicitWidth: 300
+    implicitHeight: 300
 
     Column {
         id: child
@@ -52,7 +54,7 @@ Item {
                 StyledText {
                     Layout.fillWidth: true
                     text: Hyprland.activeToplevel?.lastIpcObject.class ?? ""
-                    color: Colours.palette.m3onSurfaceVariant
+                    color: Colors.palette.m3onSurfaceVariant
                     elide: Text.ElideRight
                 }
             }

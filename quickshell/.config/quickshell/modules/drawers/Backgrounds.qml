@@ -17,7 +17,6 @@ Shape {
 
     anchors.fill: parent
     anchors.margins: Config.border.thickness
-    anchors.leftMargin: bar.implicitWidth
     preferredRendererType: Shape.CurveRenderer
     opacity: Colors.transparency.enabled ? Colors.transparency.base : 1
 

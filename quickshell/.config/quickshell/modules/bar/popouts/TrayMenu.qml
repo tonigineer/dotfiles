@@ -84,7 +84,7 @@ StackView {
                 implicitHeight: modelData.isSeparator ? 1 : children.implicitHeight
 
                 radius: Appearance.rounding.full
-                color: modelData.isSeparator ? Colours.palette.m3outlineVariant : "transparent"
+                color: modelData.isSeparator ? Colors.palette.m3outlineVariant : "transparent"
 
                 Loader {
                     id: children
@@ -142,7 +142,7 @@ StackView {
                             anchors.leftMargin: icon.active ? Appearance.spacing.smaller : 0
 
                             text: labelMetrics.elidedText
-                            color: item.modelData.enabled ? Colours.palette.m3onSurface : Colours.palette.m3outline
+                            color: item.modelData.enabled ? Colors.palette.m3onSurface : Colors.palette.m3outline
                         }
 
                         TextMetrics {
@@ -167,7 +167,7 @@ StackView {
 
                             sourceComponent: MaterialIcon {
                                 text: "chevron_right"
-                                color: item.modelData.enabled ? Colours.palette.m3onSurface : Colours.palette.m3outline
+                                color: item.modelData.enabled ? Colors.palette.m3onSurface : Colors.palette.m3outline
                             }
                         }
                     }
@@ -195,11 +195,11 @@ StackView {
                         anchors.rightMargin: -Appearance.padding.smaller * 2
 
                         radius: Appearance.rounding.full
-                        color: Colours.palette.m3secondaryContainer
+                        color: Colors.palette.m3secondaryContainer
 
                         StateLayer {
                             radius: parent.radius
-                            color: Colours.palette.m3onSecondaryContainer
+                            color: Colors.palette.m3onSecondaryContainer
 
                             function onClicked(): void {
                                 root.pop();
@@ -215,13 +215,13 @@ StackView {
                         MaterialIcon {
                             anchors.verticalCenter: parent.verticalCenter
                             text: "chevron_left"
-                            color: Colours.palette.m3onSecondaryContainer
+                            color: Colors.palette.m3onSecondaryContainer
                         }
 
                         StyledText {
                             anchors.verticalCenter: parent.verticalCenter
                             text: qsTr("Back")
-                            color: Colours.palette.m3onSecondaryContainer
+                            color: Colors.palette.m3onSecondaryContainer
                         }
                     }
                 }

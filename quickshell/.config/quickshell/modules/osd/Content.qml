@@ -6,7 +6,7 @@ import QtQuick
 Column {
     id: root
 
-    // required property Brightness.Monitor monitor
+    required property Brightness.Monitor monitor
 
     padding: Appearance.padding.large
 

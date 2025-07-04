@@ -23,6 +23,7 @@ Item {
     // readonly property Dashboard.Wrapper dashboard: dashboard
     readonly property BarPopouts.Wrapper popouts: popouts
 
+    // anchors.topMargin: 200
     anchors.fill: parent
     anchors.margins: Config.border.thickness
     anchors.leftMargin: bar.implicitWidth
@@ -91,7 +92,7 @@ Item {
         //         return off + diff;
         //     return off;
         // }
-        //
+
         y: isDetached ? (root.height - nonAnimHeight) : 0
         x: {
             // return currentCenternon - nonAnimWidth / 2;

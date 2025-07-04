@@ -34,20 +34,13 @@ Variants {
 
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
             WlrLayershell.keyboardFocus: visibilities.launcher || visibilities.session ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
-            WlrLayershell.layer: WlrLayer.Top
 
             mask: Region {
-                x: 0
-                y: 0
-                width: win.width
-                height: 30
-
-
-                // x: Config.border.thickness
-                // y: bar.implicitWidth
-                // width: win.width - Config.border.thickness * 2
-                // height: bar.implicitWidth
-                // intersection: Intersection.Xor
+                x: Config.border.thickness
+                y: bar.implicitHeight
+                width: win.width - Config.border.thickness
+                height: win.height - bar.implicitHeight - Config.border.thickness
+                intersection: Intersection.Xor
 
                 regions: regions.instances
             }
@@ -65,16 +58,11 @@ Variants {
                 Region {
                     required property Item modelData
 
-                    // x: modelData.x + Config.border.thickness
-                    // y: modelData.y + bar.implicitHeight
-                    // width: modelData.width - Config.border.thickness * 2
-                    // height: modelData.height - bar.implicitHeight
-                    x: modelData.x
-                    y: modelData.y
+                    y: modelData.y + bar.implicitHeight
+                    x: modelData.x + Config.border.thickness
                     width: modelData.width
                     height: modelData.height
-
-                    // intersection: Intersection.Add
+                    intersection: Intersection.Subtract
                 }
             }
 

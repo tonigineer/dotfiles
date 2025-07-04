@@ -48,7 +48,7 @@ Column {
             implicitWidth: child.implicitWidth + Appearance.padding.normal * 2
             implicitHeight: child.implicitHeight + Appearance.padding.smaller * 2
 
-            color: Colours.palette.m3error
+            color: Colors.palette.m3error
             radius: Appearance.rounding.normal
 
             Column {
@@ -65,13 +65,13 @@ Column {
                         anchors.verticalCenterOffset: -font.pointSize / 10
 
                         text: "warning"
-                        color: Colours.palette.m3onError
+                        color: Colors.palette.m3onError
                     }
 
                     StyledText {
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr("Performance Degraded")
-                        color: Colours.palette.m3onError
+                        color: Colors.palette.m3onError
                         font.family: Appearance.font.family.mono
                         font.weight: 500
                     }
@@ -81,7 +81,7 @@ Column {
                         anchors.verticalCenterOffset: -font.pointSize / 10
 
                         text: "warning"
-                        color: Colours.palette.m3onError
+                        color: Colors.palette.m3onError
                     }
                 }
 
@@ -89,7 +89,7 @@ Column {
                     anchors.horizontalCenter: parent.horizontalCenter
 
                     text: qsTr("Reason: %1").arg(PerformanceDegradationReason.toString(PowerProfiles.degradationReason))
-                    color: Colours.palette.m3onError
+                    color: Colors.palette.m3onError
                 }
             }
         }
@@ -112,13 +112,13 @@ Column {
         implicitWidth: saver.implicitHeight + balance.implicitHeight + perf.implicitHeight + Appearance.padding.normal * 2 + Appearance.spacing.large * 2
         implicitHeight: Math.max(saver.implicitHeight, balance.implicitHeight, perf.implicitHeight) + Appearance.padding.small * 2
 
-        color: Colours.palette.m3surfaceContainer
+        color: Colors.palette.m3surfaceContainer
         radius: Appearance.rounding.full
 
         StyledRect {
             id: indicator
 
-            color: Colours.palette.m3primary
+            color: Colors.palette.m3primary
             radius: Appearance.rounding.full
             state: profiles.current
 
@@ -206,7 +206,7 @@ Column {
 
         StateLayer {
             radius: Appearance.rounding.full
-            color: profiles.current === parent.icon ? Colours.palette.m3onPrimary : Colours.palette.m3onSurface
+            color: profiles.current === parent.icon ? Colors.palette.m3onPrimary : Colors.palette.m3onSurface
 
             function onClicked(): void {
                 PowerProfiles.profile = parent.profile;
@@ -220,7 +220,7 @@ Column {
 
             text: parent.icon
             font.pointSize: Appearance.font.size.large
-            color: profiles.current === text ? Colours.palette.m3onPrimary : Colours.palette.m3onSurface
+            color: profiles.current === text ? Colors.palette.m3onPrimary : Colors.palette.m3onSurface
             fill: profiles.current === text ? 1 : 0
 
             Behavior on fill {

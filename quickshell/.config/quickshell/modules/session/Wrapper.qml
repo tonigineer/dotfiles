@@ -7,11 +7,11 @@ Item {
     id: root
     clip: true
 
-    // Rectangle {
-    //     anchors.fill: parent
-    //     color: Colors.palette.m3background
-    //     radius: 8
-    // }
+    Rectangle {
+        anchors.fill: parent
+        color: Colors.palette.m3background
+        radius: 8
+    }
 
     required property PersistentProperties visibilities
 

@@ -52,6 +52,6 @@ Item {
     Content {
         id: content
 
-        // monitor: Brightness.getMonitorForScreen(root.screen)
+        monitor: Brightness.getMonitorForScreen(root.screen)
     }
 }

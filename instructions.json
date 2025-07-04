@@ -174,11 +174,11 @@
     {
         "name": "Quickshell",
         "category": "hypr",
-        "packages": ["quickshell", "ddcutil-service", "ttf-material-symbols-variable-git", "qt6-5compat"],
+        "packages": ["quickshell", "ddcutil-service", "ttf-material-symbols-variable-git", "qt6-5compat", "power-profiles-daemon"],
         "configs": ["quickshell"],
         "checks": ["[ -L ~/.config/quickshell ] && true || false"],
         "prior_install": [],
-        "post_install": []
+        "post_install": ["sudo systemctl enable --now power-profiles-daemon"]
     },
     {
         "name": "Neovim (clone Repo)",

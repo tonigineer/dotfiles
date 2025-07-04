@@ -25,7 +25,7 @@ Item {
 
         anchors.fill: parent
         anchors.margins: Appearance.padding.large
-        anchors.topMargin: Appearance.padding.large * 2
+        anchors.topMargin: Appearance.padding.large + Config.bar.sizes.innerHeight
 
         Popout {
             name: "activewindow"
@@ -93,8 +93,6 @@ Item {
         property bool shouldBeActive: root.currentName === name
 
         anchors.verticalCenter: parent.verticalCenter
-        // anchors.bottom: parent.bottom
-        // anchors.right: parent.right
 
         opacity: 0
         scale: 0.8

@@ -17,8 +17,8 @@ Text {
     renderType: Text.NativeRendering
     textFormat: Text.PlainText
     color: Colors.palette.m3onSurface
-    font.family: Appearance.font.family.sans
-    font.pointSize: Appearance.font.size.smaller
+    font.family: Appearance.font.family.mono
+    font.pointSize: Appearance.font.size.small
 
     Behavior on color {
         ColorAnimation {

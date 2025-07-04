@@ -16,94 +16,129 @@ Item {
     property ShellScreen modelData
     required property BarPopouts.Wrapper popouts
 
-    function checkPopout(x: real): void {
-        // const spacing = Appearance.spacing.small;
-        // const aw = activeWindow.child;
-        // const awy = activeWindow.y + aw.y;
+    function checkPopout(x) {
+        const rsX = rightSection.x;
+        const pad = statusIconsInner.spacing * 2;
+        const stX = statusIcons.x;
 
-        // const ty = tray.y;
-        // const th = tray.implicitHeight;
-        // const trayItems = tray.items;
+        const iconStart = iconItem => rsX + stX + iconItem.x + pad;
 
-        // const n = statusIconsInner.network;
-        // const ny = statusIcons.y + statusIconsInner.y + n.y - spacing / 2;
+        const trayStart = rsX + tray.x + pad;
+        const trayEnd = trayStart + tray.implicitWidth;
 
-        // const bls = statusIcons.y + statusIconsInner.y + statusIconsInner.bs - spacing / 2;
-        // const ble = statusIcons.y + statusIconsInner.y + statusIconsInner.be + spacing / 2;
+        if (x >= trayStart && x < trayEnd) {
+            const items = tray.items;
+            const index = Math.floor(((x - trayStart) / tray.implicitWidth) * items.count);
+            const item = items.itemAt(index);
 
-        // const b = statusIconsInner.battery;
-        // const by = statusIcons.y + statusIconsInner.y + b.y - spacing / 2;
-        //
-        // rightSection.clock.x;
-        // rightSection.power.x;
-        const n = statusIconsInner.network;
-        const network_x = rightSection.x + statusIcons.x + statusIconsInner.x + n.x + Appearance.spacing.normal * 2;
-        const network_dx = n.implicitWidth;
-
-        // console.log(x);
-        // console.log(network_x);
-        // console.log(network_dx);
-
-        // console.log(network_x + n.implicitWidth / 2);
-
-        if (x > network_x && x < network_x + network_dx)
-        // if (y >= awy && y <= awy + aw.implicitHeight) {
-        //     popouts.currentName = "activewindow";
-        //     popouts.currentCenter = Qt.binding(() => activeWindow.y + aw.y + aw.implicitHeight / 2);
-        //     popouts.hasCurrent = true;
-        // } else if (y > ty && y < ty + th) {
-        //     const index = Math.floor(((y - ty) / th) * trayItems.count);
-        //     const item = trayItems.itemAt(index);
-
-        //     popouts.currentName = `traymenu${index}`;
-        //     popouts.currentCenter = Qt.binding(() => tray.y + item.y + item.implicitHeight / 2);
-        //     popouts.hasCurrent = true;
-        // } else if (y >= ny && y <= ny + n.implicitHeight + spacing) {
-        //     popouts.currentName = "network";
-        //     popouts.currentCenter = Qt.binding(() => statusIcons.y + statusIconsInner.y + n.y + n.implicitHeight / 2);
-        //     popouts.hasCurrent = true;
-        // } else if (y >= bls && y <= ble) {
-        //     popouts.currentName = "bluetooth";
-        //     popouts.currentCenter = Qt.binding(() => statusIcons.y + statusIconsInner.y + statusIconsInner.bs + (statusIconsInner.be - statusIconsInner.bs) / 2);
-        //     popouts.hasCurrent = true;
-        // } else if (y >= by && y <= by + b.implicitHeight + spacing) {
-        //     popouts.currentName = "battery";
-        //     popouts.currentCenter = Qt.binding(() => statusIcons.y + statusIconsInner.y + b.y + b.implicitHeight / 2);
-        //     popouts.hasCurrent = true;
-        {
-            popouts.currentName = "network";
-            popouts.currentCenter = Qt.binding(() => rightSection.x + statusIcons.x + statusIconsInner.x + n.x + Appearance.spacing.normal * 2);
+            popouts.currentName = `traymenu${index}`;
+            popouts.currentCenter = Qt.binding(() => trayStart + item.x + item.implicitWidth / 2);
             popouts.hasCurrent = true;
-        } else {
-            console.log("close")
-            popouts.hasCurrent = false;
+            return;
         }
-    }
 
-    implicitHeight: 30
+        const icons = [
+            {
+                name: "bluetooth",
+                item: statusIconsInner.bluetooth
+            },
+            {
+                name: "network",
+                item: statusIconsInner.network
+            },
+            {
+                name: "battery",
+                item: statusIconsInner.battery
+            }
+        ];
+
+        for (let i = 0; i < icons.length; ++i) {
+            const ic = icons[i];
+            const start = iconStart(ic.item);
+            const end = start + ic.item.implicitWidth;
+
+            if (x >= start && x < end) {
+                popouts.currentName = ic.name;
+                const fixed = start;
+                popouts.currentCenter = Qt.binding(() => fixed);
+                popouts.hasCurrent = true;
+                return;
+            }
+        }
+
+        popouts.hasCurrent = false;
+    }
+    // function checkPopout(x: real): void {
+    //     const rs = rightSection;
+    //     const tr = tray;
+    //     const st = statusIcons;
+    //     const sp = statusIconsInner.spacing;
+    //     const net = statusIconsInner.network;
+    //     const bt = statusIconsInner.bluetooth;
+    //     const bat = statusIconsInner.battery;
+
+    //     const tr_area_start = rs.x + tr.x + sp * 2;
+    //     const tr_area_end = tr_area_start + tr.implicitWidth;
+    //     const trayItems = tray.items;
+
+    //     const bt_area_start = rs.x + st.x + bt.x + sp * 2;
+    //     const bt_area_end = bt_area_start + bt.implicitWidth;
+
+    //     const net_area_start = rs.x + st.x + net.x + sp * 2;
+    //     const net_area_end = net_area_start + net.implicitWidth;
+
+    //     const bat_area_start = rs.x + st.x + bat.x + sp * 2;
+    //     const bat_area_end = bat_area_start + bat.implicitWidth;
+
+    //     if (x > tr_area_start && x < tr_area_end) {
+    //         const index = Math.floor(((x - tr_area_start) / tr.implicitWidth) * trayItems.count);
+    //         const item = trayItems.itemAt(index);
+
+    //         popouts.currentName = `traymenu${index}`;
+    //         popouts.currentCenter = Qt.binding(() => tr_area_start + item.x + item.implicitWidth / 2);
+    //         popouts.hasCurrent = true;
+    //     } else if (x > bt_area_start && x < bt_area_end) {
+    //         popouts.currentName = "bluetooth";
+    //         popouts.currentCenter = Qt.binding(() => bt_area_start);
+    //         popouts.hasCurrent = true;
+    //     } else if (x > net_area_start && x < net_area_end) {
+    //         popouts.currentName = "network";
+    //         popouts.currentCenter = Qt.binding(() => net_area_start);
+    //         popouts.hasCurrent = true;
+    //     } else if (x > bat_area_start && x < bat_area_end) {
+    //         popouts.currentName = "battery";
+    //         popouts.currentCenter = Qt.binding(() => bat_area_start);
+    //         popouts.hasCurrent = true;
+    //     } else {
+    //         popouts.hasCurrent = false;
+    //     }
+    // // popouts.hasCurrent = hasCurrent;
+
+    // // popouts.currentName = currentName;
+    // // popouts.currentCenter = currentCenter;
+    // }
+
+    implicitHeight: Config.bar.sizes.innerHeight
 
     Rectangle {
         id: background
-        // radius: 20
-        // border.width: 0
-        // border.color: "white"
         anchors.fill: parent
         color: Colors.palette.m3background
     }
 
     RowLayout {
         id: content
-        spacing: 20
+        spacing: Appearance.padding.large
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         anchors.centerIn: parent
         anchors.fill: parent
-        anchors.leftMargin: 20
-        anchors.rightMargin: 20
+        anchors.leftMargin: Appearance.padding.large
+        anchors.rightMargin: Appearance.padding.large
 
         RowLayout {
             id: leftSection
-            spacing: 20
+            spacing: Appearance.padding.large
             Layout.alignment: Qt.AlignLeft
             Layout.fillWidth: true
 
@@ -121,7 +156,7 @@ Item {
         RowLayout {
             id: centerSection
 
-            spacing: 20
+            spacing: Appearance.padding.large
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
 
@@ -140,25 +175,22 @@ Item {
 
         RowLayout {
             id: rightSection
-            spacing: 20
+            spacing: Appearance.padding.large
             Layout.alignment: Qt.AlignRight
             Layout.fillWidth: true
 
-            Components.Tray {}
+            Components.Tray {
+                id: tray
+            }
+
             StyledRect {
                 id: statusIcons
 
-                // anchors.left: parent.left
-                // anchors.right: parent.right
-                // anchors.bottom: power.top
-                anchors.bottomMargin: Appearance.spacing.normal
-
                 radius: Appearance.rounding.full
-                // color: Colors.palette.m3surfaceContainer
-                color: "white"
+                color: Colors.palette.m3surfaceContainer
 
                 implicitHeight: parent.implicitHeight
-                implicitWidth: 300
+                implicitWidth: statusIconsInner.implicitWidth
 
                 Components.StatusIcons {
                     id: statusIconsInner
@@ -166,7 +198,9 @@ Item {
                     anchors.centerIn: parent
                 }
             }
+
             Components.Clock {}
+
             Components.Power {}
         }
     }

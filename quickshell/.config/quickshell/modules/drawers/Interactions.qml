@@ -22,13 +22,11 @@ MouseArea {
     function withinPanelHeight(panel: Item, x: real, y: real): bool {
         const panelY = Config.border.thickness + panel.y;
         return y >= panelY - Config.border.rounding && y <= panelY + panel.height + Config.border.rounding;
-
     }
 
     function withinPanelWidth(panel: Item, x: real, y: real): bool {
         const panelX = panel.x - Config.border.thickness;
         return x >= panelX - Config.border.rounding && x <= panelX + panel.width + Config.border.rounding;
-
     }
 
     function inRightPanel(panel: Item, x: real, y: real): bool {
@@ -57,7 +55,7 @@ MouseArea {
             if (!dashboardShortcutActive) {
                 visibilities.dashboard = false;
             }
-            // popouts.hasCurrent = false;
+            popouts.hasCurrent = false;
         }
     }
 

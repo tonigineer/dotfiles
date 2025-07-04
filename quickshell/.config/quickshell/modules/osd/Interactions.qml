@@ -9,7 +9,7 @@ Scope {
     required property ShellScreen screen
     required property PersistentProperties visibilities
     required property bool hovered
-    // readonly property Brightness.Monitor monitor: Brightness.getMonitorForScreen(screen)
+    readonly property Brightness.Monitor monitor: Brightness.getMonitorForScreen(screen)
 
     function show(): void {
         root.visibilities.osd = true;

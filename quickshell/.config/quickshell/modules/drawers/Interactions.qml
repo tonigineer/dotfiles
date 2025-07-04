@@ -1,7 +1,7 @@
 import "root:/services"
 import "root:/config"
 import "root:/modules/bar/popouts" as BarPopouts
-// import "root:/modules/osd" as Osd
+import "root:/modules/osd" as Osd
 import Quickshell
 import QtQuick
 
@@ -30,9 +30,6 @@ MouseArea {
     }
 
     function inRightPanel(panel: Item, x: real, y: real): bool {
-        // console.log(panel);
-        // console.log(x);
-        // console.log(y);
         return x > bar.implicitWidth + panel.x && withinPanelHeight(panel, x, y);
     }
 
@@ -66,18 +63,18 @@ MouseArea {
         // console.log(`x: ${x}`);
         // console.log(`y: ${y}`);
 
-        // // Show osd on hover
-        // const showOsd = inRightPanel(panels.osd, x, y);
+        // Show osd on hover
+        const showOsd = inRightPanel(panels.osd, x, y);
 
-        // // Always update visibility based on hover if not in shortcut mode
-        // if (!osdShortcutActive) {
-        //     visibilities.osd = showOsd;
-        //     osdHovered = showOsd;
-        // } else if (showOsd) {
-        //     // If hovering over OSD area while in shortcut mode, transition to hover control
-        //     osdShortcutActive = false;
-        //     osdHovered = true;
-        // }
+        // Always update visibility based on hover if not in shortcut mode
+        if (!osdShortcutActive) {
+            visibilities.osd = showOsd;
+            osdHovered = showOsd;
+        } else if (showOsd) {
+            // If hovering over OSD area while in shortcut mode, transition to hover control
+            osdShortcutActive = false;
+            osdHovered = true;
+        }
 
         // Show/hide session on drag
         if (pressed && withinPanelHeight(panels.session, x, y)) {
@@ -103,11 +100,8 @@ MouseArea {
         const popout = panels.popouts;
         if (y < bar.implicitHeight + popout.height) {
             if (y < bar.implicitHeight) {
-                // console.log("bar width");
                 bar.checkPopout(x);
             } else {
-                // console.log(popout.height);
-                // console.log("panel width");
                 popouts.hasCurrent = withinPanelWidth(popout, x, y);
             }
         } else {
@@ -152,23 +146,23 @@ MouseArea {
         //     }
         // }
 
-        // function onOsdChanged() {
-        //     if (root.visibilities.osd) {
-        //         // OSD became visible, immediately check if this should be shortcut mode
-        //         const inOsdArea = root.inRightPanel(root.panels.osd, root.mouseX, root.mouseY);
-        //         if (!inOsdArea) {
-        //             root.osdShortcutActive = true;
-        //         }
-        //     } else {
-        //         // OSD hidden, clear shortcut flag
-        //         root.osdShortcutActive = false;
-        //     }
-        // }
+        function onOsdChanged() {
+            if (root.visibilities.osd) {
+                // OSD became visible, immediately check if this should be shortcut mode
+                const inOsdArea = root.inRightPanel(root.panels.osd, root.mouseX, root.mouseY);
+                if (!inOsdArea) {
+                    root.osdShortcutActive = true;
+                }
+            } else {
+                // OSD hidden, clear shortcut flag
+                root.osdShortcutActive = false;
+            }
+        }
     }
 
-    // Osd.Interactions {
-    //     screen: root.screen
-    //     visibilities: root.visibilities
-    //     hovered: root.osdHovered
-    // }
+    Osd.Interactions {
+        screen: root.screen
+        visibilities: root.visibilities
+        hovered: root.osdHovered
+    }
 }

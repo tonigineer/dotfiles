@@ -14,7 +14,7 @@ Slider {
     orientation: Qt.Vertical
 
     background: StyledRect {
-        color: Colours.alpha(Colours.palette.m3surfaceContainer, true)
+        color: Colors.alpha(Colors.palette.m3surfaceContainer, true)
         radius: Appearance.rounding.full
 
         StyledRect {
@@ -24,7 +24,7 @@ Slider {
             y: root.handle.y
             implicitHeight: parent.height - y
 
-            color: Colours.alpha(Colours.palette.m3secondary, true)
+            color: Colors.alpha(Colors.palette.m3secondary, true)
             radius: Appearance.rounding.full
         }
     }
@@ -41,7 +41,7 @@ Slider {
         RectangularShadow {
             anchors.fill: parent
             radius: rect.radius
-            color: Colours.palette.m3shadow
+            color: Colors.palette.m3shadow
             blur: 5
             spread: 0
         }
@@ -51,7 +51,7 @@ Slider {
 
             anchors.fill: parent
 
-            color: Colours.alpha(Colours.palette.m3inverseSurface, true)
+            color: Colors.alpha(Colors.palette.m3inverseSurface, true)
             radius: Appearance.rounding.full
 
             MouseArea {
@@ -74,7 +74,7 @@ Slider {
 
                 animate: true
                 text: root.icon
-                color: Colours.palette.m3inverseOnSurface
+                color: Colors.palette.m3inverseOnSurface
                 anchors.centerIn: parent
 
                 Behavior on moving {

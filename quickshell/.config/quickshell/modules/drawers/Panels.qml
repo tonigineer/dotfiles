@@ -1,6 +1,6 @@
 import "root:/services"
 import "root:/config"
-// import "root:/modules/osd" as Osd
+import "root:/modules/osd" as Osd
 // import "root:/modules/notifications" as Notifications
 import "root:/modules/session" as Session
 // import "root:/modules/launcher" as Launcher
@@ -16,7 +16,7 @@ Item {
     required property PersistentProperties visibilities
     required property Item bar
 
-    // readonly property Osd.Wrapper osd: osd
+    readonly property Osd.Wrapper osd: osd
     // readonly property Notifications.Wrapper notifications: notifications
     readonly property Session.Wrapper session: session
     // readonly property Launcher.Wrapper launcher: launcher
@@ -30,17 +30,17 @@ Item {
 
     Component.onCompleted: Visibilities.panels[screen] = this
 
-    // Osd.Wrapper {
-    //     id: osd
+    Osd.Wrapper {
+        id: osd
 
-    //     clip: root.visibilities.session
-    //     screen: root.screen
-    //     visibility: root.visibilities.osd
+        clip: root.visibilities.session
+        screen: root.screen
+        visibility: root.visibilities.osd
 
-    //     anchors.verticalCenter: parent.verticalCenter
-    //     anchors.right: parent.right
-    //     anchors.rightMargin: session.width
-    // }
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: session.width
+    }
 
     // Notifications.Wrapper {
     //     id: notifications

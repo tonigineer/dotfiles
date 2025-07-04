@@ -32,12 +32,15 @@ Row {
         font.family: Appearance.font.family.mono
         color: root.colour
 
-        // MouseArea {
-        //     anchors.fill: parent
-        //     acceptedButtons: Qt.LeftButton
-        //     onClicked: root.showDate = !root.showDate
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton
+            onClicked: {
+                const v = Visibilities.getForActive();
+                v.launcher = !v.launcher;
+            }
 
-        //     cursorShape: Qt.PointingHandCursor
-        // }
+            cursorShape: Qt.PointingHandCursor
+        }
     }
 }

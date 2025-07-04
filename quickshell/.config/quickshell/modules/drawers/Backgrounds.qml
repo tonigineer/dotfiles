@@ -1,9 +1,9 @@
 import "root:/services"
 import "root:/config"
-// import "root:/modules/osd" as Osd
+import "root:/modules/osd" as Osd
 // import "root:/modules/notifications" as Notifications
 import "root:/modules/session" as Session
-// import "root:/modules/launcher" as Launcher
+import "root:/modules/launcher" as Launcher
 // import "root:/modules/dashboard" as Dashboard
 import "root:/modules/bar/popouts" as BarPopouts
 import QtQuick
@@ -20,12 +20,12 @@ Shape {
     preferredRendererType: Shape.CurveRenderer
     opacity: Colors.transparency.enabled ? Colors.transparency.base : 1
 
-    // Osd.Background {
-    //     wrapper: panels.osd
+    Osd.Background {
+        wrapper: panels.osd
 
-    //     startX: root.width - panels.session.width
-    //     startY: (root.height - wrapper.height) / 2 - rounding
-    // }
+        startX: root.width - panels.session.width
+        startY: (root.height - wrapper.height) / 2 - rounding
+    }
 
     // Notifications.Background {
     //     wrapper: panels.notifications
@@ -41,12 +41,12 @@ Shape {
         startY: (root.height - wrapper.height) / 2 - rounding
     }
 
-    // Launcher.Background {
-    //     wrapper: panels.launcher
+    Launcher.Background {
+        wrapper: panels.launcher
 
-    //     startX: (root.width - wrapper.width) / 2 - rounding
-    //     startY: root.height
-    // }
+        startX: (root.width - wrapper.width) / 2 - rounding
+        startY: root.height
+    }
 
     // Dashboard.Background {
     //     wrapper: panels.dashboard

@@ -174,7 +174,7 @@
     {
         "name": "Quickshell",
         "category": "hypr",
-        "packages": ["quickshell", "ddcutil-service", "ttf-material-symbols-variable-git", "qt6-5compat", "power-profiles-daemon"],
+        "packages": ["quickshell", "ddcutil-service", "ttf-material-symbols-variable-git", "qt6-5compat", "power-profiles-daemon", "menu-qalc"],
         "configs": ["quickshell"],
         "checks": ["[ -L ~/.config/quickshell ] && true || false"],
         "prior_install": [],

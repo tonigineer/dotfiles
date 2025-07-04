@@ -14,6 +14,12 @@ JsonObject {
         property real wsSizeMultiplier: 1.65
         property real marginLeft: 8
         property real marginRight: 8
+    }
+
+    property JsonObject media: JsonObject {
+        property int cavaHz: 144
+        property int cavaBars: 8
+        property int cavaMaxRange: 7
 
         // property bool rounded: true
         // property bool activeIndicator: true

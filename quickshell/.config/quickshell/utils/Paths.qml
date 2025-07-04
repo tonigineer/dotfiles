@@ -1,6 +1,7 @@
 pragma Singleton
 
 import Quickshell
+import Quickshell.Hyprland
 import Qt.labs.platform
 
 Singleton {
@@ -29,7 +30,8 @@ Singleton {
     }
 
     function mkdir(path: url): void {
-        Quickshell.execDetached(["mkdir", "-p", strip(path)]);
+        // Quickshell.execDetached(["mkdir", "-p", strip(path)]);
+        Hyprland.dispatch(`exec mkdir -p ${strip(path)}`);
     }
 
     function copy(from: url, to: url): void {

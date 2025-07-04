@@ -1,21 +1,23 @@
 pragma Singleton
 
+import "root:/config"
+import "root:/utils"
 import Quickshell
+import Quickshell.Io
 import QtQuick
-
-// TODO -- loading a color scheme to live update colors
-// https://github.com/caelestia-dots/shell/blob/main/services/Colours.qml
 
 Singleton {
     id: root
 
-    property bool showPreview: false
-    property bool light: false
+    readonly property list<string> colourNames: ["rosewater", "flamingo", "pink", "mauve", "red", "maroon", "peach", "yellow", "green", "teal", "sky", "sapphire", "blue", "lavender"]
 
+    property bool showPreview
+    property string scheme
+    property string flavour
+    property bool light: true
     readonly property Colours palette: showPreview ? preview : current
     readonly property Colours current: Colours {}
     readonly property Colours preview: Colours {}
-
     readonly property Transparency transparency: Transparency {}
 
     function alpha(c: color, layer: bool): color {
@@ -27,10 +29,41 @@ Singleton {
         return c;
     }
 
+    function on(c: color): color {
+        if (c.hslLightness < 0.5)
+            return Qt.hsla(c.hslHue, c.hslSaturation, 0.9, 1);
+        return Qt.hsla(c.hslHue, c.hslSaturation, 0.1, 1);
+    }
+
+    function load(data: string, isPreview: bool): void {
+        const colours = isPreview ? preview : current;
+        const scheme = JSON.parse(data);
+
+        if (!isPreview) {
+            root.scheme = scheme.name;
+            flavour = scheme.flavour;
+        }
+
+        light = scheme.mode === "light";
+
+        for (const [name, colour] of Object.entries(scheme.colours)) {
+            const propName = colourNames.includes(name) ? name : `m3${name}`;
+            if (colours.hasOwnProperty(propName))
+                colours[propName] = `#${colour}`;
+        }
+    }
+
     component Transparency: QtObject {
         readonly property bool enabled: false
         readonly property real base: 0.78
         readonly property real layers: 0.58
+    }
+
+    FileView {
+        path: `${Paths.state}/scheme.json`
+        watchChanges: true
+        onFileChanged: reload()
+        onLoaded: root.load(text(), false)
     }
 
     component Colours: QtObject {

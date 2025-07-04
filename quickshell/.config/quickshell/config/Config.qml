@@ -10,7 +10,7 @@ Singleton {
     property alias bar: adapter.bar
     property alias border: adapter.border
     // property alias dashboard: adapter.dashboard
-    // property alias launcher: adapter.launcher
+    property alias launcher: adapter.launcher
     // property alias notifs: adapter.notifs
     property alias osd: adapter.osd
     property alias session: adapter.session
@@ -30,7 +30,7 @@ Singleton {
             property JsonObject bar: BarConfig {}
             property JsonObject border: BorderConfig {}
             // property JsonObject dashboard: DashboardConfig {}
-            // property JsonObject launcher: LauncherConfig {}
+            property JsonObject launcher: LauncherConfig {}
             // property JsonObject notifs: NotifsConfig {}
             property JsonObject osd: OsdConfig {}
             property JsonObject session: SessionConfig {}

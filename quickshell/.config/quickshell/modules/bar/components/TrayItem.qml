@@ -20,8 +20,8 @@ MouseArea {
     onClicked: event => {
         switch (event.button) {
         case Qt.LeftButton:
-            // modelData.activate();
-            Quickshell.execDetached(["kitty", "-c", "btop"]);
+            modelData.activate();
+            // Quickshell.execDetached(["kitty", "-c", "btop"]);
             break;
         case Qt.RightButton:
             if (modelData.hasMenu)

@@ -68,55 +68,6 @@ Item {
 
         popouts.hasCurrent = false;
     }
-    // function checkPopout(x: real): void {
-    //     const rs = rightSection;
-    //     const tr = tray;
-    //     const st = statusIcons;
-    //     const sp = statusIconsInner.spacing;
-    //     const net = statusIconsInner.network;
-    //     const bt = statusIconsInner.bluetooth;
-    //     const bat = statusIconsInner.battery;
-
-    //     const tr_area_start = rs.x + tr.x + sp * 2;
-    //     const tr_area_end = tr_area_start + tr.implicitWidth;
-    //     const trayItems = tray.items;
-
-    //     const bt_area_start = rs.x + st.x + bt.x + sp * 2;
-    //     const bt_area_end = bt_area_start + bt.implicitWidth;
-
-    //     const net_area_start = rs.x + st.x + net.x + sp * 2;
-    //     const net_area_end = net_area_start + net.implicitWidth;
-
-    //     const bat_area_start = rs.x + st.x + bat.x + sp * 2;
-    //     const bat_area_end = bat_area_start + bat.implicitWidth;
-
-    //     if (x > tr_area_start && x < tr_area_end) {
-    //         const index = Math.floor(((x - tr_area_start) / tr.implicitWidth) * trayItems.count);
-    //         const item = trayItems.itemAt(index);
-
-    //         popouts.currentName = `traymenu${index}`;
-    //         popouts.currentCenter = Qt.binding(() => tr_area_start + item.x + item.implicitWidth / 2);
-    //         popouts.hasCurrent = true;
-    //     } else if (x > bt_area_start && x < bt_area_end) {
-    //         popouts.currentName = "bluetooth";
-    //         popouts.currentCenter = Qt.binding(() => bt_area_start);
-    //         popouts.hasCurrent = true;
-    //     } else if (x > net_area_start && x < net_area_end) {
-    //         popouts.currentName = "network";
-    //         popouts.currentCenter = Qt.binding(() => net_area_start);
-    //         popouts.hasCurrent = true;
-    //     } else if (x > bat_area_start && x < bat_area_end) {
-    //         popouts.currentName = "battery";
-    //         popouts.currentCenter = Qt.binding(() => bat_area_start);
-    //         popouts.hasCurrent = true;
-    //     } else {
-    //         popouts.hasCurrent = false;
-    //     }
-    // // popouts.hasCurrent = hasCurrent;
-
-    // // popouts.currentName = currentName;
-    // // popouts.currentCenter = currentCenter;
-    // }
 
     implicitHeight: Config.bar.sizes.innerHeight
 
@@ -160,12 +111,27 @@ Item {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             Layout.fillWidth: true
 
+            Item {
+                Layout.fillWidth: true
+            }
+
+            Components.Media {}
+
+            Item {
+                Layout.fillWidth: true
+            }
+
             // TODO: below truely centers it, but throws warning
             //   WARN scene: QML RowLayout at **/modules/bar/Bar.qml[55:9]: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.
             // anchors.verticalCenter: parent.verticalCenter
             // anchors.horizontalCenter: parent.horizontalCenter
             Components.Workspaces {
                 bar: bar
+            }
+
+            Components.UtilButtons {}
+            Item {
+                Layout.fillWidth: true
             }
         }
 

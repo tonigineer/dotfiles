@@ -142,7 +142,6 @@ Column {
 
             function onClicked(): void {
                 // Quickshell.execDetached(button.command);
-                console.log("exec " + button.command.filter(x => x.length).join(" "));
                 Hyprland.dispatch("exec " + button.command.filter(x => x.length).join(" "));
             }
         }

@@ -54,7 +54,7 @@ Item {
 
         clip: true
         implicitHeight: icon.implicitHeight
-        implicitWidth: Math.max(icon.implicitWidth + current.implicitWidth) + 20
+        implicitWidth: Math.max(icon.implicitWidth + current.implicitWidth + 20, 200)
 
         MaterialIcon {
             id: icon

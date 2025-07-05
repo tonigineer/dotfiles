@@ -20,10 +20,8 @@ Item {
         return active?.length ? active.position / active.length : 0;
     }
 
-    function lengthStr(length: int): string {
-        if (length < 0)
-            return "-1:-1";
-        return `${Math.floor(length / 30)}:${Math.floor(length % 60).toString().padStart(2, "0")}`;
+    function limitStr(s: string, length: int): string {
+        return s.length > length ? s.slice(0, length - s.length - 3) + '...' : s;
     }
 
     function test() {
@@ -34,6 +32,8 @@ Item {
 
     implicitWidth: details.implicitWidth + Appearance.spacing.small * 0 + 2 * Appearance.spacing.large
     implicitHeight: Config.bar.sizes.innerHeight
+    visible: Players.active
+
     Layout.rightMargin: Appearance.spacing.large
 
     RowLayout {
@@ -44,24 +44,6 @@ Item {
         anchors.right: parent.right
         spacing: 0
 
-        // Process {
-        //     id: cavaProc
-        //     running: true
-        //     onRunningChanged: {
-        //         if (!cavaProc.running) {
-        //             root.visualizerPoints = [];
-        //         }
-        //     }
-        //     command: ["cava", "-p", `${FileUtils.trimFileProtocol(Directories.config)}/quickshell/scripts/cava/raw_output_config.txt`]
-        //     stdout: SplitParser {
-        //         onRead: data => {
-        //             // Parse `;`-separated values into the visualizerPoints array
-        //             let points = data.split(";").map(p => parseFloat(p.trim())).filter(p => !isNaN(p));
-        //             root.visualizerPoints = points;
-        //         }
-        //     }
-        // }
-        //
         Ref {
             service: Cava
         }
@@ -71,7 +53,7 @@ Item {
             property var blocks: ["\u2581", "\u2582", "\u2583", "\u2584", "\u2585", "\u2586", "\u2587", "\u2588"]
 
             function toBlock(v) {
-                return blocks[Math.max(0, Math.min(v,7))];
+                return blocks[Math.max(0, Math.min(v, 7))];
             }
 
             text: Cava.values.map(toBlock).join("")
@@ -79,24 +61,30 @@ Item {
             font.pointSize: Appearance.font.size.normal
             font.family: Appearance.font.family.mono
 
-            // Layout.alignment: Qt.AlignVCenterj
             Layout.rightMargin: Appearance.spacing.large
             Layout.bottomMargin: Config.bar.sizes.innerHeight / 4
             Layout.preferredHeight: Config.bar.sizes.innerHeight / 2
 
-
+            layer.enabled: true
+            layer.effect: MultiEffect {
+                // source: cavaValues  // if needed for all
+                saturation: 0.2
+                blurEnabled: true
+                blurMax: 7
+                blur: 1
+            }
         }
 
         ElideText {
             id: title
-            label: (Players.active?.trackTitle ?? qsTr("No media")) || qsTr("Unknown title")
+            label: limitStr((Players.active?.trackTitle ?? qsTr("No media")) || qsTr("Unknown title"), 20)
             color: Colors.palette.m3primary
             font.pointSize: Appearance.font.size.small - 1
         }
 
         ElideText {
             id: artist
-            label: (Players.active?.trackArtist ?? qsTr("No media")) || qsTr("Unknown artist")
+            label: limitStr((Players.active?.trackArtist ?? qsTr("No media")) || qsTr("Unknown artist"), 20)
             color: Colors.palette.m3secondary
             font.pointSize: Appearance.font.size.small - 1
         }
@@ -106,7 +94,7 @@ Item {
             value: playerProgress
             size: Appearance.font.size.large
 
-            secondaryColor: Colors.palette.m3primary
+            secondaryColor: Colors.palette.m3onBackground
             primaryColor: Colors.palette.m3error
 
             MaterialIcon {

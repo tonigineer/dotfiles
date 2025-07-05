@@ -98,52 +98,39 @@ Item {
             // TODO: Brightness and Audio scrolling somewhere else
             // monitor: Brightness.getMonitorForScreen(root.screen)
             Components.ActiveWindow {}
-        }
 
-        Item {
-            Layout.fillWidth: true
+            Components.Media {
+                id: media
+            }
         }
 
         RowLayout {
             id: centerSection
 
             spacing: Appearance.padding.large
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            Layout.fillWidth: true
-
-            Item {
-                Layout.fillWidth: true
-            }
-
-            Components.Media {}
-
-            Item {
-                Layout.fillWidth: true
-            }
-
             // TODO: below truely centers it, but throws warning
             //   WARN scene: QML RowLayout at **/modules/bar/Bar.qml[55:9]: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.
-            // anchors.verticalCenter: parent.verticalCenter
-            // anchors.horizontalCenter: parent.horizontalCenter
+            anchors.centerIn: parent
+
             Components.Workspaces {
+                id: workspaces
                 bar: bar
             }
-
-            Components.UtilButtons {}
-            Item {
-                Layout.fillWidth: true
-            }
         }
 
-        Item {
-            Layout.fillWidth: true
-        }
+        // Item {
+        //     Layout.fillWidth: true
+        // }
 
         RowLayout {
             id: rightSection
             spacing: Appearance.padding.large
             Layout.alignment: Qt.AlignRight
             Layout.fillWidth: true
+
+            Components.UtilButtons {
+                id: utilButtons
+            }
 
             Components.Tray {
                 id: tray

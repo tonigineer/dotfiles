@@ -40,6 +40,11 @@ Item {
         }
 
         Popout {
+            name: "os-overview"
+            source: "OsOverview.qml"
+        }
+
+        Popout {
             name: "bluetooth"
             source: "Bluetooth.qml"
         }

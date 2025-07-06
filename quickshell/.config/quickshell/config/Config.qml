@@ -8,6 +8,7 @@ Singleton {
     id: root
 
     property alias bar: adapter.bar
+    property alias barpopouts: adapter.barpopouts
     property alias border: adapter.border
     // property alias dashboard: adapter.dashboard
     property alias launcher: adapter.launcher
@@ -28,6 +29,7 @@ Singleton {
             id: adapter
 
             property JsonObject bar: BarConfig {}
+            property JsonObject barpopouts: BarPopouts {}
             property JsonObject border: BorderConfig {}
             // property JsonObject dashboard: DashboardConfig {}
             property JsonObject launcher: LauncherConfig {}

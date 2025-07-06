@@ -81,24 +81,15 @@ Item {
 
         screen: root.screen
 
-        // y: isDetached ? (root.width - nonAnimWidth) / 2 : 0
-        // x: {
-        //     if (isDetached)
-        //         return (root.height - nonAnimHeight) / 2;
-
-        //     const off = currentCenter - Config.border.thickness - nonAnimHeight / 2;
-        //     const diff = root.height - Math.floor(off + nonAnimHeight);
-        //     if (diff < 0)
-        //         return off + diff;
-        //     return off;
-        // }
-
-        y: isDetached ? (root.height - nonAnimHeight) : 0
+        y: isDetached ? (root.height - nonAnimHeight) / 2 : 0
         x: {
-            // return currentCenternon - nonAnimWidth / 2;
-            // console.log(`PO WIDHT: ${popouts.content.width}`);
-            // return currentCenter - popouts.content.width;
-            return currentCenter - popouts.implicitWidth / 2;
+            if (isDetached)
+                return (root.width - nonAnimWidth) / 2;
+            const off = Math.max(currentCenter - Config.border.thickness - nonAnimWidth / 2, 0);
+            const diff = root.width - Math.floor(off + nonAnimWidth);
+            if (diff < 0)
+                return off - diff;
+            return off;
         }
     }
 }

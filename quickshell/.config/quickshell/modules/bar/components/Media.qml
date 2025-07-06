@@ -20,17 +20,7 @@ Item {
         return active?.length ? active.position / active.length : 0;
     }
 
-    function limitStr(s: string, length: int): string {
-        return s.length > length ? s.slice(0, length - s.length - 3) + '...' : s;
-    }
-
-    function test() {
-        console.log(playerProgress);
-    }
-
-    Component.onCompleted: test()
-
-    implicitWidth: details.implicitWidth + Appearance.spacing.small * 0 + 2 * Appearance.spacing.large
+    implicitWidth: Math.min(details.implicitWidth, parent.width / 2) + Appearance.spacing.small * 0 + 2 * Appearance.spacing.large
     implicitHeight: Config.bar.sizes.innerHeight
     visible: Players.active
 
@@ -65,10 +55,10 @@ Item {
             Layout.bottomMargin: Config.bar.sizes.innerHeight / 4
             Layout.preferredHeight: Config.bar.sizes.innerHeight / 2
 
-            layer.enabled: true
+            layer.enabled: false
             layer.effect: MultiEffect {
                 // source: cavaValues  // if needed for all
-                saturation: 0.2
+                saturation: 0.5
                 blurEnabled: true
                 blurMax: 7
                 blur: 1
@@ -77,22 +67,24 @@ Item {
 
         ElideText {
             id: title
-            label: limitStr((Players.active?.trackTitle ?? qsTr("No media")) || qsTr("Unknown title"), 20)
+            label: (Players.active?.trackTitle ?? qsTr("No media")) || qsTr("Unknown title")
             color: Colors.palette.m3primary
             font.pointSize: Appearance.font.size.small - 1
         }
 
         ElideText {
             id: artist
-            label: limitStr((Players.active?.trackArtist ?? qsTr("No media")) || qsTr("Unknown artist"), 20)
+            label: (Players.active?.trackArtist ?? qsTr("No media")) || qsTr("Unknown artist")
             color: Colors.palette.m3secondary
             font.pointSize: Appearance.font.size.small - 1
+            visible: Players.active?.trackArtist
         }
 
         CircularProgress {
             lineWidth: 2
             value: playerProgress
-            size: Appearance.font.size.large
+            size: Appearance.font.size.large * 1.2
+            Layout.leftMargin: Appearance.spacing.normal
 
             secondaryColor: Colors.palette.m3onBackground
             primaryColor: Colors.palette.m3error
@@ -103,7 +95,7 @@ Item {
                 animate: true
                 text: Players.active?.isPlaying ? "music_note" : "pause"
                 color: Colors.palette.m3onSecondaryContainer
-                font.pixelSize: Appearance.font.size.small
+                font.pointSize: Appearance.font.size.small
             }
         }
     }

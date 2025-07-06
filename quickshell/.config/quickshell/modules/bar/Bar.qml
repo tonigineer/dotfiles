@@ -17,8 +17,18 @@ Item {
     required property BarPopouts.Wrapper popouts
 
     function checkPopout(x) {
+        const oiStart = leftSection.x + osicon.x;
+        const oiEnd = oiStart + osicon.implicitWidth;
+
+        if (x >= oiStart && x < oiEnd) {
+            popouts.currentName = 'os-overview';
+            popouts.currentCenter = Qt.binding(() => oiStart);
+            popouts.hasCurrent = true;
+            return;
+        }
+
         const rsX = rightSection.x;
-        const pad = statusIconsInner.spacing * 2;
+        const pad = statusIconsInner.spacing * 2 * 0; // disabled!
         const stX = statusIcons.x;
 
         const iconStart = iconItem => rsX + stX + iconItem.x + pad;
@@ -59,7 +69,7 @@ Item {
 
             if (x >= start && x < end) {
                 popouts.currentName = ic.name;
-                const fixed = start;
+                const fixed = start + statusIconsInner.spacing;
                 popouts.currentCenter = Qt.binding(() => fixed);
                 popouts.hasCurrent = true;
                 return;
@@ -77,23 +87,21 @@ Item {
         color: Colors.palette.m3background
     }
 
-    RowLayout {
+    Item {
         id: content
-        spacing: Appearance.padding.large
-
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        anchors.centerIn: parent
         anchors.fill: parent
-        anchors.leftMargin: Appearance.padding.large
-        anchors.rightMargin: Appearance.padding.large
 
         RowLayout {
             id: leftSection
-            spacing: Appearance.padding.large
-            Layout.alignment: Qt.AlignLeft
-            Layout.fillWidth: true
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: Appearance.padding.large
 
-            Components.OsIcon {}
+            spacing: Appearance.padding.large
+
+            Components.OsIcon {
+                id: osicon
+            }
 
             // TODO: Brightness and Audio scrolling somewhere else
             // monitor: Brightness.getMonitorForScreen(root.screen)
@@ -107,10 +115,9 @@ Item {
         RowLayout {
             id: centerSection
 
-            spacing: Appearance.padding.large
-            // TODO: below truely centers it, but throws warning
-            //   WARN scene: QML RowLayout at **/modules/bar/Bar.qml[55:9]: Detected anchors on an item that is managed by a layout. This is undefined behavior; use Layout.alignment instead.
             anchors.centerIn: parent
+
+            spacing: Appearance.padding.large
 
             Components.Workspaces {
                 id: workspaces
@@ -118,15 +125,14 @@ Item {
             }
         }
 
-        // Item {
-        //     Layout.fillWidth: true
-        // }
-
         RowLayout {
             id: rightSection
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: Appearance.padding.large
+
             spacing: Appearance.padding.large
-            Layout.alignment: Qt.AlignRight
-            Layout.fillWidth: true
 
             Components.UtilButtons {
                 id: utilButtons

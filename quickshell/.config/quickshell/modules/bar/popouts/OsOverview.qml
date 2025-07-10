@@ -42,123 +42,133 @@ Item {
         anchors.fill: parent
         spacing: Appearance.spacing.large
 
-        RowLayout {
-            // Layout.fillWidth: true
-            // Layout.alignment: Qt.AlignVCenter
-            spacing: Appearance.spacing.smaller
+        StyledRect {
+            implicitWidth: infoContainer.implicitWidth
+            implicitHeight: infoContainer.implicitHeight
 
-            ColumnLayout {
-                // Layout.fillWidth: true
-                spacing: Appearance.spacing.small
-                // anchors.horizontalCenter: parent.horizontalCenter
+            Layout.margins: Appearance.spacing.small
+            Layout.fillWidth: true
 
-                visible: updatesImportant.length > 0
+            // color: Colors.palette.m3surfaceContainer
+            radius: Appearance.rounding.normal
+            clip: true
+
+            RowLayout {
+                id: infoContainer
+
+                // anchors.centerIn: parent
+                Layout.fillWidth: true
+
+                spacing: Appearance.spacing.smaller
 
                 ColumnLayout {
-                    id: information
-                    property var infoModel: [
-                        {
-                            label: qsTr("Uptime"),
-                            cmd: "uptime -p",
-                            transform: function (raw) {
-                                var clean = raw.trim().replace(/^up\s+/, "").replace(/,/g, "");
+                    Layout.fillWidth: true
 
-                                var hours = 0;
-                                var minutes = 0;
-                                var dMatch = clean.match(/(\d+)\s+day/);
-                                if (dMatch)
-                                    hours += parseInt(dMatch[1], 10) * 24;
-                                var hMatch = clean.match(/(\d+)\s+hour/);
-                                if (hMatch)
-                                    hours += parseInt(hMatch[1], 10);
-                                var mMatch = clean.match(/(\d+)\s+minute/);
-                                if (mMatch)
-                                    minutes = parseInt(mMatch[1], 10);
+                    Layout.margins: Appearance.spacing.small
 
-                                hours += Math.floor(minutes / 60);
-                                minutes = minutes % 60;
+                    ColumnLayout {
+                        id: information
+                        property var infoModel: [
+                            {
+                                label: qsTr("Uptime"),
+                                cmd: "uptime -p",
+                                transform: function (raw) {
+                                    var clean = raw.trim().replace(/^up\s+/, "").replace(/,/g, "");
 
-                                function pad(n) {
-                                    return (n < 10 ? "0" : "") + n;
-                                }
-                                return pad(hours) + ":" + pad(minutes) + " h";
+                                    var hours = 0;
+                                    var minutes = 0;
+                                    var dMatch = clean.match(/(\d+)\s+day/);
+                                    if (dMatch)
+                                        hours += parseInt(dMatch[1], 10) * 24;
+                                    var hMatch = clean.match(/(\d+)\s+hour/);
+                                    if (hMatch)
+                                        hours += parseInt(hMatch[1], 10);
+                                    var mMatch = clean.match(/(\d+)\s+minute/);
+                                    if (mMatch)
+                                        minutes = parseInt(mMatch[1], 10);
+
+                                    hours += Math.floor(minutes / 60);
+                                    minutes = minutes % 60;
+
+                                    function pad(n) {
+                                        return (n < 10 ? "0" : "") + n;
+                                    }
+                                    return pad(hours) + ":" + pad(minutes) + " h";
+                                },
+                                value: qsTr("…")
                             },
-                            value: qsTr("…")
-                        },
-                        {
-                            label: qsTr("Age"),
-                            cmd: 'install_date="$(grep -m1 -oP \'^\\[\\K[0-9-]+\' /var/log/pacman.log)";install_sec=$(date -d "$install_date" +%s);now_sec=$(date +%s);echo $(( (now_sec - install_sec) / 86400 ))',
-                            transform: function (raw) {
-                                return raw.trim() + " days";
+                            {
+                                label: qsTr("Age"),
+                                cmd: 'install_date="$(grep -m1 -oP \'^\\[\\K[0-9-]+\' /var/log/pacman.log)";install_sec=$(date -d "$install_date" +%s);now_sec=$(date +%s);echo $(( (now_sec - install_sec) / 86400 ))',
+                                transform: function (raw) {
+                                    return raw.trim() + " days";
+                                },
+                                value: qsTr("…")
                             },
-                            value: qsTr("…")
-                        },
-                        {
-                            label: qsTr("Kernel"),
-                            cmd: 'uname -r',
-                            value: qsTr("…")
-                        },
-                        {
-                            label: qsTr("Hyprland"),
-                            cmd: 'hyprctl version | grep Hyprland',
-                            transform: function (raw) {
-                                return raw.trim().split(" ")[1];
+                            {
+                                label: qsTr("Kernel"),
+                                cmd: 'uname -r',
+                                value: qsTr("…")
                             },
-                            value: qsTr("…")
-                        },
-                        {
-                            label: qsTr("Packages"),
-                            cmd: 'yay -Qa 2>/dev/null | wc -l',
-                            value: qsTr("…")
-                        },
-                    ]
-                }
+                            {
+                                label: qsTr("Hyprland"),
+                                cmd: 'hyprctl version | grep Hyprland',
+                                transform: function (raw) {
+                                    return raw.trim().split(" ")[1];
+                                },
+                                value: qsTr("…")
+                            },
+                            {
+                                label: qsTr("Packages"),
+                                cmd: 'yay -Qa 2>/dev/null | wc -l',
+                                value: qsTr("…")
+                            },
+                        ]
+                    }
 
-                Repeater {
-                    model: information.infoModel
-                    delegate: informationRow
-                }
+                    Repeater {
+                        model: information.infoModel
+                        delegate: informationRow
+                    }
 
-                Component {
-                    id: informationRow
+                    Component {
+                        id: informationRow
 
-                    RowLayout {
-                        Layout.fillWidth: true                       // take full width
-                        Layout.alignment: Qt.AlignVCenter
-                        spacing: Appearance.spacing.smaller
+                        RowLayout {
+                            Layout.fillWidth: true                       // take full width
+                            Layout.alignment: Qt.AlignVCenter
+                            spacing: Appearance.spacing.smaller
 
-                        Text {
-                            text: modelData.label
-                            font.family: fontFamily
-                            font.pointSize: fontSize
-                            color: Colors.palette.m3primary
-                            Layout.preferredWidth: 200
-                            horizontalAlignment: Text.AlignLeft
-                            elide: Text.ElideRight
-                            // horizontalAlignment: Text.AlignRight
-                            // elide: Text.ElideLeft
+                            StyledText {
+                                text: modelData.label
+                                // text: modelData.label.toUpperCase()
+                                font.family: fontFamily
+                                font.pointSize: fontSize
+                                Layout.preferredWidth: 250
+                                horizontalAlignment: Text.AlignRight
+                                elide: Text.ElideRight
+                            }
 
-                        }
+                            StyledText {
+                                text: modelData.value
+                                font.family: fontFamily
+                                font.pointSize: fontSize
+                                color: Colors.palette.sky
+                                Layout.preferredWidth: 250
+                                horizontalAlignment: Text.AlignLeft
+                                elide: Text.ElideRight
+                            }
 
-                        Text {
-                            text: modelData.value
-                            font.family: fontFamily
-                            font.pointSize: fontSize
-                            color: Colors.palette.m3error
-                            // Layout.preferredWidth: 200
-                            horizontalAlignment: Text.AlignLeft
-                            elide: Text.ElideRight
-                        }
+                            Process {
+                                id: proc
+                                running: true
+                                command: ["sh", "-c", modelData.cmd]
 
-                        Process {
-                            id: proc
-                            running: true
-                            command: ["sh", "-c", modelData.cmd]
-
-                            stdout: StdioCollector {
-                                onStreamFinished: {
-                                    let raw = text;
-                                    modelData.value = modelData.transform ? modelData.transform(raw) : raw.trim(); // keep model in sync (optional)
+                                stdout: StdioCollector {
+                                    onStreamFinished: {
+                                        let raw = text;
+                                        modelData.value = modelData.transform ? modelData.transform(raw) : raw.trim(); // keep model in sync (optional)
+                                    }
                                 }
                             }
                         }
@@ -168,7 +178,7 @@ Item {
         }
 
         StyledRect {
-            visible: updatesImportant.length > 0
+            visible: updatesImportant.length > 0 || updatesRemaining.length > 0
             // Layout.topMargin: Appearance.padding.large
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
@@ -184,9 +194,10 @@ Item {
                 color: Colors.palette.m3onSurface
 
                 function onClicked(): void {
-                    Hyprland.dispatch("exec kitty --title centerfloat -e yay -Syu");
+                    Hyprland.dispatch("exec kitty --title centerfloat -e yay -Syu; qs kill; qs");
                 }
             }
+
             StyledRect {
                 anchors.centerIn: parent
 
@@ -206,67 +217,75 @@ Item {
             }
         }
 
-        ColumnLayout {
+        StyledRect {
+            implicitWidth: body.implicitWidth
+            implicitHeight: body.implicitHeight
+
             Layout.fillWidth: true
-            spacing: Appearance.spacing.small
 
-            visible: updatesImportant.length > 0
+            color: Colors.palette.m3surfaceContainer
+            radius: Appearance.rounding.small
+            clip: true
 
-            Repeater {
-                model: updatesImportant.map(function (line) {
-                    const m = line.match(/^(\S+)\s+(\S+)\s+->\s+(\S+)/);
-                    return m ? {
-                        pkg: m[1],
-                        current: m[2],
-                        update: m[3]
-                    } : {
-                        pkg: line,
-                        current: "…",
-                        update: "…"
-                    };
-                })
+            ColumnLayout {
+                id: body
+                Layout.fillWidth: true
+                spacing: Appearance.spacing.small
 
-                delegate: RowLayout {
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignVCenter
-                    spacing: Appearance.spacing.smaller
+                visible: updatesImportant.length > 0
 
-                    Text {
-                        text: modelData.pkg
-                        font.family: fontFamily
-                        font.pointSize: fontSize
-                        color: Colors.palette.m3primary
-                        Layout.preferredWidth: 200
-                        elide: Text.ElideRight
-                    }
+                Repeater {
+                    model: updatesImportant.map(function (line) {
+                        const m = line.match(/^(\S+)\s+(\S+)\s+->\s+(\S+)/);
+                        return m ? {
+                            pkg: m[1],
+                            current: m[2],
+                            update: m[3]
+                        } : {
+                            pkg: line,
+                            current: "…",
+                            update: "…"
+                        };
+                    })
 
-                    Text {
-                        text: modelData.current
-                        font.family: fontFamily
-                        font.pointSize: fontSize
-                        color: Colors.palette.m3error
-                        horizontalAlignment: Text.AlignRight
+                    delegate: RowLayout {
                         Layout.fillWidth: true
-                        elide: Text.ElideRight
-                    }
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.margins: Appearance.spacing.normal
+                        Layout.topMargin: 0
+                        Layout.bottomMargin: 0
 
-                    Text {
-                        text: "→"
-                        font.family: fontFamily
-                        font.pointSize: fontSize
-                        color: Colors.palette.m3secondary
-                        Layout.preferredWidth: 12
-                        horizontalAlignment: Text.AlignHCenter
-                    }
+                        StyledText {
+                            text: modelData.pkg
+                            font.family: fontFamily
+                            font.pointSize: fontSize
+                            Layout.preferredWidth: 200
+                            elide: Text.ElideRight
+                        }
 
-                    Text {
-                        text: modelData.update
-                        font.family: fontFamily
-                        font.pointSize: fontSize
-                        color: Colors.palette.green
-                        horizontalAlignment: Text.AlignRight
-                        Layout.preferredWidth: 120
-                        elide: Text.ElideRight
+                        StyledText {
+                            text: modelData.current
+                            font.family: fontFamily
+                            font.pointSize: fontSize
+                            color: Colors.palette.m3error
+                            horizontalAlignment: Text.AlignRight
+                            Layout.preferredWidth: 200
+                            elide: Text.ElideRight
+                        }
+
+                        MaterialIcon {
+                            text: "arrow_right_alt"
+                        }
+
+                        StyledText {
+                            text: modelData.update
+                            font.family: fontFamily
+                            font.pointSize: fontSize
+                            color: Colors.palette.green
+                            horizontalAlignment: Text.AlignLeft
+                            Layout.preferredWidth: 200
+                            elide: Text.ElideRight
+                        }
                     }
                 }
             }
@@ -277,70 +296,79 @@ Item {
             color: Colors.palette.m3outline
             Layout.fillWidth: true
 
-            visible: updatesImportant.length > 0
+            visible: updatesImportant.length > 0 && updatesRemaining.length > 0
         }
 
-        ColumnLayout {
+        StyledRect {
+            implicitWidth: body2.implicitWidth
+            implicitHeight: body2.implicitHeight
+
             Layout.fillWidth: true
-            spacing: Appearance.spacing.small
 
-            visible: updatesRemaining.length > 0
+            color: Colors.palette.m3surfaceContainer
+            radius: Appearance.rounding.small
+            clip: true
 
-            Repeater {
-                model: updatesRemaining.map(function (line) {
-                    const m = line.match(/^(\S+)\s+(\S+)\s+->\s+(\S+)/);
-                    return m ? {
-                        pkg: m[1],
-                        current: m[2],
-                        update: m[3]
-                    } : {
-                        pkg: line,
-                        current: "ss",
-                        update: "sss"
-                    };
-                })
+            ColumnLayout {
+                id: body2
+                Layout.fillWidth: true
 
-                delegate: RowLayout {
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignVCenter
-                    spacing: Appearance.spacing.smaller
+                visible: updatesRemaining.length > 0
 
-                    Text {
-                        text: modelData.pkg
-                        font.family: fontFamily
-                        font.pointSize: fontSize
-                        color: Colors.palette.m3primary
-                        Layout.preferredWidth: 200
-                        elide: Text.ElideRight
-                    }
+                Layout.margins: Appearance.spacing.large
 
-                    Text {
-                        text: modelData.current
-                        font.family: fontFamily
-                        font.pointSize: fontSize
-                        color: Colors.palette.m3error
-                        horizontalAlignment: Text.AlignRight
+                Repeater {
+                    model: updatesRemaining.map(function (line) {
+                        const m = line.match(/^(\S+)\s+(\S+)\s+->\s+(\S+)/);
+                        return m ? {
+                            pkg: m[1],
+                            current: m[2],
+                            update: m[3]
+                        } : {
+                            pkg: line,
+                            current: "ss",
+                            update: "sss"
+                        };
+                    })
+
+                    delegate: RowLayout {
                         Layout.fillWidth: true
-                        elide: Text.ElideRight
-                    }
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.margins: Appearance.spacing.normal
+                        Layout.topMargin: 0
+                        Layout.bottomMargin: 0
 
-                    Text {
-                        text: "→"
-                        font.family: fontFamily
-                        font.pointSize: fontSize
-                        color: Colors.palette.m3secondary
-                        Layout.preferredWidth: 12
-                        horizontalAlignment: Text.AlignHCenter
-                    }
+                        StyledText {
+                            text: modelData.pkg
+                            font.family: fontFamily
+                            font.pointSize: fontSize
+                            Layout.preferredWidth: 200
+                            elide: Text.ElideRight
+                        }
 
-                    Text {
-                        text: modelData.update
-                        font.family: fontFamily
-                        font.pointSize: fontSize
-                        color: Colors.palette.green
-                        horizontalAlignment: Text.AlignRight
-                        Layout.preferredWidth: 120
-                        elide: Text.ElideRight
+                        StyledText {
+                            text: modelData.current
+                            font.family: fontFamily
+                            font.pointSize: fontSize
+                            color: Colors.palette.m3error
+                            horizontalAlignment: Text.AlignRight
+                            Layout.preferredWidth: 200
+                            elide: Text.ElideRight
+                        }
+
+                        MaterialIcon {
+                            text: "arrow_right_alt"
+                        }
+
+                        StyledText {
+                            text: modelData.update
+                            font.family: fontFamily
+                            font.pointSize: fontSize
+                            color: Colors.palette.green
+                            horizontalAlignment: Text.AlignLeft
+                            Layout.preferredWidth: 200
+                            elide: Text.ElideRight
+                        }
                     }
                 }
             }

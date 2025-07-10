@@ -23,7 +23,7 @@ Singleton {
     }
 
     function launch(entry: DesktopEntry): void {
-    // console.log(entry.execString.split(" %")[0]);dyprland.dispatch(`exec uwsm app -- ${entry.execString.split(" %")[0]}`);
+        Hyprland.dispatch(`exec uwsm app -- ${entry.execString.split(" %")[0]}`);
     // if (entry.execString.startsWith("sh -c"))
     //     Quickshell.execDetached(["sh", "-c", `app2unit -- ${entry.execString}`]);
     // else

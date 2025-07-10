@@ -78,12 +78,11 @@ Singleton {
     }
 
     Process {
-        id: updatesCheck                     // do *not* set running: true here
-        command: [                           // yay prints one package per line
-            "sh", "-c", "yay -Sy; yay -Qu"]
+        id: updatesCheck
+        command: ["sh", "-c", "yay -Sy; yay -Qu"]
         stdout: StdioCollector {
             onStreamFinished: {
-                const pkgs = text.trim().split('\n').filter(l => l.length && l.includes('->'));
+                const pkgs = text.trim().split('\n').filter(l => l.length && l.includes('->')).sort();
                 root.updatesList = pkgs;
                 root.updatesCount = pkgs.length;
             }

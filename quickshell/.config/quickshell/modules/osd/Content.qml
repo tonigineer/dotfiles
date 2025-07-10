@@ -19,6 +19,8 @@ Column {
         icon: {
             if (Audio.muted)
                 return "no_sound";
+            if (value >= 1.0)
+                return "ear_sound";
             if (value >= 0.5)
                 return "volume_up";
             if (value > 0)

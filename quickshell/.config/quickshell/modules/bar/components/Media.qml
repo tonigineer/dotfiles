@@ -20,6 +20,26 @@ Item {
         return active?.length ? active.position / active.length : 0;
     }
 
+    Timer {
+        id: progressTimer
+        interval: 500
+        repeat: true
+        running: !!Players.active
+        triggeredOnStart: true
+
+        onTriggered: {
+            const active = Players.active;
+            playerProgress = active?.length ? active.position / active.length : 0;
+        }
+    }
+
+    Connections {
+        target: Players
+        function onActiveChanged() {
+            progressTimer.running = !!Players.active;
+        }
+    }
+
     implicitWidth: Math.min(details.implicitWidth, parent.width / 2) + Appearance.spacing.small * 0 + 2 * Appearance.spacing.large
     implicitHeight: Config.bar.sizes.innerHeight
     visible: Players.active
@@ -65,19 +85,24 @@ Item {
             }
         }
 
-        ElideText {
-            id: title
-            label: (Players.active?.trackTitle ?? qsTr("No media")) || qsTr("Unknown title")
-            color: Colors.palette.m3primary
-            font.pointSize: Appearance.font.size.small - 1
-        }
+        ColumnLayout {
+            spacing: 0
+            Layout.fillWidth: true
 
-        ElideText {
-            id: artist
-            label: (Players.active?.trackArtist ?? qsTr("No media")) || qsTr("Unknown artist")
-            color: Colors.palette.m3secondary
-            font.pointSize: Appearance.font.size.small - 1
-            visible: Players.active?.trackArtist
+            ElideText {
+                id: title
+                label: (Players.active?.trackTitle ?? qsTr("No media")) || qsTr("Unknown title")
+                color: Colors.palette.m3primary
+                font.pointSize: Appearance.font.size.small - 2
+            }
+
+            ElideText {
+                id: artist
+                label: (Players.active?.trackArtist ?? qsTr("No media")) || qsTr("Unknown artist")
+                color: Colors.palette.m3secondary
+                font.pointSize: Appearance.font.size.small - 4
+                visible: !!Players.active?.trackArtist
+            }
         }
 
         CircularProgress {

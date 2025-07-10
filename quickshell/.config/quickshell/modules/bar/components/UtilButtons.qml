@@ -12,8 +12,8 @@ Item {
     property color colour: Colors.palette.m3secondary
     readonly property real spacing: Appearance.spacing.normal
 
-    readonly property Item network: hyprpicker
-    readonly property Item battery: hyprshot
+    readonly property Item hyprpicker: hyprpicker
+    readonly property Item hyprshot: hyprshot
 
     clip: true
     implicitHeight: parent.implicitHeight
@@ -58,21 +58,21 @@ Item {
         anchors.right: hyprpicker.left
         anchors.rightMargin: spacing
 
-        StateLayer {
-            anchors.fill: undefined
-            anchors.centerIn: parent
-            anchors.horizontalCenterOffset: 1
+        // StateLayer {
+        //     anchors.fill: undefined
+        //     anchors.centerIn: parent
+        //     anchors.horizontalCenterOffset: 1
 
-            implicitWidth: parent.implicitHeight + Appearance.padding.small * 2
-            implicitHeight: implicitWidth
+        //     implicitWidth: parent.implicitHeight + Appearance.padding.small * 2
+        //     implicitHeight: implicitWidth
 
-            radius: Appearance.rounding.full
-            color: Colors.palette.yellow
+        //     radius: Appearance.rounding.full
+        //     color: Colors.palette.yellow
 
-            function onClicked(): void {
-                Hyprland.dispatch("exec hyprshot --freeze --clipboard-only --mode region --silent");
-            }
-        }
+        //     function onClicked(): void {
+        //         Hyprland.dispatch("exec hyprshot --freeze --clipboard-only --mode region --silent");
+        //     }
+        // }
     }
 
     Behavior on implicitWidth {

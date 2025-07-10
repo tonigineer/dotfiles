@@ -13,12 +13,13 @@ Item {
     readonly property real spacing: Appearance.spacing.normal
 
     readonly property Item network: network
+    readonly property Item networkSpeeds: networkSpeeds
     readonly property Item battery: battery
     readonly property Item bluetooth: bluetooth
 
     clip: true
     implicitHeight: parent.implicitHeight
-    implicitWidth: network.implicitWidth + bluetooth.implicitWidth + battery.implicitWidth + spacing * 4
+    implicitWidth: network.implicitWidth + networkSpeeds.implicitWidth + bluetooth.implicitWidth + battery.implicitWidth + spacing * 4
 
     MaterialIcon {
         id: battery
@@ -54,7 +55,7 @@ Item {
         id: network
 
         animate: true
-        text: Network.active ? Icons.getNetworkIcon(Network.active.strength ?? 0) : "wifi_off"
+        text: NetworkAdapter.materialSymbol
         color: root.colour
 
         anchors.verticalCenter: parent.verticalCenter
@@ -62,13 +63,76 @@ Item {
         anchors.rightMargin: spacing
     }
 
+    Item {
+        id: networkSpeeds
+
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: network.left
+        anchors.bottom: parent.bottom
+        implicitWidth: downloadArrow.implicitWidth + downloadValue.implicitWidth
+        // implicitHeight: downloadArrow.implicitHeight + downloadValue.implicitHeight
+
+        MaterialIcon {
+            id: uploadArrow
+
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            animate: true
+
+            text: "arrow_drop_up"
+            color: NetworkAdapter.uploadMBs >= 0.1 ? Colors.palette.m3error : Colors.palette.m3inverseOnSurface
+            font.pointSize: Appearance.font.size.large
+            font.weight: NetworkAdapter.uploadMBs >= 0.1 ? Font.Bold : Font.DemiBold
+        }
+
+        MaterialIcon {
+            id: downloadArrow
+
+            anchors.top: networkSpeeds.top
+            anchors.right: parent.right
+            animate: true
+
+            text: "arrow_drop_down"
+            color: NetworkAdapter.downloadMBs >= 0.1 ? Colors.palette.rosewater : Colors.palette.m3inverseOnSurface
+
+            font.pointSize: Appearance.font.size.large
+            font.weight: NetworkAdapter.downloadMBs >= 0.1 ? Font.Bold : Font.DemiBold
+        }
+
+        Text {
+            id: uploadValue
+
+            anchors.bottom: parent.top
+            anchors.bottomMargin: -10
+            anchors.left: parent.left
+
+            text: `${NetworkAdapter.uploadMBs >= 10 ? "" : " "}${NetworkAdapter.uploadMBs.toFixed(1)}`
+            color: root.colour
+            font.pixelSize: 9
+            font.bold: true
+            font.family: Appearance.font.family.mono
+        }
+
+        Text {
+            id: downloadValue
+            anchors.top: parent.bottom
+            anchors.topMargin: -10
+            anchors.left: parent.left
+
+            text: `${NetworkAdapter.downloadMBs >= 10 ? "" : " "}${NetworkAdapter.downloadMBs.toFixed(1)}`
+            color: root.colour
+            font.pixelSize: 9
+            font.bold: true
+            font.family: Appearance.font.family.mono
+        }
+    }
+
     MaterialIcon {
         id: bluetooth
 
         anchors.verticalCenter: parent.verticalCenter
-        anchors.right: network.left
+        anchors.right: networkSpeeds.left
         anchors.rightMargin: spacing
-        anchors.leftMargin: spacing
 
         animate: true
         text: Bluetooth.powered ? "bluetooth" : "bluetooth_disabled"

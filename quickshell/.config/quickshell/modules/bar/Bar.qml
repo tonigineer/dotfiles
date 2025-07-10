@@ -76,6 +76,16 @@ Item {
             }
         }
 
+        const start = rightSection.x + utilButtons.hyprshot.x;
+        const end = rightSection.x + utilButtons.hyprshot.x + utilButtons.hyprshot.implicitWidth;
+        if (x >= start && x < end) {
+            const fixed = start + statusIconsInner.spacing;
+            popouts.currentName = "screenshot";
+            popouts.currentCenter = Qt.binding(() => fixed);
+            popouts.hasCurrent = true;
+            return;
+        }
+
         popouts.hasCurrent = false;
     }
 

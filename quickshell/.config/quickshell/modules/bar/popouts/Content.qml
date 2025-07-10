@@ -35,6 +35,11 @@ Item {
         }
 
         Popout {
+            name: "screenshot"
+            source: "Screenshot.qml"
+        }
+
+        Popout {
             name: "network"
             source: "Network.qml"
         }

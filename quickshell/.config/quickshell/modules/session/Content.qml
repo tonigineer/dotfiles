@@ -55,18 +55,18 @@ Column {
     }
 
     SessionButton {
-        id: shutdown
+        id: hibernate
 
-        icon: "power_settings_new"
-        command: ["systemctl", "poweroff"]
+        icon: "autopause"
+        command: ["systemctl", "suspend"]
 
         Keys.onPressed: ev => {
             if (ev.key === Qt.Key_K) {
-                logout.forceActiveFocus();
+                shutdown.forceActiveFocus();
                 ev.accepted = true;
             }
             if (ev.key === Qt.Key_J) {
-                hibernate.forceActiveFocus();
+                reboot.forceActiveFocus();
                 ev.accepted = true;
             }
         }
@@ -85,24 +85,6 @@ Column {
     }
 
     SessionButton {
-        id: hibernate
-
-        icon: "downloading"
-        command: ["systemctl", "hibernate"]
-
-        Keys.onPressed: ev => {
-            if (ev.key === Qt.Key_K) {
-                shutdown.forceActiveFocus();
-                ev.accepted = true;
-            }
-            if (ev.key === Qt.Key_J) {
-                reboot.forceActiveFocus();
-                ev.accepted = true;
-            }
-        }
-    }
-
-    SessionButton {
         id: reboot
 
         icon: "cached"
@@ -115,6 +97,24 @@ Column {
             }
             if (ev.key === Qt.Key_J) {
                 logout.forceActiveFocus();
+                ev.accepted = true;
+            }
+        }
+    }
+
+    SessionButton {
+        id: shutdown
+
+        icon: "power_settings_new"
+        command: ["systemctl", "poweroff"]
+
+        Keys.onPressed: ev => {
+            if (ev.key === Qt.Key_K) {
+                logout.forceActiveFocus();
+                ev.accepted = true;
+            }
+            if (ev.key === Qt.Key_J) {
+                hibernate.forceActiveFocus();
                 ev.accepted = true;
             }
         }

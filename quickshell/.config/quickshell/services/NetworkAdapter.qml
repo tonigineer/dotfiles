@@ -61,12 +61,11 @@ Singleton {
     function refresh() {
         updateConnectionType.startCheck();
         materialSymbol = computeMaterialSymbol();
-        scanWifiNetworks.running = wifiState != NetworkAdapter.DeviceState.NotAvailable;
+        scanWifiNetworks.running = wifiState === NetworkAdapter.DeviceState.Disconnected;
     }
 
     function toggleWifi() {
         const cmd = `nmcli radio wifi ${root.wifiState === NetworkAdapter.DeviceState.NotAvailable ? "on" : "off"}`;
-        console.log(cmd);
 
         Qt.createQmlObject(`
             import Quickshell.Io

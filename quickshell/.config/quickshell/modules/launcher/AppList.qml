@@ -17,6 +17,7 @@ ListView {
     property bool isCalc: search.text.startsWith(`${Config.launcher.actionPrefix}calc `)
     property bool isScheme: search.text.startsWith(`${Config.launcher.actionPrefix}scheme `)
     property bool isVariant: search.text.startsWith(`${Config.launcher.actionPrefix}variant `)
+    property bool isStreaming: search.text.startsWith(`${Config.launcher.actionPrefix}streaming `)
 
     function getModelValues() {
         let text = search.text;
@@ -26,10 +27,14 @@ ListView {
             return Schemes.fuzzyQuery(text);
         if (isVariant)
             return M3Variants.fuzzyQuery(text);
+        if (isStreaming)
+            return StreamingList.fuzzyQuery(text);
+        // Add new lists above actions!
         if (isAction)
             return Actions.fuzzyQuery(text);
         if (text.startsWith(Config.launcher.actionPrefix))
             text = search.text.slice(Config.launcher.actionPrefix.length);
+
         return Apps.fuzzyQuery(text);
     }
 
@@ -68,6 +73,8 @@ ListView {
             return schemeItem;
         if (isVariant)
             return variantItem;
+        if (isStreaming)
+            return streamingItem;
         if (isAction)
             return actionItem;
         return appItem;
@@ -162,6 +169,14 @@ ListView {
         }
     }
 
+    Component {
+        id: streamingItem
+
+        StreamingItem {
+            list: root
+        }
+    }
+
     Behavior on isAction {
         ChangeAnim {}
     }
@@ -175,6 +190,10 @@ ListView {
     }
 
     Behavior on isVariant {
+        ChangeAnim {}
+    }
+
+    Behavior on isStreaming {
         ChangeAnim {}
     }
 

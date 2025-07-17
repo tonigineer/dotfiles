@@ -15,11 +15,20 @@ Item {
     StateLayer {
         radius: Appearance.rounding.full
         onClicked: {
-            if (root.modelData.state === NetworkAdapter.DeviceState.Disconnected) {
-                Hyprland.dispatch(`exec kitty --title centerfloat -e nmcli --ask device wifi connect "${modelData.ssid}"`);
+            const mac = root.modelData.address;
+            let cmd;
+
+            if (root.modelData.connected) {
+                cmd = `bluetoothctl disconnect ${mac}`;
+            } else if (!root.modelData.paired) {
+                cmd = `bluetoothctl pair ${mac} && \
+                        bluetoothctl trust ${mac} && \
+                        bluetoothctl connect ${mac}`;
             } else {
-                Hyprland.dispatch(`exec nmcli connection down id ${modelData.ssid}`);
+                cmd = `bluetoothctl connect ${mac}`;
             }
+
+            Hyprland.dispatch(`exec ${cmd}`);
         }
     }
 
@@ -33,8 +42,8 @@ Item {
             id: icon
             anchors.verticalCenter: parent.verticalCenter
             font.pointSize: Appearance.font.size.extraLarge
-            color: root.modelData.state === NetworkAdapter.DeviceState.Connected ? Colors.palette.m3onSurface : Colors.palette.m3surfaceVariant
-            text: root.modelData.strength > 80 ? "signal_wifi_4_bar" : root.modelData.strength > 60 ? "network_wifi_3_bar" : root.modelData.strength > 40 ? "network_wifi_2_bar" : root.modelData.strength > 20 ? "network_wifi_1_bar" : "signal_wifi_0_bar"
+            color: root.modelData.connected ? Colors.palette.m3onSurface : Colors.palette.m3surfaceVariant
+            text: root.modelData.connected ? "bluetooth_connected" : root.modelData.trusted ? "verified" : "verified_off"
         }
 
         Column {
@@ -45,15 +54,15 @@ Item {
             spacing: 0
 
             StyledText {
-                text: root.modelData.ssid
+                text: root.modelData.name
                 font.pointSize: Appearance.font.size.normal
-                color: root.modelData.state === NetworkAdapter.DeviceState.Connected ? Colors.palette.m3onSurface : Colors.palette.m3surfaceVariant
+                color: root.modelData.connected ? Colors.palette.m3onSurface : Colors.palette.m3surfaceVariant
                 elide: Text.ElideRight
                 width: parent.width
             }
 
             StyledText {
-                text: `${root.modelData.strength}% ${root.modelData.state === NetworkAdapter.DeviceState.Connected ? "connected" : ""}`
+                text: root.modelData.address
                 font.pointSize: Appearance.font.size.small
                 color: Colors.alpha(Colors.palette.m3outline, true)
             }

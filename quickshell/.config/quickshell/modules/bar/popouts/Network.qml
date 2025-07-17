@@ -70,7 +70,7 @@ Column {
         id: listBox
 
         color: Colors.palette.m3surfaceContainer
-        radius: Appearance.rounding.normal
+        radius: Appearance.rounding.large
         width: 300
         height: Math.min(wifiList.contentHeight, 250)
 
@@ -82,7 +82,7 @@ Column {
             }
             clip: true
             anchors.fill: parent
-            delegate: NetworkWifiItem { }
+            delegate: NetworkWifiItem {}
 
             ScrollBar.vertical: StyledScrollBar {}
         }

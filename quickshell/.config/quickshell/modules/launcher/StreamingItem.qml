@@ -6,7 +6,7 @@ import QtQuick
 Item {
     id: root
 
-    required property M3Variants.Variant modelData
+    required property StreamingList.Variant modelData
     required property var list
 
     implicitHeight: Config.launcher.sizes.itemHeight

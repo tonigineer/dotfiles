@@ -248,7 +248,7 @@
         "category": "game",
         "packages": ["steam", "vesktop-bin", "mangohud", "lib32-fontconfig", "ttf-liberation", "wqy-microhei"],
         "configs": ["mangohud"],
-        "checks": ["[ -L ~/.config/Mangohud ] && true || false"],
+        "checks": ["[ -L ~/.config/MangoHud ] && true || false"],
         "prior_install": [],
         "post_install": ["fc-cache -v"]
     },

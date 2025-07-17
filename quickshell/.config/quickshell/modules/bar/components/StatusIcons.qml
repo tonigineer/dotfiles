@@ -20,6 +20,7 @@ Item {
     clip: true
     implicitHeight: parent.implicitHeight
     implicitWidth: network.implicitWidth + networkSpeeds.implicitWidth + bluetooth.implicitWidth + battery.implicitWidth + spacing * 4
+    // implicitWidth: network.implicitWidth + networkSpeeds.implicitWidth + battery.implicitWidth + spacing * 4
 
     MaterialIcon {
         id: battery
@@ -135,7 +136,7 @@ Item {
         anchors.rightMargin: spacing
 
         animate: true
-        text: Bluetooth.powered ? "bluetooth" : "bluetooth_disabled"
+        text: BluetoothAdapter.materialSymbol
         color: root.colour
     }
 

@@ -49,6 +49,8 @@ if command -v cmatrix &>/dev/null; then
     alias matrix="cmatrix -ab -C red"
 fi
 
+alias notes="nvim ~/Documents/notes.md"
+
 # Directories
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -57,5 +59,3 @@ alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 
 alias mkdir="mkdir -p"
-
-alias hypr="$HOME/.local/bin/hyprland"

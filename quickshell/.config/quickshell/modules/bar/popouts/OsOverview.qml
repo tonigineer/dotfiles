@@ -167,7 +167,7 @@ Item {
                                 stdout: StdioCollector {
                                     onStreamFinished: {
                                         let raw = text;
-                                        modelData.value = modelData.transform ? modelData.transform(raw) : raw.trim(); // keep model in sync (optional)
+                                        modelData.value = modelData.transform ? modelData.transform(raw) : raw.trim();
                                     }
                                 }
                             }

@@ -50,6 +50,15 @@ Singleton {
             }
         },
         Action {
+            name: qsTr("Streaming")
+            desc: qsTr("Start streaming with MPV")
+            icon: "cast"
+
+            function onClicked(list: AppList): void {
+                root.autocomplete(list, "streaming");
+            }
+        },
+        Action {
             name: qsTr("Transparency")
             desc: qsTr("Change shell transparency")
             icon: "opacity"

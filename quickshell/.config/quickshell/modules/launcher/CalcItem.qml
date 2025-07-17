@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Io as Io
 
 Item {
     id: root
@@ -13,7 +14,7 @@ Item {
     readonly property string math: list.search.text.slice(`${Config.launcher.actionPrefix}calc `.length)
 
     function onClicked(): void {
-        Quickshell.execDetached(["sh", "-c", `qalc -t -m 100 '${root.math}' | wl-copy`]);
+        Hyprland.dispatch([`exec qalc -t -m 100 '${root.math}' | wl-copy`]);
         root.list.visibilities.launcher = false;
     }
 
@@ -48,10 +49,18 @@ Item {
     Process {
         id: qalcProc
 
-        stdout: StdioCollector {
-            onStreamFinished: binding.value = text.trim()
+        stdout: SplitParser {
+            splitMarker: "\n"
+            onRead: chunk => binding.value = chunk.trim()
         }
     }
+    // Process {
+    //     id: qalcProc
+
+    //     stdout: StdioCollector {
+    //         onStreamFinished: binding.value = text.trim()
+    //     }
+    // }
 
     RowLayout {
         anchors.left: parent.left

@@ -43,50 +43,109 @@ Singleton {
     Process {
         id: getClients
         command: ["hyprctl", "-j", "clients"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                const clients = JSON.parse(text);
-                const rClients = root.clients;
 
-                const destroyed = rClients.filter(rc => !clients.find(c => c.address === rc.address));
-                for (const client of destroyed)
-                    rClients.splice(rClients.indexOf(client), 1).forEach(c => c.destroy());
+        stdout: SplitParser {
+            splitMarker: "\n"
+            property string buf: ""
+            onRead: chunk => {
+                buf += chunk + "\n";
+                try {
+                    const clients = JSON.parse(buf);
+                    const rClients = root.clients;
 
-                for (const client of clients) {
-                    const match = rClients.find(c => c.address === client.address);
-                    if (match) {
-                        match.lastIpcObject = client;
-                    } else {
-                        rClients.push(clientComp.createObject(root, {
-                            lastIpcObject: client
-                        }));
+                    const destroyed = rClients.filter(rc => !clients.find(c => c.address === rc.address));
+                    for (const client of destroyed)
+                        rClients.splice(rClients.indexOf(client), 1).forEach(c => c.destroy());
+
+                    for (const client of clients) {
+                        const match = rClients.find(c => c.address === client.address);
+                        if (match)
+                            match.lastIpcObject = client;
+                        else
+                            rClients.push(clientComp.createObject(root, {
+                                lastIpcObject: client
+                            }));
                     }
-                }
+                } catch (_) {}
             }
         }
     }
+
+    // Process {
+    //     id: getClients
+    //     command: ["hyprctl", "-j", "clients"]
+    //     stdout: StdioCollector {
+    //         onStreamFinished: {
+    //             const clients = JSON.parse(text);
+    //             const rClients = root.clients;
+
+    //             const destroyed = rClients.filter(rc => !clients.find(c => c.address === rc.address));
+    //             for (const client of destroyed)
+    //                 rClients.splice(rClients.indexOf(client), 1).forEach(c => c.destroy());
+
+    //             for (const client of clients) {
+    //                 const match = rClients.find(c => c.address === client.address);
+    //                 if (match) {
+    //                     match.lastIpcObject = client;
+    //                 } else {
+    //                     rClients.push(clientComp.createObject(root, {
+    //                         lastIpcObject: client
+    //                     }));
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     Process {
         id: getActiveClient
         command: ["hyprctl", "-j", "activewindow"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                const client = JSON.parse(text);
-                const rClient = root.activeClient;
-                if (client.address) {
-                    if (rClient)
-                        rClient.lastIpcObject = client;
-                    else
-                        root.activeClient = clientComp.createObject(root, {
-                            lastIpcObject: client
-                        });
-                } else if (rClient) {
-                    rClient.destroy();
-                    root.activeClient = null;
-                }
+
+        stdout: SplitParser {
+            splitMarker: "\n"
+            property string buf: ""
+            onRead: chunk => {
+                buf += chunk + "\n";
+                try {
+                    const client = JSON.parse(buf);
+                    const rClient = root.activeClient;
+                    if (client.address) {
+                        if (rClient)
+                            rClient.lastIpcObject = client;
+                        else
+                            root.activeClient = clientComp.createObject(root, {
+                                lastIpcObject: client
+                            });
+                    } else if (rClient) {
+                        rClient.destroy();
+                        root.activeClient = null;
+                    }
+                } catch (_) {}
             }
         }
     }
+
+    // Process {
+    //     id: getActiveClient
+    //     command: ["hyprctl", "-j", "activewindow"]
+    //     stdout: StdioCollector {
+    //         onStreamFinished: {
+    //             const client = JSON.parse(text);
+    //             const rClient = root.activeClient;
+    //             if (client.address) {
+    //                 if (rClient)
+    //                     rClient.lastIpcObject = client;
+    //                 else
+    //                     root.activeClient = clientComp.createObject(root, {
+    //                         lastIpcObject: client
+    //                     });
+    //             } else if (rClient) {
+    //                 rClient.destroy();
+    //                 root.activeClient = null;
+    //             }
+    //         }
+    //     }
+    // }
 
     component Client: QtObject {
         required property var lastIpcObject

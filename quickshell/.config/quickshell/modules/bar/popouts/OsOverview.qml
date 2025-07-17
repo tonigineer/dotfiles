@@ -2,16 +2,12 @@ import "root:/widgets"
 import "root:/services"
 import "root:/config"
 import Quickshell
-import QtQuick
+import Quickshell.Io
 import Quickshell.Widgets
 import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 import Qt.labs.platform
-import Quickshell
-import Quickshell.Io
-import QtQuick
-import QtQuick.Layouts
 
 Item {
     id: updateTable
@@ -164,13 +160,27 @@ Item {
                                 running: true
                                 command: ["sh", "-c", modelData.cmd]
 
-                                stdout: StdioCollector {
-                                    onStreamFinished: {
-                                        let raw = text;
+                                stdout: SplitParser {
+                                    splitMarker: "\n"
+                                    onRead: chunk => {
+                                        const raw = chunk;
                                         modelData.value = modelData.transform ? modelData.transform(raw) : raw.trim();
                                     }
                                 }
                             }
+
+                            // Process {
+                            //     id: proc
+                            //     running: true
+                            //     command: ["sh", "-c", modelData.cmd]
+
+                            //     stdout: StdioCollector {
+                            //         onStreamFinished: {
+                            //             let raw = text;
+                            //             modelData.value = modelData.transform ? modelData.transform(raw) : raw.trim();
+                            //         }
+                            //     }
+                            // }
                         }
                     }
                 }

@@ -31,27 +31,50 @@ Singleton {
 
     Process {
         id: getSchemes
-
         running: true
         command: ["caelestia", "scheme", "list"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                const schemeData = JSON.parse(text);
-                const list = Object.entries(schemeData).map(([name, f]) => Object.entries(f).map(([flavour, colours]) => ({
-                                name,
-                                flavour,
-                                colours
-                            })));
 
-                const flat = [];
-                for (const s of list)
-                    for (const f of s)
-                        flat.push(f);
-
-                schemes.model = flat;
+        stdout: SplitParser {
+            splitMarker: "\n"
+            property string buf: ""
+            onRead: {
+                buf += chunk + "\n";
+                try {
+                    const schemeData = JSON.parse(buf);
+                    const list = Object.entries(schemeData).flatMap(([name, f]) => Object.entries(f).map(([flavour, colours]) => ({
+                                    name,
+                                    flavour,
+                                    colours
+                                })));
+                    schemes.model = list;
+                } catch (_) {}
             }
         }
     }
+
+    // Process {
+    //     id: getSchemes
+
+    //     running: true
+    //     command: ["caelestia", "scheme", "list"]
+    //     stdout: StdioCollector {
+    //         onStreamFinished: {
+    //             const schemeData = JSON.parse(text);
+    //             const list = Object.entries(schemeData).map(([name, f]) => Object.entries(f).map(([flavour, colours]) => ({
+    //                             name,
+    //                             flavour,
+    //                             colours
+    //                         })));
+
+    //             const flat = [];
+    //             for (const s of list)
+    //                 for (const f of s)
+    //                     flat.push(f);
+
+    //             schemes.model = flat;
+    //         }
+    //     }
+    // }
 
     component Scheme: QtObject {
         required property var modelData

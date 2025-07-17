@@ -57,15 +57,34 @@ Singleton {
 
     Process {
         id: ddcProc
-
         command: ["ddcutil", "detect", "--brief"]
-        stdout: StdioCollector {
-            onStreamFinished: root.ddcMonitors = text.trim().split("\n\n").filter(d => d.startsWith("Display ")).map(d => ({
-                        model: d.match(/Monitor:.*:(.*):.*/)[1],
-                        busNum: d.match(/I2C bus:[ ]*\/dev\/i2c-([0-9]+)/)[1]
-                    }))
+
+        stdout: SplitParser {
+            splitMarker: "\n"
+            property string buf: ""
+            onRead: chunk => {
+                buf += chunk + "\n";
+                const monitors = buf.trim().split("\n\n").filter(b => b.startsWith("Display ")).map(b => ({
+                            model: (b.match(/Monitor:.*:(.*):.*/) || [])[1] || "",
+                            busNum: (b.match(/I2C bus:\s*\/dev\/i2c-([0-9]+)/) || [])[1] || ""
+                        })).filter(m => m.model && m.busNum);
+                if (monitors.length)
+                    root.ddcMonitors = monitors;
+            }
         }
     }
+
+    // Process {
+    //     id: ddcProc
+
+    //     command: ["ddcutil", "detect", "--brief"]
+    //     stdout: StdioCollector {
+    //         onStreamFinished: root.ddcMonitors = text.trim().split("\n\n").filter(d => d.startsWith("Display ")).map(d => ({
+    //                     model: d.match(/Monitor:.*:(.*):.*/)[1],
+    //                     busNum: d.match(/I2C bus:[ ]*\/dev\/i2c-([0-9]+)/)[1]
+    //                 }))
+    //     }
+    // }
 
     Process {
         id: setProc
@@ -92,13 +111,24 @@ Singleton {
         property real brightness
 
         readonly property Process initProc: Process {
-            stdout: StdioCollector {
-                onStreamFinished: {
-                    const [, , , current, max] = text.split(" ");
-                    monitor.brightness = parseInt(current) / parseInt(max);
+            stdout: SplitParser {
+                splitMarker: "\n"
+                onRead: chunk => {
+                    const [, , , current, max] = chunk.trim().split(" ");
+                    if (current && max)
+                        monitor.brightness = parseInt(current) / parseInt(max);
                 }
             }
         }
+
+        // readonly property Process initProc: Process {
+        //     stdout: StdioCollector {
+        //         onStreamFinished: {
+        //             const [, , , current, max] = text.split(" ");
+        //             monitor.brightness = parseInt(current) / parseInt(max);
+        //         }
+        //     }
+        // }
 
         function setBrightness(value: real): void {
             value = Math.max(0, Math.min(1, value));

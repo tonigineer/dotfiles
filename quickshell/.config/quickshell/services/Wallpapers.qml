@@ -84,27 +84,59 @@ Singleton {
 
     Process {
         id: getPreviewColoursProc
-
         command: ["tgshell", "wallpaper", "-p", root.previewPath]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                Colors.load(text, true);
-                Colors.showPreview = true;
+
+        stdout: SplitParser {
+            splitMarker: "\n"
+            property string buf: ""
+            onRead: chunk => {
+                buf += chunk + "\n";
+                if (buf.trim().length) {
+                    Colors.load(buf, true);
+                    Colors.showPreview = true;
+                }
             }
         }
     }
+
+    // Process {
+    //     id: getPreviewColoursProc
+
+    //     command: ["tgshell", "wallpaper", "-p", root.previewPath]
+    //     stdout: StdioCollector {
+    //         onStreamFinished: {
+    //             Colors.load(text, true);
+    //             Colors.showPreview = true;
+    //         }
+    //     }
+    // }
 
     Process {
         id: getWallsProc
-
         running: true
         command: ["find", Paths.expandTilde(Config.paths.wallpaperDir), "-path", "'*/.*'", "-prune", "-o", "-type", "f", "!", "-name", "'.*'", "-print"]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                wallpapers.model = text.trim().split("\n").filter(w => root.extensions.includes(w.slice(w.lastIndexOf(".") + 1))).sort();
+
+        stdout: SplitParser {
+            splitMarker: "\n"
+            property string buf: ""
+            onRead: chunk => {
+                buf += chunk + "\n";
+                wallpapers.model = buf.trim().split("\n").filter(w => root.extensions.includes(w.slice(w.lastIndexOf(".") + 1))).sort();
             }
         }
     }
+
+    // Process {
+    //     id: getWallsProc
+
+    //     running: true
+    //     command: ["find", Paths.expandTilde(Config.paths.wallpaperDir), "-path", "'*/.*'", "-prune", "-o", "-type", "f", "!", "-name", "'.*'", "-print"]
+    //     stdout: StdioCollector {
+    //         onStreamFinished: {
+    //             wallpapers.model = text.trim().split("\n").filter(w => root.extensions.includes(w.slice(w.lastIndexOf(".") + 1))).sort();
+    //         }
+    //     }
+    // }
 
     Process {
         id: watchWallsProc

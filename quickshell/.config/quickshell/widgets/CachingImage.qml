@@ -40,8 +40,17 @@ Image {
     Process {
         id: shaProc
 
-        stdout: StdioCollector {
-            onStreamFinished: root.hash = text.split(" ")[0]
+        stdout: SplitParser {
+            splitMarker: "\n"
+            onRead: chunk => root.hash = chunk.trim().split(" ")[0]
         }
     }
+
+    // Process {
+    //     id: shaProc
+
+    //     stdout: StdioCollector {
+    //         onStreamFinished: root.hash = text.split(" ")[0]
+    //     }
+    // }
 }

@@ -1,4 +1,5 @@
-//@ pragma Env QS_NO_RELOAD_POPUP=1
+//@ pragma UseQApplication
+//@ pragma IgnoreSystemSettings
 
 import "modules"
 import "modules/drawers"
@@ -8,8 +9,7 @@ import "modules/background"
 import Quickshell
 
 ShellRoot {
-
-    // Background {}
+    Background {}
     Drawers {}
     // AreaPicker {}
     // Lock {}

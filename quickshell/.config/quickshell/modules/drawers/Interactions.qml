@@ -49,9 +49,9 @@ MouseArea {
                 visibilities.osd = false;
                 osdHovered = false;
             }
-            if (!dashboardShortcutActive) {
-                visibilities.dashboard = false;
-            }
+            // if (!dashboardShortcutActive) {
+            //     visibilities.dashboard = false;
+            // }
             popouts.hasCurrent = false;
         }
     }
@@ -116,7 +116,7 @@ MouseArea {
         function onLauncherChanged() {
             // If launcher is hidden, clear shortcut flags for dashboard and OSD
             if (!root.visibilities.launcher) {
-                root.dashboardShortcutActive = false;
+                // root.dashboardShortcutActive = false;
                 root.osdShortcutActive = false;
 
                 // Also hide dashboard and OSD if they're not being hovered

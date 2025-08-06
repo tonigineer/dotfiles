@@ -27,12 +27,12 @@ Item {
         anchors.margins: Appearance.padding.large
         anchors.topMargin: Appearance.padding.large + Config.bar.sizes.innerHeight
 
-        Popout {
-            name: "activewindow"
-            sourceComponent: ActiveWindow {
-                wrapper: root.wrapper
-            }
-        }
+        // Popout {
+        //     name: "activewindow"
+        //     sourceComponent: ActiveWindow {
+        //         wrapper: root.wrapper
+        //     }
+        // }
 
         Popout {
             name: "screenshot"
@@ -106,7 +106,7 @@ Item {
 
         opacity: 0
         scale: 0.8
-        active: false
+        active: true
         asynchronous: true
 
         states: State {

@@ -1,4 +1,4 @@
-import "root:/widgets"
+import "../../widgets"
 import Quickshell
 import Quickshell.Wayland
 
@@ -22,5 +22,7 @@ Variants {
         anchors.right: true
 
         Wallpaper {}
+
+        visible: false  // workaround for launcher not showing entries. loading background helps here, dont know why
     }
 }

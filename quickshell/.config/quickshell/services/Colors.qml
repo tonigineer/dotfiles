@@ -15,6 +15,7 @@ Singleton {
     property string scheme
     property string flavour
     property bool light: true
+
     readonly property Colours palette: showPreview ? preview : current
     readonly property Colours current: Colours {}
     readonly property Colours preview: Colours {}

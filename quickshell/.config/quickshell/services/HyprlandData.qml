@@ -7,17 +7,14 @@ import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 
-/**
- * Provides access to some Hyprland data not available in Quickshell.Hyprland.
- */
 Singleton {
     id: root
+
     property var windowList: []
     property var addresses: []
     property var windowByAddress: ({})
     property var monitors: []
     property var layers: ({})
-    property bool hypridleIsRunning
 
     function updateWindowList() {
         getClients.running = true;
@@ -28,14 +25,9 @@ Singleton {
         getLayers.running = true;
     }
 
-    function updateHypridle() {
-        getHypridle.running = true;
-    }
-
     Component.onCompleted: {
         updateWindowList();
         updateLayers();
-        updateHypridle();
     }
 
     Connections {
@@ -45,7 +37,7 @@ Singleton {
             // Filter out redundant old v1 events for the same thing
             if (event.name in ["activewindow", "focusedmon", "monitoradded", "createworkspace", "destroyworkspace", "moveworkspace", "activespecial", "movewindow", "windowtitle"])
                 return;
-            updateWindowList();
+            root.updateWindowList();
         }
     }
 
@@ -82,17 +74,6 @@ Singleton {
         stdout: SplitParser {
             onRead: data => {
                 root.layers = JSON.parse(data);
-            }
-        }
-    }
-
-    Process {
-        id: getHypridle
-        // TODO: better implementation than the sleep is needed here :)
-        command: ["bash", "-c", "sleep 0.5; systemctl --user is-active hypridle.service"]
-        stdout: SplitParser {
-            onRead: data => {
-                root.hypridleIsRunning = data.trim() === "active";
             }
         }
     }

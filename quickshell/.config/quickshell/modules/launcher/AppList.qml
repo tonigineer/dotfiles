@@ -29,6 +29,7 @@ ListView {
             return M3Variants.fuzzyQuery(text);
         if (isStreaming)
             return StreamingList.fuzzyQuery(text);
+
         // Add new lists above actions!
         if (isAction)
             return Actions.fuzzyQuery(text);

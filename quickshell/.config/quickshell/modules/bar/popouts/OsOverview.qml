@@ -52,7 +52,7 @@ Item {
             RowLayout {
                 id: infoContainer
 
-                // anchors.centerIn: parent
+                anchors.centerIn: parent
                 Layout.fillWidth: true
 
                 spacing: Appearance.spacing.smaller
@@ -131,7 +131,7 @@ Item {
                         id: informationRow
 
                         RowLayout {
-                            Layout.fillWidth: true                       // take full width
+                            Layout.fillWidth: true
                             Layout.alignment: Qt.AlignVCenter
                             spacing: Appearance.spacing.smaller
 

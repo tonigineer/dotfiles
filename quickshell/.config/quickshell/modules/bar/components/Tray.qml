@@ -1,4 +1,6 @@
-import "root:/config"
+// qmllint disable missing-property
+
+import "../../../config"
 import Quickshell.Services.SystemTray
 import QtQuick
 

@@ -1,12 +1,13 @@
+// qmllint disable missing-property
+
+// import "../../common"
+import "../../config"
+import "../../services"
+import "../../widgets"
+import "../../modules/bar/popouts" as BarPopouts
 import "components" as Components
-// import "components/workspaces" as HyprlandWorkspaces
-import "root:/config"
-import "root:/common"
-import "root:/services"
-import "root:/widgets"
-import "root:/modules/bar/popouts" as BarPopouts
 import Quickshell
-import Quickshell.Widgets
+// import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 
@@ -17,8 +18,9 @@ Item {
     required property BarPopouts.Wrapper popouts
 
     function checkPopout(x) {
+        // Left - OS overview
         const oiStart = leftSection.x + osicon.x;
-        const oiEnd = oiStart + osicon.implicitWidth;
+        const oiEnd = leftSection.x + osicon.x + osicon.implicitWidth;
 
         if (x >= oiStart && x < oiEnd) {
             popouts.currentName = 'os-overview';
@@ -27,6 +29,18 @@ Item {
             return;
         }
 
+        // Right 1 - Screenshot button
+        const start = rightSection.x + utilButtons.hyprshot.x;
+        const end = rightSection.x + utilButtons.hyprshot.x + utilButtons.hyprshot.implicitWidth;
+        if (x >= start && x < end) {
+            const fixed = start + utilButtons.hyprshot.implicitWidth / 2;
+            popouts.currentName = "screenshot";
+            popouts.currentCenter = Qt.binding(() => fixed);
+            popouts.hasCurrent = true;
+            return;
+        }
+
+        // Right 2 - System tray
         const rsX = rightSection.x;
         const pad = statusIconsInner.spacing * 2 * 0; // disabled!
         const stX = statusIcons.x;
@@ -47,6 +61,7 @@ Item {
             return;
         }
 
+        // Right 3 - Icons
         const icons = [
             {
                 name: "bluetooth",
@@ -74,16 +89,6 @@ Item {
                 popouts.hasCurrent = true;
                 return;
             }
-        }
-
-        const start = rightSection.x + utilButtons.hyprshot.x;
-        const end = rightSection.x + utilButtons.hyprshot.x + utilButtons.hyprshot.implicitWidth;
-        if (x >= start && x < end) {
-            const fixed = start + statusIconsInner.spacing;
-            popouts.currentName = "screenshot";
-            popouts.currentCenter = Qt.binding(() => fixed);
-            popouts.hasCurrent = true;
-            return;
         }
 
         popouts.hasCurrent = false;

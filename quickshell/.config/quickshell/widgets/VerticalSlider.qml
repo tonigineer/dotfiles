@@ -1,6 +1,5 @@
-import "root:/widgets"
-import "root:/services"
-import "root:/config"
+import "../services" as S
+import "../config" as C
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
@@ -14,8 +13,8 @@ Slider {
     orientation: Qt.Vertical
 
     background: StyledRect {
-        color: Colors.alpha(Colors.palette.m3surfaceContainer, true)
-        radius: Appearance.rounding.full
+        color: S.Colors.alpha(S.Colors.palette.m3surfaceContainer, true)
+        radius: C.Appearance.rounding.full
 
         StyledRect {
             anchors.left: parent.left
@@ -24,8 +23,8 @@ Slider {
             y: root.handle.y
             implicitHeight: parent.height - y
 
-            color: Colors.alpha(Colors.palette.m3secondary, true)
-            radius: Appearance.rounding.full
+            color: S.Colors.alpha(S.Colors.palette.m3secondary, true)
+            radius: C.Appearance.rounding.full
         }
     }
 
@@ -41,7 +40,7 @@ Slider {
         RectangularShadow {
             anchors.fill: parent
             radius: rect.radius
-            color: Colors.palette.m3shadow
+            color: S.Colors.palette.m3shadow
             blur: 5
             spread: 0
         }
@@ -51,8 +50,8 @@ Slider {
 
             anchors.fill: parent
 
-            color: Colors.alpha(Colors.palette.m3inverseSurface, true)
-            radius: Appearance.rounding.full
+            color: S.Colors.alpha(S.Colors.palette.m3inverseSurface, true)
+            radius: C.Appearance.rounding.full
 
             MouseArea {
                 anchors.fill: parent
@@ -68,13 +67,13 @@ Slider {
                 function update(): void {
                     animate = !moving;
                     text = moving ? Qt.binding(() => Math.round(root.value * 100)) : Qt.binding(() => root.icon);
-                    font.pointSize = moving ? Appearance.font.size.small : Appearance.font.size.larger;
-                    font.family = moving ? Appearance.font.family.sans : Appearance.font.family.material;
+                    font.pointSize = moving ? C.Appearance.font.size.small : C.Appearance.font.size.larger;
+                    font.family = moving ? C.Appearance.font.family.sans : C.Appearance.font.family.material;
                 }
 
                 animate: true
                 text: root.icon
-                color: Colors.palette.m3inverseOnSurface
+                color: S.Colors.palette.m3inverseOnSurface
                 anchors.centerIn: parent
 
                 Behavior on moving {
@@ -84,9 +83,9 @@ Slider {
                             property: "scale"
                             from: 1
                             to: 0
-                            duration: Appearance.anim.durations.normal / 2
+                            duration: C.Appearance.anim.durations.normal / 2
                             easing.type: Easing.BezierSpline
-                            easing.bezierCurve: Appearance.anim.curves.standardAccel
+                            easing.bezierCurve: C.Appearance.anim.curves.standardAccel
                         }
                         ScriptAction {
                             script: icon.update()
@@ -96,9 +95,9 @@ Slider {
                             property: "scale"
                             from: 0
                             to: 1
-                            duration: Appearance.anim.durations.normal / 2
+                            duration: C.Appearance.anim.durations.normal / 2
                             easing.type: Easing.BezierSpline
-                            easing.bezierCurve: Appearance.anim.curves.standardDecel
+                            easing.bezierCurve: C.Appearance.anim.curves.standardDecel
                         }
                     }
                 }
@@ -128,9 +127,9 @@ Slider {
 
     Behavior on value {
         NumberAnimation {
-            duration: Appearance.anim.durations.large
+            duration: C.Appearance.anim.durations.large
             easing.type: Easing.BezierSpline
-            easing.bezierCurve: Appearance.anim.curves.standard
+            easing.bezierCurve: C.Appearance.anim.curves.standard
         }
     }
 }

@@ -31,7 +31,7 @@ Item {
 
         ContentList {
             id: list
-
+            visible: true
             visibilities: root.visibilities
             search: search
             padding: root.padding

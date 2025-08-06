@@ -27,7 +27,10 @@ Column {
                 return "volume_down";
             return "volume_mute";
         }
-        value: Audio.volume
+        value: {
+            Audio.volume;
+            return 0.5;
+        }
         onMoved: Audio.setVolume(value)
 
         implicitWidth: Config.osd.sizes.sliderWidth

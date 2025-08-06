@@ -63,7 +63,6 @@ Singleton {
             storage.running = true;
             gpuUsage.running = true;
             sensors.running = true;
-            // updatesCheck.running = true;
         }
     }
 
@@ -82,28 +81,14 @@ Singleton {
         command: ["sh", "-c", "yay -Sy; yay -Qu"]
 
         stdout: SplitParser {
-            splitMarker: "\n"
-            property string buf: ""
-            onRead: chunk => {
-                buf += chunk + "\n";
+            splitMarker: "\n\n"
+            onRead: buf => {
                 const pkgs = buf.trim().split("\n").filter(l => l.length && l.includes("->")).sort();
                 root.updatesList = pkgs;
                 root.updatesCount = pkgs.length;
             }
         }
     }
-
-    // Process {
-    //     id: updatesCheck
-    //     command: ["sh", "-c", "yay -Sy; yay -Qu"]
-    //     stdout: StdioCollector {
-    //         onStreamFinished: {
-    //             const pkgs = text.trim().split('\n').filter(l => l.length && l.includes('->')).sort();
-    //             root.updatesList = pkgs;
-    //             root.updatesCount = pkgs.length;
-    //         }
-    //     }
-    // }
 
     FileView {
         id: stat

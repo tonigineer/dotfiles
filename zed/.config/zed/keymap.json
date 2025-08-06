@@ -60,5 +60,12 @@
             "ctrl-alt-e": "project_panel::ToggleFocus",
             "ctrl-alt-g": "git_panel::ToggleFocus"
         }
+    },
+    {
+        "context": "Terminal",
+        "bindings": {
+            "ctrl-c": "terminal::Copy",
+            "ctrl-v": "terminal::Paste"
+        }
     }
 ]

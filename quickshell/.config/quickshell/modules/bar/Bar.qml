@@ -29,18 +29,7 @@ Item {
             return;
         }
 
-        // Right 1 - Screenshot button
-        const start = rightSection.x + utilButtons.hyprshot.x;
-        const end = rightSection.x + utilButtons.hyprshot.x + utilButtons.hyprshot.implicitWidth;
-        if (x >= start && x < end) {
-            const fixed = start + utilButtons.hyprshot.implicitWidth / 2;
-            popouts.currentName = "screenshot";
-            popouts.currentCenter = Qt.binding(() => fixed);
-            popouts.hasCurrent = true;
-            return;
-        }
-
-        // Right 2 - System tray
+        // Right 1 - System tray
         const rsX = rightSection.x;
         const pad = statusIconsInner.spacing * 2 * 0; // disabled!
         const stX = statusIcons.x;
@@ -61,7 +50,7 @@ Item {
             return;
         }
 
-        // Right 3 - Icons
+        // Right 2 - Icons
         const icons = [
             {
                 name: "bluetooth",

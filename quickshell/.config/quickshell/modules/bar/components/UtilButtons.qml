@@ -12,11 +12,10 @@ Item {
     readonly property real spacing: Appearance.spacing.normal
 
     readonly property Item hyprpicker: hyprpicker
-    readonly property Item hyprshot: hyprshot
 
     clip: true
     implicitHeight: parent.implicitHeight
-    implicitWidth: hypridle.implicitWidth + hyprpicker.implicitWidth + hyprshot.implicitWidth + spacing * 4
+    implicitWidth: hypridle.implicitWidth + hyprpicker.implicitWidth + spacing * 3
 
     MaterialIcon {
         id: hypridle
@@ -70,18 +69,6 @@ Item {
                 Hyprland.dispatch("exec hyprpicker -a");
             }
         }
-    }
-
-    MaterialIcon {
-        id: hyprshot
-
-        animate: true
-        text: "screenshot_region"
-        color: root.colour
-
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: hyprpicker.left
-        anchors.rightMargin: root.spacing
     }
 
     Behavior on implicitWidth {

@@ -1,0 +1,118 @@
+/* userChrome.css — your UI skin using matugen variables */
+
+/* 1) pull in the generated palette */
+@import url("../../matugen.css");
+
+/* 2) map theme vars used by Firefox/LibreWolf to our palette */
+:root {
+  /* toolbars & tabstrip */
+  --toolbar-bgcolor: var(--bg) !important;
+  --toolbar-color: var(--fg) !important;
+
+  /* selected tab background (LW/FF built-in var) */
+  --lwt-selected-tab-background-color: var(--bg-variant) !important;
+
+  /* URL bar & results */
+  --toolbar-field-background-color: var(--bg-variant) !important;
+  --toolbar-field-border-color: color-mix(in srgb, var(--fg) 10%, transparent) !important;
+  --toolbar-field-focus-background-color: var(--bg-variant) !important;
+
+  /* Menus & popups */
+  --arrowpanel-background: var(--bg-variant) !important;
+  --arrowpanel-color: var(--fg) !important;
+  --panel-background: var(--bg-variant) !important;
+  --panel-color: var(--fg) !important;
+
+  /* Sidebars */
+  --sidebar-background-color: var(--bg) !important;
+  --sidebar-text-color: var(--fg) !important;
+
+  /* Tooltips */
+  --tooltip-bgcolor: var(--bg-variant) !important;
+  --tooltip-color: var(--fg) !important;
+
+  /* Optional accent lines/borders derived from accent */
+  --tab-line-color: color-mix(in srgb, var(--accent) 60%, transparent) !important;
+
+  --bookmarkbar-folder: var(--primary) !important;
+}
+
+/* 3) concrete surfaces that don’t always obey the vars above (make it cohesive) */
+#nav-bar,
+#TabsToolbar,
+#PersonalToolbar {
+  background: var(--toolbar-bgcolor) !important;
+  color: var(--toolbar-color) !important;
+}
+
+/* Active tab */
+.tabbrowser-tab[selected] .tab-background {
+  background: var(--bg-variant) !important;
+  box-shadow: 0 1px 0 var(--tab-line-color) inset !important;
+}
+.tabbrowser-tab[selected] .tab-label { color: var(--fg) !important; }
+
+/* Inactive tabs */
+.tabbrowser-tab:not([selected]) .tab-background {
+  background: color-mix(in srgb, var(--bg) 92%, black) !important;
+}
+.tabbrowser-tab:not([selected]) .tab-label {
+  color: color-mix(in srgb, var(--fg) 70%, var(--bg)) !important;
+}
+
+/* URL bar & search results */
+#urlbar, #searchbar {
+  background: var(--toolbar-field-background-color) !important;
+  color: var(--fg) !important;
+}
+#urlbar-background {
+  background: var(--toolbar-field-background-color) !important;
+  border-color: var(--toolbar-field-border-color) !important;
+}
+
+/* Menus & popups */
+panel, panelview, .panel-subview-body, menupopup {
+  background: var(--arrowpanel-background) !important;
+  color: var(--arrowpanel-color) !important;
+}
+
+/* Sidebar */
+#sidebar-box, #sidebar, #sidebar-header {
+  background: var(--sidebar-background-color) !important;
+  color: var(--sidebar-text-color) !important;
+}
+
+/* Tooltips */
+tooltip {
+  background: var(--tooltip-bgcolor) !important;
+  color: var(--tooltip-color) !important;
+}
+
+/* Optional: remove bright separators that clash with dark bg */
+#TabsToolbar .titlebar-spacer, .toolbarseparator {
+  opacity: .2 !important;
+}
+
+/* Bookmark folder icons */
+.bookmark-item[container="true"] .toolbarbutton-icon {
+    fill: var(--bookmarkbar-folder);  /* set folder color */
+}
+
+/* /* Vertical Tabs sidebar background */ */
+#vertical-tabs,
+#vertical-tabs * {
+  background-color: var(--toolbar-bgcolor) !important;
+}
+
+#vertical-tabs { background-color: var(--toolbar-bgcolor) !important; }
+
+
+#vertical-tabs .tabbrowser-tab {
+  background: var(--toolbar-bgcolor) !important;
+}
+
+#vertical-tabs .tabbrowser-tab .tab-background,
+#vertical-tabs .tab-background {
+  background: var(--toolbar-field-background-color) !important;
+}
+

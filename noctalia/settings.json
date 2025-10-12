@@ -1,0 +1,278 @@
+{
+    "appLauncher": {
+        "backgroundOpacity": 1,
+        "enableClipboardHistory": true,
+        "pinnedExecs": [
+        ],
+        "position": "center",
+        "sortByMostUsed": true,
+        "terminalCommand": "kitty -e",
+        "useApp2Unit": false
+    },
+    "audio": {
+        "cavaFrameRate": 144,
+        "mprisBlacklist": [
+        ],
+        "preferredPlayer": "mpv",
+        "visualizerType": "linear",
+        "volumeOverdrive": false,
+        "volumeStep": 5
+    },
+    "bar": {
+        "backgroundOpacity": 1,
+        "density": "comfortable",
+        "floating": false,
+        "marginHorizontal": 0.25,
+        "marginVertical": 0.25,
+        "monitors": [
+        ],
+        "position": "top",
+        "showCapsule": true,
+        "widgets": {
+            "center": [
+                {
+                    "autoHide": true,
+                    "id": "ActiveWindow",
+                    "scrollingMode": "always",
+                    "showIcon": true,
+                    "width": 300
+                }
+            ],
+            "left": [
+                {
+                    "customIconPath": "",
+                    "icon": "noctalia",
+                    "id": "ControlCenter",
+                    "useDistroLogo": true
+                },
+                {
+                    "hideUnoccupied": true,
+                    "id": "Workspace",
+                    "labelMode": "index"
+                },
+                {
+                    "id": "SystemMonitor",
+                    "showCpuTemp": false,
+                    "showCpuUsage": true,
+                    "showDiskUsage": false,
+                    "showMemoryAsPercent": false,
+                    "showMemoryUsage": true,
+                    "showNetworkStats": true
+                }
+            ],
+            "right": [
+                {
+                    "blacklist": [
+                    ],
+                    "id": "Tray"
+                },
+                {
+                    "id": "WiFi"
+                },
+                {
+                    "id": "Bluetooth"
+                },
+                {
+                    "displayMode": "onhover",
+                    "id": "Volume"
+                },
+                {
+                    "hideWhenZero": true,
+                    "id": "NotificationHistory",
+                    "showUnreadBadge": true
+                },
+                {
+                    "id": "PowerProfile"
+                },
+                {
+                    "customFont": "",
+                    "formatHorizontal": "HH:mm ddd, MMM dd",
+                    "formatVertical": "HH mm - dd MM",
+                    "id": "Clock",
+                    "useCustomFont": false,
+                    "usePrimaryColor": false
+                },
+                {
+                    "displayMode": "onhover",
+                    "id": "Battery",
+                    "warningThreshold": 30
+                },
+                {
+                    "id": "SessionMenu"
+                }
+            ]
+        }
+    },
+    "brightness": {
+        "brightnessStep": 4
+    },
+    "colorSchemes": {
+        "darkMode": true,
+        "generateTemplatesForPredefined": true,
+        "matugenSchemeType": "scheme-fruit-salad",
+        "predefinedScheme": "",
+        "useWallpaperColors": true
+    },
+    "controlCenter": {
+        "position": "close_to_bar_button",
+        "quickSettingsStyle": "compact",
+        "widgets": {
+            "quickSettings": [
+                {
+                    "id": "WiFi"
+                },
+                {
+                    "id": "Bluetooth"
+                },
+                {
+                    "id": "Notifications"
+                },
+                {
+                    "id": "ScreenRecorder"
+                },
+                {
+                    "id": "PowerProfile"
+                },
+                {
+                    "id": "WallpaperSelector"
+                }
+            ]
+        }
+    },
+    "dock": {
+        "backgroundOpacity": 1,
+        "displayMode": "auto_hide",
+        "floatingRatio": 1,
+        "monitors": [
+        ],
+        "onlySameOutput": true,
+        "pinnedApps": [
+        ]
+    },
+    "general": {
+        "animationDisabled": false,
+        "animationSpeed": 1,
+        "avatarImage": "/home/toni/avatar.jpg",
+        "compactLockScreen": false,
+        "dimDesktop": true,
+        "forceBlackScreenCorners": false,
+        "radiusRatio": 0.2,
+        "screenRadiusRatio": 1,
+        "showScreenCorners": false
+    },
+    "hooks": {
+        "darkModeChange": "",
+        "enabled": false,
+        "wallpaperChange": ""
+    },
+    "location": {
+        "name": "Osaka",
+        "showWeekNumberInCalendar": false,
+        "use12hourFormat": false,
+        "useFahrenheit": false
+    },
+    "network": {
+        "wifiEnabled": true
+    },
+    "nightLight": {
+        "autoSchedule": false,
+        "dayTemp": "6500",
+        "enabled": false,
+        "forced": false,
+        "manualSunrise": "06:30",
+        "manualSunset": "18:30",
+        "nightTemp": "4000"
+    },
+    "notifications": {
+        "alwaysOnTop": false,
+        "criticalUrgencyDuration": 15,
+        "doNotDisturb": true,
+        "lastSeenTs": 1760052655000,
+        "location": "top_right",
+        "lowUrgencyDuration": 3,
+        "monitors": [
+            "HDMI-A-1",
+            "eDP-1"
+        ],
+        "normalUrgencyDuration": 8,
+        "respectExpireTimeout": false
+    },
+    "osd": {
+        "alwaysOnTop": false,
+        "autoHideMs": 2000,
+        "enabled": true,
+        "location": "top",
+        "monitors": [
+        ]
+    },
+    "screenRecorder": {
+        "audioCodec": "opus",
+        "audioSource": "default_output",
+        "colorRange": "limited",
+        "directory": "~/Videos",
+        "frameRate": 60,
+        "quality": "very_high",
+        "showCursor": true,
+        "videoCodec": "h264",
+        "videoSource": "portal"
+    },
+    "settingsVersion": 1,
+    "templates": {
+        "discord": false,
+        "discord_armcord": false,
+        "discord_dorion": false,
+        "discord_equibop": false,
+        "discord_lightcord": false,
+        "discord_vesktop": false,
+        "discord_webcord": false,
+        "enableUserTemplates": false,
+        "foot": false,
+        "fuzzel": false,
+        "ghostty": false,
+        "gtk": false,
+        "kcolorscheme": false,
+        "kitty": false,
+        "pywalfox": false,
+        "qt": false
+    },
+    "ui": {
+        "fontDefault": "Monaspace Krypton Medium",
+        "fontDefaultScale": 1,
+        "fontFixed": "Monaspace Krypton",
+        "fontFixedScale": 1,
+        "idleInhibitorEnabled": false,
+        "monitorsScaling": [
+            {
+                "name": "eDP-1",
+                "scale": 1
+            }
+        ],
+        "tooltipsEnabled": true
+    },
+    "wallpaper": {
+        "defaultWallpaper": "/home/toni/.config/quickshell/noctalia/Assets/Wallpaper/noctalia.png",
+        "directory": "/home/toni/DotfilesData/backgrounds",
+        "enableMultiMonitorDirectories": true,
+        "enabled": true,
+        "fillColor": "#000000",
+        "fillMode": "crop",
+        "monitors": [
+            {
+                "directory": "/home/toni/DotfilesData/backgrounds",
+                "name": "eDP-1",
+                "wallpaper": "/home/toni/DotfilesData/backgrounds/Dark_Nature.png"
+            },
+            {
+                "directory": "/home/toni/DotfilesData/backgrounds",
+                "name": "HDMI-A-1",
+                "wallpaper": "/home/toni/DotfilesData/backgrounds/Dark_Nature.png"
+            }
+        ],
+        "randomEnabled": false,
+        "randomIntervalSec": 600,
+        "setWallpaperOnAllMonitors": true,
+        "transitionDuration": 1500,
+        "transitionEdgeSmoothness": 0.05,
+        "transitionType": "random"
+    }
+}

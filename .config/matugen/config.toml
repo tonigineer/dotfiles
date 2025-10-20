@@ -1,0 +1,18 @@
+[config]
+
+[templates.kitty]
+input_path = '~/.config/matugen/templates/kitty.conf'
+output_path = '~/.config/kitty/themes/noctalia.conf'
+post_hook = 'kitty +kitten themes --reload-in=all noctalia'
+
+[templates.yazi]
+input_path = '~/.config/matugen/templates/yazi.toml'
+output_path = '~/.config/yazi/theme.toml'
+
+[templates.noctalia]
+input_path = "~/.config/matugen/templates/noctalia.json"
+output_path = "~/.config/noctalia/colors.json"
+
+[templates.librewolf]
+input_path = "~/.config/matugen/templates/librewolf.css"
+output_path = "~/.librewolf/matugen.css"

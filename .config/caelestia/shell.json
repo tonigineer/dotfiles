@@ -148,7 +148,7 @@
             "showAudio": false,
             "showBattery": true,
             "showBluetooth": true,
-            "showKbLayout": false,
+            "showKbLayout": true,
             "showMicrophone": false,
             "showNetwork": true,
             "showLockStatus": true
@@ -156,7 +156,7 @@
         "tray": {
             "background": false,
             "compact": false,
-            "iconSubs": [],
+            "iconSubs": [{ "matchBy": "title", "match": "Steam", "icon": "spotify" }],
             "recolour": false
         },
         "workspaces": {
@@ -168,7 +168,7 @@
             "occupiedLabel": "󰮯",
             "perMonitorWorkspaces": true,
             "showWindows": true,
-            "shown": 6,
+            "shown": 5,
             "specialWorkspaceIcons": [
                 {
                     "name": "steam",
@@ -296,7 +296,7 @@
             }
         ],
         "dragThreshold": 50,
-        "vimKeybinds": false,
+        "vimKeybinds": true,
         "enableDangerousActions": false,
         "maxShown": 7,
         "maxWallpapers": 9,
@@ -312,7 +312,7 @@
         "hiddenApps": []
     },
     "lock": {
-        "recolourLogo": false
+        "recolourLogo": true
     },
     "notifs": {
         "actionOnClick": false,
@@ -336,9 +336,9 @@
         "audioIncrement": 0.1,
         "maxVolume": 1.0,
         "defaultPlayer": "Spotify",
-        "gpuType": "",
+        "gpuType": "nvidia",
         "playerAliases": [{ "from": "com.github.th_ch.youtube_music", "to": "YT Music" }],
-        "weatherLocation": "",
+        "weatherLocation": "Hannover, Germany",
         "useFahrenheit": false,
         "useTwelveHourClock": false,
         "smartScheme": true,

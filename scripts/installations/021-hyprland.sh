@@ -25,8 +25,8 @@ pkgs=(
     swaync
     wl-clipboard
     yt-dlp
-    xdg-desktop-portal-wlr
     xdg-desktop-portal
+    xdg-desktop-portal-wlr
     xdg-desktop-portal-hyprland
 )
 

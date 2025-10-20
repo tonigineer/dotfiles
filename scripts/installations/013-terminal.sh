@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+pkgs=(
+    kitty
+    lazygit
+    otf-monaspace
+    ttf-joypixels
+    yazi
+)
+
+pkgs_tools=(
+    btop
+    cava
+    fastfetch
+)
+
+status() {
+    yay_check "${pkgs[@]}" && yay_check "${pkgs_tools[@]}" &&
+        [ -L ~/.config/btop ] &&
+        [ -L ~/.config/cava ] &&
+        [ -L ~/.config/fastfetch ] &&
+        [ -L ~/.config/kitty ] &&
+        [ -L ~/.config/yazi ]
+}
+
+install() {
+    yay_install "${pkgs[@]}"
+    yay_install "${pkgs_tools[@]}"
+
+    safe_symlink .config/btop
+    safe_symlink .config/cava
+    safe_symlink .config/fastfetch
+    safe_symlink .config/kitty
+    safe_symlink .config/yazi
+
+    fc-cache -v
+
+    ya pkg add yazi-rs/plugins:no-status
+    ya pkg add yazi-rs/plugins:git
+    ya pkg add yazi-rs/plugins:smart-enter
+    ya pkg add marcosvnmelo/kanagawa-dragon
+}
+
+uninstall() {
+    local pkgs=(kitty yazi)
+    yay_uninstall "${pkgs[@]}"
+
+    rm -rf ~/.config/btop
+    rm -rf ~/.config/cava
+    rm -rf ~/.config/fastfetch
+    rm -rf ~/.config/kitty
+    rm -rf ~/.config/yazi
+}

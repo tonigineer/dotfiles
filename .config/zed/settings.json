@@ -49,7 +49,7 @@
     // ------ Agent, AI, whatever ------
     // Vanity
     "theme": {
-        "mode": "dark",
+        "mode": "system",
         "light": "Caelestia",
         "dark": "Caelestia"
     },
@@ -138,22 +138,6 @@
                 "font_style": "italic"
             }
         }
-        // "background.appearance": "blurred",
-        // "background": "#131317",
-        // "editor.background": "#131317",
-        // "editor.gutter.background": "#131317",
-        // "tab_bar.background": "#131317",
-        // "terminal.background": "#131317",
-        // "toolbar.background": "#131317",
-        // "tab.active_background": "#1f1f1f",
-        // "tab.inactive_background": "#131317",
-        // "status_bar.background": "#131317",
-        // "title_bar.background": "#131317",
-        // "title_bar.inactive_background": "#131317",
-        // "panel.background": "#131317",
-        // "border.variant": "#131317",
-        // "scrollbar.track.border": "#131317",
-        // "editor.active_line.background": "#131317"
     },
     "lsp": {
         "pyright": {

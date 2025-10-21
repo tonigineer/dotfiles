@@ -54,9 +54,9 @@
         "dark": "Caelestia"
     },
     "icon_theme": "Material Icon Theme",
-    "ui_font_size": 14,
-    "buffer_font_size": 14,
-    "ui_font_family": "Monaspace Neon",
+    "ui_font_size": 15,
+    "buffer_font_size": 15,
+    "ui_font_family": "Monaspace Krypton",
     "buffer_font_family": "Monaspace Krypton",
     // ------ Layout ------
     "tab_bar": {

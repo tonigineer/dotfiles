@@ -3,9 +3,11 @@
 .config/cava/shaders
 .config/cava/themes
 
-.config/kitty/theme
+.config/kitty/themes
 
 .config/hypr/scheme/current.conf
 
 .config/yazi/plugins
 .config/yazi/package.toml
+
+.config/zed/themes

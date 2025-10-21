@@ -3,7 +3,7 @@
         "extraArgs": []
     },
     "theme": {
-        "enableTerm": false,
+        "enableTerm": true,
         "enableHypr": true,
         "enableDiscord": true,
         "enableSpicetify": false,

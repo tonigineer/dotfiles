@@ -8,6 +8,24 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
     // ------ General ------
+    "active_pane_modifiers": {
+        "border_size": 2.0
+    },
+    "use_system_window_tabs": false,
+    "centered_layout": {
+        "right_padding": 0.2,
+        "left_padding": 0.2
+    },
+    "bottom_dock_layout": "full",
+    "title_bar": {
+        "show_menus": false,
+        "show_onboarding_banner": false,
+        "show_project_items": true,
+        "show_branch_icon": true
+    },
+    "status_bar": {
+        "active_language_button": true
+    },
     "agent": {
         "enabled": false,
         "play_sound_when_agent_done": true,
@@ -32,12 +50,12 @@
     // Vanity
     "theme": {
         "mode": "dark",
-        "light": "Catppuccin Mocha",
-        "dark": "Catppuccin Mocha - No Italics"
+        "light": "Caelestia",
+        "dark": "Caelestia"
     },
     "icon_theme": "Material Icon Theme",
-    "ui_font_size": 13,
-    "buffer_font_size": 13,
+    "ui_font_size": 14,
+    "buffer_font_size": 14,
     "ui_font_family": "Monaspace Neon",
     "buffer_font_family": "Monaspace Krypton",
     // ------ Layout ------
@@ -55,7 +73,7 @@
         "selections_menu": true
     },
     "scrollbar": { "show": "never" },
-    "project_panel": { "dock": "left", "indent_size": 16 },
+    "project_panel": { "button": true, "dock": "right", "indent_size": 20 },
     // ------ Editor ------
     "cursor_blink": true,
     // Visually show tabs and spaces  (none, all, selection, boundary, trailing)
@@ -69,7 +87,7 @@
     },
     "git": { "git_gutter": "tracked_files", "inline_blame": { "enabled": true } },
     "relative_line_numbers": true,
-    "preferred_line_length": 160,
+    "preferred_line_length": 120,
     "wrap_guides": [120],
     "show_wrap_guides": true,
     "use_autoclose": false,
@@ -82,8 +100,7 @@
             "padding": 4,
             "min_column": 0,
             "max_severity": null
-        },
-        "cargo": null
+        }
     },
     "tab_size": 4,
     // ------ VIM ------
@@ -120,23 +137,23 @@
             "comment.doc": {
                 "font_style": "italic"
             }
-        },
-        "background.appearance": "blurred",
-        "background": "#131317",
-        "editor.background": "#131317",
-        "editor.gutter.background": "#131317",
-        "tab_bar.background": "#131317",
-        "terminal.background": "#131317",
-        "toolbar.background": "#131317",
+        }
+        // "background.appearance": "blurred",
+        // "background": "#131317",
+        // "editor.background": "#131317",
+        // "editor.gutter.background": "#131317",
+        // "tab_bar.background": "#131317",
+        // "terminal.background": "#131317",
+        // "toolbar.background": "#131317",
         // "tab.active_background": "#1f1f1f",
-        "tab.inactive_background": "#131317",
-        "status_bar.background": "#131317",
-        "title_bar.background": "#131317",
-        "title_bar.inactive_background": "#131317",
-        "panel.background": "#131317",
-        "border.variant": "#131317",
-        "scrollbar.track.border": "#131317",
-        "editor.active_line.background": "#131317"
+        // "tab.inactive_background": "#131317",
+        // "status_bar.background": "#131317",
+        // "title_bar.background": "#131317",
+        // "title_bar.inactive_background": "#131317",
+        // "panel.background": "#131317",
+        // "border.variant": "#131317",
+        // "scrollbar.track.border": "#131317",
+        // "editor.active_line.background": "#131317"
     },
     "lsp": {
         "pyright": {
@@ -153,18 +170,9 @@
     },
     "languages": {
         "Python": {
+            "code_actions_on_format": {},
             "language_servers": ["pyright", "ruff"],
-            "format_on_save": "on",
-            "formatter": [
-                {
-                    "code_actions": {
-                        // Fix all auto-fixable lint violations
-                        "source.fixAll.ruff": false,
-                        // Organize imports
-                        "source.organizeImports.ruff": true
-                    }
-                }
-            ]
+            "format_on_save": "on"
         }
     }
 }

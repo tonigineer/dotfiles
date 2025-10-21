@@ -71,12 +71,12 @@
                     "idleAction": "lock"
                 },
                 {
-                    "timeout": 510,
+                    "timeout": 3600,
                     "idleAction": "dpms off",
                     "returnAction": "dpms on"
                 },
                 {
-                    "timeout": 600,
+                    "timeout": 14400,
                     "idleAction": ["systemctl", "suspend"]
                 }
             ]

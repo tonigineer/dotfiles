@@ -8,6 +8,7 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
     // ------ General ------
+    "lsp_document_colors": "background",
     "active_pane_modifiers": {
         "border_size": 2.0
     },
@@ -54,8 +55,8 @@
         "dark": "Caelestia"
     },
     "icon_theme": "Material Icon Theme",
-    "ui_font_size": 15,
-    "buffer_font_size": 15,
+    "ui_font_size": 16,
+    "buffer_font_size": 16,
     "ui_font_family": "Monaspace Krypton",
     "buffer_font_family": "Monaspace Krypton",
     // ------ Layout ------
@@ -74,6 +75,9 @@
     },
     "scrollbar": { "show": "never" },
     "project_panel": { "button": true, "dock": "right", "indent_size": 20 },
+    "git_panel": { "button": true, "dock": "right", "indent_size": 20 },
+    "outline_panel": { "button": false },
+    "collaboration_panel": { "button": false },
     // ------ Editor ------
     "cursor_blink": true,
     // Visually show tabs and spaces  (none, all, selection, boundary, trailing)

@@ -27,12 +27,6 @@
         }
     },
     {
-        "context": "vim_mode == normal && !menu",
-        "bindings": {
-            // "shift-y": ["workspace::SendKeystrokes", "y $"] // Use neovim's yank behavior: yank to end of line.
-        }
-    },
-    {
         "context": "vim_mode == insert",
         "bindings": {
             "j k": "vim::NormalBefore"
@@ -56,7 +50,7 @@
     {
         "context": "Editor || Dock",
         "bindings": {
-            "ctrl-alt-q": "workspace::ToggleLeftDock",
+            "ctrl-alt-q": "workspace::ToggleRightDock",
             "ctrl-alt-e": "project_panel::ToggleFocus",
             "ctrl-alt-g": "git_panel::ToggleFocus"
         }

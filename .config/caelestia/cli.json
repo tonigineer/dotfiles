@@ -3,6 +3,7 @@
         "extraArgs": []
     },
     "theme": {
+        "enableCava": true,
         "enableTerm": true,
         "enableHypr": true,
         "enableDiscord": true,

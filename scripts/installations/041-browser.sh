@@ -9,13 +9,14 @@ pkgs=(
 
 status() {
     yay_check "${pkgs[@]}" &&
-        [ -L ~/.librewolf ]
+        [ -L ~/.librewolf/colorscheme.css ]
 }
 
 install() {
     yay_install "${pkgs[@]}"
 
-    safe_symlink .librewolf
+    safe_symlink .librewolf/colorscheme.css
+    # Todo: Find current profile and link userChrome.css
 
     xdg-settings set default-web-browser librewolf.desktop
 }
@@ -24,5 +25,5 @@ uninstall() {
     local pkgs=(librewolf-bin)
     yay_uninstall "${pkgs[@]}"
 
-    rm -rf ~/.librewolf
+    rm -rf ~/.librewolf/colorscheme.css
 }

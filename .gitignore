@@ -4,6 +4,8 @@
 
 .config/hypr/scheme/current.conf
 
+.config/noctalia/colors.json
+
 .config/yazi/plugins
 .config/yazi/package.toml
 

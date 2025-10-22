@@ -70,9 +70,11 @@
                     "id": "Tray"
                 },
                 {
+                    "displayMode": "onhover",
                     "id": "WiFi"
                 },
                 {
+                    "displayMode": "onhover",
                     "id": "Bluetooth"
                 },
                 {
@@ -94,6 +96,15 @@
                 },
                 {
                     "id": "SessionMenu"
+                },
+                {
+                    "icon": "color-filter",
+                    "id": "CustomButton",
+                    "leftClickExec": "~/.config/hypr/scripts/switchshell.sh",
+                    "middleClickExec": "",
+                    "rightClickExec": "",
+                    "textCommand": "",
+                    "textIntervalMs": 3000
                 }
             ]
         }
@@ -202,6 +213,7 @@
     },
     "location": {
         "name": "Hannover",
+        "showCalendarEvents": true,
         "showWeekNumberInCalendar": false,
         "use12hourFormat": false,
         "useFahrenheit": false,
@@ -220,10 +232,8 @@
         "nightTemp": "4000"
     },
     "notifications": {
-        "alwaysOnTop": false,
         "criticalUrgencyDuration": 15,
         "doNotDisturb": false,
-        "lastSeenTs": 1760650860000,
         "location": "top_right",
         "lowUrgencyDuration": 3,
         "monitors": [
@@ -231,15 +241,16 @@
             "eDP-1"
         ],
         "normalUrgencyDuration": 8,
+        "overlayLayer": true,
         "respectExpireTimeout": false
     },
     "osd": {
-        "alwaysOnTop": false,
         "autoHideMs": 2000,
         "enabled": true,
         "location": "top",
         "monitors": [
-        ]
+        ],
+        "overlayLayer": true
     },
     "screenRecorder": {
         "audioCodec": "opus",
@@ -260,7 +271,7 @@
         "discord_dorion": false,
         "discord_equibop": false,
         "discord_lightcord": false,
-        "discord_vesktop": true,
+        "discord_vesktop": false,
         "discord_webcord": false,
         "enableUserTemplates": true,
         "foot": false,
@@ -270,13 +281,15 @@
         "kcolorscheme": true,
         "kitty": false,
         "pywalfox": false,
-        "qt": true
+        "qt": true,
+        "vicinae": false
     },
     "ui": {
         "fontDefault": "Monaspace Krypton Medium",
         "fontDefaultScale": 1,
         "fontFixed": "Monaspace Krypton",
         "fontFixedScale": 1,
+        "panelsOverlayLayer": true,
         "tooltipsEnabled": true
     },
     "wallpaper": {

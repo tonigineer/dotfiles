@@ -293,6 +293,14 @@
                 "command": ["systemctl", "suspend-then-hibernate"],
                 "enabled": true,
                 "dangerous": false
+            },
+            {
+                "name": "Switch Shell",
+                "icon": "computer",
+                "description": "Change to Noctalia shell for productivity",
+                "command": ["bash", "-c", "~/.config/hypr/scripts/switchshell.sh"],
+                "enabled": true,
+                "dangerous": false
             }
         ],
         "dragThreshold": 50,

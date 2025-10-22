@@ -53,6 +53,17 @@ install() {
     safe_symlink .config/mpv
     safe_symlink .config/swaync
 
+    echo '# Enable NVIDIA settings
+$HYPR_NVIDIA = 1
+
+# Enable desired shell
+$HYPR_NOCTALIA =
+$HYPR_CAELESTIA = 1
+
+# Select current system
+$HYPR_Z790E = 1
+$HYPR_X15GEN3 =' > ~/.config/hypr/conf.d/init/config.conf
+
     yay_install "${pkgs_theme[@]}"
 
     fc-cache -v

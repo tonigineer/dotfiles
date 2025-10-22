@@ -28,7 +28,7 @@
         "active_language_button": true
     },
     "agent": {
-        "enabled": false,
+        "enabled": true,
         "play_sound_when_agent_done": true,
         "default_model": {
             "provider": "openai",

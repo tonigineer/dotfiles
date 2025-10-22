@@ -1,6 +1,6 @@
 <div align="right">🖕</div>
 
-# Dotfiles 
+# Dotfiles
 
 <div align="center">
   <img src="https://img.shields.io/github/last-commit/tonigineer/.dotfiles?style=for-the-badge&logo=github&color=a6da95&logoColor=D9E0EE&labelColor=302D41"/>
@@ -19,9 +19,13 @@
 </div>
 
 <div align="center">
-  <img src=".assets/impressions/legacy_first_rice.png" width="400" alt="Desktop Overview"/>
-  <img src=".assets/impressions/legacy_second_rice.png" width="400" alt="Terminal Setup"/>
+  <img src="./assets/impressions/current-caelestia-dark.png" width="400"/>
+  <img src="./assets/impressions/current-noctalia-dark.png" width="400"/>
 </div>
+<div align="center">
+  <img src="./assets/impressions/current-caelestia-light.png" width="400"/>
+</div>
+
 
 ## Missing/ToDo
 
@@ -60,8 +64,8 @@ cd ~/Dotfiles
 
 
 - <kbd>SUPER</kbd> + <kbd>RETURN</kbd> — Open Kitty terminal
-- <kbd>SUPER</kbd> + <kbd>E</kbd> — Open Yazi file manager in terminal 
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>E</kbd> — Open Thunar file manager 
+- <kbd>SUPER</kbd> + <kbd>E</kbd> — Open Yazi file manager in terminal
+- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>E</kbd> — Open Thunar file manager
 - <kbd>SUPER</kbd> + <kbd>R</kbd> — Open launcher (application menu; varies by shell)
 - <kbd>SUPER</kbd> + <kbd>S</kbd> — Open control center/sidebar (system controls; varies by shell)
 - <kbd>SUPER</kbd> + <kbd>D</kbd> — Open control dashboard (Caelestia only)

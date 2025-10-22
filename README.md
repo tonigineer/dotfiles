@@ -15,7 +15,9 @@
 <br>
 
 <div align="center">
-  <p><em>A somewhat minimalist, workflow-focused desktop configuration emphasizing speed, clarity, and visual consistency.</em></p>
+  <p><em>“A minimalist, workflow-focused desktop configuration emphasizing speed, clarity, and visual consistency.”
+
+— ChatGPT</em></p>
 </div>
 
 <div align="center">
@@ -57,8 +59,8 @@ cd ~/Dotfiles
 - [x] GPU: NVIDIA RTX 40-series; [Gamescope](https://github.com/ValveSoftware/gamescope) and [MangoHud](https://github.com/flightlessmango/MangoHud) supported
 - [x] Dynamic color theming via both shells for multiple applications, including [Discord](https://github.com/Vencord/Vesktop)
 
-> [!IMPORTANT] Important — Hyprland ecosystem
-> [Hyprpaper](https://github.com/hyprwm/hyprpaper), [Hypridle](https://github.com/hyprwm/hypridle), and [Hyprlock](https://github.com/hyprwm/hyprlock/) are not used; equivalent functionality is provided by the shells.
+> [!IMPORTANT] 
+> Hyprland ecosystem — [Hyprpaper](https://github.com/hyprwm/hyprpaper), [Hypridle](https://github.com/hyprwm/hypridle), and [Hyprlock](https://github.com/hyprwm/hyprlock/) are not used; equivalent functionality is provided by the shells.
 
 ## Keymaps
 
@@ -71,7 +73,7 @@ cd ~/Dotfiles
 - <kbd>SUPER</kbd> + <kbd>D</kbd> — Open control dashboard (Caelestia only)
 
 - <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>C</kbd> — Close active window
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>Q</kbd> — Open powermenu (varies by shell))
+- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>Q</kbd> — Open powermenu (varies by shell)
 - <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd> Y</kbd> — Cast currently playing media URL to MPV player
 - <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>L</kbd> — Lock screen (varies by shell)
 

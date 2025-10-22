@@ -31,6 +31,7 @@
 
 ## Missing/ToDo
 
+- [ ] Workflow gif; reducing the size of some assets
 - [ ] Reintegrate mpvpaper (legacy script)
 - [ ] Implement hot-reload of color themes for Thunar and LibreWolf
 

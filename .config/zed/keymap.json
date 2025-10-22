@@ -1,0 +1,65 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+    {
+        // Put key bindings here if you want them to work in normal & visual mode.
+        "context": "VimControl && !menu",
+        "bindings": {
+            "space space": "tab_switcher::Toggle",
+            "space s f": "file_finder::Toggle",
+            "space s g": "pane::DeploySearch",
+            "space h": "editor::Hover",
+            "space v": "editor::GoToDefinitionSplit",
+            "space g r": "editor::FindAllReferences",
+            "space g d": "editor::GoToTypeDefinition",
+            "space l f": "editor::Format",
+            "space l a": "editor::ToggleCodeActions",
+            "space l r": "editor::Rename",
+            "space l l": "diagnostics::Deploy",
+            "space l s": "outline::Toggle",
+            "shift-k": "editor::MoveLineUp",
+            "shift-j": "editor::MoveLineDown"
+        }
+    },
+    {
+        "context": "vim_mode == insert",
+        "bindings": {
+            "j k": "vim::NormalBefore"
+        }
+    },
+    // ------ Old habits ------
+    {
+        "context": "Editor && !menu",
+        "bindings": {
+            "ctrl-c": "editor::Copy", // vim default: return to normal mode
+            "ctrl-x": "editor::Cut", // vim default: decrement
+            "ctrl-v": "editor::Paste", // vim default: visual block mode
+            "ctrl-y": "editor::Redo", // vim default: line up
+            "ctrl-z": "editor::Undo", // vim default: line up
+            "ctrl-f": "buffer_search::Deploy", // vim default: page down
+            "ctrl-a": "editor::SelectAll", // vim default: increment
+            "ctrl-s": "workspace::Save"
+        }
+    },
+    // ------ Globals navigation ------
+    {
+        "context": "Editor || Dock",
+        "bindings": {
+            "ctrl-alt-q": "workspace::ToggleRightDock",
+            "ctrl-alt-e": "project_panel::ToggleFocus",
+            "ctrl-alt-g": "git_panel::ToggleFocus"
+        }
+    },
+    {
+        "context": "Terminal",
+        "bindings": {
+            "ctrl-c": "terminal::Copy",
+            "ctrl-v": "terminal::Paste"
+        }
+    }
+]

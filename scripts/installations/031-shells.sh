@@ -26,8 +26,11 @@ install() {
     safe_symlink .config/noctalia
     safe_symlink .config/caelestia
 
-    ln -s ~/.local/state/caelestia/theme/kitty.conf ~/Dotfiles/.config/kitty/themes/caelestia.conf
-    ln -s ~/.local/state/caelestia/theme/zed.json ~/Dotfiles/.config/zed/themes/caelestia.json
+    mkdir -p ~/.config/kitty/themes
+    mkdir -p ~/.config/zed/themes
+
+    ln -fs ~/.local/state/caelestia/theme/kitty.conf ~/.config/kitty/themes/caelestia.conf
+    ln -fs ~/.local/state/caelestia/theme/zed.json ~/.config/zed/themes/caelestia.json
 
     # Adapting `caelestia-cli` package
     #

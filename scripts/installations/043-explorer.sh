@@ -2,9 +2,15 @@
 
 pkgs=(
     evince
-    thunar
     ffmpegthumbnailer
     imv
+    libopenraw
+    libgsf
+    libheif
+    poppler-glib
+    thunar
+    tumbler
+    webp-pixbuf-loader
 )
 
 status() {
@@ -14,9 +20,8 @@ status() {
 install() {
     yay_install "${pkgs[@]}"
 
-    safe_symlink .config/Thunar
-
     mkdir -p ~/.config/Thunar
+
     echo "utilities-terminal Open Terminal Here 1760453846169004-1 kitty --directory %f *" >~/.config/Thunar/uca.xml
 }
 

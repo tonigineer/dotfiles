@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 pkgs=(
-    cmatrix
+    cmatrix-git
     curl
     eza
     fontconfig

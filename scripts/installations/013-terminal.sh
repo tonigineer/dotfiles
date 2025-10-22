@@ -17,7 +17,6 @@ pkgs_tools=(
 status() {
     yay_check "${pkgs[@]}" && yay_check "${pkgs_tools[@]}" &&
         [ -L ~/.config/btop ] &&
-        [ -L ~/.config/cava ] &&
         [ -L ~/.config/fastfetch ] &&
         [ -L ~/.config/kitty ] &&
         [ -L ~/.config/yazi ]

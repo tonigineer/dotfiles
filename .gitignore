@@ -2,6 +2,7 @@
 
 .config/kitty/themes
 
+.config/hypr/conf.d/init/config.conf
 .config/hypr/scheme/current.conf
 
 .config/noctalia/colors.json

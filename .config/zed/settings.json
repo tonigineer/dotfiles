@@ -75,7 +75,7 @@
     },
     "scrollbar": { "show": "never" },
     "project_panel": { "button": true, "dock": "right", "indent_size": 20 },
-    "git_panel": { "button": true, "dock": "right", "indent_size": 20 },
+    "git_panel": { "button": true, "dock": "right" },
     "outline_panel": { "button": false },
     "collaboration_panel": { "button": false },
     // ------ Editor ------

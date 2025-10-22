@@ -14,8 +14,7 @@ status() {
         [[ $(git -C ~/.config/quickshell/caelestia/ remote get-url origin 2>/dev/null) == "$repo_caelestia" ]] &&
         [[ $(git -C ~/.config/quickshell/noctalia/ remote get-url origin 2>/dev/null) == "$repo_noctalia" ]] &&
         [ -L ~/.config/noctalia ] &&
-        [ -L ~/.config/caelestia ] &&
-        [ -L ~/.config/matugen ]
+        [ -L ~/.config/caelestia ]
 }
 
 install() {
@@ -26,12 +25,14 @@ install() {
 
     safe_symlink .config/noctalia
     safe_symlink .config/caelestia
-    safe_symlink .config/matugen
 
     ln -s ~/.local/state/caelestia/theme/kitty.conf ~/Dotfiles/.config/kitty/themes/caelestia.conf
     ln -s ~/.local/state/caelestia/theme/zed.json ~/Dotfiles/.config/zed/themes/caelestia.json
 
     # Adapting `caelestia-cli` package
+    #
+    # Note: Kind of a hacky way, since the python package is directly modified, but currently
+    # there is no other way. Maybe adding the feature would be nice.
     pypkg_dir=/usr/lib64/python3.13/site-packages/caelestia/
 
     theme_script=$pypkg_dir/utils/theme.py

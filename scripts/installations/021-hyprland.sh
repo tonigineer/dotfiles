@@ -49,6 +49,7 @@ status() {
 install() {
     yay_install "${pkgs[@]}"
 
+    ln -sf $dotfiles_dir/assets/avatar.jpg ~/.face
     safe_symlink .config/hypr
     safe_symlink .config/mpv
     safe_symlink .config/swaync

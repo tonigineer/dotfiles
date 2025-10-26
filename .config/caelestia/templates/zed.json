@@ -7,7 +7,7 @@
             "name": "Caelestia",
             "appearance": "dark",
             "style": {
-                "border": "#{{ mantle.hex }}",
+                "border": "#{{ surfaceContainerLow.hex }}",
                 "border.variant": "#{{ mantle.hex }}",
                 "border.focused": "#{{ mantle.hex }}",
                 "border.selected": "#{{ mantle.hex }}",
@@ -43,10 +43,11 @@
                 "icon.placeholder": "#{{ overlay1.hex }}",
                 "icon.accent": "#{{ primary.hex }}",
 
-                "status_bar.background": "#{{ surfaceVariant.hex }}",
+                "status_bar.background": "#{{ mantle.hex }}",
                 "title_bar.background": "#{{ mantle.hex }}",
+                "title_bar.background_incative": "#{{ mantle.hex }}",
                 "toolbar.background": "#{{ surfaceContainerLow.hex }}",
-                "tab_bar.background": "#{{ mantle.hex }}",
+                "tab_bar.background": "#{{ surfaceContainerLow.hex }}",
                 "tab.inactive_background": "#{{ surfaceContainerHigh.hex }}",
                 "tab.active_background": "#{{ surfaceContainerHighest.hex }}",
 

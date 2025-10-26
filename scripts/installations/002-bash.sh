@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
 pkgs=(
+    asciiquarium-transparent-git
     cmatrix-git
+    cbonsai
     curl
     eza
+    figlet
     fontconfig
+    lolcat
     otf-monaspace
     tar
     terminus-font

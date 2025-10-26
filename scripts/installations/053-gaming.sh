@@ -21,6 +21,18 @@ install() {
     safe_symlink .config/mangohud
 
     fc-cache -v
+
+    # Exemplary start command for The Witcher 3, Red Dead Redemption 2
+    # - Set custom mangohud config dir and use --mangoapp
+    # - Set --force-grab-cursor to get rid of mouse problems in wayland
+    #
+    #
+    # MANGOHUD_CONFIG="read_cfg" MANGOHUD_CONFIGFILE="$HOME/.config/mangohud/mangohud.conf" \
+    #   gamescope -f -w 3840 -h 2160 -r 160 --adaptive-sync --rt --immediate-flips --force-grab-cursor --mangoapp \
+    #   -- %command%
+    #
+    # Current Settings
+    # DOTA2: WLR_NO_HARDWARE_CURSORS=1 MANGOHUD_CONFIG="read_cfg" MANGOHUD_CONFIGFILE="$HOME/.config/mangohud/mangohud.conf" mangohud %command%
 }
 
 uninstall() {

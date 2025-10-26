@@ -49,6 +49,19 @@ if command -v cmatrix &>/dev/null; then
     alias matrix="cmatrix -ab -C red"
 fi
 
+if command -v cbonsai &>/dev/null; then
+    alias bonsai="bonsai -l -i"
+fi
+
+if command -v asciiquarium &>/dev/null; then
+    alias aquarium="asciiquarium -t"
+fi
+
+alias weather="hyprctl dispatch fullscreen 1; clear; curl -s wttr.in; echo; read
+-k1 -s '?Press any key to exit...'; echo; exit"
+
+alias welcome="figlet 'Welcome back' | lolcat -p 0.5"
+
 alias notes="nvim ~/Documents/notes.md"
 
 # Directories

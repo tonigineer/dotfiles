@@ -125,13 +125,13 @@
         }
     },
     "experimental.theme_overrides": {
-        // "hint.background": "#333a50",
-        // "error.background": "#8d3250",
+        "hint.background": "#333a50",
+        "error.background": "#8d3250",
         "players": [
             {
                 "cursor": "#FF6767",
                 "background": "#0f0f0f",
-                "selection": "#8d32503d"
+                "selection": "#8d3250"
             }
         ],
         "syntax": {

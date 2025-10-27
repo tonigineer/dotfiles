@@ -301,6 +301,70 @@
                 "command": ["bash", "-c", "~/.config/hypr/scripts/switchshell.sh"],
                 "enabled": true,
                 "dangerous": false
+            },
+            {
+                "name": "Live Wallpaper",
+                "icon": "wallpaper",
+                "description": "Start Live Wallpaper",
+                "command": [
+                    "hyprctl",
+                    "dispatch",
+                    "exec",
+                    "[float; size 30% 30%; centerwindow]",
+                    "kitty -e bash -lc \"$HOME/.config/hypr/scripts/live-wallpaper.sh; sleep 0.5\""
+                ],
+                "enabled": true,
+                "dangerous": false
+            },
+            {
+                "name": "Terminate Live Wallpaper",
+                "icon": "cancel",
+                "description": "Terminate Live Wallpaper",
+                "command": ["bash", "-c", "pkill -x mpvpaper 2>/dev/null || true"],
+                "enabled": true,
+                "dangerous": false
+            },
+            {
+                "name": "Live Stream - ARD",
+                "icon": "stream",
+                "description": "Das Erste (ARD) Livestream",
+                "command": [
+                    "hyprctl",
+                    "dispatch",
+                    "exec",
+                    "[noinitialfocus; float; size 35% 35%; move 60% 5%; monitor 0; pin]",
+                    "mpv https://daserste-live.ard-mcdn.de/daserste/live/hls/de/master.m3u8"
+                ],
+                "enabled": true,
+                "dangerous": false
+            },
+            {
+                "name": "Live Stream - ZDF",
+                "icon": "stream",
+                "description": "ZDF Livestream",
+                "command": [
+                    "hyprctl",
+                    "dispatch",
+                    "exec",
+                    "[noinitialfocus; float; size 35% 35%; move 60% 5%; monitor 0; pin]",
+                    "mpv https://zdf-hls-15.akamaized.net/hls/live/2016498/de/high/master.m3u8"
+                ],
+                "enabled": true,
+                "dangerous": false
+            },
+            {
+                "name": "Live Stream - Phoenix",
+                "icon": "stream",
+                "description": "phoenix (ARD/ZDF) Livestream",
+                "command": [
+                    "hyprctl",
+                    "dispatch",
+                    "exec",
+                    "[noinitialfocus; float; size 35% 35%; move 60% 5%; monitor 0; pin]",
+                    "mpv https://zdf-hls-19.akamaized.net/hls/live/2016502/de/high/master.m3u8"
+                ],
+                "enabled": true,
+                "dangerous": false
             }
         ],
         "dragThreshold": 50,
@@ -337,7 +401,7 @@
     },
     "paths": {
         "mediaGif": "root:/assets/bongocat.gif",
-        "sessionGif": "root:/assets/kurukuru.gif",
+        "sessionGif": "/home/toni/Pictures/gifs/seseren-the-herta.gif",
         "wallpaperDir": "/home/toni/Wallpaper"
     },
     "services": {

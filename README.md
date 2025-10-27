@@ -32,7 +32,6 @@
 ## Missing/ToDo
 
 - [ ] Workflow gif; reducing the size of some assets
-- [ ] Reintegrate mpvpaper (legacy script)
 - [ ] Implement hot-reload of color themes for Thunar and LibreWolf
 
 ## Installation
@@ -45,7 +44,6 @@ cd ~/Dotfiles
 
 ./scripts/install.sh
 ```
-
 
 > [!NOTE]
 > See the Arch Linux installation documentation in [./docs](./docs) or refer directly to the [ArchWiki](https://wiki.archlinux.org/title/Main_page).
@@ -60,23 +58,32 @@ cd ~/Dotfiles
 - [x] GPU: NVIDIA RTX 40-series; [Gamescope](https://github.com/ValveSoftware/gamescope) and [MangoHud](https://github.com/flightlessmango/MangoHud) supported
 - [x] Dynamic color theming via both shells for multiple applications, including [Discord](https://github.com/Vencord/Vesktop)
 
-> [!IMPORTANT] 
+> [!IMPORTANT]
 > Hyprland ecosystem — [Hyprpaper](https://github.com/hyprwm/hyprpaper), [Hypridle](https://github.com/hyprwm/hypridle), and [Hyprlock](https://github.com/hyprwm/hyprlock/) are not used; equivalent functionality is provided by the shells.
+
 
 ## Keymaps
 
-
 - <kbd>SUPER</kbd> + <kbd>RETURN</kbd> — Open Kitty terminal
-- <kbd>SUPER</kbd> + <kbd>E</kbd> — Open Yazi file manager in terminal
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>E</kbd> — Open Thunar file manager
+- <kbd>SUPER</kbd> + <kbd>E</kbd> — Open Thunar file manager
+- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>E</kbd> — Open Yazi file manager in terminal
 - <kbd>SUPER</kbd> + <kbd>R</kbd> — Open launcher (application menu; varies by shell)
 - <kbd>SUPER</kbd> + <kbd>S</kbd> — Open control center/sidebar (system controls; varies by shell)
 - <kbd>SUPER</kbd> + <kbd>D</kbd> — Open control dashboard (Caelestia only)
 
 - <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>C</kbd> — Close active window
 - <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>Q</kbd> — Open powermenu (varies by shell)
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd> Y</kbd> — Cast currently playing media URL to MPV player
+- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Y</kbd> — Cast currently playing media URL to MPV player
+- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>N</kbd> — Start Netflix App (brave app functionality)
+- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>U</kbd> — Start system update (`yay -Syu`)
 - <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>L</kbd> — Lock screen (varies by shell)
+
+Custom commands for the *Caelestia shell* launcher are:
+
+- [x] `:Switch Shell` to change to *Noctalia Shell*
+- [x] `:Live Wallpaper` to open a fuzzy list to select a live wallpaper (`mpvpaper`)
+- [x] `:Live Stream ARD|ZDF|Phoenix` for german television streaming (`mpv`)
+
 
 ## Legacy
 

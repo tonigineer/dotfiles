@@ -11,7 +11,7 @@ caelestia)
 
 	sed -i -E '/^[[:space:]]*\$HYPR_NOCTALIA[[:space:]]*=.*/c\$HYPR_NOCTALIA = 1' "$HYPR_CONFIG_FILE"
 	sed -i -E '/^[[:space:]]*\$HYPR_CAELESTIA[[:space:]]*=.*/c\$HYPR_CAELESTIA =' "$HYPR_CONFIG_FILE"
-	hyprctl reload  # redundant, but sometimes string manip does not lead to reload
+	hyprctl reload # redundant, but sometimes string manip does not lead to reload
 
 	qs -c noctalia
 	;;
@@ -20,7 +20,7 @@ noctalia)
 
 	sed -i -E '/^[[:space:]]*\$HYPR_NOCTALIA[[:space:]]*=.*/c\$HYPR_NOCTALIA =' "$HYPR_CONFIG_FILE"
 	sed -i -E '/^[[:space:]]*\$HYPR_CAELESTIA[[:space:]]*=.*/c\$HYPR_CAELESTIA = 1' "$HYPR_CONFIG_FILE"
-	hyprctl reload  # redundant, but sometimes string manip does not lead to reload
+	hyprctl reload # redundant, but sometimes string manip does not lead to reload
 
 	qs -c caelestia
 
@@ -31,7 +31,7 @@ noctalia)
 	# caelestia scheme set -n dynamic
 	#
 	# Note: Replace symlink path with folder in home
-	caelestia wallpaper -f ~/Wallpaper/$(basename -- "$(caelestia wallpaper)")
+	caelestia wallpaper -f "$HOME/Wallpaper/$(basename -- "$(caelestia wallpaper)")"
 	;;
 *)
 	notify-sent "Unknown shell" "Current quickshell config $($config_path) is not implemented."

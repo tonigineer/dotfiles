@@ -7,23 +7,22 @@
 // from the command palette.
 [
     {
-        // Put key bindings here if you want them to work in normal & visual mode.
-        "context": "VimControl && !menu",
+        "context": "VimControl && !menu && vim_mode != insert",
         "bindings": {
-            "space space": "tab_switcher::Toggle",
+            "shift-j": "editor::MoveLineDown",
+            "shift-k": "editor::MoveLineUp",
+            "space g d": "editor::GoToTypeDefinition",
+            "space g r": "editor::FindAllReferences",
+            "space h": "editor::Hover",
+            "space l a": "editor::ToggleCodeActions",
+            "space l f": "editor::Format",
+            "space l l": "diagnostics::Deploy",
+            "space l r": "editor::Rename",
+            "space l s": "outline::Toggle",
             "space s f": "file_finder::Toggle",
             "space s g": "pane::DeploySearch",
-            "space h": "editor::Hover",
-            "space v": "editor::GoToDefinitionSplit",
-            "space g r": "editor::FindAllReferences",
-            "space g d": "editor::GoToTypeDefinition",
-            "space l f": "editor::Format",
-            "space l a": "editor::ToggleCodeActions",
-            "space l r": "editor::Rename",
-            "space l l": "diagnostics::Deploy",
-            "space l s": "outline::Toggle",
-            "shift-k": "editor::MoveLineUp",
-            "shift-j": "editor::MoveLineDown"
+            "space space": "tab_switcher::Toggle",
+            "space v": "editor::GoToDefinitionSplit"
         }
     },
     {
@@ -32,27 +31,17 @@
             "j k": "vim::NormalBefore"
         }
     },
-    // ------ Old habits ------
     {
         "context": "Editor && !menu",
         "bindings": {
-            "ctrl-c": "editor::Copy", // vim default: return to normal mode
-            "ctrl-x": "editor::Cut", // vim default: decrement
-            "ctrl-v": "editor::Paste", // vim default: visual block mode
-            "ctrl-y": "editor::Redo", // vim default: line up
-            "ctrl-z": "editor::Undo", // vim default: line up
-            "ctrl-f": "buffer_search::Deploy", // vim default: page down
-            "ctrl-a": "editor::SelectAll", // vim default: increment
-            "ctrl-s": "workspace::Save"
-        }
-    },
-    // ------ Globals navigation ------
-    {
-        "context": "Editor || Dock",
-        "bindings": {
-            "ctrl-alt-q": "workspace::ToggleRightDock",
-            "ctrl-alt-e": "project_panel::ToggleFocus",
-            "ctrl-alt-g": "git_panel::ToggleFocus"
+            "ctrl-a": "editor::SelectAll",
+            "ctrl-c": "editor::Copy",
+            "ctrl-f": "buffer_search::Deploy",
+            "ctrl-s": "workspace::Save",
+            "ctrl-v": "editor::Paste",
+            "ctrl-x": "editor::Cut",
+            "ctrl-y": "editor::Redo",
+            "ctrl-z": "editor::Undo"
         }
     },
     {
@@ -60,6 +49,14 @@
         "bindings": {
             "ctrl-c": "terminal::Copy",
             "ctrl-v": "terminal::Paste"
+        }
+    },
+    {
+        "context": "(Editor && vim_mode == normal) || Dock",
+        "bindings": {
+            "space q": "workspace::ToggleRightDock",
+            "space e": "project_panel::ToggleFocus",
+            "space G": "git_panel::ToggleFocus"
         }
     }
 ]

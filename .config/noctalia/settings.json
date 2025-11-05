@@ -1,10 +1,12 @@
 {
     "appLauncher": {
         "backgroundOpacity": 1,
+        "customLaunchPrefix": "",
+        "customLaunchPrefixEnabled": false,
         "enableClipboardHistory": true,
         "pinnedExecs": [
         ],
-        "position": "center",
+        "position": "top_center",
         "sortByMostUsed": true,
         "terminalCommand": "kitty -e",
         "useApp2Unit": false
@@ -20,17 +22,21 @@
     },
     "bar": {
         "backgroundOpacity": 1,
-        "density": "comfortable",
+        "density": "compact",
+        "exclusive": true,
         "floating": false,
-        "marginHorizontal": 0.25,
-        "marginVertical": 0.25,
+        "marginHorizontal": 0,
+        "marginVertical": 0,
         "monitors": [
+            "DP-3"
         ],
+        "outerCorners": true,
         "position": "top",
         "showCapsule": false,
         "widgets": {
             "center": [
                 {
+                    "characterCount": 2,
                     "hideUnoccupied": true,
                     "id": "Workspace",
                     "labelMode": "index"
@@ -102,9 +108,12 @@
                     "id": "CustomButton",
                     "leftClickExec": "~/.config/hypr/scripts/switchshell.sh",
                     "middleClickExec": "",
+                    "parseJson": false,
                     "rightClickExec": "",
+                    "textCollapse": "",
                     "textCommand": "",
-                    "textIntervalMs": 3000
+                    "textIntervalMs": 3000,
+                    "textStream": false
                 }
             ]
         }
@@ -113,7 +122,9 @@
         "chargingMode": 0
     },
     "brightness": {
-        "brightnessStep": 4
+        "brightnessStep": 4,
+        "enableDdcSupport": true,
+        "enforceMinimum": true
     },
     "colorSchemes": {
         "darkMode": true,
@@ -122,7 +133,7 @@
         "manualSunset": "18:30",
         "matugenSchemeType": "scheme-tonal-spot",
         "predefinedScheme": "",
-        "schedulingMode": "off",
+        "schedulingMode": "location",
         "useWallpaperColors": true
     },
     "controlCenter": {
@@ -184,6 +195,7 @@
         "backgroundOpacity": 1,
         "colorizeIcons": false,
         "displayMode": "auto_hide",
+        "enabled": false,
         "floatingRatio": 1,
         "monitors": [
         ],
@@ -193,27 +205,31 @@
         "size": 1
     },
     "general": {
-        "animationDisabled": false,
+        "animationDisabled": true,
         "animationSpeed": 1,
-        "avatarImage": "/home/toni/.face.jpg",
+        "avatarImage": "/home/toni/.face",
         "compactLockScreen": true,
         "dimDesktop": true,
-        "forceBlackScreenCorners": false,
+        "enableShadows": false,
+        "forceBlackScreenCorners": true,
         "language": "",
         "lockOnSuspend": true,
         "radiusRatio": 0.2,
         "scaleRatio": 1,
         "screenRadiusRatio": 1,
-        "showScreenCorners": false
+        "showScreenCorners": true
     },
     "hooks": {
-        "darkModeChange": "",
-        "enabled": false,
-        "wallpaperChange": ""
+        "darkModeChange": "notify-send \"Theme\" \"Toggled\"",
+        "enabled": true,
+        "wallpaperChange": "notify-send \"Wallpaper\" \"Changed\""
     },
     "location": {
+        "analogClockInCalendar": false,
+        "firstDayOfWeek": -1,
         "name": "Hannover",
         "showCalendarEvents": true,
+        "showCalendarWeather": true,
         "showWeekNumberInCalendar": false,
         "use12hourFormat": false,
         "useFahrenheit": false,
@@ -232,6 +248,7 @@
         "nightTemp": "4000"
     },
     "notifications": {
+        "backgroundOpacity": 1,
         "criticalUrgencyDuration": 15,
         "doNotDisturb": false,
         "location": "top_right",
@@ -263,9 +280,11 @@
         "videoCodec": "h264",
         "videoSource": "portal"
     },
-    "settingsVersion": 16,
+    "settingsVersion": 18,
     "setupCompleted": true,
     "templates": {
+        "alacritty": false,
+        "code": false,
         "discord": false,
         "discord_armcord": false,
         "discord_dorion": false,
@@ -282,13 +301,16 @@
         "kitty": false,
         "pywalfox": false,
         "qt": true,
-        "vicinae": false
+        "vicinae": false,
+        "walker": false,
+        "wezterm": false
     },
     "ui": {
         "fontDefault": "Monaspace Krypton Medium",
         "fontDefaultScale": 1,
         "fontFixed": "Monaspace Krypton",
         "fontFixedScale": 1,
+        "panelsAttachedToBar": true,
         "panelsOverlayLayer": true,
         "tooltipsEnabled": true
     },
@@ -313,16 +335,18 @@
             {
                 "directory": "/home/toni/DotfilesData/backgrounds",
                 "name": "DP-1",
-                "wallpaper": "/home/toni/Wallpaper/forest-night-blue.png"
+                "wallpaper": "/home/toni/Wallpaper/tokyo-lofi-healing-1.png"
             },
             {
                 "directory": "/home/toni/DotfilesData/backgrounds",
                 "name": "DP-3",
-                "wallpaper": "/home/toni/Wallpaper/forest-night-blue.png"
+                "wallpaper": "/home/toni/Wallpaper/tokyo-lofi-healing-1.png"
             }
         ],
+        "panelPosition": "folow_bar",
         "randomEnabled": false,
         "randomIntervalSec": 600,
+        "recursiveSearch": false,
         "setWallpaperOnAllMonitors": true,
         "transitionDuration": 1500,
         "transitionEdgeSmoothness": 0.05,

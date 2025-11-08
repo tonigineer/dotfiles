@@ -52,7 +52,7 @@
         }
     },
     {
-        "context": "(Editor && vim_mode == normal) || Dock",
+        "context": "vim_mode == normal && (Editor || Dock)",
         "bindings": {
             "space q": "workspace::ToggleRightDock",
             "space e": "project_panel::ToggleFocus",

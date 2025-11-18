@@ -75,16 +75,16 @@
             "inhibitWhenAudio": true,
             "timeouts": [
                 {
-                    "timeout": 300,
+                    "timeout": 6000,
                     "idleAction": "lock"
                 },
                 {
-                    "timeout": 3600,
+                    "timeout": 18000,
                     "idleAction": "dpms off",
                     "returnAction": "dpms on"
                 },
                 {
-                    "timeout": 14400,
+                    "timeout": 36000,
                     "idleAction": [
                         "systemctl",
                         "suspend"
@@ -195,8 +195,8 @@
         }
     },
     "border": {
-        "rounding": 25,
-        "thickness": 10
+        "rounding": 0,
+        "thickness": 0
     },
     "dashboard": {
         "enabled": true,

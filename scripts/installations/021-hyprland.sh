@@ -63,7 +63,7 @@ $HYPR_CAELESTIA = 1
 
 # Select current system
 $HYPR_Z790E = 1
-$HYPR_X15GEN3 =' > ~/.config/hypr/conf.d/init/config.conf
+$HYPR_X13GEN5 =' > ~/.config/hypr/conf.d/init/config.conf
 
     yay_install "${pkgs_theme[@]}"
 

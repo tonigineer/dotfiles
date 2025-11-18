@@ -1,11 +1,14 @@
 .config/btop/themes/caelestia.theme
 
+.config/caelestia/shell.json
+
 .config/kitty/themes
 
 .config/hypr/conf.d/init/config.conf
 .config/hypr/scheme/current.conf
 
 .config/noctalia/colors.json
+.config/noctalia/settings.json
 
 .config/yazi/plugins
 .config/yazi/package.toml

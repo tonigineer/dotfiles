@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-#
 
 readonly CFG_FILE=~/.config/caelestia/shell.json
 
@@ -24,4 +23,5 @@ else
     hyprctl reload
     exit 0
 fi
+
 exit 1

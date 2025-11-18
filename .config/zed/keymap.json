@@ -58,5 +58,17 @@
             "space e": "project_panel::ToggleFocus",
             "space G": "git_panel::ToggleFocus"
         }
+    },
+    {
+        "context": "Workspace",
+        "bindings": {
+            "ctrl-j": null
+        }
+    },
+    {
+        "context": "((FileFinder || FileFinder > Picker > Editor) || FileFinder > Picker > menu)",
+        "bindings": {
+            "ctrl-j": null
+        }
     }
 ]

@@ -3,7 +3,7 @@
 [templates.kitty]
 input_path = '~/.config/noctalia/templates/kitty.conf'
 output_path = '~/.local/state/caelestia/theme/kitty.conf'
-post_hook = 'kitty +kitten themes --reload-in=all caelestia'
+post_hook = 'kill -USR1 $(pidof kitty)'
 
 [templates.zed]
 input_path = '~/.config/noctalia/templates/zed.json'
@@ -16,11 +16,3 @@ output_path = '~/.local/state/caelestia/theme/userChrome.css'
 [templates.m3scheme]
 input_path = '~/.config/noctalia/templates/m3scheme.json'
 output_path = '~/.local/state/caelestia/scheme.json'
-#
-# [templates.noctalia]
-# input_path = "~/.config/matugen/templates/noctalia.json"
-# output_path = "~/.config/noctalia/colors.json"
-#
-# [templates.librewolf]
-# input_path = "~/.config/matugen/templates/librewolf.css"
-# output_path = "~/.librewolf/matugen.css"

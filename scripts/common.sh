@@ -35,7 +35,7 @@ bootstrap_yay() {
         return 0
     fi
 
-    sudo pacman -S --needed --noconfirm base-devel git
+    sudo pacman -S --needed --noconfirm base-devel git fzf
 
     local tmp
     tmp="$(mktemp -d)"

@@ -13,7 +13,7 @@ caelestia)
 	sed -i -E '/^[[:space:]]*\$HYPR_CAELESTIA[[:space:]]*=.*/c\$HYPR_CAELESTIA =' "$HYPR_CONFIG_FILE"
 	hyprctl reload # redundant, but sometimes string manip does not lead to reload
 
-	qs -c noctalia
+	qs -c noctalia-shell
 	;;
 noctalia)
 	killall -9 qs

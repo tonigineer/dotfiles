@@ -207,22 +207,22 @@
                 "syntax": {
                     "attribute": { "color": "#{{ onSurfaceVariant.hex }}", "font_style": null, "font_weight": null },
                     "boolean": { "color": "#{{ onSurfaceVariant.hex }}", "font_style": null, "font_weight": null },
-                    "comment": { "color": "#{{ maroon.hex }}", "font_style": "italic", "font_weight": "bold" },
+                    "comment": { "color": "#{{ maroon.hex }}", "font_style": "italic", "font_weight": null },
                     "comment.doc": {
                         "color": "#{{ maroon.hex }}",
                         "font_style": "italic",
                         "font_weight": null
                     },
-                    "constant": { "color": "#{{ klink.hex }}", "font_style": null, "font_weight": null },
+                    "constant": { "color": "#{{ lavender.hex }}", "font_style": null, "font_weight": null },
                     "function": { "color": "#{{ onSurfaceVariant.hex }}", "font_style": null, "font_weight": null },
-                    "keyword": { "color": "#{{ klink.hex }}", "font_style": "bold", "font_weight": null },
+                    "keyword": { "color": "#{{ klink.hex }}", "font_style": null, "font_weight": null },
                     "tag": { "color": "#{{ onSurfaceVariant.hex }}", "font_style": null, "font_weight": null },
                     "number": { "color": "#{{ onSurfaceVariant.hex }}", "font_style": null, "font_weight": null },
 
-                    "string": { "color": "#{{ teal.hex }}", "font_style": "italic", "font_weight": null },
-                    "string.escape": { "color": "#{{ teal.hex }}", "font_style": "bold", "font_weight": null },
+                    "string": { "color": "#{{ teal.hex }}", "font_style": null, "font_weight": null },
+                    "string.escape": { "color": "#{{ teal.hex }}", "font_style": null, "font_weight": null },
                     "string.regex": { "color": "#{{ sapphire.hex }}", "font_style": null, "font_weight": null },
-                    "string.special": { "color": "#{{ rosewater.hex }}", "font_style": "italic", "font_weight": null },
+                    "string.special": { "color": "#{{ rosewater.hex }}", "font_style": null, "font_weight": null },
                     "string.special.symbol": {
                         "color": "#{{ lavender.hex }}",
                         "font_style": null,

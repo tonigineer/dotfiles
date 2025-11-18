@@ -110,7 +110,7 @@
         "dock": "right",
         "indent_size": 20
     },
-    "relative_line_numbers": true,
+    "relative_line_numbers": "enabled",
     "scrollbar": {
         "show": "never"
     },

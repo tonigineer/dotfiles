@@ -238,7 +238,7 @@
                         "font_style": "italic",
                         "font_weight": null
                     },
-                    "type": { "color": "#{{ onSurfaceVariant.hex }}", "font_style": "null", "font_weight": null }
+                    "type": { "color": "#{{ onSurfaceVariant.hex }}", "font_style": null, "font_weight": null }
                 }
             }
         }

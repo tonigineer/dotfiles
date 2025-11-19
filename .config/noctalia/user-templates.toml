@@ -10,8 +10,8 @@ input_path = '~/.config/noctalia/templates/zed.json'
 output_path = '~/.local/state/caelestia/theme/zed.json'
 
 [templates.librewolf]
-input_path = '~/.config/noctalia/templates/userChrome.css'
-output_path = '~/.local/state/caelestia/theme/userChrome.css'
+input_path = '~/.config/noctalia/templates/librewolf.css'
+output_path = '~/.local/state/caelestia/theme/librewolf.css'
 
 [templates.m3scheme]
 input_path = '~/.config/noctalia/templates/m3scheme.json'

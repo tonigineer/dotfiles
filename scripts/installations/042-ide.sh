@@ -11,15 +11,19 @@ pkgs=(
 
 status() {
     yay_check "${pkgs[@]}" &&
-        [ -L ~/.config/zed ]
+        [ -L ~/.config/zed/keymap.json ] &&
+        [ -L ~/.config/zed/settings.json ] &&
+        [ -f ~/.config/zed/themes/caelestia.json ]
 }
 
 install() {
     yay_install "${pkgs[@]}"
 
-    safe_symlink .config/zed
-
     mkdir -p ~/.config/zed/themes
+
+    safe_symlink .config/zed/keymap.json
+    safe_symlink .config/zed/settings.json
+
     ln -f ~/.local/state/caelestia/theme/zed.json ~/.config/zed/themes/caelestia.json
 }
 

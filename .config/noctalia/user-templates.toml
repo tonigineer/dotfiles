@@ -9,10 +9,14 @@ post_hook = 'kill -USR1 $(pidof kitty)'
 input_path = '~/.config/noctalia/templates/zed.json'
 output_path = '~/.local/state/caelestia/theme/zed.json'
 
-[templates.librewolf]
-input_path = '~/.config/noctalia/templates/librewolf.css'
-output_path = '~/.local/state/caelestia/theme/librewolf.css'
-
 [templates.m3scheme]
 input_path = '~/.config/noctalia/templates/m3scheme.json'
 output_path = '~/.local/state/caelestia/scheme.json'
+
+[templates.zenchrome]
+input_path = '~/.config/noctalia/templates/zen-userChrome.css'
+output_path = '~/.local/state/caelestia/theme/zen-userChrome.css'
+
+[templates.zencontent]
+input_path = '~/.config/noctalia/templates/zen-userContent.css'
+output_path = '~/.local/state/caelestia/theme/zen-userContent.css'

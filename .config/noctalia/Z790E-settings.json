@@ -198,7 +198,7 @@
         "size": 1
     },
     "general": {
-        "animationDisabled": false,
+        "animationDisabled": true,
         "animationSpeed": 1,
         "avatarImage": "/home/toni/.face",
         "compactLockScreen": false,
@@ -207,7 +207,7 @@
         "forceBlackScreenCorners": false,
         "language": "",
         "lockOnSuspend": true,
-        "radiusRatio": 0.2,
+        "radiusRatio": 1,
         "scaleRatio": 1,
         "screenRadiusRatio": 1,
         "shadowDirection": "bottom_right",
@@ -281,7 +281,7 @@
     "sessionMenu": {
         "countdownDuration": 5000,
         "enableCountdown": true,
-        "position": "top_center",
+        "position": "top_right",
         "powerOptions": [
             {
                 "action": "lock",
@@ -356,7 +356,7 @@
         "fontFixedScale": 1,
         "panelBackgroundOpacity": 1,
         "panelsAttachedToBar": true,
-        "settingsPanelAttachToBar": false,
+        "settingsPanelAttachToBar": true,
         "tooltipsEnabled": true
     },
     "wallpaper": {

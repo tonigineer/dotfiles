@@ -22,7 +22,21 @@ install() {
 
     mkdir -p ~/.config/Thunar
 
-    echo "utilities-terminal Open Terminal Here 1760453846169004-1 kitty --directory %f *" >~/.config/Thunar/uca.xml
+    echo '<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+<icon>utilities-terminal</icon>
+<name>Open Terminal Here</name>
+<submenu></submenu>
+<unique-id>1763564326697889-1</unique-id>
+<command>kitty --directory %f *</command>
+<description>Open a terminal in this folder</description>
+<range></range>
+<patterns>*</patterns>
+<startup-notify/>
+<directories/>
+</action>
+</actions>' >~/.config/Thunar/uca.xml
 }
 
 uninstall() {

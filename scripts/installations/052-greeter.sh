@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 readonly TMP="$(mktemp -d)"
 readonly DATE=$(date +%s)
 
@@ -29,6 +27,22 @@ spin() {
     fi
 }
 
+error() {
+    if command -v gum &>/dev/null; then
+        gum style --foreground 9 "❌ $*" >&2
+    else
+        echo -e "\e[31m❌ $*\e[0m" >&2
+    fi
+}
+
+info() {
+    if command -v gum &>/dev/null; then
+        gum style --foreground 10 "✅ $*"
+    else
+        echo -e "\e[32m✅ $*\e[0m"
+    fi
+}
+
 preview_theme() {
     sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/sddm-astronaut-theme/ 2>/dev/null &
     greeter_pid=$!
@@ -48,12 +62,13 @@ preview_theme() {
 theme_install() {
     [[ -d "$PATH_TO_GIT_CLONE" ]] && mv "$PATH_TO_GIT_CLONE" "${PATH_TO_GIT_CLONE}_$DATE"
     spin "Cloning repository..." git clone -b master --depth 1 "$THEME_REPO" "$PATH_TO_GIT_CLONE"
+    info "Repository cloned to $PATH_TO_GIT_CLONE"
 
-    local source_dir="$HOME/$THEME_NAME"
+    local source_dir="$TMP/$THEME_NAME"
     local target_dir="$THEMES_DIR/$THEME_NAME"
 
     [[ ! -d "$source_dir" ]] && {
-        error "Clone repository first"
+        error "Clone repository first to $HOME/$THEME_NAME"
         return 1
     }
 

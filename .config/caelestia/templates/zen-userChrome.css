@@ -1,0 +1,130 @@
+/* Caelestia Template for userChrome.css */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --zen-colors-primary: #{{ surfaceVariant.hex }} !important;
+    --zen-primary-color: #{{ primary.hex }} !important;
+    --zen-colors-secondary: #{{ surfaceVariant.hex }} !important;
+    --zen-colors-tertiary: #{{ background.hex }} !important;
+    --zen-colors-border: #{{ primary.hex }} !important;
+    --toolbarbutton-icon-fill: #{{ primary.hex }} !important;
+    --lwt-text-color: #{{ onSurface.hex }} !important;
+    --toolbar-field-color: #{{ onSurface.hex }} !important;
+    --tab-selected-textcolor: #{{ onPrimaryContainer.hex }} !important;
+    --toolbar-field-focus-color: #{{ onSurface.hex }} !important;
+    --toolbar-color: #{{ onSurface.hex }} !important;
+    --newtab-text-primary-color: #{{ onSurface.hex }} !important;
+    --arrowpanel-color: #{{ onSurface.hex }} !important;
+    --arrowpanel-background: #{{ surface.hex }} !important;
+    --sidebar-text-color: #{{ onSurface.hex }} !important;
+    --lwt-sidebar-text-color: #{{ onSurface.hex }} !important;
+    --lwt-sidebar-background-color: #{{ background.hex }} !important;
+    --toolbar-bgcolor: #{{ surfaceVariant.hex }} !important;
+    --newtab-background-color: #{{ surface.hex }} !important;
+    --zen-themed-toolbar-bg: #{{ background.hex }} !important;
+    --zen-main-browser-background: #{{ background.hex }} !important;
+    --toolbox-bgcolor-inactive: #{{ background.hex }} !important;
+  }
+
+  #permissions-granted-icon {
+    color: #{{ background.hex }} !important;
+  }
+
+  .sidebar-placesTree {
+    background-color: #{{ surface.hex }} !important;
+  }
+
+  #zen-workspaces-button {
+    background-color: #{{ surface.hex }} !important;
+  }
+
+  #TabsToolbar {
+    background-color: #{{ background.hex }} !important;
+  }
+
+  #urlbar-background {
+    background-color: #{{ surface.hex }} !important;
+  }
+
+  .content-shortcuts {
+    background-color: #{{ surface.hex }} !important;
+    border-color: #{{ primary.hex }} !important;
+  }
+
+  .urlbarView-url {
+    color: #{{ primary.hex }} !important;
+  }
+
+  #zenEditBookmarkPanelFaviconContainer {
+    background: #{{ background.hex }} !important;
+  }
+
+  #zen-media-controls-toolbar {
+    & #zen-media-progress-bar {
+      &::-moz-range-track {
+        background: #{{ surfaceVariant.hex }} !important;
+      }
+    }
+  }
+
+  toolbar .toolbarbutton-1 {
+    &:not([disabled]) {
+      &:is([open], [checked])
+        > :is(
+          .toolbarbutton-icon,
+          .toolbarbutton-text,
+          .toolbarbutton-badge-stack
+        ) {
+        fill: #{{ background.hex }};
+      }
+    }
+  }
+
+  .identity-color-blue {
+    --identity-tab-color: #{{ tertiary.hex }} !important;
+    --identity-icon-color: #{{ tertiary.hex }} !important;
+  }
+
+  .identity-color-turquoise {
+    --identity-tab-color: #{{ tertiaryContainer.hex }} !important;
+    --identity-icon-color: #{{ tertiaryContainer.hex }} !important;
+  }
+
+  .identity-color-green {
+    --identity-tab-color: #{{ primary.hex }} !important;
+    --identity-icon-color: #{{ primary.hex }} !important;
+  }
+
+  .identity-color-yellow {
+    --identity-tab-color: #{{ secondary.hex }} !important;
+    --identity-icon-color: #{{ secondary.hex }} !important;
+  }
+
+  .identity-color-orange {
+    --identity-tab-color: #{{ error.hex }} !important;
+    --identity-icon-color: #{{ error.hex }} !important;
+  }
+
+  .identity-color-red {
+    --identity-tab-color: #{{ errorContainer.hex }} !important;
+    --identity-icon-color: #{{ errorContainer.hex }} !important;
+  }
+
+  .identity-color-pink {
+    --identity-tab-color: #{{ primaryContainer.hex }} !important;
+    --identity-icon-color: #{{ primaryContainer.hex }} !important;
+  }
+
+  .identity-color-purple {
+    --identity-tab-color: #{{ secondaryContainer.hex }} !important;
+    --identity-icon-color: #{{ secondaryContainer.hex }} !important;
+  }
+
+  hbox#titlebar {
+    background-color: #{{ background.hex }} !important;
+  }
+
+  #zen-appcontent-navbar-container {
+    background-color: #{{ background.hex }} !important;
+  }
+}

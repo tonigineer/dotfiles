@@ -58,12 +58,12 @@ install() {
 $HYPR_NVIDIA = 1
 
 # Enable desired shell
-$HYPR_NOCTALIA =
-$HYPR_CAELESTIA = 1
+$HYPR_NOCTALIA = 1
+$HYPR_CAELESTIA =
 
 # Select current system
 $HYPR_Z790E = 1
-$HYPR_X13GEN5 =' > ~/.config/hypr/conf.d/init/config.conf
+$HYPR_X13GEN5 =' >~/.config/hypr/conf.d/init/config.conf
 
     yay_install "${pkgs_theme[@]}"
 

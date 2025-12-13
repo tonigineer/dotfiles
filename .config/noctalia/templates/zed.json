@@ -137,7 +137,7 @@
                 "hidden.background": null,
                 "hidden.border": "{{colors.outline_variant.dark.hex}}",
 
-                "hint": "{{colors.primary.dark.hex}}",
+                "hint": "{{colors.outline_variant.dark.hex}}",
                 "hint.background": "{{colors.primary_container.dark.hex}}",
                 "hint.border": "{{colors.on_primary_container.dark.hex}}",
 
@@ -311,7 +311,7 @@
                         "font_weight": null
                     },
                     "type": {
-                        "color": "{{colors.on_surface_variant.dark.hex}}",
+                        "color": "{{colors.secondary.dark.hex}}",
                         "font_style": null,
                         "font_weight": null
                     }

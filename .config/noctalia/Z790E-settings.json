@@ -2,16 +2,20 @@
     "appLauncher": {
         "customLaunchPrefix": "",
         "customLaunchPrefixEnabled": false,
+        "enableClipPreview": true,
         "enableClipboardHistory": true,
         "pinnedExecs": [
         ],
         "position": "top_center",
+        "showCategories": false,
         "sortByMostUsed": true,
         "terminalCommand": "kitty -e",
-        "useApp2Unit": false
+        "useApp2Unit": false,
+        "viewMode": "list"
     },
     "audio": {
         "cavaFrameRate": 144,
+        "externalMixer": "pwvucontrol || pavucontrol",
         "mprisBlacklist": [
         ],
         "preferredPlayer": "mpv",
@@ -22,42 +26,50 @@
     },
     "bar": {
         "backgroundOpacity": 1,
-        "density": "default",
+        "capsuleOpacity": 1,
+        "density": "compact",
         "exclusive": true,
         "floating": false,
         "marginHorizontal": 0,
         "marginVertical": 0,
         "monitors": [
         ],
-        "outerCorners": false,
+        "outerCorners": true,
         "position": "top",
         "showCapsule": false,
         "widgets": {
             "center": [
                 {
-                    "characterCount": 2,
+                    "colorizeIcons": true,
                     "hideUnoccupied": true,
-                    "id": "Workspace",
-                    "labelMode": "index"
+                    "id": "TaskbarGrouped",
+                    "labelMode": "index",
+                    "showLabelsOnlyWhenOccupied": true
                 }
             ],
             "left": [
                 {
                     "colorizeDistroLogo": false,
+                    "colorizeSystemIcon": "none",
                     "customIconPath": "",
+                    "enableColorization": false,
                     "icon": "noctalia",
                     "id": "ControlCenter",
                     "useDistroLogo": true
                 },
                 {
+                    "diskPath": "/",
                     "id": "SystemMonitor",
                     "showCpuTemp": false,
                     "showCpuUsage": true,
                     "showDiskUsage": true,
                     "showMemoryAsPercent": false,
                     "showMemoryUsage": true,
-                    "showNetworkStats": true,
+                    "showNetworkStats": false,
                     "usePrimaryColor": true
+                },
+                {
+                    "id": "plugin:catwalk"
                 },
                 {
                     "colorizeIcons": true,
@@ -70,6 +82,12 @@
                 }
             ],
             "right": [
+                {
+                    "id": "plugin:network-indicator"
+                },
+                {
+                    "id": "plugin:privacy-indicator"
+                },
                 {
                     "blacklist": [
                     ],
@@ -84,7 +102,7 @@
                     "id": "Bluetooth"
                 },
                 {
-                    "displayMode": "onhover",
+                    "displayMode": "alwaysShow",
                     "id": "WiFi"
                 },
                 {
@@ -98,7 +116,11 @@
                     "formatVertical": "HH mm - dd MM",
                     "id": "Clock",
                     "useCustomFont": false,
-                    "usePrimaryColor": false
+                    "usePrimaryColor": true
+                },
+                {
+                    "displayMode": "onhover",
+                    "id": "Microphone"
                 },
                 {
                     "displayMode": "onhover",
@@ -111,13 +133,30 @@
             ]
         }
     },
-    "battery": {
-        "chargingMode": 0
-    },
     "brightness": {
         "brightnessStep": 4,
         "enableDdcSupport": true,
         "enforceMinimum": true
+    },
+    "calendar": {
+        "cards": [
+            {
+                "enabled": true,
+                "id": "calendar-header-card"
+            },
+            {
+                "enabled": true,
+                "id": "calendar-month-card"
+            },
+            {
+                "enabled": true,
+                "id": "timer-card"
+            },
+            {
+                "enabled": true,
+                "id": "weather-card"
+            }
+        ]
     },
     "colorSchemes": {
         "darkMode": true,
@@ -126,7 +165,7 @@
         "manualSunset": "18:30",
         "matugenSchemeType": "scheme-rainbow",
         "predefinedScheme": "",
-        "schedulingMode": "location",
+        "schedulingMode": "off",
         "useWallpaperColors": true
     },
     "controlCenter": {
@@ -187,33 +226,43 @@
     "dock": {
         "backgroundOpacity": 1,
         "colorizeIcons": false,
+        "deadOpacity": 0.6,
         "displayMode": "auto_hide",
         "enabled": false,
         "floatingRatio": 1,
+        "inactiveIndicators": false,
         "monitors": [
         ],
         "onlySameOutput": true,
         "pinnedApps": [
+            "zen",
+            "dev.zed.Zed"
         ],
+        "pinnedStatic": false,
         "size": 1
     },
     "general": {
+        "allowPanelsOnScreenWithoutBar": true,
         "animationDisabled": true,
         "animationSpeed": 1,
         "avatarImage": "/home/toni/.face",
+        "boxRadiusRatio": 1,
         "compactLockScreen": false,
         "dimmerOpacity": 0.8,
-        "enableShadows": false,
+        "enableShadows": true,
         "forceBlackScreenCorners": false,
+        "iRadiusRatio": 1,
         "language": "",
-        "lockOnSuspend": true,
+        "lockOnSuspend": false,
         "radiusRatio": 1,
         "scaleRatio": 1,
         "screenRadiusRatio": 1,
         "shadowDirection": "bottom_right",
         "shadowOffsetX": 2,
         "shadowOffsetY": 3,
-        "showScreenCorners": false
+        "showHibernateOnLockScreen": false,
+        "showScreenCorners": false,
+        "showSessionButtonsOnLockScreen": true
     },
     "hooks": {
         "darkModeChange": "notify-send \"Theme\" \"Toggled\"",
@@ -229,7 +278,8 @@
         "showWeekNumberInCalendar": false,
         "use12hourFormat": false,
         "useFahrenheit": false,
-        "weatherEnabled": true
+        "weatherEnabled": true,
+        "weatherShowEffects": true
     },
     "network": {
         "wifiEnabled": false
@@ -256,12 +306,26 @@
         ],
         "normalUrgencyDuration": 8,
         "overlayLayer": true,
-        "respectExpireTimeout": true
+        "respectExpireTimeout": true,
+        "sounds": {
+            "criticalSoundFile": "",
+            "enabled": false,
+            "excludedApps": "discord,firefox,chrome,chromium,edge",
+            "lowSoundFile": "",
+            "normalSoundFile": "",
+            "separateSounds": false,
+            "volume": 0.5
+        }
     },
     "osd": {
         "autoHideMs": 2000,
         "backgroundOpacity": 1,
         "enabled": true,
+        "enabledTypes": [
+            2,
+            1,
+            0
+        ],
         "location": "top",
         "monitors": [
         ],
@@ -285,56 +349,68 @@
         "powerOptions": [
             {
                 "action": "lock",
+                "command": "",
                 "countdownEnabled": true,
                 "enabled": true
             },
             {
                 "action": "suspend",
+                "command": "",
                 "countdownEnabled": true,
                 "enabled": true
             },
             {
                 "action": "hibernate",
+                "command": "",
                 "countdownEnabled": false,
                 "enabled": true
             },
             {
                 "action": "reboot",
+                "command": "",
                 "countdownEnabled": true,
                 "enabled": true
             },
             {
                 "action": "logout",
+                "command": "",
                 "countdownEnabled": true,
                 "enabled": true
             },
             {
                 "action": "shutdown",
+                "command": "",
                 "countdownEnabled": true,
                 "enabled": true
             }
         ],
         "showHeader": true
     },
-    "settingsVersion": 23,
-    "setupCompleted": true,
+    "settingsVersion": 26,
     "systemMonitor": {
         "cpuCriticalThreshold": 90,
+        "cpuPollingInterval": 3000,
         "cpuWarningThreshold": 80,
         "criticalColor": "#ffb4ab",
         "diskCriticalThreshold": 90,
+        "diskPollingInterval": 3000,
         "diskWarningThreshold": 80,
         "memCriticalThreshold": 90,
+        "memPollingInterval": 3000,
         "memWarningThreshold": 80,
+        "networkPollingInterval": 1000,
         "tempCriticalThreshold": 90,
+        "tempPollingInterval": 3000,
         "tempWarningThreshold": 80,
         "useCustomColors": false,
         "warningColor": "#c7c2ea"
     },
     "templates": {
         "alacritty": false,
-        "code": true,
-        "discord": false,
+        "cava": false,
+        "code": false,
+        "discord": true,
+        "emacs": false,
         "enableUserTemplates": true,
         "foot": false,
         "fuzzel": false,
@@ -342,9 +418,11 @@
         "gtk": true,
         "kcolorscheme": false,
         "kitty": false,
+        "niri": false,
         "pywalfox": false,
         "qt": true,
         "spicetify": false,
+        "telegram": false,
         "vicinae": false,
         "walker": false,
         "wezterm": false
@@ -360,34 +438,13 @@
         "tooltipsEnabled": true
     },
     "wallpaper": {
-        "defaultWallpaper": "/home/toni/.config/quickshell/noctalia/Assets/Wallpaper/noctalia.png",
         "directory": "/home/toni/Wallpaper",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "fillColor": "#000000",
         "fillMode": "crop",
         "hideWallpaperFilenames": false,
-        "monitors": [
-            {
-                "directory": "/home/toni/DotfilesData/backgrounds",
-                "name": "eDP-1",
-                "wallpaper": "/home/toni/DotfilesData/backgrounds/Dark_Nature.png"
-            },
-            {
-                "directory": "/home/toni/DotfilesData/backgrounds",
-                "name": "HDMI-A-1",
-                "wallpaper": "/home/toni/DotfilesData/backgrounds/Dark_Nature.png"
-            },
-            {
-                "directory": "/home/toni/DotfilesData/backgrounds",
-                "name": "DP-1",
-                "wallpaper": "/home/toni/Wallpaper/ayanami.png"
-            },
-            {
-                "directory": "/home/toni/DotfilesData/backgrounds",
-                "name": "DP-3",
-                "wallpaper": "/home/toni/Wallpaper/ayanami.png"
-            }
+        "monitorDirectories": [
         ],
         "overviewEnabled": false,
         "panelPosition": "top_center",

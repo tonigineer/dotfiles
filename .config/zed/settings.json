@@ -4,13 +4,13 @@
     },
     "agent": {
         "default_model": {
-            "model": "o3-mini",
+            "model": "gpt-5",
             "provider": "openai"
         },
         "enabled": true,
         "inline_assistant_model": {
-            "model": "claude-3-7-sonnet-thinking-latest",
-            "provider": "zed.dev"
+            "model": "gpt-5",
+            "provider": "openai"
         },
         "model_parameters": [],
         "play_sound_when_agent_done": true

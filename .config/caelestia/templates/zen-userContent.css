@@ -1,0 +1,158 @@
+/* Caelestia Template for userContent.css */
+
+@media (prefers-color-scheme: dark) {
+
+  /* Common variables affecting all pages */
+  @-moz-document url-prefix("about:") {
+    :root {
+      --in-content-page-color: #{{ onSurface.hex }} !important;
+      --color-accent-primary: #{{ primary.hex }} !important;
+      --color-accent-primary-hover: #{{ primaryContainer.hex }} !important;
+      --color-accent-primary-active: #{{ onPrimaryContainer.hex }} !important;
+      background-color: #{{ surface.hex }} !important;
+      --in-content-page-background: #{{ surface.hex }} !important;
+    }
+
+  }
+
+  /* Variables and styles specific to about:newtab and about:home */
+  @-moz-document url("about:newtab"), url("about:home") {
+
+    :root {
+      --newtab-background-color: #{{ surface.hex }} !important;
+      --newtab-background-color-secondary: #{{ surfaceVariant.hex }} !important;
+      --newtab-element-hover-color: #{{ surfaceVariant.hex }} !important;
+      --newtab-text-primary-color: #{{ onSurface.hex }} !important;
+      --newtab-wordmark-color: #{{ onSurface.hex }} !important;
+      --newtab-primary-action-background: #{{ primary.hex }} !important;
+    }
+
+    .icon {
+      color: #{{ primary.hex }} !important;
+    }
+
+    .search-wrapper .logo-and-wordmark .logo {
+      background: url("zen-logo-mocha.svg"), url("https://raw.githubusercontent.com/IAmJafeth/zen-browser/main/themes/Mocha/Green/zen-logo-mocha.svg") no-repeat center !important;
+      display: inline-block !important;
+      height: 82px !important;
+      width: 82px !important;
+      background-size: 82px !important;
+    }
+
+    @media (max-width: 609px) {
+      .search-wrapper .logo-and-wordmark .logo {
+        background-size: 64px !important;
+        height: 64px !important;
+        width: 64px !important;
+      }
+    }
+
+    .card-outer:is(:hover, :focus, .active):not(.placeholder) .card-title {
+      color: #{{ primary.hex }} !important;
+    }
+
+    .top-site-outer .search-topsite {
+      background-color: #{{ tertiary.hex }} !important;
+    }
+
+    .compact-cards .card-outer .card-context .card-context-icon.icon-download {
+      fill: #{{ primary.hex }} !important;
+    }
+  }
+
+  /* Variables and styles specific to about:preferences */
+  @-moz-document url-prefix("about:preferences") {
+    :root {
+      --zen-colors-tertiary: #{{ background.hex }} !important;
+      --in-content-text-color: #{{ onSurface.hex }} !important;
+      --link-color: #{{ primary.hex }} !important;
+      --link-color-hover: #{{ primaryContainer.hex }} !important;
+      --zen-colors-primary: #{{ surfaceVariant.hex }} !important;
+      --in-content-box-background: #{{ surfaceVariant.hex }} !important;
+      --zen-primary-color: #{{ primary.hex }} !important;
+    }
+
+    groupbox , moz-card{
+      background: #{{ surface.hex }} !important;
+    }
+
+    button,
+    groupbox menulist {
+      background: #{{ surfaceVariant.hex }} !important;
+      color: #{{ onSurface.hex }} !important;
+    }
+
+    .main-content {
+      background-color: #{{ background.hex }} !important;
+    }
+
+    .identity-color-blue {
+      --identity-tab-color: #{{ tertiary.hex }} !important;
+      --identity-icon-color: #{{ tertiary.hex }} !important;
+    }
+
+    .identity-color-turquoise {
+      --identity-tab-color: #{{ tertiaryContainer.hex }} !important;
+      --identity-icon-color: #{{ tertiaryContainer.hex }} !important;
+    }
+
+    .identity-color-green {
+      --identity-tab-color: #{{ primary.hex }} !important;
+      --identity-icon-color: #{{ primary.hex }} !important;
+    }
+
+    .identity-color-yellow {
+      --identity-tab-color: #{{ secondary.hex }} !important;
+      --identity-icon-color: #{{ secondary.hex }} !important;
+    }
+
+    .identity-color-orange {
+      --identity-tab-color: #{{ error.hex }} !important;
+      --identity-icon-color: #{{ error.hex }} !important;
+    }
+
+    .identity-color-red {
+      --identity-tab-color: #{{ errorContainer.hex }} !important;
+      --identity-icon-color: #{{ errorContainer.hex }} !important;
+    }
+
+    .identity-color-pink {
+      --identity-tab-color: #{{ primaryContainer.hex }} !important;
+      --identity-icon-color: #{{ primaryContainer.hex }} !important;
+    }
+
+    .identity-color-purple {
+      --identity-tab-color: #{{ secondaryContainer.hex }} !important;
+      --identity-icon-color: #{{ secondaryContainer.hex }} !important;
+    }
+  }
+
+  /* Variables and styles specific to about:addons */
+  @-moz-document url-prefix("about:addons") {
+    :root {
+      --zen-dark-color-mix-base: #{{ background.hex }} !important;
+      --background-color-box: #{{ surface.hex }} !important;
+    }
+  }
+
+  /* Variables and styles specific to about:protections */
+  @-moz-document url-prefix("about:protections") {
+    :root {
+      --zen-primary-color: #{{ surface.hex }} !important;
+      --social-color: #{{ secondaryContainer.hex }} !important;
+      --coockie-color: #{{ tertiaryContainer.hex }} !important;
+      --fingerprinter-color: #{{ secondary.hex }} !important;
+      --cryptominer-color: #{{ tertiary.hex }} !important;
+      --tracker-color: #{{ primary.hex }} !important;
+      --in-content-primary-button-background-hover: #{{ surfaceVariant.hex }} !important;
+      --in-content-primary-button-text-color-hover: #{{ onSurface.hex }} !important;
+      --in-content-primary-button-background: #{{ surfaceVariant.hex }} !important;
+      --in-content-primary-button-text-color: #{{ onSurface.hex }} !important;
+    }
+
+
+    .card {
+      background-color: #{{ surfaceVariant.hex }} !important;
+    }
+  }
+}

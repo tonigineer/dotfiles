@@ -137,7 +137,7 @@
                 "hidden.background": null,
                 "hidden.border": null,
 
-                "hint": "#{{ overlay1.hex }}",
+                "hint": "#{{ overlay0.hex }}",
                 "hint.background": "#{{ surfaceVariant.hex }}",
                 "hint.border": "#{{ outlineVariant.hex }}",
 
@@ -234,7 +234,7 @@
                     "text.literal": { "color": "#{{ onSurfaceVariant.hex }}", "font_style": null, "font_weight": null },
                     "variable": { "color": "#{{ onSurfaceVariant.hex }}", "font_style": null, "font_weight": null },
                     "variable.special": {
-                        "color": "#{{ onSurfaceVariant.hex }}",
+                        "color": "#{{ term5.hex }}",
                         "font_style": "italic",
                         "font_weight": null
                     },

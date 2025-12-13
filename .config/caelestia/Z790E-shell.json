@@ -33,10 +33,18 @@
     },
     "general": {
         "apps": {
-            "terminal": ["kitty"],
-            "audio": ["pavucontrol"],
-            "playback": ["mpv"],
-            "explorer": ["thunar"]
+            "terminal": [
+                "kitty"
+            ],
+            "audio": [
+                "pavucontrol"
+            ],
+            "playback": [
+                "mpv"
+            ],
+            "explorer": [
+                "thunar"
+            ]
         },
         "battery": {
             "warnLevels": [
@@ -77,7 +85,10 @@
                 },
                 {
                     "timeout": 36000,
-                    "idleAction": ["systemctl", "suspend"]
+                    "idleAction": [
+                        "systemctl",
+                        "suspend"
+                    ]
                 }
             ]
         }
@@ -184,8 +195,8 @@
         }
     },
     "border": {
-        "rounding": 0,
-        "thickness": 0
+        "rounding": 25,
+        "thickness": 10
     },
     "dashboard": {
         "enabled": true,
@@ -200,7 +211,10 @@
                 "name": "Calculator",
                 "icon": "calculate",
                 "description": "Do simple math equations (powered by Qalc)",
-                "command": ["autocomplete", "calc"],
+                "command": [
+                    "autocomplete",
+                    "calc"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -208,7 +222,10 @@
                 "name": "Scheme",
                 "icon": "palette",
                 "description": "Change the current colour scheme",
-                "command": ["autocomplete", "scheme"],
+                "command": [
+                    "autocomplete",
+                    "scheme"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -216,7 +233,10 @@
                 "name": "Wallpaper",
                 "icon": "image",
                 "description": "Change the current wallpaper",
-                "command": ["autocomplete", "wallpaper"],
+                "command": [
+                    "autocomplete",
+                    "wallpaper"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -224,7 +244,10 @@
                 "name": "Variant",
                 "icon": "colors",
                 "description": "Change the current scheme variant",
-                "command": ["autocomplete", "variant"],
+                "command": [
+                    "autocomplete",
+                    "variant"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -232,7 +255,10 @@
                 "name": "Transparency",
                 "icon": "opacity",
                 "description": "Change shell transparency",
-                "command": ["autocomplete", "transparency"],
+                "command": [
+                    "autocomplete",
+                    "transparency"
+                ],
                 "enabled": false,
                 "dangerous": false
             },
@@ -240,7 +266,11 @@
                 "name": "Random",
                 "icon": "casino",
                 "description": "Switch to a random wallpaper",
-                "command": ["caelestia", "wallpaper", "-r"],
+                "command": [
+                    "caelestia",
+                    "wallpaper",
+                    "-r"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -248,7 +278,10 @@
                 "name": "Light",
                 "icon": "light_mode",
                 "description": "Change the scheme to light mode",
-                "command": ["setMode", "light"],
+                "command": [
+                    "setMode",
+                    "light"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -256,7 +289,10 @@
                 "name": "Dark",
                 "icon": "dark_mode",
                 "description": "Change the scheme to dark mode",
-                "command": ["setMode", "dark"],
+                "command": [
+                    "setMode",
+                    "dark"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -264,7 +300,10 @@
                 "name": "Shutdown",
                 "icon": "power_settings_new",
                 "description": "Shutdown the system",
-                "command": ["systemctl", "poweroff"],
+                "command": [
+                    "systemctl",
+                    "poweroff"
+                ],
                 "enabled": true,
                 "dangerous": true
             },
@@ -272,7 +311,10 @@
                 "name": "Reboot",
                 "icon": "cached",
                 "description": "Reboot the system",
-                "command": ["systemctl", "reboot"],
+                "command": [
+                    "systemctl",
+                    "reboot"
+                ],
                 "enabled": true,
                 "dangerous": true
             },
@@ -280,7 +322,11 @@
                 "name": "Logout",
                 "icon": "exit_to_app",
                 "description": "Log out of the current session",
-                "command": ["hyprctl", "dispatch", "exit"],
+                "command": [
+                    "hyprctl",
+                    "dispatch",
+                    "exit"
+                ],
                 "enabled": true,
                 "dangerous": true
             },
@@ -288,7 +334,10 @@
                 "name": "Lock",
                 "icon": "lock",
                 "description": "Lock the current session",
-                "command": ["loginctl", "lock-session"],
+                "command": [
+                    "loginctl",
+                    "lock-session"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -296,7 +345,10 @@
                 "name": "Sleep",
                 "icon": "bedtime",
                 "description": "Suspend then hibernate",
-                "command": ["systemctl", "suspend-then-hibernate"],
+                "command": [
+                    "systemctl",
+                    "suspend-then-hibernate"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -304,7 +356,11 @@
                 "name": "Switch Shell",
                 "icon": "computer",
                 "description": "Change to Noctalia shell for productivity",
-                "command": ["bash", "-c", "~/.config/hypr/scripts/switchshell.sh"],
+                "command": [
+                    "bash",
+                    "-c",
+                    "~/.config/hypr/scripts/switchshell.sh"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -326,7 +382,11 @@
                 "name": "Terminate Live Wallpaper",
                 "icon": "cancel",
                 "description": "Terminate Live Wallpaper",
-                "command": ["bash", "-c", "pkill -x mpvpaper 2>/dev/null || true"],
+                "command": [
+                    "bash",
+                    "-c",
+                    "pkill -x mpvpaper 2>/dev/null || true"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -376,7 +436,14 @@
                 "name": "Counter-Strike 1.6",
                 "icon": "stadia_controller",
                 "description": "Play Counter-Strike 1.6 (Bottles)",
-                "command": ["bottles-cli", "run", "-b", "Counter-Strike 1.6", "-p", "cstrike.exe"],
+                "command": [
+                    "bottles-cli",
+                    "run",
+                    "-b",
+                    "Counter-Strike 1.6",
+                    "-p",
+                    "cstrike.exe"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -384,7 +451,14 @@
                 "name": "Battlefield 1942",
                 "icon": "stadia_controller",
                 "description": "Play Battlefield 1942 (Bottles)",
-                "command": ["bottles-cli", "run", "-b", "Battlefield 1942", "-p", "bf1942.exe"],
+                "command": [
+                    "bottles-cli",
+                    "run",
+                    "-b",
+                    "Battlefield 1942",
+                    "-p",
+                    "bf1942.exe"
+                ],
                 "enabled": true,
                 "dangerous": false
             },
@@ -392,7 +466,14 @@
                 "name": "Warcraft III",
                 "icon": "stadia_controller",
                 "description": "Play Warcraft III (Bottles)",
-                "command": ["bottles-cli", "run", "-b", "Warcraft III", "-p", "FrozenThrone.exe"],
+                "command": [
+                    "bottles-cli",
+                    "run",
+                    "-b",
+                    "Warcraft III",
+                    "-p",
+                    "FrozenThrone.exe"
+                ],
                 "enabled": true,
                 "dangerous": false
             }
@@ -456,10 +537,23 @@
         "enabled": true,
         "vimKeybinds": true,
         "commands": {
-            "logout": ["hyprctl", "dispatch", "exit"],
-            "hibernate": ["systemctl", "hibernate"],
-            "reboot": ["systemctl", "reboot"],
-            "shutdown": ["systemctl", "poweroff"]
+            "logout": [
+                "hyprctl",
+                "dispatch",
+                "exit"
+            ],
+            "hibernate": [
+                "systemctl",
+                "hibernate"
+            ],
+            "reboot": [
+                "systemctl",
+                "reboot"
+            ],
+            "shutdown": [
+                "systemctl",
+                "poweroff"
+            ]
         }
     },
     "sidebar": {

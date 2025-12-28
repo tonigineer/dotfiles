@@ -20,3 +20,8 @@ output_path = '~/.local/state/caelestia/theme/zen-userChrome.css'
 [templates.zencontent]
 input_path = '~/.config/noctalia/templates/zen-userContent.css'
 output_path = '~/.local/state/caelestia/theme/zen-userContent.css'
+
+[templates.vesktop]
+input_path = '~/.config/noctalia/templates/vesktop.css'
+output_path = '~/.config/vesktop/themes/caelestia.theme.css'
+

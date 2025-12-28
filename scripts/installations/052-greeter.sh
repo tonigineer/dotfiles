@@ -104,9 +104,10 @@ install() {
     theme_install
     preview_theme
 
+    sudo cp "$dotfiles_dir/.config/sddm/10-wayland.conf" /etc/sddm.conf.d/10-wayland.conf
+
     sudo mkdir -p /var/lib/sddm/.config/hypr
     sudo cp "$dotfiles_dir/.config/sddm/hyprland.conf" /var/lib/sddm/.config/hypr/hyprland.conf
-
 }
 
 uninstall() {

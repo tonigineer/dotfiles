@@ -56,7 +56,7 @@ take_screenshot() {
             --action=open-image='Open' \
             --action=edit-image='Edit' \
             --app-name="Custom Capture" \
-            --icon="$filename"
+            --icon=~/.config/hypr/scripts/assets/recording-started.svg
     )"
 
     case "$action" in
@@ -82,7 +82,10 @@ record_video() {
     fi
 
     echo $! >"$PIDFILE"
-    notify-send "Recording started" --app-name="Custom Capture" --icon=media-record
+    notify-send "Recording started" \
+        --app-name="Custom Capture" \
+        -t 2000 \
+        --icon ~/.config/hypr/scripts/assets/recording-started.svg
 }
 
 stop_recording() {
@@ -104,7 +107,7 @@ stop_recording() {
                 --action=play-video='Play' \
                 --action=convert-gif='Make .gif' \
                 --app-name="Custom Capture" \
-                --icon="$filename"
+                --icon ~/.config/hypr/scripts/assets/recording-stopped.svg
         )"
 
         case "$action" in
@@ -150,7 +153,6 @@ main() {
 
     case $type in
     "screenshot")
-        echo "dfasfsdfas"
         take_screenshot "$mode"
         ;;
     "video")

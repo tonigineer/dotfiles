@@ -1,74 +1,40 @@
 {
-  "disable_ai": false,
-  "active_pane_modifiers": {
-    "border_size": 2.0
-  },
-  "agent": {
-    "default_model": {
-      "model": "gpt-5.2",
-      "provider": "openai"
-    },
-    "enabled": true,
-    "inline_assistant_model": {
-      "model": "gpt-5.2",
-      "provider": "openai"
-    },
-    "model_parameters": [],
-    "play_sound_when_agent_done": true
-  },
+  "disable_ai": true,
   "base_keymap": "VSCode",
   "bottom_dock_layout": "full",
   "buffer_font_family": "Monaspace Krypton",
   "buffer_font_size": 16,
   "centered_layout": {
     "left_padding": 0.2,
-    "right_padding": 0.2
+    "right_padding": 0.2,
   },
   "collaboration_panel": {
-    "button": false
+    "button": false,
   },
   "cursor_blink": true,
+  "diagnostics_max_severity": "all",
   "diagnostics": {
-    "include_warnings": false,
+    "include_warnings": true,
     "inline": {
       "enabled": true,
-      "max_severity": null,
+      "max_severity": "all",
       "min_column": 0,
       "padding": 4,
-      "update_debounce_ms": 150
-    }
-  },
-  "experimental.theme_overrides": {
-    //     "error.background": "#8d3250",
-    //     "hint.background": "#333a50",
-    "players": [
-      {
-        "background": "#0f0f0f",
-        "cursor": "#FF6767",
-        "selection": "#8d3250"
-      }
-    ],
-    "syntax": {
-      "comment": {
-        "font_style": "italic"
-      },
-      "comment.doc": {
-        "font_style": "italic"
-      }
-    }
+      "update_debounce_ms": 150,
+    },
   },
   "features": {
-    "edit_prediction_provider": "none"
+    "edit_prediction_provider": "none",
   },
   "git": {
     "git_gutter": "tracked_files",
     "inline_blame": {
-      "enabled": true
-    }
+      "enabled": true,
+    },
   },
   "git_panel": {
     "button": true,
-    "dock": "right"
+    "dock": "right",
   },
   "icon_theme": "Material Icon Theme",
   "indent_guides": {
@@ -76,93 +42,102 @@
     "background_coloring": "disabled",
     "coloring": "fixed",
     "enabled": true,
-    "line_width": 1
+    "line_width": 1,
   },
   "inlay_hints": {
-    "enabled": true
+    "enabled": true,
   },
   "languages": {
+    "Rust": {
+      "code_actions_on_format": {},
+      "format_on_save": "on",
+      "language_servers": ["rust-analyzer"],
+    },
     "Python": {
       "code_actions_on_format": {},
       "format_on_save": "on",
-      "language_servers": ["pyright", "ruff"]
+      "language_servers": ["pyright", "ruff"],
     },
     "JSON": {
       "tab_size": 2,
-      "hard_tabs": false
+      "hard_tabs": false,
+    },
+    "YAML": {
+      "tab_size": 2,
+      "hard_tabs": false,
     },
     "JSONC": {
       "tab_size": 2,
-      "hard_tabs": false
+      "hard_tabs": false,
     },
     "QML": {
       "tab_size": 2,
       "hard_tabs": false,
-      "format_on_save": "off"
-    }
+      "format_on_save": "off",
+    },
   },
   "lsp": {
-    "pyright": {
+    "basedpyright": {
       "settings": {
         "python": {
-          "pythonPath": ".venv/bin/python"
+          "pythonPath": ".venv/bin/python",
         },
         "python.analysis": {
           "diagnosticMode": "workspace",
-          "typeCheckingMode": "basic"
-        }
-      }
-    }
+          "typeCheckingMode": "basic",
+        },
+      },
+    },
   },
   "lsp_document_colors": "background",
   "outline_panel": {
-    "button": false
+    "button": false,
   },
   "preferred_line_length": 120,
   "project_panel": {
     "button": true,
     "dock": "right",
-    "indent_size": 20
+    "indent_size": 20,
   },
   "relative_line_numbers": "enabled",
   "scrollbar": {
-    "show": "never"
+    "show": "never",
   },
   "show_wrap_guides": true,
   "status_bar": {
-    "active_language_button": true
+    "active_language_button": true,
   },
   "tab_bar": {
     "show": true,
-    "show_nav_history_buttons": false
+    "show_nav_history_buttons": false,
   },
   "tab_size": 4,
   "tabs": {
     "file_icons": true,
-    "git_status": true
+    "git_status": true,
   },
   "telemetry": {
     "diagnostics": false,
-    "metrics": false
+    "metrics": false,
   },
   "terminal": {
     "copy_on_select": true,
     "cursor_shape": "bar",
     "font_family": "Monaspace Krypton",
     "shell": {
-      "program": "zsh"
-    }
+      "program": "zsh",
+    },
   },
   "theme": {
     "dark": "Caelestia",
     "light": "Caelestia",
-    "mode": "system"
+    "mode": "system",
   },
   "title_bar": {
     "show_branch_icon": true,
     "show_menus": false,
     "show_onboarding_banner": false,
-    "show_project_items": true
+    "show_project_items": true,
   },
   "ui_font_family": "Monaspace Krypton",
   "ui_font_size": 16,
@@ -173,8 +148,8 @@
     "default_mode": "normal",
     "highlight_on_yank_duration": 150,
     "use_smartcase_find": true,
-    "use_system_clipboard": "always"
+    "use_system_clipboard": "always",
   },
   "vim_mode": true,
-  "wrap_guides": [120]
+  "wrap_guides": [120],
 }

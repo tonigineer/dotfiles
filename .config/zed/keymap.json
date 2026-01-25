@@ -6,69 +6,95 @@
 // To see the default key bindings run `zed: open default keymap`
 // from the command palette.
 [
-    {
-        "context": "VimControl && !menu && vim_mode != insert",
-        "bindings": {
-            "shift-j": "editor::MoveLineDown",
-            "shift-k": "editor::MoveLineUp",
-            "space g d": "editor::GoToTypeDefinition",
-            "space g r": "editor::FindAllReferences",
-            "space h": "editor::Hover",
-            "space l a": "editor::ToggleCodeActions",
-            "space l f": "editor::Format",
-            "space l l": "diagnostics::Deploy",
-            "space l r": "editor::Rename",
-            "space l s": "outline::Toggle",
-            "space s f": "file_finder::Toggle",
-            "space s g": "pane::DeploySearch",
-            "space space": "tab_switcher::Toggle",
-            "space v": "editor::GoToDefinitionSplit"
-        }
+  {
+    "context": "VimControl && !menu && vim_mode != insert",
+    "bindings": {
+      "shift-j": "editor::MoveLineDown",
+      "shift-k": "editor::MoveLineUp",
+      "space g d": "editor::GoToTypeDefinition",
+      "space g r": "editor::FindAllReferences",
+      "space l a": "editor::ToggleCodeActions",
+      "space l f": "editor::Format",
+      "space l l": "diagnostics::Deploy",
+      "space l r": "editor::Rename",
+      "space l s": "outline::Toggle",
+      "space s f": "file_finder::Toggle",
+      "space s g": "pane::DeploySearch",
+      "space space": "tab_switcher::Toggle",
+      "space v": "editor::GoToDefinitionSplit",
+      "space H": "editor::Hover",
     },
-    {
-        "context": "vim_mode == insert",
-        "bindings": {
-            "j k": "vim::NormalBefore"
-        }
+  },
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      "j k": "vim::NormalBefore",
     },
-    {
-        "context": "Editor && !menu",
-        "bindings": {
-            "ctrl-a": "editor::SelectAll",
-            "ctrl-c": "editor::Copy",
-            "ctrl-f": "buffer_search::Deploy",
-            "ctrl-s": "workspace::Save",
-            "ctrl-v": "editor::Paste",
-            "ctrl-x": "editor::Cut",
-            "ctrl-y": "editor::Redo",
-            "ctrl-z": "editor::Undo"
-        }
+  },
+  {
+    "context": "Editor && !menu",
+    "bindings": {
+      "ctrl-a": "editor::SelectAll",
+      "ctrl-c": "editor::Copy",
+      "ctrl-f": "buffer_search::Deploy",
+      "ctrl-s": "workspace::Save",
+      "ctrl-v": "editor::Paste",
+      "ctrl-x": "editor::Cut",
+      "ctrl-y": "editor::Redo",
+      "ctrl-z": "editor::Undo",
     },
-    {
-        "context": "Terminal",
-        "bindings": {
-            "ctrl-c": "terminal::Copy",
-            "ctrl-v": "terminal::Paste"
-        }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-c": "terminal::Copy",
+      "ctrl-v": "terminal::Paste",
     },
-    {
-        "context": "vim_mode == normal && (Editor || Dock)",
-        "bindings": {
-            "space q": "workspace::ToggleRightDock",
-            "space e": "project_panel::ToggleFocus",
-            "space G": "git_panel::ToggleFocus"
-        }
+  },
+  {
+    "context": "vim_mode == normal && (Editor || Dock)",
+    "bindings": {
+      "space q": "workspace::ToggleRightDock",
+      "space e": "project_panel::ToggleFocus",
+      "space G": "git_panel::ToggleFocus",
     },
-    {
-        "context": "Workspace",
-        "bindings": {
-            "ctrl-j": null
-        }
+  },
+  {
+    "context": "Editor || Dock || Terminal",
+    "bindings": {
+      "alt-q": "workspace::ToggleRightDock",
+      "alt-e": "project_panel::ToggleFocus",
+      "alt-g": "git_panel::ToggleFocus",
     },
-    {
-        "context": "((FileFinder || FileFinder > Picker > Editor) || FileFinder > Picker > menu)",
-        "bindings": {
-            "ctrl-j": null
-        }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-j": null,
+    },
+  },
+  {
+    "context": "((FileFinder || FileFinder > Picker > Editor) || FileFinder > Picker > menu)",
+    "bindings": {
+      "ctrl-j": null,
+    },
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-k ctrl-i": null,
+    },
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-n": null
     }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "ctrl-n": null
+    }
+  }
 ]

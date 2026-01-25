@@ -3,7 +3,7 @@
 nvidia_conf=/etc/modprobe.d/nvidia.conf
 
 pkgs=(
-    nvidia
+    nvidia-open
     nvidia-utils
 )
 

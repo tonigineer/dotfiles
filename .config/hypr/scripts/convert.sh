@@ -13,10 +13,10 @@ readonly OUTPUT_DIR=~/Pictures/gifs
 mkdir -p "$OUTPUT_DIR"
 
 show_menu() {
-    local options="good\nbetter\nbest\ncancel"
+    local options="good\nbetter\nbest"
 
     if command -v walker >/dev/null 2>&1; then
-        echo -e "$options" | walker -d "Gif Quality Menu"
+        echo -e "$options" | walker -d "Gif Quality Menu" --minheight 3
     else
         notify-send \
             "Custom Capture Error" \
@@ -83,10 +83,6 @@ main() {
         MAX_COLORS=256
         GIFSICLE_LOSSY=10
         ;;
-    "cancel" | *)
-        echo "Conversion cancelled"
-        exit 0
-        ;;
     esac
 
     notify-send "Creating gif" \
@@ -95,7 +91,7 @@ main() {
         --icon ~/.config/hypr/scripts/assets/convert2gif.svg \
         -t 2000
 
-    filename=$(convert "$FPS" "$SCALE" $MAX_COLORS $GIFSICLE_LOSSY)
+    filename=$(convert "$FPS" "$SCALE" "$MAX_COLORS" "$GIFSICLE_LOSSY")
     new_filename="${filename/.mkv/_$choice}"
     mv "$filename" "$new_filename"
     echo "$new_filename" | wl-copy

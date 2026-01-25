@@ -12,6 +12,8 @@
 .config/noctalia/colors.json
 .config/noctalia/settings.json
 
+.config/walker/themes
+
 .config/yazi/plugins
 .config/yazi/package.toml
 

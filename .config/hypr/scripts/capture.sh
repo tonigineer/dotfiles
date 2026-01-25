@@ -16,10 +16,10 @@ if [ ! -d "$RECORDINGS_DIR" ]; then
 fi
 
 show_menu() {
-    local options="Screenshot monitor\nScreenshot selection\nRecord monitor\nRecord selection\nCancel"
+    local options="Screenshot monitor\nScreenshot selection\nRecord monitor\nRecord selection"
 
     if command -v walker >/dev/null 2>&1; then
-        echo -e "$options" | walker -d "Capture Menu"
+        echo -e "$options" | walker -d "Capture Menu" --minheight 4
     else
         notify-send \
             "Custom Capture Error" \
@@ -145,9 +145,6 @@ main() {
     "Record selection")
         type="video"
         mode="selection"
-        ;;
-    "Cancel" | *)
-        exit 0
         ;;
     esac
 

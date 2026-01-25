@@ -23,6 +23,7 @@ pkgs=(
     slurp
     socat
     swaync
+    walker
     wl-clipboard
     yt-dlp
     xdg-desktop-portal
@@ -43,7 +44,8 @@ status() {
         yay_check "${pkgs_theme[@]}" &&
         [ -L ~/.config/hypr ] &&
         [ -L ~/.config/mpv ] &&
-        [ -L ~/.config/swaync ]
+        [ -L ~/.config/swaync ] &&
+        [ -L ~/.config/walker ]
 }
 
 install() {
@@ -53,6 +55,7 @@ install() {
     safe_symlink .config/hypr
     safe_symlink .config/mpv
     safe_symlink .config/swaync
+    safe_symlink .config/walker
 
     echo '# Enable NVIDIA settings
 $HYPR_NVIDIA = 1
@@ -89,4 +92,5 @@ uninstall() {
     rm -rf ~/.config/hypr
     rm -rf ~/.config/mpv
     rm -rf ~/.config/swaync
+    rm -rf ~/.config/walker
 }

@@ -193,6 +193,9 @@
                 {
                     "colorName": "error",
                     "id": "SessionMenu"
+                },
+                {
+                    "id": "plugin:todo"
                 }
             ]
         }
@@ -394,13 +397,15 @@
         "backgroundOpacity": 1,
         "criticalUrgencyDuration": 15,
         "enableKeyboardLayoutToast": false,
-        "enableMediaToast": false,
+        "enableMediaToast": true,
         "enabled": true,
         "location": "top_right",
         "lowUrgencyDuration": 3,
         "monitors": [
             "HDMI-A-1",
-            "eDP-1"
+            "eDP-1",
+            "DP-1",
+            "DP-3"
         ],
         "normalUrgencyDuration": 8,
         "overlayLayer": true,
@@ -412,11 +417,11 @@
         },
         "sounds": {
             "criticalSoundFile": "",
-            "enabled": false,
+            "enabled": true,
             "excludedApps": "discord,firefox,chrome,chromium,edge",
             "lowSoundFile": "",
             "normalSoundFile": "",
-            "separateSounds": false,
+            "separateSounds": true,
             "volume": 0.5
         }
     },
@@ -525,6 +530,10 @@
             {
                 "enabled": true,
                 "id": "spicetify"
+            },
+            {
+                "enabled": true,
+                "id": "walker"
             }
         ],
         "enableUserTheming": false

@@ -57,20 +57,33 @@ install() {
     safe_symlink .config/swaync
     safe_symlink .config/walker
 
-    echo '# Enable NVIDIA settings
-$HYPR_NVIDIA = 1
+    echo '# Select current system
+$HYPR_Z790E = 1
+$HYPR_X13GEN5 =
+
+# hyprlang if HYPR_Z790E
+    $HYPR_NVIDIA = 1 # Enable NVIDIA settings
+# hyprlang endif
+
+# hyprlang if HYPR_X13GEN5
+# hyprlang endif
 
 # Enable desired shell
 $HYPR_NOCTALIA = 1
 $HYPR_CAELESTIA =
 
-# Select current system
-$HYPR_Z790E = 1
-$HYPR_X13GEN5 =' >~/.config/hypr/conf.d/init/config.conf
+# Select layout
+$HYPR_MASTER =
+$HYPR_SCROLLING = 1
+$HYPR_DWINDLE =' >~/.config/hypr/conf.d/init/config.conf
 
     yay_install "${pkgs_theme[@]}"
 
     fc-cache -v
+
+    hyprpm update
+    hyprpm add https://github.com/hyprwm/hyprland-plugins
+    hyprpm enable hyprscrolling
 
     ~/.config/hypr/scripts/theme.sh \
         Material-Black-Blueberry-LA \

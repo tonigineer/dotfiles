@@ -12,6 +12,8 @@
 .config/noctalia/colors.json
 .config/noctalia/settings.json
 
+.config/spicetify/Themes/Comfy/color.ini
+
 .config/walker/themes
 
 .config/yazi/plugins

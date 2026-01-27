@@ -3,10 +3,10 @@
 readonly COLORSCHEME_DIR=~/.local/state/caelestia/theme
 
 pkgs=(
-    zen-browser-bin
-    xdg-desktop-portal
-    xdg-desktop-portal-wlr
-    xdg-desktop-portal-hyprland
+  zen-browser-bin
+  xdg-desktop-portal
+  xdg-desktop-portal-wlr
+  xdg-desktop-portal-hyprland
 )
 
 get_profile() {
@@ -56,24 +56,24 @@ get_profile() {
 readonly PROFILE_DIR="$(get_profile)"
 
 status() {
-    yay_check "${pkgs[@]}" &&
-        [ -L "$PROFILE_DIR/chrome/userChrome.css" ] &&
-        [ -L "$PROFILE_DIR/chrome/userContent.css" ]
+  yay_check "${pkgs[@]}" &&
+    [ -L "$PROFILE_DIR/chrome/userChrome.css" ] &&
+    [ -L "$PROFILE_DIR/chrome/userContent.css" ]
 }
 
 install() {
-    yay_install "${pkgs[@]}"
+  yay_install "${pkgs[@]}"
 
-    mkdir -p "$PROFILE_DIR/chrome"
-    ln -sf $COLORSCHEME_DIR/zen-userChrome.css "$PROFILE_DIR/chrome/userChrome.css"
-    ln -sf $COLORSCHEME_DIR/zen-userContent.css "$PROFILE_DIR/chrome/userContent.css"
+  sudo mkdir -p "$PROFILE_DIR/chrome"
+  ln -sf $COLORSCHEME_DIR/zen-userChrome.css "$PROFILE_DIR/chrome/userChrome.css"
+  ln -sf $COLORSCHEME_DIR/zen-userContent.css "$PROFILE_DIR/chrome/userContent.css"
 
-    xdg-settings set default-web-browser zen.desktop
+  xdg-settings set default-web-browser zen.desktop
 }
 
 uninstall() {
-    local pkgs=(zen-browser-bin)
-    yay_uninstall "${pkgs[@]}"
+  local pkgs=(zen-browser-bin)
+  yay_uninstall "${pkgs[@]}"
 
-    rm -rf "$PROFILE_DIR/chrome"
+  rm -rf "$PROFILE_DIR/chrome"
 }

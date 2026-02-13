@@ -1,0 +1,23 @@
+# Modify your greetd configuration to point to your minimal config.
+
+[terminal]
+vt = 1
+
+[default_session]
+# only ONE command should be active
+
+# hyprland
+command = "env HYPRLAND_CONFIG=/etc/ctos/greeter.hyprland.conf start-hyprland"
+
+# niri
+# command = "env NIRI_CONFIG=/etc/ctos/greeter.niri.kdl uwsm start niri.desktop"
+
+# others and desktop environment users
+# command = "env CTOS_MODE=kiosk cage -ds -m last -- quickshell --path /opt/ctos/Greeter"
+# note: customising monitor setup may require a wrapper script using wlr-randr
+
+# okay to be different, don't modify from your default
+user = "greeter"
+
+# Keep this as a backup to boot into your default session if needed
+# command = "agreety --cmd 'uwsm start hyprland.desktop'"

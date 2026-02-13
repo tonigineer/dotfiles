@@ -1,0 +1,28 @@
+{
+  "$schema": "https://raw.githubusercontent.com/TSM-061/ctOS/main/schema/greeter.schema.json",
+  "user": "toni",
+  "monitor": "DP-1",
+  "fontFamily": "Monaspace Krypton",
+  "fakeIdentity": {
+    "id": "XYZ-843",
+    "class": "L5_PROV",
+    "fullName": "Apline Root"
+  },
+  "fakeStatus": {
+    "env": "Arch Linux",
+    "node": "192.168.178.50/24"
+  },
+  "modes": {
+    "greetd": {
+      "animations": "all",
+      "exit": ["hyprctl", "dispatch", "exit"],
+      "launch": ["start-hyprland"]
+    },
+    "lockd": {
+      "animations": "reduced"
+    },
+    "test": {
+      "animations": "all"
+    }
+  }
+}

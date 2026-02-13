@@ -67,7 +67,7 @@ take_screenshot() {
         xdg-open "$filename"
         ;;
     "edit-image")
-        swappy -f "$filename"
+        satty -f "$filename"
         ;;
     esac
 }

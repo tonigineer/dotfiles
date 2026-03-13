@@ -5,13 +5,21 @@ input_path = '~/.config/noctalia/templates/kitty.conf'
 output_path = '~/.local/state/caelestia/theme/kitty.conf'
 post_hook = 'kill -USR1 $(pidof kitty)'
 
-[templates.zed]
-input_path = '~/.config/noctalia/templates/zed.json'
-output_path = '~/.local/state/caelestia/theme/zed.json'
-
 [templates.m3scheme]
 input_path = '~/.config/noctalia/templates/m3scheme.json'
 output_path = '~/.local/state/caelestia/scheme.json'
+
+[templates.quickshell_overview]
+input_path  = "~/.config/noctalia/templates/quickshell-overview.qml"
+output_path = "~/.config/quickshell/overview/common/Appearance.colors.qml"
+
+[templates.vesktop]
+input_path = '~/.config/noctalia/templates/vesktop.css'
+output_path = '~/.config/vesktop/themes/caelestia.theme.css'
+
+[templates.zed]
+input_path = '~/.config/noctalia/templates/zed.json'
+output_path = '~/.local/state/caelestia/theme/zed.json'
 
 [templates.zenchrome]
 input_path = '~/.config/noctalia/templates/zen-userChrome.css'
@@ -20,8 +28,3 @@ output_path = '~/.local/state/caelestia/theme/zen-userChrome.css'
 [templates.zencontent]
 input_path = '~/.config/noctalia/templates/zen-userContent.css'
 output_path = '~/.local/state/caelestia/theme/zen-userContent.css'
-
-[templates.vesktop]
-input_path = '~/.config/noctalia/templates/vesktop.css'
-output_path = '~/.config/vesktop/themes/caelestia.theme.css'
-

@@ -23,9 +23,6 @@
       "update_debounce_ms": 150,
     },
   },
-  "features": {
-    "edit_prediction_provider": "none",
-  },
   "git": {
     "git_gutter": "tracked_files",
     "inline_blame": {

@@ -11,6 +11,7 @@ PanelWindow {
 
   property bool livePreview: false
   property string fontFamily: "Monaspace Krypton"
+  property int animationDuration: 750
 
   property bool loading: true
   property int filteredCount: filteredItems.length
@@ -77,9 +78,9 @@ PanelWindow {
 
           var cmd;
           if (isVideo(fileName))
-            cmd = "[ -f '" + thumbnail + "' ] || ffmpeg -y -i '" + filePath + "' -ss 00:00:01 -vframes 1 -vf scale=-1:500 '" + thumbnail + "' </dev/null 2>/dev/null";
+            cmd = "[ -f '" + thumbnail + "' ] || ffmpeg -y -i '" + filePath + "' -vf 'select=eq(n\\,0),scale=-1:500' -frames:v 1 -q:v 2 '" + thumbnail + "' </dev/null 2>/dev/null";
           else
-            cmd = "[ -f '" + thumbnail + "' ] || magick '" + filePath + "' -thumbnail x500 '" + thumbnail + "'";
+            cmd = "[ -f '" + thumbnail + "' ] || magick '" + filePath + "' -resize x500 -quality 95 '" + thumbnail + "'";
 
           root.pendingProcesses++;
           var proc = processComponent.createObject(null, {
@@ -142,8 +143,6 @@ PanelWindow {
 
   FileView {
     path: Quickshell.shellPath("config.json")
-    watchChanges: true
-    onFileChanged: {}
 
     JsonAdapter {
       id: config
@@ -329,70 +328,124 @@ PanelWindow {
       property real leftEdge: centerX - stripGap - sideCount * stripWidth - (sideCount - 1) * stripGap
       property real rightEdge: centerX + centerWidth + stripGap + (sideCount - 1) * (stripWidth + stripGap) + stripWidth
 
+      property real entryOffset: parent.width / 2
+
+      Component.onCompleted: {
+        entryOffset = 0;
+      }
+
+      Behavior on entryOffset {
+        NumberAnimation {
+          duration: root.animationDuration
+          easing.type: Easing.OutBack
+          easing.overshoot: 1
+        }
+      }
+
       anchors.top: parent.top
       color: colors.mSurface
-      opacity: 0.85
-      x: leftEdge
+      opacity: .90
+      x: leftEdge + entryOffset
       width: rightEdge - leftEdge
       height: config.top_bar_height
       radius: config.top_bar_radius || 10
 
-      Text {
+      // ── Left ──
+      Row {
         anchors.left: parent.left
-        anchors.leftMargin: 16
+        anchors.leftMargin: 14
         anchors.verticalCenter: parent.verticalCenter
-        text: `${cardStack.currentIndex + 1} / ${root.filteredCount}`
-        color: colors.mPrimary
-        font.family: root.fontFamily
-        font.pixelSize: 13
-        font.bold: true
-        font.letterSpacing: 0.5
+        spacing: 10
+
+        Row {
+          anchors.verticalCenter: parent.verticalCenter
+          spacing: 5
+
+          Text {
+            anchors.baseline: counterText.baseline
+            text: `${cardStack.currentIndex + 1} / ${root.filteredCount}`
+            color: colors.mPrimary
+            font.family: root.fontFamily
+            font.pixelSize: 13
+            font.letterSpacing: 0.5
+          }
+        }
       }
 
+      // ── Center ──
       Row {
         id: filterRow
-
         anchors.centerIn: parent
-        spacing: 4
+        spacing: 3
         z: 1
 
         Repeater {
           model: [
             {
               "key": "all",
-              "label": "All [A]",
-              "col": colors.mPrimary
+              "label": "All",
+              "icon": "\ue5c3",
+              "hotkey": "A"
             },
             {
               "key": "images",
-              "label": "IMG [I]",
-              "col": colors.mSecondary
+              "label": "Images",
+              "icon": "\ue3f4",
+              "hotkey": "I"
             },
             {
               "key": "videos",
-              "label": "VID [V]",
-              "col": colors.mTertiary
+              "label": "Videos",
+              "icon": "\ue04b",
+              "hotkey": "V"
             }
           ]
 
           Rectangle {
             required property var modelData
             property bool active: root.filter === modelData.key
+            property color ac: active ? colors.mOnSurface : colors.mOnSurfaceVariant
 
-            width: filterLabel.implicitWidth + 16
-            height: 22
-            radius: 4
-            color: active ? Qt.alpha(modelData.col, 0.15) : "transparent"
+            width: fc.width + 14
+            height: 24
+            radius: 6
+            color: active ? Qt.alpha(ac, 0.15) : "transparent"
             border.width: 1
-            border.color: active ? modelData.col : colors.mOutline
+            border.color: active ? Qt.alpha(ac, 0.5) : Qt.alpha(colors.mOutline, 0.3)
 
-            Text {
-              id: filterLabel
+            Row {
+              id: fc
               anchors.centerIn: parent
-              text: modelData.label
-              color: active ? modelData.col : colors.mOnSurfaceVariant
-              font.family: root.fontFamily
-              font.pixelSize: 10
+              spacing: 4
+              Text {
+                anchors.verticalCenter: parent.verticalCenter
+                text: modelData.icon
+                color: ac
+                font.family: "Material Symbols Outlined"
+                font.pixelSize: 12
+              }
+              Text {
+                anchors.verticalCenter: parent.verticalCenter
+                text: modelData.label
+                color: ac
+                font.family: root.fontFamily
+                font.pixelSize: 10
+              }
+              Rectangle {
+                width: 14
+                height: 14
+                radius: 3
+                anchors.verticalCenter: parent.verticalCenter
+                color: Qt.alpha(ac, active ? 0.2 : 0.06)
+                Text {
+                  anchors.centerIn: parent
+                  text: modelData.hotkey
+                  color: Qt.alpha(ac, active ? 1 : 0.7)
+                  font.family: root.fontFamily
+                  font.pixelSize: 8
+                  font.bold: true
+                }
+              }
             }
 
             MouseArea {
@@ -400,7 +453,6 @@ PanelWindow {
               cursorShape: Qt.PointingHandCursor
               onClicked: root.filter = modelData.key
             }
-
             Behavior on color {
               ColorAnimation {
                 duration: 200
@@ -415,107 +467,159 @@ PanelWindow {
         }
       }
 
-      Rectangle {
-        id: randomButton
-
-        anchors.right: previewToggle.left
-        anchors.rightMargin: 6
-        anchors.verticalCenter: parent.verticalCenter
-        width: randomLabel.implicitWidth + 16
-        height: 22
-        radius: 4
-        z: 1
-        color: colors.mSurfaceVariant
-        border.width: 1
-        border.color: colors.mOutline
-
-        Text {
-          id: randomLabel
-          anchors.centerIn: parent
-          text: "Rnd [R]"
-          color: colors.mOnSurfaceVariant
-          font.family: root.fontFamily
-          font.pixelSize: 10
-        }
-
-        MouseArea {
-          anchors.fill: parent
-          cursorShape: Qt.PointingHandCursor
-          onClicked: cardStack.randomJump()
-        }
-      }
-
-      Rectangle {
-        id: previewToggle
-
+      // ── Right ──
+      Row {
         anchors.right: parent.right
         anchors.rightMargin: 12
         anchors.verticalCenter: parent.verticalCenter
-        width: previewRow.width + 16
-        height: 22
-        radius: 4
+        spacing: 4
         z: 1
-        color: root.livePreview ? Qt.alpha(colors.mTertiary, 0.15) : colors.mSurfaceVariant
-        border.width: 1
-        border.color: root.livePreview ? colors.mTertiary : colors.mOutline
 
-        Row {
-          id: previewRow
-          anchors.centerIn: parent
-          spacing: 6
+        // Random button
+        Rectangle {
+          width: rndContent.width + 14
+          height: 24
+          radius: 6
+          color: Qt.alpha(colors.mOnSurface, 0.06)
+          border.width: 1
+          border.color: Qt.alpha(colors.mOutline, 0.3)
 
-          Rectangle {
-            width: 8
-            height: 8
-            radius: 4
-            anchors.verticalCenter: parent.verticalCenter
-            color: root.livePreview ? colors.mPrimary : colors.mOnSurfaceVariant
+          Row {
+            id: rndContent
+            anchors.centerIn: parent
+            spacing: 4
 
-            Behavior on color {
-              ColorAnimation {
-                duration: 200
+            Text {
+              anchors.verticalCenter: parent.verticalCenter
+              text: "\ue043"
+              color: colors.mOnSurfaceVariant
+              font.family: "Material Symbols Outlined"
+              font.pixelSize: 13
+            }
+
+            Text {
+              anchors.verticalCenter: parent.verticalCenter
+              text: "Shuffle"
+              color: colors.mOnSurfaceVariant
+              font.family: root.fontFamily
+              font.pixelSize: 10
+            }
+
+            Rectangle {
+              width: 14
+              height: 14
+              radius: 3
+              anchors.verticalCenter: parent.verticalCenter
+              color: Qt.alpha(colors.mOnSurface, 0.06)
+              Text {
+                anchors.centerIn: parent
+                text: "R"
+                color: Qt.alpha(colors.mOnSurfaceVariant, 0.7)
+                font.family: root.fontFamily
+                font.pixelSize: 8
+                font.bold: true
               }
             }
           }
 
-          Text {
-            anchors.verticalCenter: parent.verticalCenter
-            text: "Live"
-            color: root.livePreview ? colors.mTertiary : colors.mOnSurfaceVariant
-            font.family: root.fontFamily
-            font.pixelSize: 11
+          MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: cardStack.randomJump()
+          }
+        }
 
-            Behavior on color {
-              ColorAnimation {
-                duration: 200
+        Rectangle {
+          width: 1
+          height: 14
+          anchors.verticalCenter: parent.verticalCenter
+          color: Qt.alpha(colors.mOutline, 0.3)
+        }
+
+        // Live preview toggle
+        Rectangle {
+          id: previewToggle
+
+          width: previewContent.width + 14
+          height: 24
+          radius: 6
+          color: root.livePreview ? Qt.alpha(colors.mTertiary, 0.15) : Qt.alpha(colors.mOnSurface, 0.06)
+          border.width: 1
+          border.color: root.livePreview ? Qt.alpha(colors.mTertiary, 0.5) : Qt.alpha(colors.mOutline, 0.3)
+
+          Row {
+            id: previewContent
+            anchors.centerIn: parent
+            spacing: 5
+
+            Rectangle {
+              width: 6
+              height: 6
+              radius: 3
+              anchors.verticalCenter: parent.verticalCenter
+              color: root.livePreview ? colors.mTertiary : Qt.alpha(colors.mOnSurfaceVariant, 0.4)
+
+              SequentialAnimation on opacity {
+                running: root.livePreview
+                loops: Animation.Infinite
+                NumberAnimation {
+                  to: 0.4
+                  duration: 800
+                  easing.type: Easing.InOutSine
+                }
+                NumberAnimation {
+                  to: 1.0
+                  duration: 800
+                  easing.type: Easing.InOutSine
+                }
+              }
+            }
+
+            Text {
+              anchors.verticalCenter: parent.verticalCenter
+              text: "Live"
+              color: root.livePreview ? colors.mTertiary : colors.mOnSurfaceVariant
+              font.family: root.fontFamily
+              font.pixelSize: 10
+              Behavior on color {
+                ColorAnimation {
+                  duration: 200
+                }
+              }
+            }
+
+            Rectangle {
+              width: 14
+              height: 14
+              radius: 3
+              anchors.verticalCenter: parent.verticalCenter
+              color: root.livePreview ? Qt.alpha(colors.mTertiary, 0.2) : Qt.alpha(colors.mOnSurface, 0.06)
+              Text {
+                anchors.centerIn: parent
+                text: "P"
+                color: root.livePreview ? colors.mTertiary : Qt.alpha(colors.mOnSurfaceVariant, 0.7)
+                font.family: root.fontFamily
+                font.pixelSize: 8
+                font.bold: true
               }
             }
           }
 
-          Text {
-            anchors.verticalCenter: parent.verticalCenter
-            text: "[P]"
-            color: colors.mOnSurfaceVariant
-            font.family: root.fontFamily
-            font.pixelSize: 9
+          MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: root.livePreview = !root.livePreview
           }
-        }
 
-        MouseArea {
-          anchors.fill: parent
-          cursorShape: Qt.PointingHandCursor
-          onClicked: root.livePreview = !root.livePreview
-        }
-
-        Behavior on color {
-          ColorAnimation {
-            duration: 200
+          Behavior on color {
+            ColorAnimation {
+              duration: 200
+            }
           }
-        }
-
-        Behavior on border.color {
-          ColorAnimation {
-            duration: 200
+          Behavior on border.color {
+            ColorAnimation {
+              duration: 200
+            }
           }
         }
       }
@@ -607,10 +711,10 @@ PanelWindow {
         var quit = false;
         var apply = false;
 
-        if (event.key === Qt.Key_K || event.key === Qt.Key_Left)
-          navigateTo(currentIndex - 1);
-        else if (event.key === Qt.Key_J || event.key === Qt.Key_Right)
+        if (event.key === Qt.Key_K || event.key === Qt.Key_Right)
           navigateTo(currentIndex + 1);
+        else if (event.key === Qt.Key_J || event.key === Qt.Key_Left)
+          navigateTo(currentIndex - 1);
         else if (event.key === Qt.Key_H)
           navigateTo(currentIndex - 7);
         else if (event.key === Qt.Key_L)
@@ -748,33 +852,43 @@ PanelWindow {
               id: videoLoader
 
               property string videoPath: isCenter && cardDelegate.isVideoFile ? root.getFilePath(cardDelegate.modelIndex) : ""
+              property bool shouldLoad: false
 
               anchors.fill: parent
-              active: isCenter && cardDelegate.isVideoFile && cardDelegate.currentFileName !== ""
+              active: shouldLoad && cardDelegate.currentFileName !== ""
               z: 5
+
               onVideoPathChanged: {
-                if (active) {
-                  active = false;
-                  active = Qt.binding(function () {
-                    return isCenter && cardDelegate.isVideoFile && cardDelegate.currentFileName !== "";
-                  });
-                }
+                shouldLoad = false;
+                if (videoPath !== "")
+                  videoDelayTimer.restart();
+                else
+                  videoDelayTimer.stop();
+              }
+
+              Timer {
+                id: videoDelayTimer
+                interval: root.animationDuration
+                onTriggered: videoLoader.shouldLoad = true
               }
 
               sourceComponent: Component {
                 Item {
                   id: videoContainer
-
                   anchors.fill: parent
                   layer.enabled: true
+                  opacity: 0
 
                   MediaPlayer {
                     id: mediaPlayer
-
                     source: "file://" + videoLoader.videoPath
                     videoOutput: videoOutput
                     loops: MediaPlayer.Infinite
                     Component.onCompleted: play()
+                    onPlayingChanged: {
+                      if (playing)
+                        videoFadeIn.start();
+                    }
 
                     audioOutput: AudioOutput {
                       volume: 0
@@ -783,9 +897,18 @@ PanelWindow {
 
                   VideoOutput {
                     id: videoOutput
-
                     anchors.fill: parent
                     fillMode: VideoOutput.PreserveAspectCrop
+                  }
+
+                  NumberAnimation {
+                    id: videoFadeIn
+                    target: videoContainer
+                    property: "opacity"
+                    from: 0
+                    to: 1
+                    duration: 300
+                    easing.type: Easing.OutCubic
                   }
 
                   layer.effect: OpacityMask {
@@ -930,7 +1053,7 @@ PanelWindow {
 
       Behavior on animRunning {
         NumberAnimation {
-          duration: 1000
+          duration: root.animationDuration
           easing.type: Easing.OutBack
           easing.overshoot: 1
         }

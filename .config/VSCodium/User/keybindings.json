@@ -1,0 +1,59 @@
+[
+  // ============================================
+  // QUICK OPEN / FILE PICKER NAVIGATION
+  // ============================================
+  { "key": "ctrl+n", "command": "list.focusDown", "when": "inQuickOpen" },
+  { "key": "ctrl+p", "command": "list.focusUp", "when": "inQuickOpen" },
+  { "key": "ctrl+n", "command": "workbench.action.quickOpenNavigateNext", "when": "inQuickOpen" },
+  { "key": "ctrl+p", "command": "workbench.action.quickOpenNavigatePrevious", "when": "inQuickOpen" },
+  { "key": "ctrl+n", "command": "list.focusDown", "when": "listFocus && !inputFocus && !inQuickOpen" },
+  { "key": "ctrl+p", "command": "list.focusUp", "when": "listFocus && !inputFocus && !inQuickOpen" },
+
+  // ============================================
+  // TERMINAL - CLIPBOARD
+  // ============================================
+  {
+    "key": "ctrl+c",
+    "command": "workbench.action.terminal.copySelection",
+    "when": "terminalTextSelectedInFocused || terminalFocus && terminalHasBeenCreated && terminalTextSelected || terminalFocus && terminalProcessSupported && terminalTextSelected || terminalFocus && terminalTextSelected && terminalTextSelectedInFocused || terminalHasBeenCreated && terminalTextSelected && terminalTextSelectedInFocused || terminalProcessSupported && terminalTextSelected && terminalTextSelectedInFocused"
+  },
+  {
+    "key": "ctrl+shift+c",
+    "command": "-workbench.action.terminal.copySelection",
+    "when": "terminalTextSelectedInFocused || terminalFocus && terminalHasBeenCreated && terminalTextSelected || terminalFocus && terminalProcessSupported && terminalTextSelected || terminalFocus && terminalTextSelected && terminalTextSelectedInFocused || terminalHasBeenCreated && terminalTextSelected && terminalTextSelectedInFocused || terminalProcessSupported && terminalTextSelected && terminalTextSelectedInFocused"
+  },
+  {
+    "key": "ctrl+v",
+    "command": "workbench.action.terminal.paste",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "ctrl+shift+v",
+    "command": "-workbench.action.terminal.paste",
+    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "ctrl+f",
+    "command": "-workbench.action.terminal.focusFind",
+    "when": "terminalFindFocused && terminalHasBeenCreated || terminalFindFocused && terminalProcessSupported || terminalFocusInAny && terminalHasBeenCreated || terminalFocusInAny && terminalProcessSupported"
+  },
+
+  // ============================================
+  // PANEL & SIDEBAR TOGGLES
+  // ============================================
+  { "key": "ctrl+shift+m", "command": "workbench.action.toggleMaximizedPanel" },
+  {
+    "key": "ctrl+alt+q",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        "workbench.action.toggleSidebarVisibility",
+        "workbench.action.toggleActivityBarVisibility"
+      ]
+    }
+  },
+  {
+    "key": "ctrl+alt+q",
+    "command": "workbench.action.toggleSidebarVisibility"
+  }
+]

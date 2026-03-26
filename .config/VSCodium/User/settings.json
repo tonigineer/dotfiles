@@ -1,0 +1,231 @@
+{
+  // ============================================
+  // EDITOR - APPEARANCE
+  // ============================================
+  "editor.autoClosingBrackets": "never",
+  "editor.autoClosingQuotes": "never",
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorStyle": "line-thin",
+  // "editor.cursorStyle": "line",
+  "editor.cursorSurroundingLines": 5,
+  "editor.cursorSurroundingLinesStyle": "default",
+  "editor.cursorWidth": 2,
+  "editor.fontFamily": "'Monaspace Krypton', 'CaskaydiaCove Nerd Font', monospace",
+  // "editor.fontFamily": "'Monaspace Krypton', 'CaskaydiaCove Nerd Font', monospace",
+  "editor.minimap.enabled": false,
+  "editor.stickyScroll.enabled": false,
+
+  // ============================================
+  // EDITOR - INLAY HINTS
+  // ============================================
+  "editor.inlayHints.fontFamily": "monospace",
+  "editor.inlayHints.fontSize": 6,
+  "editor.inlayHints.padding": true,
+
+  // ============================================
+  // EDITOR - COLOR CUSTOMIZATIONS
+  // ============================================
+  "workbench.colorCustomizations": {
+    "editorCursor.foreground": "#FFEA6B",
+    "editorCursor.background": "#FFEA6B",
+    "editorLineNumber.activeForeground": "#FFEA6B",
+    "editorBracketHighlight.foreground1": "#9966cc",
+    "editorBracketHighlight.foreground2": "#6699cc",
+    "editorBracketHighlight.foreground3": "#66cc99",
+    "editorBracketHighlight.foreground4": "#99cc66",
+    "editorBracketHighlight.foreground5": "#cc9966",
+    "editorBracketHighlight.foreground6": "#cc6666"
+  },
+
+  // ============================================
+  // ERROR LENS
+  // ============================================
+  "errorLens.messageBackgroundMode": "none",
+  "errorLens.fontWeight": "normal",
+  "errorLens.gutterIconSet": "letter",
+  "errorLens.followCursor": "closestProblem",
+  "errorLens.statusBarColorsEnabled": true,
+  "errorLens.decorations": {
+    "warningMessage": {
+      "color": "#cc9966"
+    },
+    "errorMessage": {
+      "color": "#cc6666"
+    },
+    "hintMessage": {
+      "color": "#9966cc"
+    },
+    "infoMessage": {
+      "color": "#6699cc"
+    }
+  },
+
+  // ============================================
+  // WORKBENCH & WINDOW
+  // ============================================
+  "window.commandCenter": false,
+  "window.menuBarVisibility": "compact",
+  "workbench.activityBar.location": "top",
+  "workbench.colorTheme": "Experimental Dark",
+  "workbench.editor.editorActionsLocation": "hidden",
+  "workbench.editorAssociations": {
+    "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc": "default",
+    "*.qrc": "qt-core.qrcEditor"
+  },
+  "workbench.iconTheme": "symbols",
+  "workbench.layoutControl.enabled": false,
+  "workbench.startupEditor": "none",
+  "symbols.hidesExplorerArrows": false,
+
+  // ============================================
+  // EXPLORER
+  // ============================================
+  "explorer.confirmDelete": false,
+
+  // ============================================
+  // TERMINAL
+  // ============================================
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  // "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.fontFamily": "'Monaspace Krypton', 'CaskaydiaCove Nerd Font'",
+  "terminal.integrated.initialHint": false,
+  "terminal.integrated.stickyScroll.enabled": false,
+
+  // ============================================
+  // GIT
+  // ============================================
+  "git.confirmSync": false,
+
+  // ============================================
+  // LANGUAGE-SPECIFIC FORMATTERS
+  // ============================================
+  "[groovy]": {
+    "editor.defaultFormatter": "NicolasVuillamy.vscode-groovy-lint",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jenkinsfile]": {
+    "editor.defaultFormatter": "NicolasVuillamy.vscode-groovy-lint",
+    "editor.formatOnSave": false,
+    "editor.tabSize": 2
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "mikoz.black-py",
+    // "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[qml]": {
+    "editor.defaultFormatter": "theqtcompany.qt-qml",
+    "editor.formatOnSave": true
+  },
+  "[shellscript]": {
+    "editor.defaultFormatter": "mkhl.shfmt"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+
+  // ============================================
+  // QT / QML
+  // ============================================
+  "qt-core.additionalQtPaths": [
+    {
+      "name": "Qt-5.15.18-linux-g++_from_PATH",
+      "path": "/usr/bin/qmake"
+    }
+  ],
+  "qt-qml.doNotAskForQmllsDownload": true,
+  "qt-qml.qmlls.additionalImportPaths": ["/etc/xdg/quickshell/noctalia-shell"],
+  "qt-qml.qmlls.customExePath": "/usr/lib/qt6/bin/qmlls",
+  "qt-qml.qmlls.useQmlImportPathEnvVar": true,
+
+  // ============================================
+  // LANGUAGE SERVER & TOOLS
+  // ============================================
+  "shfmt.executablePath": "/home/toni/Downloads/shfmt_linux_amd64",
+
+  // ============================================
+  // TELEMETRY
+  // ============================================
+  "extensions.autoCheckUpdates": false,
+  "redhat.telemetry.enabled": false,
+  "telemetry.editStats.enabled": false,
+  "telemetry.feedback.enabled": false,
+
+  // ============================================
+  // VIM - GENERAL
+  // ============================================
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-c>": false,
+    "<C-v>": false,
+    "<C-x>": false,
+    "<C-s>": false,
+    "<C-z>": false,
+    "<C-y>": false
+  },
+  "vim.highlightedyank.enable": true,
+  "vim.highlightedyank.color": "#FFC107",
+  "vim.leader": "<space>",
+  "vim.smartRelativeLine": true,
+  "vim.timeout": 300,
+  "vim.useSystemClipboard": true,
+
+  // ============================================
+  // VIM - INSERT MODE
+  // ============================================
+  "vim.insertModeKeyBindings": [
+    { "before": ["j", "k"], "after": ["<Esc>"] },
+    { "before": ["k", "j"], "after": ["<Esc>"] },
+    { "before": ["<C-a>"], "commands": ["editor.action.selectAll"] },
+    { "before": ["<C-c>"], "commands": ["editor.action.clipboardCopyAction"] },
+    { "before": ["<C-v>"], "commands": ["editor.action.clipboardPasteAction"] },
+    { "before": ["<C-x>"], "commands": ["editor.action.clipboardCutAction"] },
+    { "before": ["<C-s>"], "commands": ["workbench.action.files.save"] },
+    { "before": ["<C-z>"], "commands": ["undo"] },
+    { "before": ["<C-y>"], "commands": ["redo"] }
+  ],
+
+  // ============================================
+  // VIM - NORMAL MODE
+  // ============================================
+  "vim.normalModeKeyBindingsNonRecursive": [
+    { "before": ["<C-z>"], "commands": ["undo"] },
+    { "before": ["<C-y>"], "commands": ["redo"] },
+    { "before": ["<C-a>"], "commands": ["editor.action.selectAll"] },
+    { "before": ["<C-c>"], "commands": ["editor.action.clipboardCopyAction"] },
+    { "before": ["<C-v>"], "commands": ["editor.action.clipboardPasteAction"] },
+    { "before": ["<C-x>"], "commands": ["editor.action.clipboardCutAction"] },
+    { "before": ["<C-s>"], "commands": ["workbench.action.files.save"] },
+    { "before": ["<S-j>"], "commands": ["editor.action.moveLinesDownAction"] },
+    { "before": ["<S-k>"], "commands": ["editor.action.moveLinesUpAction"] },
+    { "before": [">"], "commands": ["editor.action.indentLines"] },
+    { "before": ["<"], "commands": ["editor.action.outdentLines"] },
+    { "before": ["<leader>", "f"], "commands": ["editor.action.formatDocument"] },
+    { "before": ["<leader>", "f"], "commands": ["editor.action.formatDocument"] },
+    { "before": ["<leader>", "s", "f"], "commands": ["workbench.action.quickOpen"] },
+    { "before": ["<leader>", "s", "g"], "commands": ["workbench.action.findInFiles"] },
+    { "before": ["<leader>", "<leader>"], "commands": ["workbench.action.showAllEditors"] },
+    { "before": ["<leader>", "s", "p"], "commands": ["workbench.action.openRecent"] }
+  ],
+
+  // ============================================
+  // VIM - VISUAL MODE
+  // ============================================
+  "vim.visualModeKeyBindingsNonRecursive": [
+    { "before": ["<S-k>"], "commands": ["editor.action.moveLinesUpAction"] },
+    { "before": ["<S-j>"], "commands": ["editor.action.moveLinesDownAction"] },
+    { "before": [">"], "commands": ["editor.action.indentLines"] },
+    { "before": ["<"], "commands": ["editor.action.outdentLines"] }
+  ]
+}

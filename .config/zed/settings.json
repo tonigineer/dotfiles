@@ -98,7 +98,7 @@
   },
   "relative_line_numbers": "enabled",
   "scrollbar": {
-    "show": "never",
+    "show": "auto",
   },
   "show_wrap_guides": true,
   "status_bar": {
@@ -138,6 +138,7 @@
   },
   "ui_font_family": "Monaspace Krypton",
   "ui_font_size": 16,
+  "show_whitespaces": "boundary",
   "use_autoclose": false,
   "use_system_window_tabs": false,
   "vertical_scroll_margin": 8,

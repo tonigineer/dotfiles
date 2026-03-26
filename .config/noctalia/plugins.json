@@ -16,7 +16,7 @@
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "github-feed": {
-            "enabled": true,
+            "enabled": false,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "network-indicator": {
@@ -43,6 +43,10 @@
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
+        "show-keys": {
+            "enabled": false,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
         "todo": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
@@ -52,6 +56,14 @@
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "update-count-bak": {
+            "enabled": false,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
+        "wallcards": {
+            "enabled": true,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
+        "wallcards-dev": {
             "enabled": false,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },

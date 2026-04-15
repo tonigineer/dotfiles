@@ -14,7 +14,7 @@
   "cursor_blink": true,
   "diagnostics_max_severity": "all",
   "diagnostics": {
-    "include_warnings": true,
+    "include_warnings": false,
     "inline": {
       "enabled": true,
       "max_severity": "all",
@@ -126,8 +126,8 @@
     },
   },
   "theme": {
-    "dark": "Caelestia",
-    "light": "Caelestia",
+    "dark": "Noctalia Dark",
+    "light": "Noctalia Light",
     "mode": "system",
   },
   "title_bar": {

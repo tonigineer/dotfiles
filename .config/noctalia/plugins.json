@@ -7,24 +7,16 @@
         }
     ],
     "states": {
-        "activate-linux": {
-            "enabled": false,
-            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
-        },
-        "catwalk": {
+        "arch-updater": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
-        "github-feed": {
+        "latency-monitor": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "network-indicator": {
             "enabled": true,
-            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
-        },
-        "network-indicator-bak": {
-            "enabled": false,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
         "noctalia-supergfxctl": {
@@ -43,6 +35,10 @@
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
+        "screenshot": {
+            "enabled": false,
+            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
+        },
         "show-keys": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
@@ -51,23 +47,7 @@
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },
-        "update-count": {
-            "enabled": true,
-            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
-        },
-        "update-count-bak": {
-            "enabled": false,
-            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
-        },
         "wallcards": {
-            "enabled": false,
-            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
-        },
-        "wallcards-dev": {
-            "enabled": false,
-            "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
-        },
-        "wallcards2": {
             "enabled": true,
             "sourceUrl": "https://github.com/noctalia-dev/noctalia-plugins"
         },

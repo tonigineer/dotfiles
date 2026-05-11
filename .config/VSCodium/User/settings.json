@@ -7,20 +7,17 @@
   "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorStyle": "line-thin",
-  // "editor.cursorStyle": "line",
   "editor.cursorSurroundingLines": 5,
   "editor.cursorSurroundingLinesStyle": "default",
   "editor.cursorWidth": 2,
   "editor.fontFamily": "'Monaspace Krypton', 'CaskaydiaCove Nerd Font', monospace",
-  // "editor.fontFamily": "'Monaspace Krypton', 'CaskaydiaCove Nerd Font', monospace",
   "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "all",
   "editor.stickyScroll.enabled": false,
 
   // ============================================
-  // EDITOR - INLAY HINTS
-  // ============================================
-  "editor.inlayHints.fontFamily": "monospace",
-  "editor.inlayHints.fontSize": 6,
+  "editor.inlayHints.fontFamily": "Monaspace Krypton",
+  "editor.inlayHints.fontSize": 14,
   "editor.inlayHints.padding": true,
 
   // ============================================
@@ -35,7 +32,13 @@
     "editorBracketHighlight.foreground3": "#66cc99",
     "editorBracketHighlight.foreground4": "#99cc66",
     "editorBracketHighlight.foreground5": "#cc9966",
-    "editorBracketHighlight.foreground6": "#cc6666"
+    "editorBracketHighlight.foreground6": "#cc6666",
+    "editorInlayHint.foreground": "#6e7681",
+    "editorInlayHint.background": "#1c2128aa",
+    "editorInlayHint.typeForeground": "#6e7681",
+    "editorInlayHint.typeBackground": "#1c212800",
+    "editorInlayHint.parameterForeground": "#6e7681",
+    "editorInlayHint.parameterBackground": "#1c212800",
   },
 
   // ============================================
@@ -48,17 +51,17 @@
   "errorLens.statusBarColorsEnabled": true,
   "errorLens.decorations": {
     "warningMessage": {
-      "color": "#cc9966"
+      "color": "#cc9966",
     },
     "errorMessage": {
-      "color": "#cc6666"
+      "color": "#cc6666",
     },
     "hintMessage": {
-      "color": "#9966cc"
+      "color": "#9966cc",
     },
     "infoMessage": {
-      "color": "#6699cc"
-    }
+      "color": "#6699cc",
+    },
   },
 
   // ============================================
@@ -67,11 +70,11 @@
   "window.commandCenter": false,
   "window.menuBarVisibility": "compact",
   "workbench.activityBar.location": "top",
-  "workbench.colorTheme": "Experimental Dark",
+  "workbench.colorTheme": "Vague",
   "workbench.editor.editorActionsLocation": "hidden",
   "workbench.editorAssociations": {
     "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc": "default",
-    "*.qrc": "qt-core.qrcEditor"
+    "*.qrc": "qt-core.qrcEditor",
   },
   "workbench.iconTheme": "symbols",
   "workbench.layoutControl.enabled": false,
@@ -101,38 +104,27 @@
   // ============================================
   // LANGUAGE-SPECIFIC FORMATTERS
   // ============================================
-  "[groovy]": {
-    "editor.defaultFormatter": "NicolasVuillamy.vscode-groovy-lint",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2
-  },
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jenkinsfile]": {
-    "editor.defaultFormatter": "NicolasVuillamy.vscode-groovy-lint",
-    "editor.formatOnSave": false,
-    "editor.tabSize": 2
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[markdown]": {
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
   },
   "[python]": {
     "editor.defaultFormatter": "mikoz.black-py",
-    // "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "[qml]": {
     "editor.defaultFormatter": "theqtcompany.qt-qml",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
   "[shellscript]": {
-    "editor.defaultFormatter": "mkhl.shfmt"
+    "editor.defaultFormatter": "mkhl.shfmt",
   },
   "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+    "editor.defaultFormatter": "redhat.vscode-yaml",
   },
 
   // ============================================
@@ -141,8 +133,8 @@
   "qt-core.additionalQtPaths": [
     {
       "name": "Qt-5.15.18-linux-g++_from_PATH",
-      "path": "/usr/bin/qmake"
-    }
+      "path": "/usr/bin/qmake",
+    },
   ],
   "qt-qml.doNotAskForQmllsDownload": true,
   "qt-qml.qmlls.additionalImportPaths": ["/etc/xdg/quickshell/noctalia-shell"],
@@ -172,7 +164,7 @@
     "<C-x>": false,
     "<C-s>": false,
     "<C-z>": false,
-    "<C-y>": false
+    "<C-y>": false,
   },
   "vim.highlightedyank.enable": true,
   "vim.highlightedyank.color": "#FFC107",
@@ -193,7 +185,7 @@
     { "before": ["<C-x>"], "commands": ["editor.action.clipboardCutAction"] },
     { "before": ["<C-s>"], "commands": ["workbench.action.files.save"] },
     { "before": ["<C-z>"], "commands": ["undo"] },
-    { "before": ["<C-y>"], "commands": ["redo"] }
+    { "before": ["<C-y>"], "commands": ["redo"] },
   ],
 
   // ============================================
@@ -211,12 +203,38 @@
     { "before": ["<S-k>"], "commands": ["editor.action.moveLinesUpAction"] },
     { "before": [">"], "commands": ["editor.action.indentLines"] },
     { "before": ["<"], "commands": ["editor.action.outdentLines"] },
-    { "before": ["<leader>", "f"], "commands": ["editor.action.formatDocument"] },
-    { "before": ["<leader>", "f"], "commands": ["editor.action.formatDocument"] },
-    { "before": ["<leader>", "s", "f"], "commands": ["workbench.action.quickOpen"] },
-    { "before": ["<leader>", "s", "g"], "commands": ["workbench.action.findInFiles"] },
-    { "before": ["<leader>", "<leader>"], "commands": ["workbench.action.showAllEditors"] },
-    { "before": ["<leader>", "s", "p"], "commands": ["workbench.action.openRecent"] }
+    {
+      "before": ["<leader>", "f"],
+      "commands": ["editor.action.formatDocument"],
+    },
+    {
+      "before": ["<leader>", "s", "f"],
+      "commands": ["workbench.action.quickOpen"],
+    },
+    {
+      "before": ["<leader>", "s", "g"],
+      "commands": ["workbench.action.findInFiles"],
+    },
+    {
+      "before": ["<leader>", "<leader>"],
+      "commands": ["workbench.action.showAllEditors"],
+    },
+    {
+      "before": ["<leader>", "s", "r"],
+      "commands": ["workbench.action.openRecent"],
+    },
+    {
+      "before": ["<leader>", "H"],
+      "commands": ["editor.action.showHover"],
+    },
+    {
+      "before": ["<leader>", "D"],
+      "commands": ["editor.action.revealDefinition"],
+    },
+    {
+      "before": ["<leader>", "R"],
+      "commands": ["editor.action.rename"],
+    },
   ],
 
   // ============================================
@@ -226,6 +244,6 @@
     { "before": ["<S-k>"], "commands": ["editor.action.moveLinesUpAction"] },
     { "before": ["<S-j>"], "commands": ["editor.action.moveLinesDownAction"] },
     { "before": [">"], "commands": ["editor.action.indentLines"] },
-    { "before": ["<"], "commands": ["editor.action.outdentLines"] }
-  ]
+    { "before": ["<"], "commands": ["editor.action.outdentLines"] },
+  ],
 }

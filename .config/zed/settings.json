@@ -52,14 +52,18 @@
     "enabled": true,
   },
   "languages": {
+    "Lua": {
+      "language_servers": ["lua-language-server"],
+      "format_on_save": "off",
+    },
     "Rust": {
       "code_actions_on_format": {},
-      "format_on_save": "on",
+      "format_on_save": "off",
       "language_servers": ["rust-analyzer"],
     },
     "Python": {
       "code_actions_on_format": {},
-      "format_on_save": "on",
+      "format_on_save": "off",
       "language_servers": ["pyright", "ruff"],
     },
     "JSON": {

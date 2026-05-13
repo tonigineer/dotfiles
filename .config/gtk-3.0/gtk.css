@@ -1,0 +1,425 @@
+/*
+ * GTK3 Stylesheet
+ * Noctalia Color Integration
+ */
+@import url("noctalia.css");
+
+/* ── Window & General ── */
+window {
+    background-color: @window_bg_color;
+    color: @window_fg_color;
+}
+
+/* ── Sidebar ── */
+.sidebar,
+.sidebar .view,
+placessidebar,
+placessidebar .view,
+placessidebar list {
+    background-color: @window_bg_color;
+    color: @sidebar_fg_color;
+}
+
+placessidebar row {
+    color: @sidebar_fg_color;
+}
+
+placessidebar row:selected {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+    border-radius: 4px;
+}
+
+placessidebar row:hover {
+    background-color: alpha(@accent_bg_color, 0.25);
+    border-radius: 4px;
+}
+
+placessidebar row:selected:hover {
+    background-color: shade(@accent_bg_color, 1.1);
+}
+
+/* Section headers */
+placessidebar row.sidebar-placeholder-row,
+placessidebar label.sidebar-label {
+    color: alpha(@sidebar_fg_color, 0.55);
+    font-weight: bold;
+    font-size: 0.85em;
+}
+
+/* Sidebar separator between sections */
+placessidebar separator {
+    background-color: alpha(@sidebar_fg_color, 0.1);
+    margin: 4px 8px;
+}
+
+/* Sidebar border against main view */
+.sidebar,
+placessidebar {
+    border-right: 1px solid alpha(@window_fg_color, 0.06);
+}
+
+/* Sidebar icons — use regular (full-color) icon style from theme */
+placessidebar row image,
+placessidebar row .sidebar-icon,
+.sidebar image {
+    -gtk-icon-style: regular;
+}
+
+placessidebar row:selected image,
+placessidebar row:selected .sidebar-icon {
+    -gtk-icon-style: regular;
+}
+
+/* Toolbar / headerbar icons — keep symbolic, use accent */
+headerbar image,
+headerbar button image,
+toolbar image,
+toolbar button image,
+.toolbar button image {
+    -gtk-icon-style: symbolic;
+    color: @headerbar_fg_color;
+}
+
+headerbar button:hover image,
+toolbar button:hover image {
+    color: @accent_color;
+}
+
+/* ── Main View ── */
+.view,
+iconview,
+treeview.view {
+    background-color: @view_bg_color;
+    color: @view_fg_color;
+}
+
+.view:selected,
+iconview:selected,
+treeview.view row:selected {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+}
+
+.view:hover,
+treeview.view row:hover {
+    background-color: alpha(@accent_bg_color, 0.1);
+}
+
+treeview.view row:nth-child(even) {
+    background-color: alpha(@card_bg_color, 0.4);
+}
+
+/* Rubber-band selection */
+.rubberband,
+rubberband {
+    border: 1px solid alpha(@accent_bg_color, 0.6);
+    background-color: alpha(@accent_bg_color, 0.2);
+}
+
+/* ── Headerbar ── */
+headerbar {
+    background-color: @headerbar_bg_color;
+    color: @headerbar_fg_color;
+    border-bottom: 1px solid alpha(@headerbar_fg_color, 0.08);
+}
+
+headerbar:backdrop {
+    background-color: @headerbar_backdrop_color;
+}
+
+/* ── Window Controls (close, minimize, maximize) ── */
+headerbar button.titlebutton,
+windowcontrols button {
+    color: @headerbar_fg_color;
+    background-color: alpha(@headerbar_fg_color, 0.08);
+    border: none;
+    border-radius: 999px;
+    min-width: 24px;
+    min-height: 24px;
+    padding: 2px;
+    margin: 0 2px;
+}
+
+headerbar button.titlebutton:hover,
+windowcontrols button:hover {
+    background-color: alpha(@headerbar_fg_color, 0.18);
+}
+
+headerbar button.titlebutton.close,
+windowcontrols button.close {
+    background-color: @destructive_bg_color;
+    color: @destructive_fg_color;
+}
+
+headerbar button.titlebutton.close:hover,
+windowcontrols button.close:hover {
+    background-color: shade(@destructive_bg_color, 1.15);
+}
+
+headerbar button.titlebutton:backdrop,
+windowcontrols button:backdrop {
+    color: alpha(@headerbar_fg_color, 0.5);
+    background-color: alpha(@headerbar_fg_color, 0.05);
+}
+
+/* ── Toolbar / Pathbar ── */
+toolbar,
+.toolbar,
+.path-bar,
+.pathbar {
+    background-color: @window_bg_color;
+    color: @window_fg_color;
+    border-bottom: 1px solid alpha(@window_fg_color, 0.08);
+}
+
+toolbar button,
+.toolbar button {
+    color: @window_fg_color;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+toolbar button:hover,
+.toolbar button:hover {
+    background-color: alpha(@accent_bg_color, 0.15);
+}
+
+toolbar button:active,
+toolbar button:checked,
+.toolbar button:active,
+.toolbar button:checked {
+    background-color: alpha(@accent_bg_color, 0.25);
+}
+
+/* ── Entries ── */
+entry {
+    background-color: @card_bg_color;
+    color: @card_fg_color;
+    border: 1px solid alpha(@accent_bg_color, 0.3);
+    border-radius: 6px;
+    padding: 4px 8px;
+    caret-color: @accent_color;
+}
+
+entry:focus {
+    border-color: @accent_color;
+    box-shadow: 0 0 0 1px alpha(@accent_color, 0.3);
+}
+
+entry selection {
+    background-color: alpha(@accent_bg_color, 0.35);
+    color: @view_fg_color;
+}
+
+/* Path bar breadcrumbs */
+.path-bar button,
+.linked.path-bar > button {
+    background-color: transparent;
+    color: @window_fg_color;
+    border: none;
+    border-radius: 4px;
+}
+
+.path-bar button:hover,
+.linked.path-bar > button:hover {
+    background-color: alpha(@accent_bg_color, 0.15);
+}
+
+.path-bar button:checked,
+.linked.path-bar > button:checked {
+    background-color: alpha(@accent_bg_color, 0.25);
+}
+
+/* ── Statusbar ── */
+statusbar,
+.statusbar {
+    background-color: @window_bg_color;
+    color: alpha(@window_fg_color, 0.7);
+    border-top: 1px solid alpha(@window_fg_color, 0.08);
+}
+
+/* ── Menus & Popovers ── */
+menu,
+.menu,
+.context-menu {
+    background-color: @popover_bg_color;
+    color: @popover_fg_color;
+    border: 1px solid alpha(@popover_fg_color, 0.1);
+    border-radius: 8px;
+    padding: 4px 0;
+}
+
+menu menuitem {
+    color: @popover_fg_color;
+    padding: 4px 12px;
+}
+
+menu menuitem:hover {
+    background-color: alpha(@accent_bg_color, 0.2);
+}
+
+menu separator {
+    background-color: alpha(@popover_fg_color, 0.08);
+    margin: 4px 8px;
+}
+
+menubar {
+    background-color: @window_bg_color;
+    color: @window_fg_color;
+}
+
+menubar > menuitem:hover {
+    background-color: alpha(@accent_bg_color, 0.15);
+}
+
+popover,
+popover.background {
+    background-color: @popover_bg_color;
+    color: @popover_fg_color;
+    border: 1px solid alpha(@popover_fg_color, 0.1);
+    border-radius: 8px;
+}
+
+/* ── Scrollbars ── */
+scrollbar slider {
+    background-color: alpha(@accent_color, 0.35);
+    border-radius: 999px;
+    min-width: 6px;
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background-color: alpha(@accent_color, 0.55);
+}
+
+scrollbar slider:active {
+    background-color: @accent_color;
+}
+
+scrollbar trough {
+    background-color: transparent;
+}
+
+/* ── Pane Separator ── */
+paned > separator {
+    background-color: alpha(@window_fg_color, 0.06);
+    min-width: 1px;
+    min-height: 1px;
+}
+
+paned > separator:hover {
+    background-color: alpha(@accent_color, 0.3);
+}
+
+/* ── Tooltips ── */
+tooltip,
+tooltip.background {
+    background-color: @popover_bg_color;
+    color: @popover_fg_color;
+    border: 1px solid alpha(@accent_color, 0.25);
+    border-radius: 6px;
+}
+
+/* ── Buttons ── */
+button {
+    background-color: alpha(@accent_bg_color, 0.12);
+    color: @window_fg_color;
+    border: 1px solid alpha(@accent_bg_color, 0.2);
+    border-radius: 6px;
+    padding: 4px 12px;
+}
+
+button:hover {
+    background-color: alpha(@accent_bg_color, 0.22);
+    border-color: alpha(@accent_bg_color, 0.35);
+}
+
+button:active,
+button:checked {
+    background-color: alpha(@accent_bg_color, 0.3);
+}
+
+button.suggested-action {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+    border: none;
+}
+
+button.suggested-action:hover {
+    background-color: shade(@accent_bg_color, 1.1);
+}
+
+button.destructive-action {
+    background-color: @destructive_bg_color;
+    color: @destructive_fg_color;
+    border: none;
+}
+
+button.destructive-action:hover {
+    background-color: shade(@destructive_bg_color, 1.1);
+}
+
+/* ── Dialogs ── */
+dialog,
+messagedialog {
+    background-color: @dialog_bg_color;
+    color: @dialog_fg_color;
+}
+
+/* ── Notebooks / Tabs ── */
+notebook header {
+    background-color: @window_bg_color;
+    border-color: alpha(@window_fg_color, 0.08);
+}
+
+notebook header tab {
+    color: alpha(@window_fg_color, 0.6);
+    border: none;
+    padding: 4px 12px;
+}
+
+notebook header tab:checked {
+    color: @window_fg_color;
+    box-shadow: inset 0 -2px 0 @accent_color;
+}
+
+notebook header tab:hover {
+    color: @window_fg_color;
+    background-color: alpha(@accent_bg_color, 0.1);
+}
+
+/* ── Progress Bar ── */
+progressbar trough {
+    background-color: alpha(@card_bg_color, 0.8);
+    border-radius: 999px;
+}
+
+progressbar progress {
+    background-color: @accent_bg_color;
+    border-radius: 999px;
+}
+
+/* ── Unfocused / Backdrop ── */
+window:backdrop {
+    background-color: @theme_unfocused_bg_color;
+    color: @theme_unfocused_fg_color;
+}
+
+.view:backdrop,
+treeview.view:backdrop {
+    background-color: @theme_unfocused_base_color;
+    color: @theme_unfocused_text_color;
+}
+
+*:selected:backdrop {
+    background-color: @theme_unfocused_selected_bg_color;
+    color: @theme_unfocused_selected_fg_color;
+}
+
+/* ── Thumbnails ── */
+.thumbnail {
+    border: 1px solid alpha(@accent_color, 0.15);
+    border-radius: 4px;
+}

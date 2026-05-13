@@ -153,16 +153,15 @@ hl.window_rule({
 
 -- Thunar: float by default, tile when it's the main window
 hl.window_rule({
-    name = "Thunar float",
-    match = { class = "^thunar$" },
+    name = "Thunar Other Windows",
+    match = { class = ".*thunar.*", title = "negative:.*Thunar.*" },
     float = true,
-    border_color = "#FF00FF #FFFF00",
-    border_size = 1,
+    border_color = border_colors.floating,
+    border_size = 2,
 })
-
 hl.window_rule({
-    name = "Thunar main tile",
-    match = { class = "^thunar$", title = ".*Thunar.*" },
+    name = "Thunar Main Window",
+    match = { title = ".*Thunar.*" },
     tile = true,
 })
 

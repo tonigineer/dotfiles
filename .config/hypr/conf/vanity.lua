@@ -119,8 +119,8 @@ local function toggle_gamemode()
                 inactive_opacity = 1.0,
                 shadow = {
                     enabled = true,
-                    range = 4,
-                    render_power = 3,
+                    range = 2,
+                    render_power = 1,
                     color = 0xee1a1a1a,
                 },
                 blur = {

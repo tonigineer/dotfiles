@@ -1,7 +1,6 @@
-.config/btop/themes/caelestia.theme
-.config/btop/themes/noctalia.theme
+.luarc.json
 
-.config/caelestia/shell.json
+.config/btop/themes/noctalia.theme
 
 .config/kitty/themes
 .config/kitty/kitty.conf.bak
@@ -17,8 +16,6 @@
 .config/noctalia/settings.json
 
 .config/spicetify/Themes/Comfy/color.ini
-
-.config/walker/themes
 
 .config/yazi/plugins
 .config/yazi/package.toml

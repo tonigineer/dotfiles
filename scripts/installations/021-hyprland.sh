@@ -23,7 +23,6 @@ pkgs=(
     slurp
     socat
     swaync
-    walker
     wl-clipboard
     yt-dlp
     xdg-desktop-portal
@@ -32,7 +31,6 @@ pkgs=(
 )
 
 pkgs_theme=(
-    gtk-theme-material-black
     win11-icon-theme-git
     otf-monaspace
     rose-pine-cursor
@@ -43,50 +41,29 @@ status() {
     yay_check "${pkgs[@]}" &&
         yay_check "${pkgs_theme[@]}" &&
         [ -L ~/.config/hypr ] &&
+        [ -L ~/.config/gtk-3.0/gtk.css ] &&
         [ -L ~/.config/mpv ] &&
-        [ -L ~/.config/swaync ] &&
-        [ -L ~/.config/walker ]
+        [ -L ~/.config/swaync ]
 }
 
 install() {
     yay_install "${pkgs[@]}"
 
     ln -sf $dotfiles_dir/assets/avatar.jpg ~/.face
+
+    mkdir ~/.config/gtk-3.0
+    ln -sf $dotfiles_dir/.config/gtk-3.0/gtk.css ~/.config/gtk-3.0
+
     safe_symlink .config/hypr
     safe_symlink .config/mpv
     safe_symlink .config/swaync
-    safe_symlink .config/walker
-
-    echo '# Select current system
-$HYPR_Z790E = 1
-$HYPR_X13GEN5 =
-
-# hyprlang if HYPR_Z790E
-    $HYPR_NVIDIA = 1 # Enable NVIDIA settings
-# hyprlang endif
-
-# hyprlang if HYPR_X13GEN5
-# hyprlang endif
-
-# Enable desired shell
-$HYPR_NOCTALIA = 1
-$HYPR_CAELESTIA =
-
-# Select layout
-$HYPR_MASTER =
-$HYPR_SCROLLING = 1
-$HYPR_DWINDLE =' >~/.config/hypr/conf.d/init/config.conf
 
     yay_install "${pkgs_theme[@]}"
 
     fc-cache -v
 
-    hyprpm update
-    hyprpm add https://github.com/hyprwm/hyprland-plugins
-    hyprpm enable hyprscrolling
-
     ~/.config/hypr/scripts/theme.sh \
-        Material-Black-Blueberry-LA \
+        "" \
         Win11 \
         BreezeX-RosePine-Linux \
         32 \
@@ -105,5 +82,4 @@ uninstall() {
     rm -rf ~/.config/hypr
     rm -rf ~/.config/mpv
     rm -rf ~/.config/swaync
-    rm -rf ~/.config/walker
 }

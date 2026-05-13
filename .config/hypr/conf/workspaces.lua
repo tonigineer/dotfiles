@@ -42,7 +42,8 @@ local use_chinese = true
 --- @param labels string[]
 local function apply_names(labels)
     for i, name in ipairs(labels) do
-        hl.exec_cmd("hyprctl dispatch renameworkspace " .. i .. ' "' .. name .. '"')
+        -- TODO: Function does not work
+        hl.dsp.workspace.rename({ workspace = i, name = name })
     end
 end
 

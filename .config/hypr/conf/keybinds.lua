@@ -4,6 +4,7 @@
 -- Reference: https://wiki.hypr.land/Configuring/Basics/Binds/
 --
 
+local notify = require("conf.notify")
 local vanity = require("conf.vanity")
 local workspaces = require("conf.workspaces")
 
@@ -54,10 +55,72 @@ hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(HOME .. "/.local/share/quickshell-lock
 -- 2. Window management
 -------------------------------------------------------
 
+--- Get half-monitor dimensions for floating/pinning.
+--- @param fraction number?
+--- @return number width, number height
+local function fractional_monitor_size(fraction)
+    if not fraction then
+        fraction = 0.5
+    end
+
+    local mon = hl.get_active_monitor()
+    if not mon then return 1920, 1080 end
+
+    local mw = mon.width / mon.scale
+    local mh = mon.height / mon.scale
+    return math.floor(mw * fraction), math.floor(mh * fraction)
+end
+
+--- Toggle smart float for the active window.
+local function smart_float()
+    local w = hl.get_active_window()
+    if not w then return end
+
+    if w.pinned then return end
+
+    if w.floating then
+        hl.dispatch(hl.dsp.window.float())
+        return
+    end
+
+    local width, height = fractional_monitor_size(0.4)
+    hl.dispatch(hl.dsp.window.float({ action = "toggle" }))
+    hl.dispatch(hl.dsp.window.resize({ x = width, y = height, exact = true }))
+    hl.dispatch(hl.dsp.window.center())
+end
+
+--- Toggle smart pin for the active window.
+local function smart_pin()
+    local w = hl.get_active_window()
+    if not w then
+        return
+    end
+
+    if w.pinned then
+        hl.dispatch(hl.dsp.window.pin())
+        hl.dispatch(hl.dsp.window.float())
+        return
+    end
+
+    if not w.floating then
+        hl.dispatch(hl.dsp.window.float())
+    end
+
+    local width, height = fractional_monitor_size(0.3)
+
+    local mon = hl.get_active_monitor()
+    if not mon then return end
+
+    hl.dispatch(hl.dsp.window.resize({ x = width, y = height, exact = true }))
+    hl.dispatch(hl.dsp.window.pin())
+    hl.dispatch(hl.dsp.window.move({ x = (mon.width / mon.scale) - width + 80, y = 45 }))
+end
+
+-- Positioning
 hl.bind("SUPER + SHIFT + C", hl.dsp.window.close())
-hl.bind("SUPER + F", hl.dsp.window.float({ action = "toggle" }))
+hl.bind("SUPER + F", function() smart_float() end)
 hl.bind("SUPER + M", hl.dsp.window.fullscreen({ action = "toggle" }))
-hl.bind("SUPER + P", hl.dsp.window.pin())
+hl.bind("SUPER + P", function() smart_pin() end)
 hl.bind("SUPER + C", hl.dsp.window.center())
 
 -- Mouse drag & resize
@@ -74,7 +137,6 @@ hl.bind("SUPER + SHIFT + J", hl.dsp.window.resize({ x = 0, y = RESIZE_STEP, rela
 -- 3. Navigation (layout-aware)
 -------------------------------------------------------
 
--- stylua: ignore start
 hl.bind("SUPER + H", layout_bind({
     master    = hl.dsp.focus({ direction = "left" }),
     dwindle   = hl.dsp.focus({ direction = "left" }),
@@ -95,7 +157,6 @@ hl.bind("SUPER + J", layout_bind({
     dwindle   = hl.dsp.focus({ direction = "down" }),
     scrolling = hl.dsp.layout("focus d"),
 }))
--- stylua: ignore end
 
 -------------------------------------------------------
 -- 4. Workspaces
@@ -141,49 +202,93 @@ hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar ~"))
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("kitty -e yazi ~"))
 
 -------------------------------------------------------
--- 6. Media & PIP
+-- 6. Media Streaming
 -------------------------------------------------------
 
--- stylua: ignore start
-local PIP_RULE  = "[noinitialfocus; float; size monitor_w*0.35 monitor_h*0.35; move monitor_w*0.60 monitor_h*0.05; monitor 1; pin]"
-local FLOAT_RULE = "[float; size monitor_w*0.35 monitor_h*0.35; move monitor_w*0.60 monitor_h*0.05; monitor 1; pin]"
--- stylua: ignore end
+--- Spawn a command and apply smart_pin once its window appears.
+--- @param cmd string
+--- @param match table
+local function spawn_and_pin(cmd, match)
+    -- TODO: Does not work properly when having a fullscreen app the active monitor
+    local handler
+    handler = hl.on("window.open", function(win)
+        if match.class and not win.class:find(match.class) then return end
+        if match.title and not win.title:find(match.title) then return end
+        smart_pin()
+        handler:remove()
+    end)
+    hl.dispatch(hl.dsp.exec_cmd(cmd))
+end
 
--- Cast browser media to mpv
-hl.bind("CTRL + ALT + Y", hl.dsp.exec_cmd(
-    PIP_RULE .. " sh -c '"
-    .. "url=$(playerctl -p firefox metadata xesam:url);"
-    .. " start=$(playerctl -p firefox position);"
-    .. " playerctl -p firefox stop;"
-    .. " mpv --start=\"$start\" \"$url\"'"
-))
+--- Read a shell command's stdout (with stderr), trimmed.
+--- @param cmd string
+--- @return string
+local function shell(cmd)
+    local handle = io.popen(cmd .. " 2>&1")
+    if not handle then return "" end
+    local out = handle:read("*a"):gsub("%s+$", "")
+    handle:close()
+    return out
+end
 
--- Netflix
-hl.bind("CTRL + ALT + N", hl.dsp.exec_cmd(
-    FLOAT_RULE .. " brave --ozone-platform=wayland --app=https://www.netflix.com/browse"
-))
+--- Cast the current Firefox media to mpv.
+local function youtube_to_mpv()
+    local url = shell("playerctl -p firefox metadata xesam:url")
+    local start = shell("playerctl -p firefox position")
+    local output = shell("playerctl -p firefox stop")
 
--- Live TV stream picker
-hl.bind("SUPER + F9", hl.dsp.exec_cmd(
-    PIP_RULE .. " printf '%s\\n' "
-    .. "'Das Erste | https://daserste-live.ard-mcdn.de/daserste/live/hls/de/master.m3u8' "
-    .. "'ZDF       | https://zdf-hls-15.akamaized.net/hls/live/2016498/de/high/master.m3u8' "
-    .. "'Phoenix   | https://zdf-hls-19.akamaized.net/hls/live/2016502/de/high/master.m3u8' "
-    .. "| walker -d 'Select stream' --minheight 3 "
-    .. "| cut -d'|' -f2- "
-    .. "| xargs -r sh -lc 'mpv \"$1\"' sh"
-))
+    if output:find("No players found") then
+        notify.error("No YouTube video is currently playing.")
+        return
+    end
+
+    notify.success("Casting YouTube to MPV")
+    spawn_and_pin(
+        'mpv --start="' .. start .. '" "' .. url .. '"',
+        { class = "mpv" }
+    )
+end
+
+local tv_channels = {
+    { key = "SUPER + F9",  name = "Das Erste", url = "https://daserste-live.ard-mcdn.de/daserste/live/hls/de/master.m3u8" },
+    { key = "SUPER + F10", name = "ZDF",       url = "https://zdf-hls-15.akamaized.net/hls/live/2016498/de/high/master.m3u8" },
+    { key = "SUPER + F11", name = "Phoenix",   url = "https://zdf-hls-19.akamaized.net/hls/live/2016502/de/high/master.m3u8" },
+}
+
+for _, ch in ipairs(tv_channels) do
+    hl.bind(ch.key, function()
+        notify.success("Streaming " .. ch.name)
+        spawn_and_pin("mpv " .. ch.url, { class = "mpv" })
+    end)
+end
+
+hl.bind("CTRL + ALT + Y", function()
+    youtube_to_mpv()
+end)
+
+hl.bind("CTRL + ALT + N", function()
+    notify.info("Opening Netflix")
+    spawn_and_pin(
+        "brave --ozone-platform=wayland --app=https://www.netflix.com/browse",
+        { class = "brave" }
+    )
+end)
 
 -------------------------------------------------------
 -- 7. Tools
 -------------------------------------------------------
 
 -- System update
-hl.bind("CTRL + ALT + U", hl.dsp.exec_cmd(
-    FLOAT_RULE .. " kitty -o font_size=8 -e bash -lc '"
-    .. 'yay -Syu || { code=$?; echo; echo "yay failed (exit $code)"; '
-    .. "read -n1 -r -p \"Press any key to close...\"; }'"
-))
+hl.bind("CTRL + ALT + U",
+    function()
+        local update_script = table.concat({
+            "yay -Syu",
+        })
+
+        local cmd = "kitty -o font_size=8 -e bash -c " .. ("%q"):format(update_script)
+        spawn_and_pin(cmd, { class = "kitty" })
+    end
+)
 
 -- Screenshots
 hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m active -z -o " .. SCREENSHOT_DIR))
@@ -223,32 +328,25 @@ hl.bind("CTRL + ALT + M", hl.dsp.exec_cmd(
 -------------------------------------------------------
 
 hl.bind("SUPER + F1", function() vanity.toggle_gamemode() end)
-hl.bind("SUPER + F6", function() workspaces.toggle_chinese_names() end)
-
--- TESTGIN
-local function beep(sound)
-  sound = sound or "system-shutdown"
-  return function()
-    hl.exec_cmd("canberra-gtk-play -i " .. sound)
-  end
-end
-hl.bind("SUPER + F7", function() beep() end)
+hl.bind("SUPER + F5", function() workspaces.toggle_chinese_names() end)
 
 -------------------------------------------------------
 -- 9. Hardware keys
 -------------------------------------------------------
 
 -- Audio transport
-hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })
-hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- Volume
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 2%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 2%-"), { locked = true, repeating = true })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),       { locked = true })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),     { locked = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 2%+"),
+    { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 2%-"),
+    { locked = true, repeating = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
 
 -------------------------------------------------------
 -- 10. Noctalia overrides
@@ -260,10 +358,10 @@ hl.unbind("SUPER + SHIFT + Q")
 hl.unbind("XF86MonBrightnessUp")
 hl.unbind("XF86MonBrightnessDown")
 
-hl.bind("SUPER + R",         noctalia("launcher toggle"))
-hl.bind("SUPER + S",         noctalia("controlCenter toggle"))
+hl.bind("SUPER + R", noctalia("launcher toggle"))
+hl.bind("SUPER + S", noctalia("controlCenter toggle"))
 hl.bind("SUPER + SHIFT + Q", noctalia("sessionMenu toggle"))
-hl.bind("CTRL + ALT + W",    noctalia("plugin:wallcards toggle"))
+hl.bind("CTRL + ALT + W", noctalia("plugin:wallcards toggle"))
 
-hl.bind("XF86MonBrightnessUp",   noctalia("brightness increase"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp", noctalia("brightness increase"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", noctalia("brightness decrease"), { locked = true, repeating = true })

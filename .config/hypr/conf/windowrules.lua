@@ -4,6 +4,8 @@
 -- Reference: https://wiki.hypr.land/Configuring/Window-Rules/
 --
 
+local border_colors = require("conf.vanity").border_colors
+
 -------------------------------------------------------
 -- Event Handlers
 -------------------------------------------------------
@@ -49,21 +51,19 @@ end)
 -- Window Rules
 -------------------------------------------------------
 
-local border_colors = require("conf.vanity").border_colors
-
 -- Appearance: pinned vs floating
 hl.window_rule({
     name = "Pinned windows",
     match = { pin = true },
     border_size = 2,
-    border_color  = border_colors.pinned,
+    border_color = border_colors.pinned,
     opacity = 1.0,
 })
 
 hl.window_rule({
     name = "Floating windows",
     match = { float = true, pin = false },
-    border_size = 1,
+    border_size = 2,
     border_color = border_colors.floating,
     opacity = 1.0,
 })
@@ -90,13 +90,13 @@ hl.window_rule({
 -------------------------------------------------------
 
 local workspace_rules = {
-    { class = "^(?i)dev.zed.Zed$",        workspace = "2" },
-    { class = "^(?i)steam$",              workspace = "4" },
-    { class = "^(?i)dota2$",              workspace = "4" },
-    { class = "^(?i)factorio$",           workspace = "4" },
-    { class = "^(?i)teamspeak-client$",   workspace = "4" },
-    { class = "^(?i)Discord|Vesktop$",    workspace = "4" },
-    { class = "^(?i)spotify$",            workspace = "5" },
+    { class = "^(?i)dev.zed.Zed$",      workspace = "2" },
+    { class = "^(?i)steam$",            workspace = "4" },
+    { class = "^(?i)dota2$",            workspace = "4" },
+    { class = "^(?i)factorio$",         workspace = "4" },
+    { class = "^(?i)teamspeak-client$", workspace = "special:communication" },
+    { class = "^(?i)Discord|Vesktop$",  workspace = "special:communication" },
+    { class = "^(?i)spotify$",          workspace = "special:communication" },
 }
 
 for _, rule in ipairs(workspace_rules) do
@@ -114,12 +114,12 @@ hl.window_rule({
     name = "Bottles",
     match = { title = "^(?i)Bottles$" },
     workspace = "4",
-    float = false,
+    float = true,
 })
 
 hl.window_rule({
     name = "Steam Proton",
-    match = { class = "^(?i)steam_proton$" },
+    match = { title = "^(?i)Steam Settings$" },
     workspace = "4",
     float = true,
 })
@@ -127,41 +127,33 @@ hl.window_rule({
 hl.window_rule({
     name = "Ubisoft Connect",
     match = { class = "^(?i)Ubisoft Connect$" },
-    float = false,
+    float = true,
 })
 
 -------------------------------------------------------
 -- Application Overrides
 -------------------------------------------------------
 
--- MPV Player
+-- Pinned
 hl.window_rule({
-    name = "MPV",
-    match = { class = "^(?i)mpv$" },
-    float = true,
-    center = true,
-    rounding = 15,
-    size = "monitor_w*0.40 monitor_h*0.40",
-})
+    match = {
+        initial_title = "pinned",
+    },
 
--- Spotify
-hl.window_rule({
-    name = "Spotify rounding",
-    match = { class = "^(?i)spotify$" },
-    rounding = 15,
+    tag = "+pinned",
 })
 
 -- Thunar: float by default, tile when it's the main window
 hl.window_rule({
     name = "Thunar Other Windows",
-    match = { class = ".*thunar.*", title = "negative:.*Thunar.*" },
+    match = { class = ".*thunar.*", title = "negative:.* - Thunar.*" },
     float = true,
     border_color = border_colors.floating,
     border_size = 2,
 })
 hl.window_rule({
     name = "Thunar Main Window",
-    match = { title = ".*Thunar.*" },
+    match = { title = ".* - Thunar.*" },
     tile = true,
 })
 
@@ -172,6 +164,35 @@ hl.window_rule({
     float = true,
     center = true,
     border_color = "#0000FF #00FF00",
-    border_size = 1,
+    border_size = 2,
     size = "monitor_w*0.40 monitor_h*0.40",
+})
+
+-- Zen Browser
+-- Limit the rounding to 5 to avoid cut off tooltip corners
+require("conf.vanity").on_gamemode_change(function(is_on)
+    local rounding = is_on and 0 or math.min(hl.get_config("decoration.rounding"), 5)
+
+    hl.window_rule({
+        name = "ZenBrowserRounding",
+        match = { class = "zen" },
+        rounding = rounding,
+    })
+end)
+
+-------------------------------------------------------
+-- Tag definition
+-------------------------------------------------------
+
+hl.window_rule({
+    match = {
+        tag = "pinned",
+    },
+
+    float = true,
+    pin = true,
+    size = { "monitor_w * 0.25", "monitor_h * 0.25" },
+    keep_aspect_ratio = true,
+    border_size = 2,
+    move = { "monitor_w - (monitor_w * 0.3) + 80", "45" },
 })

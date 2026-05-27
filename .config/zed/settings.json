@@ -50,6 +50,7 @@
   },
   "inlay_hints": {
     "enabled": true,
+    "show_background": false,
   },
   "languages": {
     "Lua": {

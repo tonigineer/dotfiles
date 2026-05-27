@@ -26,7 +26,8 @@ local ws_rules = {
     { workspace = "3", monitor = primary,                 persistent = true, layout = "scrolling" },
     { workspace = "4", monitor = primary,                 persistent = true, layout = "master"    },
     { workspace = "5", monitor = secondary or primary,    persistent = true, layout = "master"    },
-}
+    { workspace = "special:scratchpad" },
+    { workspace = "special:media" }}
 -- stylua: ignore end
 
 --- Gaps applied to single-window workspaces 2-5
@@ -64,7 +65,7 @@ for _, rule in ipairs(ws_rules) do
 end
 
 hl.workspace_rule({
-    workspace = "r[2-5] w[t1]",
+    workspace = "r[3-5] w[t1]",
     gaps_out = single_window_gaps,
 })
 

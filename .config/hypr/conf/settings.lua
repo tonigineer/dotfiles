@@ -27,6 +27,10 @@ hl.config({
         no_update_news = false,
         no_donation_nag = true,                 -- already doing my part
     },
+	debug = {
+		-- enable_stdout_logs = true,
+		disable_logs = false,                   -- $ hyprctl rollinglog -f | grep Lua
+	},
     render = {
         cm_enabled = true,                      -- color management pipeline (requires restart)
         send_content_type = false,              -- monitor profile autoswitch (may flash black)

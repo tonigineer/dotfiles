@@ -26,8 +26,8 @@ hl.config({
     input = {
         kb_layout   = "us",
         kb_options  = "compose:ralt, ctrl:nocaps",
-        repeat_delay = 250,
-        repeat_rate  = 50,
+        repeat_delay = 200,
+        repeat_rate  = 40,
 
         -- Pointer
         follow_mouse = 1,

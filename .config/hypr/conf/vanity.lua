@@ -11,7 +11,17 @@ local notify = require("conf.notify")
 -- Constants
 -------------------------------------------------------
 
-local BORDER_OPACITY = "55"
+local BORDER_OPACITY = "88"
+
+-------------------------------------------------------
+-- Listeners
+-------------------------------------------------------
+
+local listeners = {}
+
+local function on_gamemode_change(fn)
+    table.insert(listeners, fn)
+end
 
 -------------------------------------------------------
 -- Border Colors
@@ -24,16 +34,16 @@ local BORDER_OPACITY = "55"
 local function border_gradient(hex, bottom_hex)
     bottom_hex = bottom_hex or "131313"
     local c = "rgba(" .. hex .. BORDER_OPACITY .. ")"
-    local b = "rgba(" .. bottom_hex .. BORDER_OPACITY .. ")"
-    return { colors = { c, c, c, b }, angle = 0 }
+    -- local b = "rgba(" .. bottom_hex .. BORDER_OPACITY .. ")"
+    return { colors = { c, c, c, c }, angle = 0 }
 end
 
 -- TODO: read colors from nocatlia
 local border_colors = {
     active   = border_gradient("343434"),
     inactive = border_gradient("131313"),
-    floating = border_gradient("ffcc00"),
-    pinned   = border_gradient("cc6666"),
+    floating = border_gradient("98a0b3"),
+    pinned   = border_gradient("fd4663"),
 }
 
 -------------------------------------------------------
@@ -133,6 +143,11 @@ local function toggle_gamemode()
         })
         notify.info("Gamemode disabled")
     end
+
+        for _, fn in ipairs(listeners) do
+        fn(gamemode)
+    end
+
 end
 
 -------------------------------------------------------
@@ -157,5 +172,7 @@ end
 
 return {
     border_colors = border_colors,
-    toggle_gamemode = toggle_gamemode
+    toggle_gamemode = toggle_gamemode,
+    is_gamemode = function() return gamemode end,
+    on_gamemode_change = on_gamemode_change,
 }

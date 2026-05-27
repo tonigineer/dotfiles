@@ -51,6 +51,7 @@ hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
 hl.bind("CTRL + ALT + R", hl.dsp.exec_cmd("pkill qs; qs -c noctalia-shell"))
 hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(HOME .. "/.local/share/quickshell-lockscreen/lock.sh"))
 
+
 -------------------------------------------------------
 -- 2. Window management
 -------------------------------------------------------
@@ -98,7 +99,6 @@ local function smart_pin()
 
     if w.pinned then
         hl.dispatch(hl.dsp.window.pin())
-        hl.dispatch(hl.dsp.window.float())
         return
     end
 
@@ -113,8 +113,28 @@ local function smart_pin()
 
     hl.dispatch(hl.dsp.window.resize({ x = width, y = height, exact = true }))
     hl.dispatch(hl.dsp.window.pin())
-    hl.dispatch(hl.dsp.window.move({ x = (mon.width / mon.scale) - width + 80, y = 45 }))
+
+    local x_offset = (mon.width / mon.scale) - width + 80 -- Offset from top right
+    local y_offset = 45 -- Offset from top
+    -- The `x = mon.x + ..` is necessary to place it on the current monitor
+    hl.dispatch(hl.dsp.window.move({ x = mon.x + x_offset, y = y_offset }))
 end
+
+--- Change workspace layout.
+local function change_layout()
+    local ws = hl.get_active_workspace()
+    if not ws then
+        return
+    end
+    local new_layout = ws.tiled_layout == "master" and "scrolling" or "master"
+    hl.workspace_rule({
+        workspace = tostring(ws.id),
+        layout = new_layout,
+    })
+    notify.info("Layout changed to: " .. new_layout)
+end
+
+
 
 -- Positioning
 hl.bind("SUPER + SHIFT + C", hl.dsp.window.close())
@@ -162,13 +182,15 @@ hl.bind("SUPER + J", layout_bind({
 -- 4. Workspaces
 -------------------------------------------------------
 
-for i = 1, 6 do
+for i = 1, 5 do
     hl.bind("SUPER + " .. i, hl.dsp.focus({ workspace = i }))
     hl.bind("SUPER + SHIFT + " .. i, hl.dsp.window.move({ workspace = i, follow = false }))
 end
-
-hl.bind("SUPER + grave", hl.dsp.workspace.toggle_special())
-hl.bind("SUPER + SHIFT + grave", hl.dsp.window.move({ workspace = "special", follow = false }))
+hl.bind("SUPER + SHIFT + L", function() change_layout() end)
+hl.bind("SUPER + grave", hl.dsp.workspace.toggle_special("communication"))
+hl.bind("SUPER + SHIFT + grave", hl.dsp.window.move({ workspace = "special:communication", follow = false }))
+hl.bind("SUPER + space", hl.dsp.workspace.toggle_special("scratchpad"))
+hl.bind("SUPER + SHIFT + space", hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))
 
 -- Swap workspaces between monitors
 hl.bind("ALT + TAB", function()
@@ -274,9 +296,34 @@ hl.bind("CTRL + ALT + N", function()
     )
 end)
 
+-- Allowj dragging pinned windows with middle mouse drag
+hl.bind("mouse:274", function()
+    local w = hl.get_active_window()
+    if not w then return end
+    if w.pinned then
+        hl.dispatch(hl.dsp.window.drag())
+    end
+end, {
+    mouse = true,
+    non_consuming = true,
+})
+
 -------------------------------------------------------
 -- 7. Tools
 -------------------------------------------------------
+
+-- Hyprland logging
+hl.bind("SUPER + F2",
+    function()
+        local update_script = table.concat({
+            "hyprctl rollinglog -f | grep lua",
+        })
+
+        local cmd = "kitty -o font_size=6 -e bash -c " .. ("%q"):format(update_script)
+        spawn_and_pin(cmd, { class = "kitty" })
+    end
+)
+
 
 -- System update
 hl.bind("CTRL + ALT + U",
@@ -285,7 +332,7 @@ hl.bind("CTRL + ALT + U",
             "yay -Syu",
         })
 
-        local cmd = "kitty -o font_size=8 -e bash -c " .. ("%q"):format(update_script)
+        local cmd = "kitty -o font_size=6 -e bash -c " .. ("%q"):format(update_script)
         spawn_and_pin(cmd, { class = "kitty" })
     end
 )
@@ -324,7 +371,7 @@ hl.bind("CTRL + ALT + M", hl.dsp.exec_cmd(
 ))
 
 -------------------------------------------------------
--- 8. Toggles (F-keys)
+-- 8. Utility toggles (F-keys)
 -------------------------------------------------------
 
 hl.bind("SUPER + F1", function() vanity.toggle_gamemode() end)

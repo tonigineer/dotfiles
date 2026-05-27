@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
+#
+# ~/.bash_profile -- executed by bash(1) for login shells.
 
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+# ——— Shell Init ———————————————————————————————————————————————————————————————
 
-# Autostart hyprland directly after booting into Arch tty
-# [[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && exec bash ~/.local/bin/hyprland
+[[ -f "$HOME/.bashrc" ]] && . "$HOME/.bashrc"
+
+# ——— TTY Autostart ————————————————————————————————————————————————————————————
+
+# Launch Hyprland automatically when logging in on tty1.
+# [[ $(tty) == /dev/tty1 && -z $DISPLAY ]] && exec ~/.local/bin/hyprland
+

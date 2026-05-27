@@ -57,17 +57,17 @@
     "context": "vim_mode == normal && (Editor || Dock)",
     "bindings": {
       "space": null,
-      "space q": "workspace::ToggleRightDock",
-      "space e": "project_panel::ToggleFocus",
-      "space G": "git_panel::ToggleFocus",
+      "alt-`": "workspace::ToggleRightDock",
+      "alt-1": "project_panel::ToggleFocus",
+      "alt-2": "git_panel::ToggleFocus",
     },
   },
   {
-    "context": "Editor || Dock || Terminal",
+    "context": "Terminal || Workspace || ProjectPanel",
     "bindings": {
-      "alt-q": "workspace::ToggleRightDock",
-      "alt-e": "project_panel::ToggleFocus",
-      "alt-g": "git_panel::ToggleFocus",
+      "alt-`": "workspace::ToggleRightDock",
+      "alt-1": "project_panel::ToggleFocus",
+      "alt-2": "git_panel::ToggleFocus",
     },
   },
   {
@@ -103,19 +103,25 @@
   {
     "context": "KeymapEditor",
     "unbind": {
-      "ctrl-k": "keymap_editor::OpenCreateKeybindingModal"
-    }
+      "ctrl-k": "keymap_editor::OpenCreateKeybindingModal",
+    },
   },
   {
     "context": "Workspace",
     "unbind": {
-      "ctrl-k ctrl-s": "zed::OpenKeymap"
-    }
+      "ctrl-k ctrl-s": "zed::OpenKeymap",
+    },
   },
   {
     "context": "KeymapEditor",
     "unbind": {
-      "ctrl-e": "zed::OpenKeymapFile"
-    }
-  }
+      "ctrl-e": "zed::OpenKeymapFile",
+    },
+  },
+  {
+    "context": "VimControl && !menu",
+    "unbind": {
+      "g f": "editor::OpenSelectedFilename",
+    },
+  },
 ]

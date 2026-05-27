@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+#
+# ~/.aliases -- aliases and small helpers, sourced from ~/.bashrc.
+
+# ——— Defaults —————————————————————————————————————————————————————————————————
+
+alias grep='grep --color=auto'
+alias mkdir='mkdir -p'
+
+# ——— Listing (eza) ————————————————————————————————————————————————————————————
+
+if command -v eza &>/dev/null; then
+    alias ls='eza --grid --color=auto --icons'
+    alias la='eza -a --grid --color=auto --icons'
+    alias ll='eza -l --icons --no-user --group-directories-first --time-style long-iso -T -L2'
+    alias lla='eza -la --icons --no-user --group-directories-first --time-style long-iso -T -L2'
+    alias llt='eza -la --icons --no-user --group-directories-first --time-style long-iso -T -L4'
+fi
+
+# ——— Editors ——————————————————————————————————————————————————————————————————
+
+if command -v nvim &>/dev/null; then
+    alias v='nvim'
+fi
+
+alias memo='nvim ~/.memo.txt'
+
+# ——— Navigation ———————————————————————————————————————————————————————————————
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+
+# ——— Extras ———————————————————————————————————————————————————————————————————
+
+command -v tty-clock &>/dev/null && alias clock='tty-clock -c -C 1'
+command -v cmatrix &>/dev/null && alias matrix='cmatrix -ab -C red'
+command -v cbonsai &>/dev/null && alias bonsai='cbonsai -l -i'
+command -v asciiquarium &>/dev/null && alias aquarium='asciiquarium -t'
+
+if command -v figlet &>/dev/null && command -v lolcat &>/dev/null; then
+    alias welcome="figlet 'Welcome back' | lolcat -p 0.5"
+fi
+
+# ——— Functions ————————————————————————————————————————————————————————————————
+
+# Fullscreen wttr.in viewer; press any key to exit.
+weather() {
+    hyprctl dispatch fullscreen 1
+    clear
+    curl -s wttr.in
+    echo
+    read -n1 -s -r -p 'Press any key to exit...'
+    echo
+}
+
+# Extract most common archive formats based on file extension.
+extract() {
+    if [[ ! -f $1 ]]; then
+        echo "'$1' is not a valid file" >&2
+        return 1
+    fi
+    case "$1" in
+    *.tar.bz2 | *.tbz2) tar xjf "$1" ;;
+    *.tar.gz | *.tgz) tar xzf "$1" ;;
+    *.tar.xz) tar xJf "$1" ;;
+    *.tar) tar xf "$1" ;;
+    *.bz2) bunzip2 "$1" ;;
+    *.gz) gunzip "$1" ;;
+    *.rar) rar x "$1" ;;
+    *.zip) unzip "$1" -d "${1%.*}" ;;
+    *.Z) uncompress "$1" ;;
+    *.7z) 7z x "$1" ;;
+    *)
+        echo "'$1' cannot be extracted via extract()" >&2
+        return 1
+        ;;
+    esac
+}

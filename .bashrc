@@ -1,34 +1,74 @@
 #!/usr/bin/env bash
+#
+# ~/.bashrc -- executed by bash(1) for interactive non-login shells.
 
-[[ -f "$HOME/.bash_aliases" ]] && . "$HOME/.bash_aliases"
+# Bail out for non-interactive shells.
+[[ $- != *i* ]] && return
+
+# ——— Sourced Files ————————————————————————————————————————————————————————————
+
+[[ -f "$HOME/.aliases" ]] && . "$HOME/.aliases"
+
+# ——— Path —————————————————————————————————————————————————————————————————————
+
 [[ -d "$HOME/.local/bin" ]] && PATH="$HOME/.local/bin:$PATH"
 [[ -d "$HOME/.cargo/bin" ]] && PATH="$HOME/.cargo/bin:$PATH"
+export PATH
+
+# ——— Shell Options ————————————————————————————————————————————————————————————
 
 export PROMPT_DIRTRIM=3
 
-# Remove NerdFont icons for tty's
-[[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && ic1="sh" || ic1=
-[[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && ic2="git" || ic2=
-[[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && ic3="|" || ic3=⌜
-[[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && ic4="|" || ic4=⌟
-[[ $(tty) == '/dev/tty1' && ! $DISPLAY ]] && ic5=">" || ic5=❯
+shopt -s checkwinsize # update LINES/COLUMNS after each command
+shopt -s histappend   # append to history rather than overwriting
 
-function custom_prompt {
-    BRANCH=$(git status 2>/dev/null | grep "On branch " | rev | cut -d " " -f1 | rev)
+# ——— Prompt ———————————————————————————————————————————————————————————————————
 
-    local field1 field2 field3 field5
-    field1="$(tput setaf 255)${ic1}$(tput sgr0)"
-    field2="$(tput setaf 6)\u$(tput sgr0)$(tput setaf 8):$(tput sgr0)$(tput setaf 3)\h$(tput sgr0)"
-    field3="$(tput setaf 255)\w$(tput sgr0)"
-    field5="${ic5} "
+# Strip NerdFont glyphs when running on a bare tty (no font support).
+if [[ $(tty) == /dev/tty1 && -z $DISPLAY ]]; then
+    _ic_sh="sh"
+    _ic_git="git"
+    _ic_lbr="|"
+    _ic_rbr="|"
+    _ic_arr=">"
+else
+    _ic_sh=""
+    _ic_git=""
+    _ic_lbr="⌜"
+    _ic_rbr="⌟"
+    _ic_arr="❯"
+fi
 
-    local prpt_git
-    prpt_git=$([[ ! "$BRANCH" = "" ]] && echo "$(tput setaf 8)${ic3}$(tput sgr0)$(tput setaf 1)${ic2} $(tput sgr0)${BRANCH}$(tput setaf 8)${ic4}$(tput sgr0)" || echo "")
+# Cache tput sequences once instead of forking on every prompt redraw.
+_c_white=$(tput setaf 255)
+_c_cyan=$(tput setaf 6)
+_c_yellow=$(tput setaf 3)
+_c_red=$(tput setaf 1)
+_c_gray=$(tput setaf 8)
+_c_reset=$(tput sgr0)
 
-    PS1=$"${field1} ${field2} ${field3} ${prpt_git}"$'\n'"${field5}"
+custom_prompt() {
+    local branch field1 field2 field3 field5 git_seg
+    branch=$(git branch --show-current 2>/dev/null)
+
+    field1="${_c_white}${_ic_sh}${_c_reset}"
+    field2="${_c_cyan}\u${_c_reset}${_c_gray}:${_c_reset}${_c_yellow}\h${_c_reset}"
+    field3="${_c_white}\w${_c_reset}"
+    field5="${_ic_arr} "
+
+    if [[ -n $branch ]]; then
+        git_seg="${_c_gray}${_ic_lbr}${_c_reset}${_c_red}${_ic_git} ${_c_reset}${branch}${_c_gray}${_ic_rbr}${_c_reset}"
+    else
+        git_seg=""
+    fi
+
+    printf '\e[5 q'  # blinking bar cursor
+    # printf '\e[6 q'  # steady bar cursor
+    PS1="${field1} ${field2} ${field3} ${git_seg}"$'\n'"${field5}"
 }
 
-PROMPT_COMMAND="custom_prompt; ${PROMPT_COMMAND}"
+PROMPT_COMMAND="custom_prompt${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
 
-# command -v zsh&>/dev/null && zsh
+# ——— Optional Shells ——————————————————————————————————————————————————————————
 
+[[ -t 1 && $(ps -o comm= -p $PPID) != zsh ]] && command -v zsh >/dev/null && exec zsh

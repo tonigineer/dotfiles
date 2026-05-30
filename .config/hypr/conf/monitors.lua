@@ -117,12 +117,12 @@ hl.monitor({
 local primary, secondary = resolve_active_monitors()
 
 -- Report
-local connected = get_connected_descs()
-for name, profile in pairs(profiles) do
-    if connected[profile.desc] then
-        notify.info(name .. " connected (" .. profile.role .. ")")
-    end
-end
+-- local connected = get_connected_descs()
+-- for name, profile in pairs(profiles) do
+--     if connected[profile.desc] then
+--         notify.info(name .. " connected (" .. profile.role .. ")")
+--     end
+-- end
 
 -------------------------------------------------------
 -- Exports

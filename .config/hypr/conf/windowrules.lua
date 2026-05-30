@@ -92,6 +92,7 @@ hl.window_rule({
 local workspace_rules = {
     { class = "^(?i)dev.zed.Zed$",      workspace = "2" },
     { class = "^(?i)steam$",            workspace = "4" },
+    { class = "^(?i)steam_app_\\d+$",   workspace = "4" },
     { class = "^(?i)dota2$",            workspace = "4" },
     { class = "^(?i)factorio$",         workspace = "4" },
     { class = "^(?i)teamspeak-client$", workspace = "special:communication" },
@@ -118,10 +119,22 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "Steam Proton",
-    match = { title = "^(?i)Steam Settings$" },
+    name = "Steam",
+    match = { class = "^(?i)steam$" },
     workspace = "4",
     float = true,
+    border_size = 0,
+    rounding = 5
+})
+
+hl.window_rule({
+    name = "Steam Windows",
+    match = { title = "^(?i)(Steam Settings|Friends List)$" },
+    workspace = "4",
+    float = true,
+    border_size = 0,
+    center = true,
+    rounding = 5
 })
 
 hl.window_rule({

@@ -7,6 +7,7 @@
 local notify = require("conf.notify")
 local vanity = require("conf.vanity")
 local workspaces = require("conf.workspaces")
+local themes = require("conf.themes")
 
 -------------------------------------------------------
 -- Constants
@@ -51,7 +52,6 @@ hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
 hl.bind("CTRL + ALT + R", hl.dsp.exec_cmd("pkill qs; qs -c noctalia-shell"))
 hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(HOME .. "/.local/share/quickshell-lockscreen/lock.sh"))
 
-
 -------------------------------------------------------
 -- 2. Window management
 -------------------------------------------------------
@@ -84,7 +84,7 @@ local function smart_float()
         return
     end
 
-    local width, height = fractional_monitor_size(0.4)
+    local width, height = fractional_monitor_size(0.55)
     hl.dispatch(hl.dsp.window.float({ action = "toggle" }))
     hl.dispatch(hl.dsp.window.resize({ x = width, y = height, exact = true }))
     hl.dispatch(hl.dsp.window.center())
@@ -115,7 +115,7 @@ local function smart_pin()
     hl.dispatch(hl.dsp.window.pin())
 
     local x_offset = (mon.width / mon.scale) - width + 80 -- Offset from top right
-    local y_offset = 45 -- Offset from top
+    local y_offset = 45                                   -- Offset from top
     -- The `x = mon.x + ..` is necessary to place it on the current monitor
     hl.dispatch(hl.dsp.window.move({ x = mon.x + x_offset, y = y_offset }))
 end
@@ -133,8 +133,6 @@ local function change_layout()
     })
     notify.info("Layout changed to: " .. new_layout)
 end
-
-
 
 -- Positioning
 hl.bind("SUPER + SHIFT + C", hl.dsp.window.close())
@@ -374,8 +372,35 @@ hl.bind("CTRL + ALT + M", hl.dsp.exec_cmd(
 -- 8. Utility toggles (F-keys)
 -------------------------------------------------------
 
+--- Disable all non-active monitors.
+--- TODO: Make it a toggle. Currently use `reload` to
+--- enable disabled monitors.
+local function toggle_secondary_monitors()
+    local active = hl.get_active_monitor()
+    if not active then return end
+
+    local monitors = hl.get_monitors()
+
+    for _, mon in ipairs(monitors) do
+        if mon.id ~= active.id then
+            hl.monitor({ output = mon.name, disabled = true })
+        end
+    end
+end
+
+--- Change the cursor theme to rose-pine.
+--- TODO: Somehtings off with hyprcursor, it does not apply the cursor.
+local function change_theme()
+    local t = themes.theme
+    t.cursor = { package = "rose-pine-cursor", name = "rose-pine-cursor", size = "20" }
+    t.hyprcursor = { package = "rose-pine-hyprcursor", name = "rose-pine-hyprcursor", size = "20" }
+    themes.apply_theme(t);
+end
+
 hl.bind("SUPER + F1", function() vanity.toggle_gamemode() end)
+hl.bind("SUPER + F4", function() change_theme() end)
 hl.bind("SUPER + F5", function() workspaces.toggle_chinese_names() end)
+hl.bind("SUPER + F8", function() toggle_secondary_monitors() end)
 
 -------------------------------------------------------
 -- 9. Hardware keys

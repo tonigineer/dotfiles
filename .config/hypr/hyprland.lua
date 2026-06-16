@@ -31,3 +31,7 @@ require("conf.keybinds")
 
 -- Startup
 require("conf.autostart")
+
+
+-- For Noctalia Color templates
+require("noctalia")

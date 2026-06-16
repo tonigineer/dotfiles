@@ -15,7 +15,7 @@ local themes = require("conf.themes")
 
 local HOME = os.getenv("HOME") or ""
 local SCREENSHOT_DIR = "~/Pictures/Screenshots"
-local NOCTALIA = "qs -c noctalia-shell ipc call"
+local NOCTALIA = "noctalia msg"
 local RESIZE_STEP = 50
 local ZOOM_IN = 1.1
 local ZOOM_OUT = 0.9
@@ -49,7 +49,7 @@ end
 -------------------------------------------------------
 
 hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
-hl.bind("CTRL + ALT + R", hl.dsp.exec_cmd("pkill qs; qs -c noctalia-shell"))
+hl.bind("CTRL + ALT + R", hl.dsp.exec_cmd("pkill noctalia; sleep 0.1; noctalia"))
 hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(HOME .. "/.local/share/quickshell-lockscreen/lock.sh"))
 
 -------------------------------------------------------
@@ -430,9 +430,9 @@ hl.unbind("SUPER + SHIFT + Q")
 hl.unbind("XF86MonBrightnessUp")
 hl.unbind("XF86MonBrightnessDown")
 
-hl.bind("SUPER + R", noctalia("launcher toggle"))
-hl.bind("SUPER + S", noctalia("controlCenter toggle"))
-hl.bind("SUPER + SHIFT + Q", noctalia("sessionMenu toggle"))
+hl.bind("SUPER + R", noctalia("panel-toggle launcher"))
+hl.bind("SUPER + S", noctalia("panel-toggle control-center"))
+hl.bind("SUPER + SHIFT + Q", noctalia("panel-toggle session"))
 hl.bind("CTRL + ALT + W", noctalia("plugin:wallcards toggle"))
 
 hl.bind("XF86MonBrightnessUp", noctalia("brightness increase"), { locked = true, repeating = true })

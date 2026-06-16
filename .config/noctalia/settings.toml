@@ -1,0 +1,166 @@
+[bar.default]
+border = "on_surface"
+center = [ "clipboard", "notifications", "workspaces", "caffeine" ]
+end = [
+    "network_rx",
+    "network_tx",
+    "_active_ws",
+    "tray",
+    "volume",
+    "bluetooth",
+    "network",
+    "_active_ws",
+    "date",
+    "_active_ws",
+    "screen_recorder",
+    "session"
+]
+margin_edge = 0.0
+margin_ends = 0.0
+padding = 10
+radius = 0
+radius_bottom_left = 5
+radius_bottom_right = 5
+start = [ "control-center", "_active_ws", "cpu", "ram", "sysmon", "_active_ws", "active_window" ]
+thickness = 25
+widget_spacing = 10
+
+[desktop_widgets]
+enabled = false
+
+[keybinds]
+down = [ "Ctrl+n" ]
+up = [ "Ctrl+p" ]
+
+[shell]
+avatar_path = "/home/toni/.face"
+corner_radius_scale = 0.5000000074505806
+font_family = "Monaspace Krypton"
+lang = "en"
+password_style = "random"
+settings_show_advanced = true
+ui_scale = 1.1500000096857548
+
+    [shell.panel]
+    launcher_categories = false
+    launcher_placement = "attached"
+    open_near_click_launcher = true
+    session_placement = "centered"
+
+    [[shell.session.actions]]
+    action = "lock"
+    command = "/home/toni/.local/share/quickshell-lockscreen/lock.sh"
+    enabled = true
+    shortcut = "l"
+    variant = "outline"
+
+    [[shell.session.actions]]
+    action = "logout"
+    enabled = true
+    shortcut = "o"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "suspend"
+    enabled = true
+    shortcut = "s"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    enabled = true
+    shortcut = "r"
+    variant = "destructive"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    enabled = true
+    shortcut = "k"
+    variant = "destructive"
+
+[system.monitor]
+network_poll_seconds = 1
+
+[theme]
+community_palette = "Breeze"
+source = "wallpaper"
+wallpaper_scheme = "muted"
+
+[wallpaper]
+directory = "/home/toni/Wallpaper"
+fill_mode = "fit"
+
+    [wallpaper.default]
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+
+    [wallpaper.last]
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+
+    [wallpaper.monitors.DP-1]
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+
+    [wallpaper.monitors.DP-3]
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+
+[weather]
+address = "Markdorf"
+
+[widget._active_ws]
+scale = 1.1000000000000001
+type = "spacer"
+
+[widget.active_window]
+color = "primary"
+title_scroll = "always"
+
+[widget.control-center]
+glyph = "bottle-filled"
+
+[widget.cpu]
+show_label = false
+
+[widget.date]
+color = "primary"
+format = "{:%H:%M %a, %d. %b}"
+tooltip_format = "{:%H:%M %a, %d. %b}"
+
+[widget.network]
+show_label = false
+
+[widget.network_rx]
+display = "graph"
+show_label = false
+
+[widget.network_tx]
+display = "graph"
+show_label = false
+
+[widget.ram]
+show_label = false
+
+[widget.screen_recorder]
+copy_to_clipboard = true
+frame_rate = 144
+hide_inactive = true
+script = "scripts/screen_recorder.lua"
+type = "scripted"
+
+[widget.session]
+color = "error"
+
+[widget.sysmon]
+path = "/home"
+show_label = false
+stat = "disk_pct"
+
+[widget.temp]
+show_label = false
+
+[widget.tray]
+match_adjacent_spacing = true
+
+[widget.volume]
+show_label = false
+
+[widget.workspaces]
+display = "name"

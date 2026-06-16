@@ -6,6 +6,7 @@
 // To see the default key bindings run `zed: open default keymap`
 // from the command palette.
 [
+  // ——— Leader Keys —————————————————————————————————————————————————————————————
   {
     "context": "VimControl && !menu && vim_mode != insert",
     "bindings": {
@@ -13,39 +14,49 @@
       "shift-j": "editor::MoveLineDown",
       "shift-k": "editor::MoveLineUp",
       "space d": "editor::GoToDefinition",
+      "space v": "editor::GoToDefinitionSplit",
       "space i": "editor::FindAllReferences",
       "space t": "editor::GoToTypeDefinition",
+      "space r": "editor::Rename",
       "space a": "editor::ToggleCodeActions",
       "space f": "editor::Format",
+      "space h": "editor::Hover",
       "space D": "diagnostics::Deploy",
-      "space r": "editor::Rename",
       "space l s": "outline::Toggle",
       "space s f": "file_finder::Toggle",
       "space s g": "pane::DeploySearch",
       "space space": "tab_switcher::Toggle",
-      "space v": "editor::GoToDefinitionSplit",
-      "space h": "editor::Hover",
+      "space 1": "editor::FoldAtLevel_1",
+      "space 2": "editor::FoldAtLevel_2",
+      "space 0": "editor::UnfoldAll",
     },
   },
+
+  // ——— Insert Mode —————————————————————————————————————————————————————————————
   {
     "context": "vim_mode == insert",
     "bindings": {
       "j k": "vim::NormalBefore",
     },
   },
+
+  // ——— Editor Shortcuts ————————————————————————————————————————————————————————
   {
     "context": "Editor && !menu",
     "bindings": {
       "ctrl-a": "editor::SelectAll",
       "ctrl-c": "editor::Copy",
+      "ctrl-x": "editor::Cut",
+      "ctrl-v": "editor::Paste",
+      "ctrl-z": "editor::Undo",
+      "ctrl-y": "editor::Redo",
       "ctrl-f": "buffer_search::Deploy",
       "ctrl-s": "workspace::Save",
-      "ctrl-v": "editor::Paste",
-      "ctrl-x": "editor::Cut",
-      "ctrl-y": "editor::Redo",
-      "ctrl-z": "editor::Undo",
+      "ctrl-k ctrl-j": "editor::UnfoldAll",
     },
   },
+
+  // ——— Terminal ————————————————————————————————————————————————————————————————
   {
     "context": "Terminal",
     "bindings": {
@@ -53,27 +64,34 @@
       "ctrl-v": "terminal::Paste",
     },
   },
+
+  // ——— Docks & Panels ——————————————————————————————————————————————————————————
+  // No "context" → always active, regardless of focus.
+  {
+    "bindings": {
+      "alt-`": "terminal_panel::ToggleFocus",
+      "alt-0": "workspace::ToggleRightDock",
+      "alt-1": "project_panel::ToggleFocus",
+      "alt-2": "git_panel::ToggleFocus",
+    },
+  },
+  // vim-specific tweak stays scoped:
   {
     "context": "vim_mode == normal && (Editor || Dock)",
     "bindings": {
       "space": null,
-      "alt-`": "workspace::ToggleRightDock",
-      "alt-1": "project_panel::ToggleFocus",
-      "alt-2": "git_panel::ToggleFocus",
     },
   },
-  {
-    "context": "Terminal || Workspace || ProjectPanel",
-    "bindings": {
-      "alt-`": "workspace::ToggleRightDock",
-      "alt-1": "project_panel::ToggleFocus",
-      "alt-2": "git_panel::ToggleFocus",
-    },
-  },
+
+  // ——— Overrides ———————————————————————————————————————————————————————————————
   {
     "context": "Workspace",
+    "unbind": {
+      "ctrl-k ctrl-s": "zed::OpenKeymap",
+    },
     "bindings": {
       "ctrl-j": null,
+      "ctrl-n": null,
     },
   },
   {
@@ -89,12 +107,6 @@
     },
   },
   {
-    "context": "Workspace",
-    "bindings": {
-      "ctrl-n": null,
-    },
-  },
-  {
     "context": "ProjectPanel",
     "bindings": {
       "ctrl-n": null,
@@ -104,17 +116,6 @@
     "context": "KeymapEditor",
     "unbind": {
       "ctrl-k": "keymap_editor::OpenCreateKeybindingModal",
-    },
-  },
-  {
-    "context": "Workspace",
-    "unbind": {
-      "ctrl-k ctrl-s": "zed::OpenKeymap",
-    },
-  },
-  {
-    "context": "KeymapEditor",
-    "unbind": {
       "ctrl-e": "zed::OpenKeymapFile",
     },
   },
@@ -122,6 +123,23 @@
     "context": "VimControl && !menu",
     "unbind": {
       "g f": "editor::OpenSelectedFilename",
+    },
+  },
+
+  // ——— Project Panel ———————————————————————————————————————————————————————————
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete",
+    },
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-k ctrl-2": "editor::FoldAtLevel_2",
     },
   },
 ]

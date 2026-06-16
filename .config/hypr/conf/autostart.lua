@@ -12,7 +12,7 @@ local notify = require("conf.notify")
 
 local cmds = {
     { cmd = "gnome-keyring-daemon --restart --components=secrets",                                                      label = "Keyring"        },
-    { cmd = "killall -9 qs; killall -9 quickshell; QS_NO_RELOAD_POPUP=1 QML_DISABLE_DISK_CACHE=1 qs -c noctalia-shell", label = "Noctalia Shell" },
+    { cmd = "noctalia",                                                                                                 label = "Noctalia Shell" },
     { cmd = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",                         label = "DBus Env"       },
     { cmd = 'openrgb -d "$(openrgb -l | awk -F\': \' \'/Razer Leviathan V2 X/{print $1; exit}\')" -c 000000',           label = "OpenRGB"        },
     { cmd = "hyprctl dispatch workspace 1",                                                                             label = "Workspace"      },

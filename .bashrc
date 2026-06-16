@@ -17,10 +17,11 @@ export PATH
 
 # ——— Shell Options ————————————————————————————————————————————————————————————
 
-export PROMPT_DIRTRIM=3
-
-shopt -s checkwinsize # update LINES/COLUMNS after each command
-shopt -s histappend   # append to history rather than overwriting
+if [[ -n ${BASH_VERSION} ]]; then
+	export PROMPT_DIRTRIM=3
+	shopt -s checkwinsize # update LINES/COLUMNS after each command
+	shopt -s histappend   # append to history rather than overwriting
+fi
 
 # ——— Prompt ———————————————————————————————————————————————————————————————————
 

@@ -90,14 +90,14 @@ hl.window_rule({
 -------------------------------------------------------
 
 local workspace_rules = {
-    { class = "^(?i)dev.zed.Zed$",      workspace = "2" },
-    { class = "^(?i)steam$",            workspace = "4" },
-    { class = "^(?i)steam_app_\\d+$",   workspace = "4" },
-    { class = "^(?i)dota2$",            workspace = "4" },
-    { class = "^(?i)factorio$",         workspace = "4" },
+    { class = "^(?i)dev.zed.Zed$", workspace = "2" },
+    { class = "^(?i)steam$", workspace = "4" },
+    { class = "^(?i)steam_app_\\d+$", workspace = "4" },
+    { class = "^(?i)dota2$", workspace = "4" },
+    { class = "^(?i)factorio$", workspace = "4" },
     { class = "^(?i)teamspeak-client$", workspace = "special:communication" },
-    { class = "^(?i)Discord|Vesktop$",  workspace = "special:communication" },
-    { class = "^(?i)spotify$",          workspace = "special:communication" },
+    { class = "^(?i)Discord|Vesktop$", workspace = "special:communication" },
+    { class = "^(?i)spotify$", workspace = "special:communication" },
 }
 
 for _, rule in ipairs(workspace_rules) do
@@ -124,7 +124,7 @@ hl.window_rule({
     workspace = "4",
     float = true,
     border_size = 0,
-    rounding = 5
+    rounding = 5,
 })
 
 hl.window_rule({
@@ -134,7 +134,7 @@ hl.window_rule({
     float = true,
     border_size = 0,
     center = true,
-    rounding = 5
+    rounding = 5,
 })
 
 hl.window_rule({
@@ -147,14 +147,24 @@ hl.window_rule({
 -- Application Overrides
 -------------------------------------------------------
 
--- Pinned
-hl.window_rule({
-    match = {
-        initial_title = "pinned",
-    },
-
-    tag = "+pinned",
-})
+-- Noctalia v5: Settings Window
+-- hl.window_rule({
+--     name = "Noctalia Settings",
+--     match = { title = ".*Noctalia.*", initial_title = ".*Noctalia.*" },
+--     fullscreen_state = "3 3",
+-- })
+-- NOTE: Normal rule does now work for fullscreen, although border_size and float work.
+-- hl.on("window.open", function(win)
+--     if
+--         win.title:match("Noctalia Settings")
+--         or (win.initial_title and win.initial_title:match("Noctalia Settings"))
+--     then
+--         hl.dispatch(hl.dsp.window.fullscreen({
+--             window = "address:" .. win.address,
+--             state = 3,
+--         }))
+--     end
+-- end)
 
 -- Thunar: float by default, tile when it's the main window
 hl.window_rule({
@@ -164,6 +174,7 @@ hl.window_rule({
     border_color = border_colors.floating,
     border_size = 2,
 })
+
 hl.window_rule({
     name = "Thunar Main Window",
     match = { title = ".* - Thunar.*" },
@@ -184,7 +195,8 @@ hl.window_rule({
 -- Zen Browser
 -- Limit the rounding to 5 to avoid cut off tooltip corners
 require("conf.vanity").on_gamemode_change(function(is_on)
-    local rounding = is_on and 0 or math.min(hl.get_config("decoration.rounding"), 5)
+    local rounding = is_on and 0
+        or math.min(hl.get_config("decoration.rounding"), 5)
 
     hl.window_rule({
         name = "ZenBrowserRounding",
@@ -197,11 +209,18 @@ end)
 -- Tag definition
 -------------------------------------------------------
 
+-- Pinned
+hl.window_rule({
+    match = {
+        initial_title = "pinned",
+    },
+    tag = "+pinned",
+})
+
 hl.window_rule({
     match = {
         tag = "pinned",
     },
-
     float = true,
     pin = true,
     size = { "monitor_w * 0.25", "monitor_h * 0.25" },

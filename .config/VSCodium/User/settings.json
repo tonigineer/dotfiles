@@ -246,4 +246,5 @@
     { "before": [">"], "commands": ["editor.action.indentLines"] },
     { "before": ["<"], "commands": ["editor.action.outdentLines"] },
   ],
+  "workbench.browser.showInTitleBar": false,
 }

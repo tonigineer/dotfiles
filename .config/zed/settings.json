@@ -9,7 +9,7 @@
   "base_keymap": "VSCode",
   "bottom_dock_layout": "full",
   "buffer_font_family": "Monaspace Krypton",
-  "buffer_font_size": 16,
+  "buffer_font_size": 14,
   "centered_layout": {
     "left_padding": 0.2,
     "right_padding": 0.2,
@@ -40,7 +40,11 @@
     "button": true,
     "dock": "right",
   },
-  "icon_theme": "VSCode Icons for Zed (Dark Official Icons)",
+  "icon_theme": {
+    "mode": "light",
+    "light": "VSCode Icons for Zed (Dark Official Icons)",
+    "dark": "VSCode Icons for Zed (Dark Official Icons)",
+  },
   "indent_guides": {
     "active_line_width": 1,
     "background_coloring": "disabled",
@@ -93,7 +97,15 @@
         },
         "python.analysis": {
           "diagnosticMode": "workspace",
-          "typeCheckingMode": "basic",
+          "typeCheckingMode": "strict",
+        },
+      },
+    },
+    "markdownlint": {
+      "settings": {
+        "MD013": false,
+        "file_types": {
+          "Lua": ["*.luau"],
         },
       },
     },
@@ -141,7 +153,7 @@
   "theme": {
     "dark": "Vague",
     "light": "Noctalia Light",
-    "mode": "system",
+    "mode": "dark",
   },
   "title_bar": {
     "show_menus": false,
@@ -149,7 +161,7 @@
     "show_project_items": true,
   },
   "ui_font_family": "Monaspace Krypton",
-  "ui_font_size": 16,
+  "ui_font_size": 14,
   "show_whitespaces": "boundary",
   "use_autoclose": false,
   "use_system_window_tabs": false,

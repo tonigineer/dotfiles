@@ -29,7 +29,7 @@ install() {
 <name>Open Terminal Here</name>
 <submenu></submenu>
 <unique-id>1763564326697889-1</unique-id>
-<command>kitty --directory %f *</command>
+<command>kitty --directory %f</command>
 <description>Open a terminal in this folder</description>
 <range></range>
 <patterns>*</patterns>

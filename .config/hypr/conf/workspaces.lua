@@ -43,8 +43,7 @@ local use_chinese = true
 --- @param labels string[]
 local function apply_names(labels)
     for i, name in ipairs(labels) do
-        -- TODO: Function does not work
-        hl.dsp.workspace.rename({ workspace = i, name = name })
+        hl.dispatch(hl.dsp.workspace.rename({ workspace = i, name = name }))
     end
 end
 
@@ -70,7 +69,7 @@ hl.workspace_rule({
 })
 
 -- Set initial workspace names
-apply_names(ws_labels.numeric)
+apply_names(ws_labels.chinese)
 
 -------------------------------------------------------
 -- Exports

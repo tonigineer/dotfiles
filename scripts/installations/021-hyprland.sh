@@ -1,3 +1,6 @@
+# ── Hyprland — compositor + portals + theming ───────────────────────────
+
+# shellcheck disable=SC2154  # $dotfiles_dir is provided by install.sh
 pkgs=(
     archlinux-xdg-menu
     brightnessctl
@@ -22,7 +25,6 @@ pkgs=(
     qt6-wayland
     slurp
     socat
-    swaync
     wl-clipboard
     yt-dlp
     xdg-desktop-portal
@@ -30,56 +32,45 @@ pkgs=(
     xdg-desktop-portal-hyprland
 )
 
-pkgs_theme=(
+_pkgs_theme=(
     win11-icon-theme-git
     otf-monaspace
     rose-pine-cursor
     rose-pine-hyprcursor
 )
 
-status() {
-    yay_check "${pkgs[@]}" &&
-        yay_check "${pkgs_theme[@]}" &&
-        [ -L ~/.config/hypr ] &&
-        [ -L ~/.config/gtk-3.0/gtk.css ] &&
-        [ -L ~/.config/mpv ] &&
-        [ -L ~/.config/swaync ]
-}
+remove_pkgs=(
+    hyprland
+    hyprpaper
+    hypridle
+    hyprlock
+    hyprpolkitagent
+    hypr-zoom
+    win11-icon-theme-git
+    rose-pine-cursor
+    rose-pine-hyprcursor
+)
 
-install() {
-    yay_install "${pkgs[@]}"
+links=(
+    .config/hypr
+    .config/mpv
+)
 
-    ln -sf $dotfiles_dir/assets/avatar.jpg ~/.face
+# ── Hooks ───────────────────────────────────────────────────────────────
 
-    mkdir ~/.config/gtk-3.0
-    ln -sf $dotfiles_dir/.config/gtk-3.0/gtk.css ~/.config/gtk-3.0
+mod_post_install() {
+    ln -sf "$dotfiles_dir/assets/avatar.jpg" ~/.face
+    safe_symlink .config/gtk-3.0/gtk.css
 
-    safe_symlink .config/hypr
-    safe_symlink .config/mpv
-    safe_symlink .config/swaync
-
-    yay_install "${pkgs_theme[@]}"
-
+    yay_install "${_pkgs_theme[@]}"
     fc-cache -v
-
-    ~/.config/hypr/scripts/theme.sh \
-        "" \
-        Win11 \
-        BreezeX-RosePine-Linux \
-        32 \
-        'Monaspace Krypton Bold 10'
 }
 
-uninstall() {
-    local pkgs=(hyprland hyprpaper hypridle hyprlock
-        hyprpolkitagent hypr-zoom
-        gtk-theme-material-black win11-icon-theme-git
-        rose-pine-cursor rose-pine-hyprcursor
-    )
+mod_check() {
+    yay_check "${_pkgs_theme[@]}" &&
+        [ -L ~/.config/gtk-3.0/gtk.css ]
+}
 
-    yay_uninstall "${pkgs[@]}"
-
-    rm -rf ~/.config/hypr
-    rm -rf ~/.config/mpv
-    rm -rf ~/.config/swaync
+mod_post_uninstall() {
+    rm -rf ~/.config/hypr ~/.config/mpv
 }

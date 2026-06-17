@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# ── Audio — PipeWire stack ──────────────────────────────────────────────
 
 pkgs=(
     pavucontrol
@@ -11,14 +11,15 @@ pkgs=(
     wireplumber
 )
 
-status() {
-    yay_check "${pkgs[@]}"
-}
+remove_pkgs=(
+    "${pkgs[@]}"
+)
 
-install() {
-    yay_install "${pkgs[@]}"
-}
+# ── Hooks ───────────────────────────────────────────────────────────────
 
-uninstall() {
-    yay_uninstall "${pkgs[@]}"
+# pipewire-jack provides JACK and conflicts with jack2; drop jack2 first so the
+# swap is non-interactive (a fresh pipewire system won't have jack2 anyway).
+mod_pre_install() {
+    pacman -Qq jack2 >/dev/null 2>&1 && sudo pacman -Rdd --noconfirm jack2
+    return 0
 }

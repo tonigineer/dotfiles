@@ -1,15 +1,19 @@
-#!/usr/bin/env bash
+# ── Vim — config, shared with root ──────────────────────────────────────
 
-status() {
-    [ -L ~/.vimrc ] && sudo [ -L /root/.vimrc ]
+links=(
+    .vimrc
+)
+
+# ── Hooks ───────────────────────────────────────────────────────────────
+
+mod_post_install() {
+    sudo ln -sf "$HOME/.vimrc" /root/.vimrc
 }
 
-install() {
-    safe_symlink .vimrc
-    sudo ln -sf ~/.vimrc /root/.vimrc
+mod_check() {
+    sudo test -L /root/.vimrc
 }
 
-uninstall() {
-    mv ~/.vimrc.bak ~/.vimrc
-    sudo rm /root/.vimrc
+mod_pre_uninstall() {
+    sudo rm -f /root/.vimrc
 }

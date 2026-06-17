@@ -6,6 +6,7 @@
 --
 
 local notify = require("conf.notify")
+local colors = require("conf.colors")
 
 -------------------------------------------------------
 -- Constants
@@ -38,12 +39,11 @@ local function border_gradient(hex, bottom_hex)
     return { colors = { c, c, c, c }, angle = 0 }
 end
 
--- TODO: read colors from nocatlia
 local border_colors = {
-    active   = border_gradient("343434"),
-    inactive = border_gradient("131313"),
-    floating = border_gradient("98a0b3"),
-    pinned   = border_gradient("fd4663"),
+    active   = border_gradient(colors.primary),
+    inactive = border_gradient(colors.surface),
+    floating = border_gradient(colors.secondary),
+    pinned   = border_gradient(colors.error),
 }
 
 -------------------------------------------------------
@@ -117,7 +117,7 @@ local function toggle_gamemode()
             general = {
                 gaps_out = 10,
                 gaps_in = 4,
-                border_size = 1,
+                border_size = 2,
                 col = {
                     active_border   = border_colors.active,
                     inactive_border = border_colors.inactive,

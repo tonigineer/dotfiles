@@ -21,7 +21,7 @@ hl.config({
         hide_on_key_press = false,
         no_hardware_cursors = true,
         inactive_timeout = 10,
-        enable_hyprcursor = false,
+        enable_hyprcursor = true,
     },
     ecosystem = {
         no_update_news = false,

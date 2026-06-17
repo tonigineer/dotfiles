@@ -1,4 +1,7 @@
-#!/usr/bin/env bash
+# ── IDE — Zed editor + portals ──────────────────────────────────────────
+
+# NOTE: the caelestia zed theme link was dropped with caelestia; theming now
+# comes from the desktop shell.
 
 pkgs=(
     gnome-keyring
@@ -9,27 +12,17 @@ pkgs=(
     zed
 )
 
-status() {
-    yay_check "${pkgs[@]}" &&
-        [ -L ~/.config/zed/keymap.json ] &&
-        [ -L ~/.config/zed/settings.json ] &&
-        [ -f ~/.config/zed/themes/caelestia.json ]
-}
+remove_pkgs=(
+    zed
+)
 
-install() {
-    yay_install "${pkgs[@]}"
+links=(
+    .config/zed/keymap.json
+    .config/zed/settings.json
+)
 
-    mkdir -p ~/.config/zed/themes
+# ── Hooks ───────────────────────────────────────────────────────────────
 
-    safe_symlink .config/zed/keymap.json
-    safe_symlink .config/zed/settings.json
-
-    ln -f ~/.local/state/caelestia/theme/zed.json ~/.config/zed/themes/caelestia.json
-}
-
-uninstall() {
-    local pkgs=(zed)
-    yay_uninstall "${pkgs[@]}"
-
+mod_post_uninstall() {
     rm -rf ~/.config/zed
 }

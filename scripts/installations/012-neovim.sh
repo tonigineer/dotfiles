@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+# ── Neovim — neovim + external config repo ──────────────────────────────
 
-repo=https://github.com/tonigineer/nvim
+_repo=https://github.com/tonigineer/nvim
 
 pkgs=(
     fd
@@ -17,21 +17,24 @@ pkgs=(
     wl-clipboard
 )
 
-status() {
-    yay_check "${pkgs[@]}" &&
-        [[ $(git -C ~/.config/nvim remote get-url origin 2>/dev/null) == "$repo" ]]
-}
+remove_pkgs=(
+    luarocks
+    lua51
+    neovim
+    npm
+)
 
-install() {
-    yay_install "${pkgs[@]}"
+# ── Hooks ───────────────────────────────────────────────────────────────
 
-    git clone $repo ~/.config/zsh
+mod_post_install() {
+    [ -d ~/.config/nvim ] || git clone "$_repo" ~/.config/nvim
     sudo npm install -g tree-sitter-cli
 }
 
-uninstall() {
-    local pkgs=(luarocks lua51 neovim npm)
-    yay_uninstall "${pkgs[@]}"
+mod_check() {
+    [ "$(git -C ~/.config/nvim remote get-url origin 2>/dev/null)" = "$_repo" ]
+}
 
+mod_pre_uninstall() {
     rm -rf ~/.config/nvim
 }

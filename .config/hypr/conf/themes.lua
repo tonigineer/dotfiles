@@ -1,5 +1,5 @@
 --
--- conf/theme.lua
+-- conf/themes.lua
 -- GTK theme, icons, cursors, and font configuration
 -- Reference: https://wiki.archlinux.org/title/GTK
 --
@@ -72,18 +72,18 @@ end
 --- @param t table Theme configuration table
 local function apply_theme(t)
     -- Check packages
-    check_package("ICON", theme.icon.package)
-    check_package("CURSOR", theme.cursor.package)
-    check_package("HYPR_CURSOR", theme.hyprcursor.package)
-    check_package("FONT", theme.font.package)
+    check_package("ICON", t.icon.package)
+    check_package("CURSOR", t.cursor.package)
+    check_package("HYPR_CURSOR", t.hyprcursor.package)
+    check_package("FONT", t.font.package)
 
     -- Environment variables
     hl.env("GDK_SCALE", "1")
-    hl.env("GTK_THEME", theme.name)
-    hl.env("XCURSOR_SIZE", theme.cursor.size)
-    hl.env("XCURSOR_THEME", theme.cursor.name)
-    hl.env("HYPRCURSOR_SIZE", theme.hyprcursor.size)
-    hl.env("HYPRCURSOR_THEME", theme.hyprcursor.name)
+    hl.env("GTK_THEME", t.name)
+    hl.env("XCURSOR_SIZE", t.cursor.size)
+    hl.env("XCURSOR_THEME", t.cursor.name)
+    hl.env("HYPRCURSOR_SIZE", t.hyprcursor.size)
+    hl.env("HYPRCURSOR_THEME", t.hyprcursor.name)
 
     -- GTK 2 (~/.gtkrc-2.0)
     write_file(HOME .. "/.gtkrc-2.0", string.format(
@@ -92,7 +92,7 @@ gtk-theme-name = "%s"
 gtk-font-name = "%s"
 gtk-cursor-theme-name = "%s"
 gtk-cursor-theme-size = "%s"]],
-        theme.icon.name, theme.name, theme.font.name, theme.cursor.name, theme.cursor.size
+        t.icon.name, t.name, t.font.name, t.cursor.name, t.cursor.size
     ))
 
     -- GTK 3 (~/.config/gtk-3.0/settings.ini)
@@ -106,21 +106,70 @@ gtk-font-name = %s
 gtk-cursor-theme-name = %s
 gtk-cursor-theme-size = %s
 gtk-application-prefer-dark-theme = true]],
-        theme.icon.name, theme.name, theme.font.name, theme.cursor.name, theme.cursor.size
+        t.icon.name, t.name, t.font.name, t.cursor.name, t.cursor.size
     ))
 
     -- GTK 4 (gsettings / dconf)
-    gsettings_set("gtk-theme", theme.name)
-    gsettings_set("icon-theme", theme.icon.name)
-    gsettings_set("cursor-theme", theme.cursor.name)
-    gsettings_set("cursor-size", theme.cursor.size)
-    gsettings_set("font-name", theme.font.name)
+    gsettings_set("gtk-theme", t.name)
+    gsettings_set("icon-theme", t.icon.name)
+    gsettings_set("cursor-theme", t.cursor.name)
+    gsettings_set("cursor-size", t.cursor.size)
+    gsettings_set("font-name", t.font.name)
     gsettings_set("color-scheme", "prefer-dark")
 
     -- Hypr Cursor
-    hl.exec_cmd(string.format("hyprctl setcursor %s %s", theme.hyprcursor.name, theme.hyprcursor.size))
+    hl.exec_cmd(string.format("hyprctl setcursor %s %s", t.hyprcursor.name, t.hyprcursor.size))
+
+    -- Propagate the cursor into the session activation environment so XWayland
+    -- apps (Steam, etc.) launched via the systemd/DBus path inherit the current
+    -- cursor on restart. hl.env only affects Hyprland's own startup env, which a
+    -- GUI-launcher-spawned process won't pick up mid-session.
+    hl.exec_cmd(string.format(
+        "dbus-update-activation-environment --systemd "
+        .. "XCURSOR_THEME=%s XCURSOR_SIZE=%s HYPRCURSOR_THEME=%s HYPRCURSOR_SIZE=%s",
+        t.cursor.name, t.cursor.size, t.hyprcursor.name, t.hyprcursor.size
+    ))
 end
 
 apply_theme(theme)
 
-return { apply_theme = apply_theme, theme = theme }
+-------------------------------------------------------
+-- Cursor toggle
+-------------------------------------------------------
+
+-- Alternate cursor preset (F4 toggle). Nordzy ships a matching XCursor and
+-- hyprcursor under one name (`Nordzy-cursors`): the hyprcursor renders a sharp
+-- vector cursor on Wayland, while the XCursor works in XWayland games (Steam).
+-- A single setcursor name resolves both backends, so no alias is needed.
+local alt_cursor = {
+    cursor     = { package = "nordzy-cursors",     name = "Nordzy-cursors", size = "24" },
+    hyprcursor = { package = "nordzy-hyprcursors", name = "Nordzy-cursors", size = "24" },
+}
+
+local cursor_alt = false
+
+--- Shallow copy of a table (one level deep).
+--- @param tbl table
+--- @return table
+local function copy(tbl)
+    local out = {}
+    for k, v in pairs(tbl) do out[k] = v end
+    return out
+end
+
+--- Toggle the cursor between the default theme and `alt_cursor`,
+--- re-applying the theme without mutating the default.
+local function toggle_cursor()
+    cursor_alt = not cursor_alt
+
+    local t = copy(theme)
+    if cursor_alt then
+        t.cursor = alt_cursor.cursor
+        t.hyprcursor = alt_cursor.hyprcursor
+    end
+
+    apply_theme(t)
+    notify.info("Cursor: " .. t.hyprcursor.name)
+end
+
+return { apply_theme = apply_theme, theme = theme, toggle_cursor = toggle_cursor }

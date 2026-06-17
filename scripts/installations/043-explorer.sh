@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# ── Explorer — Thunar + thumbnailers ────────────────────────────────────
 
 pkgs=(
     evince
@@ -13,16 +13,16 @@ pkgs=(
     webp-pixbuf-loader
 )
 
-status() {
-    yay_check "${pkgs[@]}"
-}
+remove_pkgs=(
+    thunar
+)
 
-install() {
-    yay_install "${pkgs[@]}"
+# ── Hooks ───────────────────────────────────────────────────────────────
 
+mod_post_install() {
     mkdir -p ~/.config/Thunar
-
-    echo '<?xml version="1.0" encoding="UTF-8"?>
+    cat >~/.config/Thunar/uca.xml <<'XML'
+<?xml version="1.0" encoding="UTF-8"?>
 <actions>
 <action>
 <icon>utilities-terminal</icon>
@@ -36,10 +36,6 @@ install() {
 <startup-notify/>
 <directories/>
 </action>
-</actions>' >~/.config/Thunar/uca.xml
-}
-
-uninstall() {
-    local pkgs=(thunar)
-    yay_uninstall "${pkgs[@]}"
+</actions>
+XML
 }

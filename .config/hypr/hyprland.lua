@@ -20,6 +20,7 @@ require("conf.vanity")
 
 -- Behavior
 require("conf.devices")
+require("conf.dvdbounce")
 require("conf.inputs")
 require("conf.layouts")
 require("conf.settings")
@@ -31,7 +32,6 @@ require("conf.keybinds")
 
 -- Startup
 require("conf.autostart")
-
 
 -- For Noctalia Color templates
 require("noctalia")

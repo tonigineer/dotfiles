@@ -1,27 +1,27 @@
-#!/usr/bin/env bash
+# ── NVIDIA — open driver + DRM modeset ──────────────────────────────────
 
-nvidia_conf=/etc/modprobe.d/nvidia.conf
+_conf=/etc/modprobe.d/nvidia.conf
 
 pkgs=(
     nvidia-open
     nvidia-utils
 )
 
-status() {
-    yay_check "${pkgs[@]}" &&
-        grep -qF 'options nvidia_drm modeset=1' $nvidia_conf &&
-        grep -qF 'nvidia nvidia_modeset nvidia_uvm nvidia_drm' /etc/mkinitcpio.conf
-}
+remove_pkgs=(
+    "${pkgs[@]}"
+)
 
-install() {
-    yay_install "${pkgs[@]}"
+# ── Hooks ───────────────────────────────────────────────────────────────
 
-    echo "options nvidia_drm modeset=1" >$nvidia_conf
-    sed -i s/MODULES=\(\)/MODULES=\(nvidia nvidia_modeset nvidia_uvm nvidia_drm\)/ /etc/mkinitcpio.conf
-
+mod_post_install() {
+    echo "options nvidia_drm modeset=1" | sudo tee "$_conf" >/dev/null
+    sudo sed -i -E \
+        's/^MODULES=\(\)/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' \
+        /etc/mkinitcpio.conf
     sudo mkinitcpio -P
 }
 
-uninstall() {
-    yay_uninstall "${pkgs[@]}"
+mod_check() {
+    grep -qF 'options nvidia_drm modeset=1' "$_conf" &&
+        grep -qF 'nvidia nvidia_modeset nvidia_uvm nvidia_drm' /etc/mkinitcpio.conf
 }

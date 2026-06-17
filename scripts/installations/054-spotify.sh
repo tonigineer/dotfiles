@@ -1,25 +1,22 @@
-#!/usr/bin/env bash
+# ── Spotify — Spotify + spicetify ───────────────────────────────────────
 
 pkgs=(
     spotify
     spicetify-cli
 )
 
-status() {
-    yay_check "${pkgs[@]}" &&
-        [ -L ~/.config/spicetify/Themes ]
-}
+remove_pkgs=(
+    "${pkgs[@]}"
+)
 
-install() {
-    yay_install "${pkgs[@]}"
+links=(
+    .config/spicetify/Themes
+)
 
-    safe_symlink .config/spicetify/Themes
+# ── Hooks ───────────────────────────────────────────────────────────────
 
+mod_post_install() {
     spicetify backup apply enable-devtools
     spicetify config current_theme Comfy
     spicetify apply
-}
-
-uninstall() {
-    yay_uninstall "${pkgs[@]}"
 }

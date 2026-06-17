@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# ── Bash — shell + CLI eye-candy ────────────────────────────────────────
 
 pkgs=(
     asciiquarium-transparent-git
@@ -19,27 +19,15 @@ pkgs=(
     zip
 )
 
-status() {
-    yay_check "${pkgs[@]}" &&
-        [ -L ~/.bashrc ] &&
-        [ -L ~/.bash_aliases ] &&
-        [ -L ~/.bash_profile ]
-}
+links=(
+    .bashrc
+    .aliases
+    .bash_profile
+)
 
-install() {
-    yay_install "${pkgs[@]}"
+# ── Hooks ───────────────────────────────────────────────────────────────
 
+mod_post_install() {
     git config --global credential.helper store
-
-    safe_symlink .bashrc
-    safe_symlink .bash_aliases
-    safe_symlink .bash_profile
-
     fc-cache -v
-}
-
-uninstall() {
-    mv ~/.bashrc.bak ~/.bashrc
-    mv ~/.bash_aliases.bak ~/.bash_aliases
-    mv ~/.bash_profile.bak ~/.bash_profile
 }

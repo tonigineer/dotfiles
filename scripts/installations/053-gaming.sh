@@ -1,5 +1,6 @@
-#!/usr/bin/env bash
+# ── Gaming — Steam, gamescope, MangoHud, Vesktop ────────────────────────
 
+# Needs multilib (enabled by 001-pacman) for steam + lib32-* packages.
 pkgs=(
     gamescope
     lib32-fontconfig
@@ -10,34 +11,22 @@ pkgs=(
     wqy-microhei
 )
 
-status() {
-    yay_check "${pkgs[@]}" &&
-        [ -L ~/.config/mangohud ]
-}
+remove_pkgs=(
+    steam
+    mangohud
+    gamescope
+)
 
-install() {
-    yay_install "${pkgs[@]}"
+links=(
+    .config/mangohud
+)
 
-    safe_symlink .config/mangohud
+# ── Hooks ───────────────────────────────────────────────────────────────
 
+mod_post_install() {
     fc-cache -v
-
-    # Exemplary start command for The Witcher 3, Red Dead Redemption 2
-    # - Set custom mangohud config dir and use --mangoapp
-    # - Set --force-grab-cursor to get rid of mouse problems in wayland
-    #
-    #
-    # MANGOHUD_CONFIG="read_cfg" MANGOHUD_CONFIGFILE="$HOME/.config/mangohud/mangohud.conf" \
-    #   gamescope -f -w 3840 -h 2160 -r 160 --adaptive-sync --rt --immediate-flips --force-grab-cursor --mangoapp \
-    #   -- %command%
-    #
-    # Current Settings
-    # DOTA2: WLR_NO_HARDWARE_CURSORS=1 MANGOHUD_CONFIG="read_cfg" MANGOHUD_CONFIGFILE="$HOME/.config/mangohud/mangohud.conf" mangohud %command%
 }
 
-uninstall() {
-    local pkgs=(steam mangohud gamescope)
-    yay_uninstall "${pkgs[@]}"
-
-    rm -rf .config/mangohud
+mod_post_uninstall() {
+    rm -rf ~/.config/mangohud
 }

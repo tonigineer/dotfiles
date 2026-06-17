@@ -1,22 +1,21 @@
-#!/usr/bin/env bash
+# ── Bluetooth — bluez + service ─────────────────────────────────────────
 
 pkgs=(
     bluez
     bluez-utils
 )
 
-status() {
-    yay_check "${pkgs[@]}" &&
-        systemctl --quiet is-active bluetooth.service
-}
+remove_pkgs=(
+    "${pkgs[@]}"
+)
 
-install() {
-    yay_install "${pkgs[@]}"
+# ── Hooks ───────────────────────────────────────────────────────────────
 
+mod_post_install() {
     sudo systemctl enable bluetooth
     sudo systemctl start bluetooth
 }
 
-uninstall() {
-    yay_uninstall "${pkgs[@]}"
+mod_check() {
+    systemctl --quiet is-active bluetooth.service
 }

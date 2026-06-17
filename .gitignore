@@ -6,14 +6,7 @@
 .config/kitty/kitty.conf.bak
 .config/kitty/current-theme.conf
 
-.config/hypr/conf.d/init/config.conf
-.config/hypr/scheme/current.conf
-.config/hypr/noctalia/noctalia-colors.conf
-
-.config/noctalia/pam
-.config/noctalia/plugins
-.config/noctalia/colors.json
-.config/noctalia/settings.json
+.config/hypr/noctalia.lua
 
 .config/spicetify/Themes/Comfy/color.ini
 

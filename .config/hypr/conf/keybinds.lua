@@ -8,6 +8,7 @@ local notify = require("conf.notify")
 local vanity = require("conf.vanity")
 local workspaces = require("conf.workspaces")
 local themes = require("conf.themes")
+local dvdbounce = require("conf.dvdbounce")
 
 -------------------------------------------------------
 -- Constants
@@ -310,19 +311,6 @@ end, {
 -- 7. Tools
 -------------------------------------------------------
 
--- Hyprland logging
-hl.bind("SUPER + F2",
-    function()
-        local update_script = table.concat({
-            "hyprctl rollinglog -f | grep lua",
-        })
-
-        local cmd = "kitty -o font_size=6 -e bash -c " .. ("%q"):format(update_script)
-        spawn_and_pin(cmd, { class = "kitty" })
-    end
-)
-
-
 -- System update
 hl.bind("CTRL + ALT + U",
     function()
@@ -372,33 +360,60 @@ hl.bind("CTRL + ALT + M", hl.dsp.exec_cmd(
 -- 8. Utility toggles (F-keys)
 -------------------------------------------------------
 
---- Disable all non-active monitors.
---- TODO: Make it a toggle. Currently use `reload` to
---- enable disabled monitors.
+--- Toggle all non-active monitors off/on. Disabled monitors drop out of
+--- `hl.get_monitors()`, so their config is captured here to restore them.
+local saved_monitors = {}
+
 local function toggle_secondary_monitors()
     local active = hl.get_active_monitor()
     if not active then return end
 
-    local monitors = hl.get_monitors()
+    if #saved_monitors > 0 then
+        -- Restore: re-enable previously disabled monitors with their config.
+        for _, m in ipairs(saved_monitors) do
+            hl.monitor({
+                output    = m.name,
+                mode      = m.mode,
+                position  = m.position,
+                scale     = m.scale,
+                transform = m.transform,
+                disabled  = false,
+            })
+        end
+        saved_monitors = {}
+        notify.info("Secondary monitors enabled")
+        return
+    end
 
-    for _, mon in ipairs(monitors) do
+    -- Disable: capture each non-active monitor's config, then turn it off.
+    for _, mon in ipairs(hl.get_monitors()) do
         if mon.id ~= active.id then
+            table.insert(saved_monitors, {
+                name      = mon.name,
+                mode      = string.format("%dx%d@%.5f", mon.width, mon.height, mon.refresh_rate),
+                position  = string.format("%dx%d", mon.x, mon.y),
+                scale     = mon.scale,
+                transform = mon.transform,
+            })
             hl.monitor({ output = mon.name, disabled = true })
         end
     end
+
+    if #saved_monitors > 0 then
+        notify.info("Secondary monitors disabled")
+    end
 end
 
---- Change the cursor theme to rose-pine.
---- TODO: Somehtings off with hyprcursor, it does not apply the cursor.
-local function change_theme()
-    local t = themes.theme
-    t.cursor = { package = "rose-pine-cursor", name = "rose-pine-cursor", size = "20" }
-    t.hyprcursor = { package = "rose-pine-hyprcursor", name = "rose-pine-hyprcursor", size = "20" }
-    themes.apply_theme(t);
+--- Tail the Hyprland Lua log in a pinned kitty panel.
+local function hyprland_logging()
+    local cmd = "kitty -o font_size=6 -e bash -c " .. ("%q"):format("hyprctl rollinglog -f | grep lua")
+    spawn_and_pin(cmd, { class = "kitty" })
 end
 
 hl.bind("SUPER + F1", function() vanity.toggle_gamemode() end)
-hl.bind("SUPER + F4", function() change_theme() end)
+hl.bind("SUPER + F2", function() hyprland_logging() end)
+hl.bind("SUPER + F3", function() dvdbounce.toggle() end)
+hl.bind("SUPER + F4", function() themes.toggle_cursor() end)
 hl.bind("SUPER + F5", function() workspaces.toggle_chinese_names() end)
 hl.bind("SUPER + F8", function() toggle_secondary_monitors() end)
 

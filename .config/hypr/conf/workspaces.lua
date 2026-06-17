@@ -68,6 +68,17 @@ hl.workspace_rule({
     gaps_out = single_window_gaps,
 })
 
+-- Hard cap regular workspaces at 1-5: if anything (e.g. scrolling the bar)
+-- lands us on workspace 6 or higher, bounce back to 5. Special workspaces have
+-- negative ids and are unaffected; the vacated 6+ is non-persistent and gets
+-- cleaned up automatically.
+hl.on("workspace.active", function()
+    local ws = hl.get_active_workspace()
+    if ws and ws.id and ws.id > 5 then
+        hl.dispatch(hl.dsp.focus({ workspace = 5 }))
+    end
+end)
+
 -- Set initial workspace names
 apply_names(ws_labels.chinese)
 

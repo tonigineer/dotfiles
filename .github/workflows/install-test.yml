@@ -1,0 +1,30 @@
+name: install-test
+
+# Builds the Arch test image and runs every install module for real through
+# install.sh, failing the job if any module's install or status check fails.
+# This is heavy (real repo + AUR builds), so it runs on main pushes, PRs, and
+# manual dispatch rather than on every branch push.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Don't pile up heavy runs: a newer commit on the same ref cancels the older.
+concurrency:
+  group: install-test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  install-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build test image
+        run: docker build -f test/Dockerfile -t dotfiles-test .
+
+      - name: Run install suite
+        run: docker run --rm dotfiles-test

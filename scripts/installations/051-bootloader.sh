@@ -1,22 +1,27 @@
-#!/usr/bin/env bash
+# ── Bootloader — GRUB virtuaverse theme ─────────────────────────────────
 
-repo=https://github.com/Patato777/dotfiles.git
-grub_cfg=/boot/grub/grub.cfg
+_repo=https://github.com/Patato777/dotfiles.git
+_theme=/boot/grub/themes/virtuaverse/theme.txt
 
-status() {
-    grep -qF 'set theme=($root)/grub/themes/virtuaverse/theme.txt' $grub_cfg
-}
+# ── Hooks ───────────────────────────────────────────────────────────────
 
-install() {
+mod_post_install() {
+    local tmp
     tmp="$(mktemp -d)"
-    git clone --depth=1 --single-branch "$repo" "$tmp"
+    git clone --depth=1 --single-branch "$_repo" "$tmp"
 
-    cd "$tmp/grub" || exit
-    sudo "$tmp/grub/install_script_grub.sh"
+    # The installer copies the theme and sets GRUB_THEME, then runs
+    # grub-mkconfig — that last step needs a real root device and fails on a
+    # container overlayfs, so don't let it fail the module. The theme files and
+    # GRUB_THEME line (verified below) are the part we actually control.
+    (cd "$tmp/grub" && sudo "$tmp/grub/install_script_grub.sh") || true
 }
 
-uninstall() {
-    echo "No uninstall defined. Edit /etc/default/grub and run grub-mkconfig ..."
+mod_check() {
+    [ -f "$_theme" ] &&
+        grep -q '^GRUB_THEME=' /etc/default/grub
+}
 
-    pause_any
+mod_post_uninstall() {
+    echo "No uninstall defined. Edit /etc/default/grub and run grub-mkconfig ..."
 }

@@ -9,7 +9,7 @@
   "base_keymap": "VSCode",
   "bottom_dock_layout": "full",
   "buffer_font_family": "Monaspace Krypton",
-  "buffer_font_size": 14,
+  "buffer_font_size": 16,
   "centered_layout": {
     "left_padding": 0.2,
     "right_padding": 0.2,
@@ -161,7 +161,7 @@
     "show_project_items": true,
   },
   "ui_font_family": "Monaspace Krypton",
-  "ui_font_size": 14,
+  "ui_font_size": 16,
   "show_whitespaces": "boundary",
   "use_autoclose": false,
   "use_system_window_tabs": false,

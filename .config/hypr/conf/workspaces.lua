@@ -21,13 +21,14 @@ local secondary = mon.secondary
 
 -- stylua: ignore start
 local ws_rules = {
-    { workspace = "1", monitor = primary, default = true, persistent = true, layout = "master"    },
-    { workspace = "2", monitor = primary,                 persistent = true, layout = "scrolling" },
-    { workspace = "3", monitor = primary,                 persistent = true, layout = "scrolling" },
-    { workspace = "4", monitor = primary,                 persistent = true, layout = "master"    },
-    { workspace = "5", monitor = secondary or primary,    persistent = true, layout = "master"    },
+    { workspace = "special:media" },
     { workspace = "special:scratchpad" },
-    { workspace = "special:media" }}
+    { workspace = "5", monitor = secondary,                 persistent = true, layout = "master"    },
+    { workspace = "4", monitor = primary,                   persistent = true, layout = "master"    },
+    { workspace = "3", monitor = primary,                   persistent = true, layout = "scrolling" },
+    { workspace = "2", monitor = primary,                   persistent = true, layout = "scrolling" },
+    { workspace = "1", monitor = primary,   default = true, persistent = true, layout = "master"    },
+}
 -- stylua: ignore end
 
 --- Gaps applied to single-window workspaces 2-5
@@ -67,17 +68,6 @@ hl.workspace_rule({
     workspace = "r[3-5] w[t1]",
     gaps_out = single_window_gaps,
 })
-
--- Hard cap regular workspaces at 1-5: if anything (e.g. scrolling the bar)
--- lands us on workspace 6 or higher, bounce back to 5. Special workspaces have
--- negative ids and are unaffected; the vacated 6+ is non-persistent and gets
--- cleaned up automatically.
-hl.on("workspace.active", function()
-    local ws = hl.get_active_workspace()
-    if ws and ws.id and ws.id > 5 then
-        hl.dispatch(hl.dsp.focus({ workspace = 5 }))
-    end
-end)
 
 -- Set initial workspace names
 apply_names(ws_labels.chinese)

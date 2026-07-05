@@ -37,6 +37,17 @@ mod_post_install() {
     # Preview the lockscreen if it's available (no-op otherwise).
     [ -x ~/.local/share/quickshell-lockscreen/lock.sh ] &&
         ~/.local/share/quickshell-lockscreen/lock.sh || true
+
+    # Copy config files for hyprland compositor used by sddm
+    if [ -f "$dotfiles_dir/.config/sddm/10-wayland.conf" ]; then
+        sudo mkdir -p /etc/sddm.conf.d
+        sudo cp -f "$dotfiles_dir/.config/sddm/10-wayland.conf" /etc/sddm.conf.d/10-wayland.conf
+    fi
+
+    if [ -f "$dotfiles_dir/.config/sddm/hyprland.conf" ]; then
+        sudo mkdir -p /var/lib/sddm/.config/hypr
+        sudo cp -f "$dotfiles_dir/.config/sddm/hyprland.conf" /var/lib/sddm/.config/hypr/hyprland.conf
+    fi
 }
 
 mod_check() {

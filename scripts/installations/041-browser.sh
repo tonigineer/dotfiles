@@ -9,7 +9,9 @@ pkgs=(
 
 remove_pkgs=(
     zen-browser-bin
-    # ── Zen chrome overrides ────────────────────────────────────────────────
+)
+
+# ── Zen chrome overrides ────────────────────────────────────────────────
 # Repo-managed fixes on top of Noctalia's generated Zen theme. The override
 # file @import's after Noctalia's cache and references its CSS variables, so it
 # re-themes automatically on colour-scheme changes (Noctalia only rewrites its

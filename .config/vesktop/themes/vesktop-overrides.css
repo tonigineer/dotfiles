@@ -1,0 +1,41 @@
+/**
+ * @name Noctalia Overrides
+ * @description Repo-managed Vesktop tweaks layered on Noctalia's generated theme.
+ * @author toni
+ *
+ * .config/vesktop/themes/vesktop-overrides.css
+ *
+ * Noctalia rewrites ~/.config/vesktop/themes/noctalia.theme.css wholesale on
+ * every colour-scheme change (from the `discord` community template), so any
+ * edit made there is lost on the next wallpaper change. Vesktop loads *every*
+ * file listed in settings.json → enabledThemes, so this file rides alongside
+ * the generated one instead of modifying it.
+ *
+ * Only override what Noctalia does not own: fonts, spacing, layout. Leave
+ * colours to the generated theme so the palette keeps following the wallpaper.
+ *
+ * Symlinked and enabled by scripts/installations/053-gaming.sh.
+ */
+
+/* Font: the same family the shell uses (noctalia settings.toml →
+ * shell.font_family). Two independent layers, because either alone can miss:
+ *
+ *   1. --font / --code-font are Midnight's own knobs (the generated theme
+ *      ships them empty = Discord default). They only take effect where
+ *      Midnight's remote build actually reads them.
+ *   2. --font-primary and friends are Discord's *own* variables, which every
+ *      built-in rule resolves — this covers everything Midnight does not.
+ *
+ * All !important so the result never depends on enabledThemes ordering. */
+:root,
+body {
+  /* Midnight's knobs */
+  --font: 'Monaspace Krypton' !important;
+  --code-font: 'Monaspace Krypton' !important;
+
+  /* Discord's own font variables */
+  --font-primary: 'Monaspace Krypton' !important;
+  --font-display: 'Monaspace Krypton' !important;
+  --font-headline: 'Monaspace Krypton' !important;
+  --font-code: 'Monaspace Krypton' !important;
+}

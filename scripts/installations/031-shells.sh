@@ -6,7 +6,9 @@ pkgs=(
 
 remove_pkgs=(
     "${pkgs[@]}"
-    # Noctalia keeps its live settings under XDG_STATE_HOME, not XDG_CONFIG_HOME.
+)
+
+# Noctalia keeps its live settings under XDG_STATE_HOME, not XDG_CONFIG_HOME.
 # Link the file alone: the rest of that directory is cache, history and
 # downloaded plugins/templates that must not enter version control.
 links=(

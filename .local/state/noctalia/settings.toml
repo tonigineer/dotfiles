@@ -140,9 +140,17 @@ community_palette = "Breeze"
 source = "wallpaper"
 wallpaper_scheme = "muted"
 
+    [theme.templates]
+    builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "qt" ]
+    community_ids = [ "spicetify", "zen-browser", "neovim", "vscode", "zed", "discord", "lazygit", "yazi" ]
+
 [wallpaper]
 directory = "/home/toni/Wallpaper"
 fill_mode = "fit"
+transition_on_startup = true
+
+    [wallpaper.automation]
+    order = "alphabetical"
 
     [wallpaper.default]
     path = "/home/toni/Wallpaper/unix-cloud.jpg"

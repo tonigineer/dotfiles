@@ -102,8 +102,10 @@ mod_post_install() {
     sudo systemctl enable --now cups.service
 
     # Let the local user administer queues without a root password prompt
-    # from the GUI tools.
-    sudo usermod -aG lp,sys "$USER" || true
+    # from the GUI tools. `id -un` rather than $USER: the variable is unset in
+    # a bare container shell, and under `set -u` that aborts the module before
+    # `|| true` can catch it.
+    sudo usermod -aG lp,sys "$(id -un)" || true
 }
 
 mod_check() {

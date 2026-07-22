@@ -20,7 +20,7 @@ FROM archlinux:latest
 # Enable multilib (needed by 053-gaming: steam, lib32-*), then full sync.
 # grub provides a real grub-mkconfig + /etc/default/grub for 051-bootloader.
 RUN sed -i '/^#\[multilib\]/,/^#Include/ s/^#//' /etc/pacman.conf \
-    && pacman -Syu --noconfirm --needed base-devel git sudo grub
+    && pacman -Syu --noconfirm --needed base-devel git sudo grub shellcheck
 
 # No-op shims for commands a container genuinely can't satisfy. Placed in
 # /usr/local/bin so they win over /usr/bin for both the user and `sudo`.

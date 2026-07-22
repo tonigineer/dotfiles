@@ -37,14 +37,22 @@ yay_check() {
     yay -Q "$@" &>/dev/null
 }
 
+# Both keep yay's exit status: `pause_any` is only a prompt, so letting it be
+# the last command would make every install/uninstall look successful and
+# `engine_install`'s `|| return 1` unreachable.
+
 yay_install() {
-    yay -S "$@" --noconfirm
+    local rc=0
+    yay -S "$@" --noconfirm || rc=$?
     pause_any
+    return "$rc"
 }
 
 yay_uninstall() {
-    yay -Rns "$@" --noconfirm
+    local rc=0
+    yay -Rns "$@" --noconfirm || rc=$?
     pause_any
+    return "$rc"
 }
 
 # ── Symlinks ────────────────────────────────────────────────────────────

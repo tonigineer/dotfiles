@@ -15,8 +15,9 @@ local theme = {
     name = "Material-Black-Blueberry-LA",
     icon = { package = "win11-icon-theme-git", name = "Win11" },
     -- Cursor options: Modern; Original + Amber; Classic: Ice
-    cursor = { package = "bibata-cursor-theme-bin", name = "Bibata-Modern-Ice", size = "24" },
-    hyprcursor = { package = "bibata-cursor-theme-bin", name = "Bibata-Modern-Ice", size = "24" },
+    -- bibata-cursor-git ships both XCursor and hyprcursor under one theme name.
+    cursor = { package = "bibata-cursor-git", name = "Bibata-Modern-Ice", size = "24" },
+    hyprcursor = { package = "bibata-cursor-git", name = "Bibata-Modern-Ice", size = "24" },
     font = { package = "otf-monaspace", name = "Monaspace Krypton Bold 10" },
 }
 
@@ -42,6 +43,7 @@ end
 --- @param label string
 --- @param package string
 local function check_package(label, package)
+    if not package then return end -- unpackaged theme (e.g. manually installed)
     local handle = io.popen(string.format("yay -Qa | grep %s", package))
     if not handle then
         notify.error("Could not read output for check_package")
@@ -134,19 +136,28 @@ end
 apply_theme(theme)
 
 -------------------------------------------------------
--- Cursor toggle
+-- Cursor cycle
 -------------------------------------------------------
 
--- Alternate cursor preset (F4 toggle). Nordzy ships a matching XCursor and
--- hyprcursor under one name (`Nordzy-cursors`): the hyprcursor renders a sharp
--- vector cursor on Wayland, while the XCursor works in XWayland games (Steam).
--- A single setcursor name resolves both backends, so no alias is needed.
-local alt_cursor = {
-    cursor     = { package = "nordzy-cursors",     name = "Nordzy-cursors", size = "24" },
-    hyprcursor = { package = "nordzy-hyprcursors", name = "Nordzy-cursors", size = "24" },
+-- Cursor presets cycled by SUPER + F4. Each press advances one step and wraps
+-- back to the default (index 1 mirrors `theme.cursor`). Each preset also carries
+-- its own `size`. `xpkg`/`hpkg` name the packages providing the XCursor /
+-- hyprcursor backends (nil = hyprcursor-only, or unpackaged). `hyprctl setcursor`
+-- uses the hyprcursor name and only falls back to an XCursor of the *same* name,
+-- so each backend is named for the theme that actually provides it. Entries
+-- without an XCursor backend render on native Wayland but fall back on XWayland
+-- (Steam, etc.).
+-- -- stylua: ignore start
+local cursor_cycle = {
+    { label = "Bibata",    cursor = "Bibata-Modern-Ice",        hyprcursor = "Bibata-Modern-Ice",        size = "24", xpkg = "bibata-cursor-git", hpkg = "bibata-cursor-git" },
+    { label = "Rosé Pine", cursor = "rose-pine-hyprcursor",     hyprcursor = "rose-pine-hyprcursor",     size = "32", xpkg = nil,                 hpkg = "rose-pine-hyprcursor" },
+    { label = "Sweet",     cursor = "Sweet-cursors-hyprcursor", hyprcursor = "Sweet-cursors-hyprcursor", size = "32", xpkg = nil,                 hpkg = "sweet-cursors-hyprcursor-git" },
+    -- { label = "Apple",     cursor = "macOS-hypr",               hyprcursor = "macOS-hypr",               size = "32", xpkg = nil,                 hpkg = "apple_hyprcursor" },
+    -- { label = "Nordzy",    cursor = "Nordzy-cursors",           hyprcursor = "Nordzy-hyprcursors",       size = "32", xpkg = "nordzy-cursors",    hpkg = "nordzy-hyprcursors" },
 }
+-- stylua: ignore end
 
-local cursor_alt = false
+local cursor_index = 1
 
 --- Shallow copy of a table (one level deep).
 --- @param tbl table
@@ -157,19 +168,18 @@ local function copy(tbl)
     return out
 end
 
---- Toggle the cursor between the default theme and `alt_cursor`,
---- re-applying the theme without mutating the default.
+--- Advance the cursor cycle by one step (wrapping) and re-apply the theme
+--- with the selected cursor, without mutating the default.
 local function toggle_cursor()
-    cursor_alt = not cursor_alt
+    cursor_index = cursor_index % #cursor_cycle + 1
+    local preset = cursor_cycle[cursor_index]
 
     local t = copy(theme)
-    if cursor_alt then
-        t.cursor = alt_cursor.cursor
-        t.hyprcursor = alt_cursor.hyprcursor
-    end
+    t.cursor = { package = preset.xpkg, name = preset.cursor, size = preset.size }
+    t.hyprcursor = { package = preset.hpkg, name = preset.hyprcursor, size = preset.size }
 
     apply_theme(t)
-    notify.info("Cursor: " .. t.hyprcursor.name)
+    notify.success(string.format("Cursor: %s @%s", preset.label, preset.size))
 end
 
 return { apply_theme = apply_theme, theme = theme, toggle_cursor = toggle_cursor }

@@ -1,4 +1,5 @@
 {
+  "diff_view_style": "split",
   "cli_default_open_behavior": "existing_window",
   "agent": {
     "dock": "right",
@@ -15,7 +16,7 @@
     "right_padding": 0.2,
   },
   "collaboration_panel": {
-    "dock": "left",
+    "dock": "right",
     "button": false,
   },
   "cursor_blink": true,
@@ -112,7 +113,7 @@
   },
   "lsp_document_colors": "background",
   "outline_panel": {
-    "dock": "left",
+    "dock": "right",
     "button": false,
   },
   "preferred_line_length": 120,

@@ -87,12 +87,10 @@ local animations = {
 -- Appearance + Gamemode
 -------------------------------------------------------
 
-local gamemode = true
+local gamemode = false
 
---- Toggle gamemode: disables animations, blur, shadow, and border for maximum performance.
-local function toggle_gamemode()
-    gamemode = not gamemode
-
+--- Apply the appearance for the current gamemode state (no toggle, no notify).
+local function apply_gamemode()
     if gamemode then
         hl.config({
             animations = { enabled = false },
@@ -111,7 +109,6 @@ local function toggle_gamemode()
                 animate_manual_resizes = false,
             },
         })
-        notify.success("Gamemode enabled")
     else
         hl.config({
             general = {
@@ -141,21 +138,39 @@ local function toggle_gamemode()
                 },
             },
         })
-        notify.info("Gamemode disabled")
     end
 
-        for _, fn in ipairs(listeners) do
+    -- Inform subscribers (e.g. windowrules Zen rounding) of the current state.
+    -- Runs after hl.config so listeners reading decoration.rounding see the new
+    -- value, and on every reload so their rules survive a config reload.
+    for _, fn in ipairs(listeners) do
         fn(gamemode)
     end
+end
 
+--- Toggle gamemode: flip the state, apply it, and notify.
+local function toggle_gamemode()
+    gamemode = not gamemode
+    apply_gamemode()
+    if gamemode then
+        notify.success("Gamemode enabled")
+    else
+        notify.info("Gamemode disabled")
+    end
 end
 
 -------------------------------------------------------
 -- Apply
 -------------------------------------------------------
 
-hl.on("config.reloaded", function ()
-    toggle_gamemode()
+-- Apply the current gamemode appearance whenever the config (re)loads. The base
+-- config never sets gaps/rounding/borders — this handler is the only place they
+-- are applied — so it must run on every load. Silent and non-toggling: the
+-- previous version called toggle_gamemode() here, which flipped the state and
+-- fired a "Gamemode enabled/disabled" notification on every reload (and twice per
+-- save, since editors emit two inotify events that each trigger an autoreload).
+hl.on("config.reloaded", function()
+    apply_gamemode()
 end)
 
 for _, curve in ipairs(curves) do

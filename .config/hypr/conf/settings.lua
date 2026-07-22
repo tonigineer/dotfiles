@@ -49,9 +49,6 @@ hl.config({
         focus_on_activate = true,
         enable_anr_dialog = false,              -- 0: ignore (keep fullscreen) | 1: takes over | 2: unfullscreen
         on_focus_under_fullscreen = 1,          -- 0: off | 1: on | 2: fullscreen only | 3: fullscreen + video/game content
-        vrr = 3,
-        background_color = "000000",
-        -- background_color = require("noctalia").colors.surface,
         allow_session_lock_restore = true,
     },
     xwayland = {

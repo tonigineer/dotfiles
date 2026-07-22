@@ -5,11 +5,14 @@ pkgs=(
     archlinux-xdg-menu
     brightnessctl
     grim
-    hyprland
-    hyprpaper
-    hypridle
-    hyprlock
-    hyprpolkitagent
+    # No hypridle/hyprlock: idle + lock are handled by the qylock module
+    # (052-greeter-qylock) and Noctalia. See keybinds.lua CTRL+ALT+L.
+    #
+    # No hyprpolkitagent: Noctalia ships a built-in authentication agent
+    # (compiled into noctalia-qs, not the QML tree). It is off by default —
+    # enable it under Settings → Security → "Polkit Agent", which writes the
+    # toggle into ~/.local/state/noctalia/settings.toml. Note it needs logind or
+    # elogind; on a seatd-only setup it cannot register graphical prompts.
     hyprshot
     hypr-zoom
     imagemagick
@@ -33,22 +36,26 @@ pkgs=(
 )
 
 _pkgs_theme=(
-    win11-icon-theme-git
-    otf-monaspace
-    rose-pine-cursor
+    # SUPER+F4 cursor cycle (see .config/hypr/conf/themes.lua).
+    bibata-cursor-git
+    nordzy-cursors
+    nordzy-hyprcursors
     rose-pine-hyprcursor
+    sweet-cursors-hyprcursor-git
+    apple_hyprcursor
 )
 
 remove_pkgs=(
     hyprland
     hyprpaper
-    hypridle
-    hyprlock
-    hyprpolkitagent
     hypr-zoom
     win11-icon-theme-git
-    rose-pine-cursor
+    bibata-cursor-git
+    nordzy-cursors
+    nordzy-hyprcursors
     rose-pine-hyprcursor
+    sweet-cursors-hyprcursor-git
+    apple_hyprcursor
 )
 
 links=(

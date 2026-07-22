@@ -42,11 +42,9 @@ mod_post_install() {
     if [ -f "$dotfiles_dir/.config/sddm/10-wayland.conf" ]; then
         sudo mkdir -p /etc/sddm.conf.d
         sudo cp -f "$dotfiles_dir/.config/sddm/10-wayland.conf" /etc/sddm.conf.d/10-wayland.conf
-    fi
-
-    if [ -f "$dotfiles_dir/.config/sddm/hyprland.conf" ]; then
+        if [ -f "$dotfiles_dir/.config/sddm/hyprland.lua" ]; then
         sudo mkdir -p /var/lib/sddm/.config/hypr
-        sudo cp -f "$dotfiles_dir/.config/sddm/hyprland.conf" /var/lib/sddm/.config/hypr/hyprland.conf
+        sudo cp -f "$dotfiles_dir/.config/sddm/hyprland.lua" /var/lib/sddm/.config/hypr/hyprland.lua
     fi
 }
 

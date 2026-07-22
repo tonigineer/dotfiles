@@ -1,0 +1,63 @@
+/*
+ * .config/zen/zen-userChrome-overrides.css
+ * Repo-managed Zen Browser chrome fixes on top of Noctalia's generated theme.
+ *
+ * This file is @import'ed by each profile's chrome/userChrome.css *after*
+ * Noctalia's generated cache (~/.cache/noctalia/zen-browser/zen-userChrome.css),
+ * so it wins the cascade. Every rule references Noctalia's CSS variables
+ * (--base, --error, --text, ...) rather than literal colours, so the fixes
+ * re-theme automatically whenever Noctalia regenerates the colour scheme —
+ * Noctalia only rewrites its cache, never this file.
+ *
+ * Wired up by scripts/installations/041-browser.sh (mod_post_install).
+ */
+
+/* Window close control (.titlebar-button.titlebar-close): Zen draws its X with
+ * `stroke: currentColor`, inheriting the light toolbar text colour, so the X was
+ * grey on the dark titlebar. Colour it error red with a matching red hover. */
+.titlebar-button.titlebar-close {
+  color: var(--error) !important;
+}
+.titlebar-button.titlebar-close > .toolbarbutton-icon {
+  background-color: transparent !important;
+}
+.titlebar-button.titlebar-close:hover > .toolbarbutton-icon {
+  background-color: color-mix(in srgb, var(--error) 22%, transparent) !important;
+}
+.titlebar-button.titlebar-close:hover:active > .toolbarbutton-icon {
+  background-color: color-mix(in srgb, var(--error) 38%, transparent) !important;
+}
+
+/* The window-controls buttonbox and the 40px .titlebar-spacer next to it paint
+ * no background of their own, so those regions fell through to a dark colour.
+ * Give them --base, the toolbar background used across the chrome. */
+.titlebar-buttonbox-container,
+.titlebar-buttonbox,
+.titlebar-spacer {
+  background-color: var(--base) !important;
+}
+
+/* Zen's compact-mode toolbar backdrop is hard-coded to #131313 in dark mode
+ * (light-dark(#e9e9e9, #131313)); Noctalia never themes it. Match --base. */
+.zen-toolbar-background {
+  background-color: var(--base) !important;
+}
+
+/* Per-tab close (X): Zen draws close-12.svg via list-style-image tinted by
+ * `fill` (context-fill), which defaulted to the muted tab text colour and was
+ * barely visible. Force the bright text colour, and a subtle rounded red
+ * highlight on hover (error red, not a heavy opaque block). */
+.tab-close-button {
+  -moz-context-properties: fill, fill-opacity !important;
+  fill: var(--text) !important;
+  fill-opacity: 1 !important;
+  border-radius: 4px !important;
+}
+.tab-close-button:hover {
+  fill: var(--error) !important;
+  fill-opacity: 1 !important;
+  background-color: color-mix(in srgb, var(--error) 16%, transparent) !important;
+  /* Collapsed-sidebar tabs give the close button an opaque gradient stack;
+   * tint it through Zen's own hook instead of stacking another opaque layer. */
+  --close-button-extra-background: color-mix(in srgb, var(--error) 16%, transparent) !important;
+}

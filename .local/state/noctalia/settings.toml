@@ -2,12 +2,26 @@ config_version = 2
 
 [bar.default]
 border = "on_surface"
-center = [ "clipboard", "notifications", "workspaces", "caffeine" ]
+center = [
+    "recorder",
+    "mpvpaper",
+    "wallhaven",
+    "_active_ws",
+    "caffeine",
+    "workspaces",
+    "notifications",
+    "_active_ws",
+    "todo",
+    "clipboard",
+    "keybinds",
+    "special-workspace"
+]
 end = [
     "network_rx",
     "network_tx",
     "_active_ws",
     "tray",
+    "_active_ws",
     "volume",
     "bluetooth",
     "network",
@@ -86,6 +100,44 @@ widget_order = [ "lockscreen-login-box@DP-3", "lockscreen-login-box@DP-1" ]
         show_login_button = true
         show_password_hint = true
 
+[plugin_settings."kenn/keybind-cheatsheet"]
+cheatsheet_placement = "attached"
+cheatsheet_position = "auto"
+compositor = "hyprland"
+hyprland_parser = "lua"
+
+[plugin_settings."noctalia/mpvpaper"]
+video_directory = "~/Wallpaper"
+
+[plugin_settings."noctalia/wallhaven"]
+api_key = "CG8wKz123iuIovJ4E69XtghNpikNJXQQ"
+download_dir = "~/Wallpaper/Wallhaven"
+
+[plugins]
+enabled = [
+    "noctalia/screen_recorder",
+    "nightwatch75/todo",
+    "noctalia/mpvpaper",
+    "noctalia/wallhaven",
+    "kenn/keybind-cheatsheet",
+    "toni/special-workspace"
+]
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
+
+    [[plugins.source]]
+    kind = "path"
+    location = "~/Programming/community-plugins"
+    name = "Tonigineer"
+
 [shell]
 avatar_path = "/home/toni/.face"
 corner_radius_scale = 0.5000000074505806
@@ -136,7 +188,9 @@ ui_scale = 1.1500000096857548
 network_poll_seconds = 1
 
 [theme]
-community_palette = "Breeze"
+builtin = "Noctalia"
+community_palette = "Zenbones"
+mode = "dark"
 source = "wallpaper"
 wallpaper_scheme = "muted"
 
@@ -156,13 +210,19 @@ transition_on_startup = true
     path = "/home/toni/Wallpaper/unix-cloud.jpg"
 
     [wallpaper.last]
-    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+    path = "/home/toni/.cache/noctalia/mpvpaper/_home_toni_Wallpaper_empty_bed_4K_mp4.jpg"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+    path = "/home/toni/.cache/noctalia/mpvpaper/_home_toni_Wallpaper_empty_bed_4K_mp4.jpg"
 
     [wallpaper.monitors.DP-3]
+    path = "/home/toni/.cache/noctalia/mpvpaper/_home_toni_Wallpaper_empty_bed_4K_mp4.jpg"
+
+    [[wallpaper.favorite]]
+    palette_source = "wallpaper"
     path = "/home/toni/Wallpaper/unix-cloud.jpg"
+    theme_mode = "dark"
+    wallpaper_scheme = "muted"
 
 [weather]
 address = "Markdorf"
@@ -172,8 +232,11 @@ scale = 1.1000000000000001
 type = "spacer"
 
 [widget.active_window]
-color = "primary"
+color = "outline"
 title_scroll = "always"
+
+[widget.caffeine]
+color = "error"
 
 [widget.control-center]
 glyph = "bottle-filled"
@@ -186,19 +249,38 @@ color = "primary"
 format = "{:%H:%M %a, %d. %b}"
 tooltip_format = "{:%H:%M %a, %d. %b}"
 
+[widget.keybinds]
+type = "kenn/keybind-cheatsheet:keybinds"
+
+[widget.mpvpaper]
+type = "noctalia/mpvpaper:mpvpaper"
+
 [widget.network]
 show_label = false
 
 [widget.network_rx]
-display = "graph"
+capsule_opacity = 0.0
+capsule_padding = 0
+capsule_radius = 1
+glyph = "arrow-big-down-lines"
+label_min_width = 80
+network_speed_unit = "mb"
 show_label = false
 
 [widget.network_tx]
-display = "graph"
+glyph = "arrow-big-up-lines"
+label_min_width = 80
+network_speed_unit = "mb"
 show_label = false
+
+[widget.notifications]
+hide_when_no_unread = true
 
 [widget.ram]
 show_label = false
+
+[widget.recorder]
+type = "noctalia/screen_recorder:recorder"
 
 [widget.screen_recorder]
 copy_to_clipboard = true
@@ -210,6 +292,10 @@ type = "scripted"
 [widget.session]
 color = "error"
 
+[widget.special-workspace]
+hide_when_none = false
+type = "toni/special-workspace:special-workspace"
+
 [widget.sysmon]
 path = "/home"
 show_label = false
@@ -218,11 +304,17 @@ stat = "disk_pct"
 [widget.temp]
 show_label = false
 
+[widget.todo]
+type = "nightwatch75/todo:todo"
+
 [widget.tray]
 match_adjacent_spacing = true
 
 [widget.volume]
 show_label = false
+
+[widget.wallhaven]
+type = "noctalia/wallhaven:wallhaven"
 
 [widget.workspaces]
 display = "name"

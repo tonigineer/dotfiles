@@ -49,9 +49,10 @@ end
 -- 1. Session
 -------------------------------------------------------
 
-hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"))
-hl.bind("CTRL + ALT + R", hl.dsp.exec_cmd("pkill noctalia; sleep 0.1; noctalia"))
-hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(HOME .. "/.local/share/quickshell-lockscreen/lock.sh"))
+hl.bind("SUPER + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"), { desc = "Reload Hyprland config" })
+hl.bind("CTRL + ALT + R", hl.dsp.exec_cmd("pkill noctalia; sleep 0.1; noctalia"), { desc = "Restart Noctalia shell" })
+hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(HOME .. "/.local/share/quickshell-lockscreen/lock.sh"),
+    { desc = "Lock screen" })
 
 -------------------------------------------------------
 -- 2. Window management
@@ -121,7 +122,57 @@ local function smart_pin()
     hl.dispatch(hl.dsp.window.move({ x = mon.x + x_offset, y = y_offset }))
 end
 
---- Change workspace layout.
+-- Positioning
+hl.bind("SUPER + SHIFT + C", hl.dsp.window.close(), { desc = "Close active window" })
+hl.bind("SUPER + F", function() smart_float() end, { desc = "Toggle float (sized & centered)" })
+hl.bind("SUPER + M", hl.dsp.window.fullscreen({ action = "toggle" }), { desc = "Toggle fullscreen" })
+hl.bind("SUPER + P", function() smart_pin() end, { desc = "Toggle pin (corner picture-in-picture)" })
+hl.bind("SUPER + C", hl.dsp.window.center(), { desc = "Center active window" })
+
+-- Mouse drag & resize
+hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true, desc = "Drag window with mouse" })
+hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true, desc = "Resize window with mouse" })
+
+-- Directional resize
+hl.bind("SUPER + SHIFT + H", hl.dsp.window.resize({ x = -RESIZE_STEP, y = 0, relative = true }),
+    { desc = "Shrink window horizontally" })
+hl.bind("SUPER + SHIFT + L", hl.dsp.window.resize({ x = RESIZE_STEP, y = 0, relative = true }),
+    { desc = "Grow window horizontally" })
+hl.bind("SUPER + SHIFT + K", hl.dsp.window.resize({ x = 0, y = -RESIZE_STEP, relative = true }),
+    { desc = "Shrink window vertically" })
+hl.bind("SUPER + SHIFT + J", hl.dsp.window.resize({ x = 0, y = RESIZE_STEP, relative = true }),
+    { desc = "Grow window vertically" })
+
+-------------------------------------------------------
+-- 3. Navigation (layout-aware)
+-------------------------------------------------------
+
+hl.bind("SUPER + H", layout_bind({
+    master    = hl.dsp.focus({ direction = "left" }),
+    dwindle   = hl.dsp.focus({ direction = "left" }),
+    scrolling = hl.dsp.layout("focus l"),
+}), { desc = "Focus window left" })
+hl.bind("SUPER + L", layout_bind({
+    master    = hl.dsp.focus({ direction = "right" }),
+    dwindle   = hl.dsp.focus({ direction = "right" }),
+    scrolling = hl.dsp.layout("focus r"),
+}), { desc = "Focus window right" })
+hl.bind("SUPER + K", layout_bind({
+    master    = hl.dsp.focus({ direction = "up" }),
+    dwindle   = hl.dsp.focus({ direction = "up" }),
+    scrolling = hl.dsp.layout("focus u"),
+}), { desc = "Focus window up" })
+hl.bind("SUPER + J", layout_bind({
+    master    = hl.dsp.focus({ direction = "down" }),
+    dwindle   = hl.dsp.focus({ direction = "down" }),
+    scrolling = hl.dsp.layout("focus d"),
+}), { desc = "Focus window down" })
+
+-------------------------------------------------------
+-- 4. Workspaces
+-------------------------------------------------------
+
+--- Toggle the active workspace between the master and scrolling layouts.
 local function change_layout()
     local ws = hl.get_active_workspace()
     if not ws then
@@ -135,61 +186,19 @@ local function change_layout()
     notify.info("Layout changed to: " .. new_layout)
 end
 
--- Positioning
-hl.bind("SUPER + SHIFT + C", hl.dsp.window.close())
-hl.bind("SUPER + F", function() smart_float() end)
-hl.bind("SUPER + M", hl.dsp.window.fullscreen({ action = "toggle" }))
-hl.bind("SUPER + P", function() smart_pin() end)
-hl.bind("SUPER + C", hl.dsp.window.center())
-
--- Mouse drag & resize
-hl.bind("SUPER + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind("SUPER + mouse:273", hl.dsp.window.resize(), { mouse = true })
-
--- Directional resize
-hl.bind("SUPER + SHIFT + H", hl.dsp.window.resize({ x = -RESIZE_STEP, y = 0, relative = true }))
-hl.bind("SUPER + SHIFT + L", hl.dsp.window.resize({ x = RESIZE_STEP, y = 0, relative = true }))
-hl.bind("SUPER + SHIFT + K", hl.dsp.window.resize({ x = 0, y = -RESIZE_STEP, relative = true }))
-hl.bind("SUPER + SHIFT + J", hl.dsp.window.resize({ x = 0, y = RESIZE_STEP, relative = true }))
-
--------------------------------------------------------
--- 3. Navigation (layout-aware)
--------------------------------------------------------
-
-hl.bind("SUPER + H", layout_bind({
-    master    = hl.dsp.focus({ direction = "left" }),
-    dwindle   = hl.dsp.focus({ direction = "left" }),
-    scrolling = hl.dsp.layout("focus l"),
-}))
-hl.bind("SUPER + L", layout_bind({
-    master    = hl.dsp.focus({ direction = "right" }),
-    dwindle   = hl.dsp.focus({ direction = "right" }),
-    scrolling = hl.dsp.layout("focus r"),
-}))
-hl.bind("SUPER + K", layout_bind({
-    master    = hl.dsp.focus({ direction = "up" }),
-    dwindle   = hl.dsp.focus({ direction = "up" }),
-    scrolling = hl.dsp.layout("focus u"),
-}))
-hl.bind("SUPER + J", layout_bind({
-    master    = hl.dsp.focus({ direction = "down" }),
-    dwindle   = hl.dsp.focus({ direction = "down" }),
-    scrolling = hl.dsp.layout("focus d"),
-}))
-
--------------------------------------------------------
--- 4. Workspaces
--------------------------------------------------------
-
 for i = 1, 5 do
-    hl.bind("SUPER + " .. i, hl.dsp.focus({ workspace = i }))
-    hl.bind("SUPER + SHIFT + " .. i, hl.dsp.window.move({ workspace = i, follow = false }))
+    hl.bind("SUPER + " .. i, hl.dsp.focus({ workspace = i }), { desc = "Switch to workspace " .. i })
+    hl.bind("SUPER + SHIFT + " .. i, hl.dsp.window.move({ workspace = i, follow = false }),
+        { desc = "Move window to workspace " .. i })
 end
-hl.bind("SUPER + SHIFT + L", function() change_layout() end)
-hl.bind("SUPER + grave", hl.dsp.workspace.toggle_special("communication"))
-hl.bind("SUPER + SHIFT + grave", hl.dsp.window.move({ workspace = "special:communication", follow = false }))
-hl.bind("SUPER + space", hl.dsp.workspace.toggle_special("scratchpad"))
-hl.bind("SUPER + SHIFT + space", hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))
+hl.bind("SUPER + O", function() change_layout() end, { desc = "Toggle master/scrolling layout" })
+hl.bind("SUPER + grave", hl.dsp.workspace.toggle_special("communication"),
+    { desc = "Toggle communication scratchpad" })
+hl.bind("SUPER + SHIFT + grave", hl.dsp.window.move({ workspace = "special:communication", follow = false }),
+    { desc = "Move window to communication scratchpad" })
+hl.bind("SUPER + space", hl.dsp.workspace.toggle_special("scratchpad"), { desc = "Toggle scratchpad" })
+hl.bind("SUPER + SHIFT + space", hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }),
+    { desc = "Move window to scratchpad" })
 
 -- Swap workspaces between monitors
 hl.bind("ALT + TAB", function()
@@ -199,7 +208,7 @@ hl.bind("ALT + TAB", function()
         monitor1 = monitors[1].id,
         monitor2 = monitors[2].id,
     }))
-end)
+end, { desc = "Swap workspaces between monitors" })
 
 -- Move active workspace to the other monitor
 hl.bind("ALT + SHIFT + TAB", function()
@@ -212,15 +221,15 @@ hl.bind("ALT + SHIFT + TAB", function()
             break
         end
     end
-end)
+end, { desc = "Move active workspace to other monitor" })
 
 -------------------------------------------------------
 -- 5. Launchers
 -------------------------------------------------------
 
-hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("kitty"))
-hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar ~"))
-hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("kitty -e yazi ~"))
+hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("kitty"), { desc = "Launch terminal (kitty)" })
+hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar ~"), { desc = "Launch file manager (thunar)" })
+hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("kitty -e yazi ~"), { desc = "Launch file manager (yazi)" })
 
 -------------------------------------------------------
 -- 6. Media Streaming
@@ -280,12 +289,12 @@ for _, ch in ipairs(tv_channels) do
     hl.bind(ch.key, function()
         notify.success("Streaming " .. ch.name)
         spawn_and_pin("mpv " .. ch.url, { class = "mpv" })
-    end)
+    end, { desc = "Stream " .. ch.name .. " live TV" })
 end
 
 hl.bind("CTRL + ALT + Y", function()
     youtube_to_mpv()
-end)
+end, { desc = "Cast Firefox video to mpv" })
 
 hl.bind("CTRL + ALT + N", function()
     notify.info("Opening Netflix")
@@ -293,7 +302,7 @@ hl.bind("CTRL + ALT + N", function()
         "brave --ozone-platform=wayland --app=https://www.netflix.com/browse",
         { class = "brave" }
     )
-end)
+end, { desc = "Open Netflix in a pinned window" })
 
 -- Allowj dragging pinned windows with middle mouse drag
 hl.bind("mouse:274", function()
@@ -305,6 +314,7 @@ hl.bind("mouse:274", function()
 end, {
     mouse = true,
     non_consuming = true,
+    desc = "Drag pinned window with middle mouse",
 })
 
 -------------------------------------------------------
@@ -320,41 +330,46 @@ hl.bind("CTRL + ALT + U",
 
         local cmd = "kitty -o font_size=6 -e bash -c " .. ("%q"):format(update_script)
         spawn_and_pin(cmd, { class = "kitty" })
-    end
+    end,
+    { desc = "Run system update (yay -Syu)" }
 )
 
 -- Screenshots
-hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m active -z -o " .. SCREENSHOT_DIR))
-hl.bind("SHIFT + Print", hl.dsp.exec_cmd("hyprshot -m window -z -o " .. SCREENSHOT_DIR))
-hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region -z -o " .. SCREENSHOT_DIR))
-hl.bind("CTRL + ALT + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/capture.sh"))
+hl.bind("Print", hl.dsp.exec_cmd("hyprshot -m output -m active -z -o " .. SCREENSHOT_DIR),
+    { desc = "Screenshot active monitor" })
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd("hyprshot -m window -z -o " .. SCREENSHOT_DIR),
+    { desc = "Screenshot active window" })
+hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region -z -o " .. SCREENSHOT_DIR),
+    { desc = "Screenshot region" })
+hl.bind("CTRL + ALT + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/capture.sh"),
+    { desc = "Screen capture / record" })
 
 -- Color picker
-hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("hyprpicker -a"))
+hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("hyprpicker -a"), { desc = "Pick color to clipboard" })
 
 -- Zoom toggle
 hl.bind("SUPER + SHIFT + Z", function()
     hl.dispatch(hl.dsp.submap("reset"))
     hl.exec_cmd("hypr-zoom -duration=250 -steps=150 -easing=OutBack -easingOut=InBack -interp=Linear")
-end)
+end, { desc = "Toggle animated screen zoom" })
 
 -- Scroll zoom
-hl.bind("SUPER + mouse_down", function()
-    local current = hl.get_config("cursor:zoom_factor")
-    hl.config({ cursor = { zoom_factor = current * ZOOM_IN } })
-end)
 hl.bind("SUPER + mouse_up", function()
     local current = hl.get_config("cursor:zoom_factor")
+    hl.config({ cursor = { zoom_factor = current * ZOOM_IN } })
+end, { desc = "Zoom screen in" })
+hl.bind("SUPER + mouse_down", function()
+    local current = hl.get_config("cursor:zoom_factor")
     hl.config({ cursor = { zoom_factor = math.max(current * ZOOM_OUT, 1.0) } })
-end)
+end, { desc = "Zoom screen out" })
 hl.bind("SUPER + mouse:274", function()
     hl.config({ cursor = { zoom_factor = 1.0 } })
-end)
+end, { desc = "Reset screen zoom" })
 
 -- Matrix background toggle
 hl.bind("CTRL + ALT + M", hl.dsp.exec_cmd(
     "pkill cmatrix || kitty +kitten panel --edge=background -o font_size=12 cmatrix -a -b -u 2 -r"
-))
+), { desc = "Toggle cmatrix background" })
 
 -------------------------------------------------------
 -- 8. Utility toggles (F-keys)
@@ -410,30 +425,32 @@ local function hyprland_logging()
     spawn_and_pin(cmd, { class = "kitty" })
 end
 
-hl.bind("SUPER + F1", function() vanity.toggle_gamemode() end)
-hl.bind("SUPER + F2", function() hyprland_logging() end)
-hl.bind("SUPER + F3", function() dvdbounce.toggle() end)
-hl.bind("SUPER + F4", function() themes.toggle_cursor() end)
-hl.bind("SUPER + F5", function() workspaces.toggle_chinese_names() end)
-hl.bind("SUPER + F8", function() toggle_secondary_monitors() end)
+hl.bind("SUPER + F1", function() vanity.toggle_gamemode() end, { desc = "Toggle gamemode (no animations)" })
+hl.bind("SUPER + F2", function() hyprland_logging() end, { desc = "Tail Hyprland Lua log" })
+hl.bind("SUPER + F3", function() dvdbounce.toggle() end, { desc = "Toggle DVD bounce" })
+hl.bind("SUPER + F4", function() themes.toggle_cursor() end, { desc = "Toggle cursor theme" })
+hl.bind("SUPER + F5", function() workspaces.toggle_chinese_names() end, { desc = "Toggle Chinese workspace names" })
+hl.bind("SUPER + F8", function() toggle_secondary_monitors() end, { desc = "Toggle secondary monitors" })
 
 -------------------------------------------------------
 -- 9. Hardware keys
 -------------------------------------------------------
 
 -- Audio transport
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Play / pause media" })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Play / pause media" })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true, desc = "Next track" })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true, desc = "Previous track" })
 
 -- Volume
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 2%+"),
-    { locked = true, repeating = true })
+    { locked = true, repeating = true, desc = "Raise volume" })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 2%-"),
-    { locked = true, repeating = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), { locked = true })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
+    { locked = true, repeating = true, desc = "Lower volume" })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+    { locked = true, desc = "Mute output" })
+hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
+    { locked = true, desc = "Mute microphone" })
 
 -------------------------------------------------------
 -- 10. Noctalia overrides
@@ -445,10 +462,14 @@ hl.unbind("SUPER + SHIFT + Q")
 hl.unbind("XF86MonBrightnessUp")
 hl.unbind("XF86MonBrightnessDown")
 
-hl.bind("SUPER + R", noctalia("panel-toggle launcher"))
-hl.bind("SUPER + S", noctalia("panel-toggle control-center"))
-hl.bind("SUPER + SHIFT + Q", noctalia("panel-toggle session"))
-hl.bind("CTRL + ALT + W", noctalia("plugin:wallcards toggle"))
+hl.bind("SUPER + R", noctalia("panel-toggle launcher"), { desc = "Toggle app launcher" })
+hl.bind("SUPER + S", noctalia("panel-toggle control-center"), { desc = "Toggle control center" })
+hl.bind("SUPER + SHIFT + Q", noctalia("panel-toggle session"), { desc = "Toggle session menu" })
+hl.bind("CTRL + ALT + W", noctalia("plugin:wallcards toggle"), { desc = "Toggle wallpaper picker" })
+hl.bind("SUPER + BackSpace", noctalia("panel-toggle kenn/keybind-cheatsheet:cheatsheet"),
+    { desc = "Toggle keybind cheatsheet" })
 
-hl.bind("XF86MonBrightnessUp", noctalia("brightness increase"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", noctalia("brightness decrease"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp", noctalia("brightness increase"),
+    { locked = true, repeating = true, desc = "Raise screen brightness" })
+hl.bind("XF86MonBrightnessDown", noctalia("brightness decrease"),
+    { locked = true, repeating = true, desc = "Lower screen brightness" })

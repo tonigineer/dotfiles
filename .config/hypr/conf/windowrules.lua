@@ -96,14 +96,19 @@ local workspace_rules = {
     { class = "^(?i)dota2$", workspace = "4" },
     { class = "^(?i)factorio$", workspace = "4" },
     { class = "^(?i)teamspeak-client$", workspace = "special:communication" },
-    { class = "^(?i)Discord|Vesktop$", workspace = "special:communication" },
-    { class = "^(?i)spotify$", workspace = "special:communication" },
+    { class = "^(?i)Discord|Vesktop$", workspace = "special:communication", silent = true },
+    { class = "^(?i)spotify$", workspace = "special:communication", silent = true },
 }
 
 for _, rule in ipairs(workspace_rules) do
     hl.window_rule({
         match = { class = rule.class },
-        workspace = rule.workspace,
+        -- `silent`: assign to the (special) workspace without switching to it, and
+        -- drop the app's self-activation requests. Otherwise focus_on_activate
+        -- (misc, settings.lua) lets a relaunch — e.g. Spotify restarting on a
+        -- wallpaper change — yank the special workspace into view every time.
+        workspace = rule.silent and (rule.workspace .. " silent") or rule.workspace,
+        suppress_event = rule.silent and "activate activatefocus" or nil,
     })
 end
 
@@ -119,17 +124,45 @@ hl.window_rule({
 })
 
 hl.window_rule({
-    name = "Steam",
-    match = { class = "^(?i)steam$" },
+    name = "Steam Library",
+    match = { class = "^(?i)steam$", title = "^Steam$" },
     workspace = "4",
-    float = true,
+    tile = true,
     border_size = 0,
     rounding = 5,
 })
 
+-- Friends list: tiled; width pinned to 1/4 by the handler below
 hl.window_rule({
-    name = "Steam Windows",
-    match = { title = "^(?i)(Steam Settings|Friends List)$" },
+    name = "Steam Friends",
+    match = { title = "^(?i)Friends List$" },
+    workspace = "4",
+    tile = true,
+    border_size = 0,
+    rounding = 5,
+})
+
+-- No layout here supports a static tiled split ratio, so pin the Friends
+-- column to 20% of the monitor width on open (the library reflows to fill the rest).
+hl.on("window.open", function(win)
+    if win.title ~= "Friends List" then return end
+
+    local mon = win.monitor
+    local mw = mon and mon.size and mon.size.x or 1920
+    local mh = mon and mon.size and mon.size.y or 1080
+
+    hl.dispatch(hl.dsp.window.resize({
+        window = "address:" .. win.address,
+        x = math.floor(mw * 0.20),
+        y = mh,
+        exact = true,
+    }))
+end)
+
+-- Any other Steam window (settings, dialogs, …): float + center
+hl.window_rule({
+    name = "Steam Other Windows",
+    match = { class = "^(?i)steam$", title = "negative:^(?i)(Steam|Friends List)$" },
     workspace = "4",
     float = true,
     border_size = 0,
@@ -227,4 +260,16 @@ hl.window_rule({
     keep_aspect_ratio = true,
     border_size = 2,
     move = { "monitor_w - (monitor_w * 0.3) + 80", "45" },
+})
+
+-------------------------------------------------------
+-- XWayland marker (last, so it wins over floating/pinned)
+-------------------------------------------------------
+
+-- Distinct border so XWayland windows are easy to spot
+hl.window_rule({
+    name = "XWayland windows",
+    match = { xwayland = true },
+    border_size = 2,
+    border_color = border_colors.xwayland,
 })

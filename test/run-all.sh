@@ -51,6 +51,16 @@ else
     printf '  \033[33mshellcheck not installed — lint skipped\033[0m\n\n'
 fi
 
+# ── Sync ────────────────────────────────────────────────────────────────
+# Modules install with `yay -S`, which against the image's build-time db is a
+# partial upgrade: packages built for a newer glibc/libstdc++ land on the older
+# ones (`GLIBC_2.44 not found`, `GLIBCXX_3.4.36 not found`), and files the db
+# still lists may already be rotated off the mirrors (404). Upgrade fully first
+# so those never masquerade as module failures.
+printf '\033[1mSyncing the container to current packages…\033[0m\n'
+sudo pacman -Syu --noconfirm >/dev/null 2>&1 ||
+    printf '  \033[33mfull sync failed — module results may be unreliable\033[0m\n'
+
 printf '\033[1mDriving install.sh for every module (real installs, slow)…\033[0m\n'
 for module in "$modules_dir"/*.sh; do
     name="$(basename "$module")"

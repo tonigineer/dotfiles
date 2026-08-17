@@ -1,8 +1,10 @@
-config_version = 2
+config_version = 12
 
 [bar.default]
 border = "on_surface"
 center = [
+    "widget",
+    "spacer_2",
     "recorder",
     "mpvpaper",
     "wallhaven",
@@ -14,9 +16,14 @@ center = [
     "todo",
     "clipboard",
     "keybinds",
-    "special-workspace"
+    "special-workspace",
+    "spacer_2",
+    "toggle"
 ]
 end = [
+    "status",
+    "_active_ws",
+    "_active_ws",
     "network_rx",
     "network_tx",
     "_active_ws",
@@ -59,11 +66,13 @@ widget_order = [ "lockscreen-login-box@DP-3", "lockscreen-login-box@DP-1" ]
     visible = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
-    box_height = 70.0
-    box_width = 400.0
+    box_height = 196.0
+    box_width = 720.0
     cx = 960.0
     cy = 961.0
     output = "DP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
     rotation = 0.0
     type = "login_box"
 
@@ -74,17 +83,23 @@ widget_order = [ "lockscreen-login-box@DP-3", "lockscreen-login-box@DP-1" ]
         center_password_text = false
         input_opacity = 1.0
         input_radius = 6.0
+        layout = "regular"
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
-        show_password_hint = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
 
     [lockscreen_widgets.widget."lockscreen-login-box@DP-3"]
-    box_height = 70.0
-    box_width = 400.0
+    box_height = 196.0
+    box_width = 720.0
     cx = 960.0
     cy = 961.0
     output = "DP-3"
+    placement_height = 1080.0
+    placement_width = 1920.0
     rotation = 0.0
     type = "login_box"
 
@@ -95,10 +110,14 @@ widget_order = [ "lockscreen-login-box@DP-3", "lockscreen-login-box@DP-1" ]
         center_password_text = false
         input_opacity = 1.0
         input_radius = 6.0
+        layout = "regular"
         show_caps_lock = true
         show_keyboard_layout = true
         show_login_button = true
-        show_password_hint = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
 
 [plugin_settings."kenn/keybind-cheatsheet"]
 cheatsheet_placement = "attached"
@@ -113,6 +132,12 @@ video_directory = "~/Wallpaper"
 api_key = "CG8wKz123iuIovJ4E69XtghNpikNJXQQ"
 download_dir = "~/Wallpaper/Wallhaven"
 
+[plugin_settings."yuuto/arch-updater"]
+assume_yes = true
+aur_helper = "yay"
+auto_check_hours = 1
+flatpak_enabled = false
+
 [plugins]
 enabled = [
     "noctalia/screen_recorder",
@@ -120,7 +145,10 @@ enabled = [
     "noctalia/mpvpaper",
     "noctalia/wallhaven",
     "kenn/keybind-cheatsheet",
-    "toni/special-workspace"
+    "toni/special-workspace",
+    "yuuto/arch-updater",
+    "maddingo/hypr-layout-switcher",
+    "davemhammer/tailscale"
 ]
 
     [[plugins.source]]
@@ -134,6 +162,7 @@ enabled = [
     name = "community"
 
     [[plugins.source]]
+    enabled = false
     kind = "path"
     location = "~/Programming/community-plugins"
     name = "Tonigineer"
@@ -207,16 +236,16 @@ transition_on_startup = true
     order = "alphabetical"
 
     [wallpaper.default]
-    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-96zpv1.jpg"
 
     [wallpaper.last]
-    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-96zpv1.jpg"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-96zpv1.jpg"
 
     [wallpaper.monitors.DP-3]
-    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-96zpv1.jpg"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
@@ -246,6 +275,7 @@ icon_color = "error"
 
 [widget.cpu]
 show_label = false
+show_value = false
 
 [widget.date]
 color = "primary"
@@ -272,19 +302,24 @@ capsule_radius = 1
 glyph = "arrow-big-down-lines"
 label_min_width = 80
 network_speed_unit = "mb"
+scale = 0.85000000000000009
 show_label = false
+visualization = "none"
 
 [widget.network_tx]
 glyph = "arrow-big-up-lines"
 label_min_width = 80
 network_speed_unit = "mb"
+scale = 0.85000000000000009
 show_label = false
+visualization = "none"
 
 [widget.notifications]
 hide_when_no_unread = true
 
 [widget.ram]
 show_label = false
+show_value = false
 
 [widget.recorder]
 color = "on_surface_variant"
@@ -301,13 +336,19 @@ type = "scripted"
 [widget.session]
 color = "error"
 
+[widget.spacer_2]
+type = "spacer"
+
 [widget.special-workspace]
 hide_when_none = false
 type = "toni/special-workspace:special-workspace"
 
+[widget.status]
+type = "davemhammer/tailscale:status"
+
 [widget.sysmon]
 path = "/home"
-show_label = false
+show_value = false
 stat = "disk_pct"
 
 [widget.temp]
@@ -317,6 +358,16 @@ show_label = false
 color = "on_surface_variant"
 icon_color = "on_surface_variant"
 type = "nightwatch75/todo:todo"
+
+[widget.toggle]
+capsule_foreground = "on_secondary"
+capsule_opacity = 0.0
+capsule_padding = 9
+capsule_radius = 5
+color = "error"
+interactive = false
+scale = 0.85000000000000009
+type = "maddingo/hypr-layout-switcher:toggle"
 
 [widget.tray]
 match_adjacent_spacing = true
@@ -329,8 +380,12 @@ color = "on_surface_variant"
 icon_color = "on_surface_variant"
 type = "noctalia/wallhaven:wallhaven"
 
+[widget.widget]
+type = "yuuto/arch-updater:widget"
+
 [widget.workspaces]
+anchor = true
 capsule = true
-display = "name"
 empty_color = "tertiary"
+label_source = "name"
 style = "focus_hint"

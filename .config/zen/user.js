@@ -34,10 +34,17 @@
 //   ups.com                         upsicons, UPS Material Symbols[ Filled]
 //   bahn.de                         DBWebIconFont (marketing bundle)
 //   bahn.de db-ux design system     Deutsche_Bahn_VUX, db-*, icons-<size>-<style>
-// Deliberately excluded: DBScreenSans, DBScreenHead, UPSRoboto, IBM Plex — those
-// are text fonts we do want overridden.
+//   fritz.box (AVM FRITZ!OS)        FDS-Iconfont, Password Dots
+// Deliberately excluded: DBScreenSans, DBScreenHead, UPSRoboto, IBM Plex, Source
+// Sans Pro (fritz.box) — those are text fonts we do want overridden.
+//
+// FDS-Iconfont is ligature-based (content:"printer", "bin", "pencil", …), so it
+// is the literal-text failure above, not the PUA one: Monaspace has those ASCII
+// glyphs and wins outright, printing the icon names across the FRITZ!Box UI.
+// Password Dots is not an icon font but is likewise glyph-substitution only —
+// without it the password field renders its filler chars instead of dots.
 user_pref("browser.display.use_document_fonts", 0);
-user_pref("browser.display.use_document_fonts.icon_font_allowlist", "Material Icons, Material Icons Extended, Material Icons Outlined, Material Icons Round, Material Icons Sharp, Material Icons Two Tone, Google Material Icons, Google Material Icons Filled, Material Symbols, Material Symbols Outlined, Material Symbols Round, Material Symbols Rounded, Material Symbols Sharp, Material Symbols Rounded Non Filled, Google Symbols, FontAwesome, Font Awesome 5 Free, Font Awesome 5 Brands, Font Awesome 6 Free, Font Awesome 6 Brands, upsicons, UPS Material Symbols, UPS Material Symbols Filled, DBWebIconFont, Deutsche_Bahn_VUX, db-default, db-filled, db-ux-default, db-ux-filled, icon-font-fallback, missing-icons, icons-16-outline, icons-20-outline, icons-24-outline, icons-32-outline, icons-48-outline, icons-64-outline, icons-16-filled, icons-20-filled, icons-24-filled, icons-32-filled, icons-48-filled, icons-64-filled");
+user_pref("browser.display.use_document_fonts.icon_font_allowlist", "Material Icons, Material Icons Extended, Material Icons Outlined, Material Icons Round, Material Icons Sharp, Material Icons Two Tone, Google Material Icons, Google Material Icons Filled, Material Symbols, Material Symbols Outlined, Material Symbols Round, Material Symbols Rounded, Material Symbols Sharp, Material Symbols Rounded Non Filled, Google Symbols, FontAwesome, Font Awesome 5 Free, Font Awesome 5 Brands, Font Awesome 6 Free, Font Awesome 6 Brands, upsicons, UPS Material Symbols, UPS Material Symbols Filled, DBWebIconFont, Deutsche_Bahn_VUX, db-default, db-filled, db-ux-default, db-ux-filled, icon-font-fallback, missing-icons, icons-16-outline, icons-20-outline, icons-24-outline, icons-32-outline, icons-48-outline, icons-64-outline, icons-16-filled, icons-20-filled, icons-24-filled, icons-32-filled, icons-48-filled, icons-64-filled, FDS-Iconfont, Password Dots");
 
 // The override font the allowlist exists to hold back. Kept here so the two stay
 // in sync — note Monaspace has no Private Use Area coverage, which is what lets

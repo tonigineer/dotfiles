@@ -1,7 +1,11 @@
 # ── Shells — Noctalia desktop shell ─────────────────────────────────────
+#
+# v5, built from git. The old AUR package `noctalia-shell` (v4, Quickshell)
+# was dropped when v5 landed; `extra/noctalia` tracks tagged betas, this
+# tracks main. It `provides`/`conflicts` noctalia, so the two are exclusive.
 
 pkgs=(
-    noctalia-shell
+    noctalia-git
 )
 
 remove_pkgs=(

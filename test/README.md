@@ -5,9 +5,17 @@ with a real `yay`, and prints a PASS/FAIL matrix of each module's install and
 `--status` exit codes.
 
 ```bash
-docker build -f test/Dockerfile -t dotfiles-test .
-docker run --rm dotfiles-test
+docker build --pull --no-cache -f test/Dockerfile -t dotfiles-test .
+docker run --rm --security-opt seccomp=unconfined dotfiles-test
 ```
+
+`--pull --no-cache` matters: a cached base layer keeps an old `glibc` while the
+modules pull today's packages, and the resulting partial upgrade shows up as
+bogus failures (`node: GLIBC_2.44 not found`, `libelf breaks elfutils`).
+
+`seccomp=unconfined` is needed for 031-shells: compiling `noctalia-git` under
+Docker's default seccomp profile makes `cc1plus` die with random `internal
+compiler error: Illegal instruction` on a different translation unit each run.
 
 Heavy and slow — real repo/AUR builds. Host-only commands (`systemctl`,
 `mkinitcpio`, `bootctl`, `spicetify`, `xdg-settings`) are shimmed to no-op

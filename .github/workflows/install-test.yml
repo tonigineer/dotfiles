@@ -26,5 +26,9 @@ jobs:
       - name: Build test image
         run: docker build -f test/Dockerfile -t dotfiles-test .
 
+      # seccomp=unconfined: building noctalia-git (031-shells) under Docker's
+      # default seccomp profile crashes cc1plus with a random
+      # "internal compiler error: Illegal instruction" on a different
+      # translation unit each run. Safe here — throwaway runner, no untrusted code.
       - name: Run install suite
-        run: docker run --rm dotfiles-test
+        run: docker run --rm --security-opt seccomp=unconfined dotfiles-test

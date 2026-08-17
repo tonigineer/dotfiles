@@ -46,7 +46,7 @@ local border_colors = {
     pinned   = border_gradient(colors.error),
     -- Subtle XWayland marker: a dark scheme color, shown in both focus
     -- states (string "active inactive" — window rules take one color each).
-    xwayland = "rgba(" .. colors.surface .. "ff) rgba(" .. colors.surface .. "ff)",
+    xwayland = "rgba(" .. colors.error .. "44) rgba(" .. colors.error .. "11)",
 }
 
 -------------------------------------------------------

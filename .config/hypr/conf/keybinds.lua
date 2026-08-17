@@ -191,7 +191,7 @@ for i = 1, 5 do
     hl.bind("SUPER + SHIFT + " .. i, hl.dsp.window.move({ workspace = i, follow = false }),
         { desc = "Move window to workspace " .. i })
 end
-hl.bind("SUPER + O", function() change_layout() end, { desc = "Toggle master/scrolling layout" })
+hl.bind("SUPER + S", function() change_layout() end, { desc = "Toggle master/scrolling layout" })
 hl.bind("SUPER + grave", hl.dsp.workspace.toggle_special("communication"),
     { desc = "Toggle communication scratchpad" })
 hl.bind("SUPER + SHIFT + grave", hl.dsp.window.move({ workspace = "special:communication", follow = false }),
@@ -457,13 +457,11 @@ hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURC
 -------------------------------------------------------
 
 hl.unbind("SUPER + R")
-hl.unbind("SUPER + S")
 hl.unbind("SUPER + SHIFT + Q")
 hl.unbind("XF86MonBrightnessUp")
 hl.unbind("XF86MonBrightnessDown")
 
 hl.bind("SUPER + R", noctalia("panel-toggle launcher"), { desc = "Toggle app launcher" })
-hl.bind("SUPER + S", noctalia("panel-toggle control-center"), { desc = "Toggle control center" })
 hl.bind("SUPER + SHIFT + Q", noctalia("panel-toggle session"), { desc = "Toggle session menu" })
 hl.bind("CTRL + ALT + W", noctalia("plugin:wallcards toggle"), { desc = "Toggle wallpaper picker" })
 hl.bind("SUPER + BackSpace", noctalia("panel-toggle kenn/keybind-cheatsheet:cheatsheet"),

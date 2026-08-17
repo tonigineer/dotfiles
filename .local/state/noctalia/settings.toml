@@ -200,7 +200,7 @@ wallpaper_scheme = "muted"
 
 [wallpaper]
 directory = "/home/toni/Wallpaper"
-fill_mode = "fit"
+fill_mode = "stretch"
 transition_on_startup = true
 
     [wallpaper.automation]
@@ -210,13 +210,13 @@ transition_on_startup = true
     path = "/home/toni/Wallpaper/unix-cloud.jpg"
 
     [wallpaper.last]
-    path = "/home/toni/.cache/noctalia/mpvpaper/_home_toni_Wallpaper_empty_bed_4K_mp4.jpg"
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
 
     [wallpaper.monitors.DP-1]
-    path = "/home/toni/.cache/noctalia/mpvpaper/_home_toni_Wallpaper_empty_bed_4K_mp4.jpg"
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
 
     [wallpaper.monitors.DP-3]
-    path = "/home/toni/.cache/noctalia/mpvpaper/_home_toni_Wallpaper_empty_bed_4K_mp4.jpg"
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
@@ -232,14 +232,17 @@ scale = 1.1000000000000001
 type = "spacer"
 
 [widget.active_window]
-color = "outline"
+color = "primary"
 title_scroll = "always"
 
-[widget.caffeine]
-color = "error"
+[widget.clipboard]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
 
 [widget.control-center]
-glyph = "bottle-filled"
+custom_image_colorize = true
+glyph = "droplet-search"
+icon_color = "error"
 
 [widget.cpu]
 show_label = false
@@ -250,9 +253,13 @@ format = "{:%H:%M %a, %d. %b}"
 tooltip_format = "{:%H:%M %a, %d. %b}"
 
 [widget.keybinds]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
 type = "kenn/keybind-cheatsheet:keybinds"
 
 [widget.mpvpaper]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
 type = "noctalia/mpvpaper:mpvpaper"
 
 [widget.network]
@@ -280,6 +287,8 @@ hide_when_no_unread = true
 show_label = false
 
 [widget.recorder]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
 type = "noctalia/screen_recorder:recorder"
 
 [widget.screen_recorder]
@@ -305,6 +314,8 @@ stat = "disk_pct"
 show_label = false
 
 [widget.todo]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
 type = "nightwatch75/todo:todo"
 
 [widget.tray]
@@ -314,7 +325,12 @@ match_adjacent_spacing = true
 show_label = false
 
 [widget.wallhaven]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
 type = "noctalia/wallhaven:wallhaven"
 
 [widget.workspaces]
+capsule = true
 display = "name"
+empty_color = "tertiary"
+style = "focus_hint"

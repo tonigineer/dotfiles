@@ -180,25 +180,6 @@ hl.window_rule({
 -- Application Overrides
 -------------------------------------------------------
 
--- Noctalia v5: Settings Window
--- hl.window_rule({
---     name = "Noctalia Settings",
---     match = { title = ".*Noctalia.*", initial_title = ".*Noctalia.*" },
---     fullscreen_state = "3 3",
--- })
--- NOTE: Normal rule does now work for fullscreen, although border_size and float work.
--- hl.on("window.open", function(win)
---     if
---         win.title:match("Noctalia Settings")
---         or (win.initial_title and win.initial_title:match("Noctalia Settings"))
---     then
---         hl.dispatch(hl.dsp.window.fullscreen({
---             window = "address:" .. win.address,
---             state = 3,
---         }))
---     end
--- end)
-
 -- Thunar: float by default, tile when it's the main window
 hl.window_rule({
     name = "Thunar Other Windows",

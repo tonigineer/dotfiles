@@ -31,6 +31,34 @@ to_label() {
     printf '%s\n' "${base^}"
 }
 
+# ── Retry ───────────────────────────────────────────────────────────────
+
+# Fetching from aur.archlinux.org drops connections intermittently ("OpenSSL
+# SSL_read: … unexpected eof while reading", git "exit status 128"), which
+# fails an install for a reason that has nothing to do with it. Wrap those
+# calls so a dropped connection costs a retry instead of the whole run.
+aur_retries=${aur_retries:-3}
+aur_retry_delay=${aur_retry_delay:-5}
+
+# retry <cmd> [args…] — rerun until it succeeds or the attempts run out,
+# keeping the last exit status. Only for idempotent commands.
+retry() {
+    local rc=0 attempt=1
+
+    while :; do
+        rc=0
+        "$@" || rc=$?
+        [ "$rc" -eq 0 ] && break
+        [ "$attempt" -ge "$aur_retries" ] && break
+
+        echo "${1} failed (rc=$rc); retrying in ${aur_retry_delay}s (attempt $((attempt + 1))/$aur_retries)…" >&2
+        sleep "$aur_retry_delay"
+        attempt=$((attempt + 1))
+    done
+
+    return "$rc"
+}
+
 # ── Packages (yay) ──────────────────────────────────────────────────────
 
 yay_check() {
@@ -41,9 +69,11 @@ yay_check() {
 # the last command would make every install/uninstall look successful and
 # `engine_install`'s `|| return 1` unreachable.
 
+# The sync is retried: `yay -S` is idempotent, so a PKGBUILD clone that got
+# dropped mid-run costs a retry rather than the whole module.
 yay_install() {
     local rc=0
-    yay -S "$@" --noconfirm || rc=$?
+    retry yay -S "$@" --noconfirm || rc=$?
     pause_any
     return "$rc"
 }
@@ -109,7 +139,15 @@ bootstrap_yay() {
     (
         trap 'rm -rf "$tmp"' EXIT
 
-        git clone https://aur.archlinux.org/yay.git "$tmp/yay"
+        # Clear the target first: a clone killed mid-transfer can leave a
+        # partial directory behind, and cloning into a non-empty path fails.
+        # shellcheck disable=SC2329  # invoked indirectly, via `retry`
+        clone_yay() {
+            rm -rf -- "$tmp/yay" &&
+                git clone https://aur.archlinux.org/yay.git "$tmp/yay"
+        }
+
+        retry clone_yay
         pushd "$tmp/yay" >/dev/null || exit
         makepkg -si --noconfirm
         popd >/dev/null || exit

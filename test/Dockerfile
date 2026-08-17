@@ -37,8 +37,17 @@ RUN useradd -m tester \
 USER tester
 WORKDIR /home/tester
 
-# Bootstrap a real yay from the AUR.
-RUN git clone https://aur.archlinux.org/yay.git /tmp/yay \
+# Bootstrap a real yay from the AUR. aur.archlinux.org drops connections
+# intermittently ("OpenSSL SSL_read: … unexpected eof while reading"), which
+# would fail the image build; retry the clone, clearing the partial directory
+# a killed transfer leaves behind so the next attempt has an empty target.
+RUN for attempt in 1 2 3; do \
+        rm -rf /tmp/yay; \
+        git clone https://aur.archlinux.org/yay.git /tmp/yay && break; \
+        [ "$attempt" = 3 ] && { echo "yay clone failed after 3 attempts" >&2; exit 1; }; \
+        echo "clone failed (attempt $attempt/3); retrying in 5s" >&2; \
+        sleep 5; \
+    done \
     && cd /tmp/yay \
     && makepkg -si --noconfirm \
     && rm -rf /tmp/yay

@@ -23,7 +23,14 @@ modules_dir="$repo_root/scripts/installations"
 log_dir="$(mktemp -d)"
 
 names=()
-declare -A INSTALL_RC STATUS_RC
+declare -A INSTALL_RC STATUS_RC ELAPSED
+
+# mm:ss for a second count, so the report shows where the runtime actually
+# goes. Without it, per-module cost can only be recovered by diffing the
+# timestamps GitHub prefixes onto the captured log.
+fmt_secs() {
+    printf '%d:%02d' $(($1 / 60)) $(($1 % 60))
+}
 
 # ── Lint ────────────────────────────────────────────────────────────────
 # Fast gate before the slow real installs: a module that does not parse would
@@ -67,6 +74,7 @@ for module in "$modules_dir"/*.sh; do
     key="${name%.sh}"
     log="$log_dir/$name.log"
 
+    start=$SECONDS
     {
         echo "===== install.sh $key ====="
         bash "$install_sh" "$key"
@@ -75,20 +83,25 @@ for module in "$modules_dir"/*.sh; do
         bash "$install_sh" --status "$key"
         echo "STATUS_RC=$?"
     } >"$log" 2>&1
+    ELAPSED[$name]=$((SECONDS - start))
 
     names+=("$name")
     INSTALL_RC[$name]="$(grep -oP 'INSTALL_RC=\K.*' "$log" | tail -1)"
     STATUS_RC[$name]="$(grep -oP 'STATUS_RC=\K.*' "$log" | tail -1)"
-    printf '  %-26s install=%s status=%s\n' \
-        "$name" "${INSTALL_RC[$name]:-?}" "${STATUS_RC[$name]:-?}"
+    printf '  %-26s install=%s status=%s  %s\n' \
+        "$name" "${INSTALL_RC[$name]:-?}" "${STATUS_RC[$name]:-?}" \
+        "$(fmt_secs "${ELAPSED[$name]}")"
 done
 
 # ── Report ──────────────────────────────────────────────────────────────
-printf '\n\033[1m%-26s %-9s %-9s %s\033[0m\n' MODULE INSTALL STATUS RESULT
+printf '\n\033[1m%-26s %-9s %-9s %-7s %s\033[0m\n' MODULE INSTALL STATUS TIME RESULT
 fails=0
+total=0
 for name in "${names[@]}"; do
     irc="${INSTALL_RC[$name]:-?}"
     src="${STATUS_RC[$name]:-?}"
+    secs="${ELAPSED[$name]:-0}"
+    total=$((total + secs))
 
     if [ "$irc" = 0 ] && [ "$src" = 0 ]; then
         result=PASS color=32
@@ -97,9 +110,10 @@ for name in "${names[@]}"; do
         fails=$((fails + 1))
     fi
 
-    printf '%-26s %-9s %-9s \033[%sm%s\033[0m\n' \
-        "$name" "rc=$irc" "rc=$src" "$color" "$result"
+    printf '%-26s %-9s %-9s %-7s \033[%sm%s\033[0m\n' \
+        "$name" "rc=$irc" "rc=$src" "$(fmt_secs "$secs")" "$color" "$result"
 done
+printf '%-26s %-9s %-9s %-7s\n' TOTAL '' '' "$(fmt_secs "$total")"
 
 # Dump the logs of failed modules so the cause is visible without re-running.
 if [ "$fails" -gt 0 ]; then

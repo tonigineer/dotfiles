@@ -6,10 +6,15 @@
 
 pkgs=(
     noctalia-git
+    mpvpaper
+    pacman-contrib
 )
 
+# `pacman-contrib` is left in place: it is a general-purpose pacman utility
+# that the rest of the system may rely on.
 remove_pkgs=(
-    "${pkgs[@]}"
+    noctalia-git
+    mpvpaper
 )
 
 # Noctalia keeps its live settings under XDG_STATE_HOME, not XDG_CONFIG_HOME.

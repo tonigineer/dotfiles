@@ -55,5 +55,38 @@
   {
     "key": "ctrl+alt+q",
     "command": "workbench.action.toggleSidebarVisibility"
+  },
+
+  // ============================================
+  // ACTIVITY BAR VIEWS
+  // ============================================
+  { "key": "alt+1", "command": "workbench.view.explorer" },
+  { "key": "alt+2", "command": "workbench.view.scm" },
+  { "key": "alt+3", "command": "workbench.view.extensions" },
+  { "key": "alt+4", "command": "workbench.action.chat.toggle" },
+  { "key": "alt+`", "command": "workbench.action.toggleSidebarVisibility" },
+
+  // ============================================
+  // EXPLORER - FILE OPERATIONS
+  // ============================================
+  {
+    "key": "a",
+    "command": "explorer.newFile",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "shift+a",
+    "command": "explorer.newFolder",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "r",
+    "command": "renameFile",
+    "when": "filesExplorerFocus && !inputFocus && !explorerResourceReadonly"
+  },
+  {
+    "key": "d",
+    "command": "deleteFile",
+    "when": "filesExplorerFocus && !inputFocus && !explorerResourceReadonly"
   }
 ]

@@ -61,3 +61,18 @@
    * tint it through Zen's own hook instead of stacking another opaque layer. */
   --close-button-extra-background: color-mix(in srgb, var(--error) 16%, transparent) !important;
 }
+
+/* Favicon-less tabs: Zen's vertical-tabs.css overrides Firefox's default globe
+ * (tabs.css: `:not([src]) { content: url(defaultFavicon.svg) }`) with an *empty*
+ * SVG plus a flat `--zen-primary-color` square at opacity 0.5. With the sidebar
+ * collapsed there is no label either, so every site without a favicon collapsed
+ * to the same washed-out block. Restore the real globe, tinted --text so it
+ * reads at full contrast, and drop Zen's square and its 0.5 fill-opacity. */
+.tabbrowser-tab .tab-icon-image:is(:not([src]), :-moz-broken) {
+  content: url("chrome://global/skin/icons/defaultFavicon.svg") !important;
+  background: none !important;
+  opacity: 1 !important;
+  -moz-context-properties: fill, fill-opacity !important;
+  fill: var(--text) !important;
+  fill-opacity: 1 !important;
+}

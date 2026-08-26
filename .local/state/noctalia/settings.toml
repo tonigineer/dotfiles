@@ -1,4 +1,4 @@
-config_version = 12
+config_version = 13
 
 [bar.default]
 border = "on_surface"
@@ -17,12 +17,10 @@ center = [
     "clipboard",
     "keybinds",
     "special-workspace",
-    "spacer_2",
-    "toggle"
+    "spacer_2"
 ]
 end = [
     "status",
-    "_active_ws",
     "_active_ws",
     "network_rx",
     "network_tx",
@@ -44,9 +42,37 @@ padding = 10
 radius = 0
 radius_bottom_left = 5
 radius_bottom_right = 5
-start = [ "control-center", "_active_ws", "cpu", "ram", "sysmon", "_active_ws", "active_window" ]
+start = [
+    "control-center",
+    "_active_ws",
+    "cpu",
+    "ram",
+    "disc-home",
+    "disk-root",
+    "_active_ws",
+    "group:g1",
+    "_active_ws",
+    "active_window",
+    "toggle",
+    "_active_ws",
+    "special-workspaces"
+]
 thickness = 25
 widget_spacing = 10
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    enabled = true
+    fill = "surface_variant"
+    id = "g1"
+    members = [ "gpu", "gpu_vram" ]
+    opacity = 1.0
+    padding = 6.0
+
+[control_center.calendar]
+show_events_card = false
+show_week_numbers = true
 
 [desktop_widgets]
 enabled = false
@@ -55,10 +81,22 @@ enabled = false
 down = [ "Ctrl+n" ]
 up = [ "Ctrl+p" ]
 
+[location]
+auto_locate = true
+
+[lockscreen]
+enabled = false
+lock_before_suspend = false
+
 [lockscreen_widgets]
 enabled = false
 schema_version = 2
-widget_order = [ "lockscreen-login-box@FALLBACK", "lockscreen-login-box@DP-3", "lockscreen-login-box@DP-1" ]
+widget_order = [
+    "lockscreen-login-box@Unknown-1",
+    "lockscreen-login-box@FALLBACK",
+    "lockscreen-login-box@DP-3",
+    "lockscreen-login-box@DP-1"
+]
 
     [lockscreen_widgets.grid]
     cell_size = 16
@@ -146,6 +184,37 @@ widget_order = [ "lockscreen-login-box@FALLBACK", "lockscreen-login-box@DP-3", "
         show_unlock_hint = true
         show_weather = true
 
+    [lockscreen_widgets.widget."lockscreen-login-box@Unknown-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "Unknown-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@Unknown-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[plugin_settings."davemhammer/tailscale"]
+manager_open_near_click = false
+refresh_interval = 5
+
 [plugin_settings."kenn/keybind-cheatsheet"]
 cheatsheet_placement = "attached"
 cheatsheet_position = "auto"
@@ -164,6 +233,8 @@ assume_yes = true
 aur_helper = "yay"
 auto_check_hours = 1
 flatpak_enabled = false
+show_activity_graph = true
+update_mode = "background"
 
 [plugins]
 enabled = [
@@ -175,7 +246,8 @@ enabled = [
     "toni/special-workspace",
     "yuuto/arch-updater",
     "maddingo/hypr-layout-switcher",
-    "davemhammer/tailscale"
+    "davemhammer/tailscale",
+    "jamesfeeder/special-workspaces"
 ]
 
     [[plugins.source]]
@@ -200,6 +272,7 @@ corner_radius_scale = 0.5000000074505806
 font_family = "Monaspace Krypton"
 lang = "en"
 password_style = "random"
+polkit_agent = true
 settings_show_advanced = true
 ui_scale = 1.1500000096857548
 
@@ -207,35 +280,49 @@ ui_scale = 1.1500000096857548
     launcher_categories = false
     launcher_placement = "attached"
     open_near_click_launcher = true
-    session_placement = "centered"
 
     [[shell.session.actions]]
     action = "lock"
     command = "/home/toni/.local/share/quickshell-lockscreen/lock.sh"
+    countdown_seconds = 2.0
     enabled = true
     shortcut = "l"
     variant = "outline"
 
     [[shell.session.actions]]
     action = "logout"
+    countdown_seconds = 0.0
     enabled = true
     shortcut = "o"
     variant = "default"
 
     [[shell.session.actions]]
     action = "suspend"
+    countdown_seconds = 2.0
     enabled = true
     shortcut = "s"
     variant = "default"
 
     [[shell.session.actions]]
+    action = "command"
+    command = "systemctl hibernate"
+    countdown_seconds = 2.0
+    enabled = true
+    glyph = "hibernate"
+    label = "Hibernate"
+    shortcut = "h"
+    variant = "primary"
+
+    [[shell.session.actions]]
     action = "reboot"
+    countdown_seconds = 2.0
     enabled = true
     shortcut = "r"
     variant = "destructive"
 
     [[shell.session.actions]]
     action = "shutdown"
+    countdown_seconds = 2.0
     enabled = true
     shortcut = "k"
     variant = "destructive"
@@ -252,7 +339,7 @@ wallpaper_scheme = "muted"
 
     [theme.templates]
     builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "qt" ]
-    community_ids = [ "spicetify", "zen-browser", "neovim", "vscode", "zed", "discord", "lazygit", "yazi" ]
+    community_ids = [ "spicetify", "zen-browser", "discord", "neovim", "vscode", "zed", "steam", "lazygit", "yazi" ]
 
 [wallpaper]
 directory = "/home/toni/Wallpaper"
@@ -289,6 +376,7 @@ type = "spacer"
 
 [widget.active_window]
 color = "primary"
+enabled = false
 title_scroll = "always"
 
 [widget.clipboard]
@@ -309,6 +397,31 @@ color = "primary"
 format = "{:%H:%M %a, %d. %b}"
 tooltip_format = "{:%H:%M %a, %d. %b}"
 
+[widget.disc-home]
+glyph = "home"
+path = "/home"
+show_value = false
+stat = "disk_used_pct"
+type = "sysmon"
+
+[widget.disk-root]
+glyph = "devices-pc"
+show_value = false
+stat = "disk_free_pct"
+type = "sysmon"
+
+[widget.gpu]
+color = "outline"
+show_value = false
+stat = "gpu_usage"
+type = "sysmon"
+
+[widget.gpu_vram]
+color = "outline"
+show_value = false
+stat = "gpu_vram"
+type = "sysmon"
+
 [widget.keybinds]
 color = "on_surface_variant"
 icon_color = "on_surface_variant"
@@ -323,13 +436,14 @@ type = "noctalia/mpvpaper:mpvpaper"
 show_label = false
 
 [widget.network_rx]
-capsule_opacity = 0.0
+capsule_fill = "on_surface"
+capsule_opacity = 0.5
 capsule_padding = 0
-capsule_radius = 1
+capsule_radius = 20
 glyph = "arrow-big-down-lines"
 label_min_width = 80
 network_speed_unit = "mb"
-scale = 0.85000000000000009
+scale = 0.75
 show_label = false
 visualization = "none"
 
@@ -337,7 +451,7 @@ visualization = "none"
 glyph = "arrow-big-up-lines"
 label_min_width = 80
 network_speed_unit = "mb"
-scale = 0.85000000000000009
+scale = 0.75
 show_label = false
 visualization = "none"
 
@@ -370,13 +484,26 @@ type = "spacer"
 hide_when_none = false
 type = "toni/special-workspace:special-workspace"
 
+[widget.special-workspaces]
+active_style = "ghost"
+capsule = true
+capsule_fill = "#FFD700"
+capsule_foreground = "error"
+capsule_padding = 4
+enable_scroll = false
+font_weight = 600
+interactive = false
+scale = 0.85000000000000009
+type = "jamesfeeder/special-workspaces:special-workspaces"
+
 [widget.status]
+scale = 0.80000000000000004
 type = "davemhammer/tailscale:status"
 
 [widget.sysmon]
 path = "/home"
 show_value = false
-stat = "disk_used_pct"
+stat = "gpu_usage"
 
 [widget.temp]
 show_label = false
@@ -391,7 +518,7 @@ capsule_foreground = "on_secondary"
 capsule_opacity = 0.0
 capsule_padding = 9
 capsule_radius = 5
-color = "error"
+color = "#FFD700"
 interactive = false
 scale = 0.85000000000000009
 type = "maddingo/hypr-layout-switcher:toggle"
@@ -408,6 +535,7 @@ icon_color = "on_surface_variant"
 type = "noctalia/wallhaven:wallhaven"
 
 [widget.widget]
+hide_on_empty = true
 type = "yuuto/arch-updater:widget"
 
 [widget.workspaces]

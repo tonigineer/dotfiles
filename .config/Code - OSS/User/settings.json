@@ -68,7 +68,6 @@
   // WORKBENCH & WINDOW
   // ============================================
   "window.commandCenter": false,
-  "window.menuBarVisibility": "compact",
   "workbench.activityBar.location": "top",
   "workbench.colorTheme": "Vague",
   "workbench.editor.editorActionsLocation": "hidden",
@@ -95,6 +94,16 @@
   "terminal.integrated.fontFamily": "'Monaspace Krypton', 'CaskaydiaCove Nerd Font'",
   "terminal.integrated.initialHint": false,
   "terminal.integrated.stickyScroll.enabled": false,
+  // let these reach VS Code instead of the shell when the terminal has focus
+  "terminal.integrated.commandsToSkipShell": [
+    "workbench.view.explorer",
+    "workbench.view.scm",
+    "workbench.view.extensions",
+    "workbench.action.chat.toggle",
+    "workbench.action.toggleSidebarVisibility",
+    "workbench.action.toggleActivityBarVisibility",
+    "runCommands"
+  ],
 
   // ============================================
   // GIT
@@ -247,4 +256,7 @@
     { "before": ["<"], "commands": ["editor.action.outdentLines"] },
   ],
   "workbench.browser.showInTitleBar": false,
+  "chat.titleBar.signIn.enabled": false,
+  "chat.titleBar.openInAgentsWindow.enabled": false,
+  "git.autofetch": true,
 }

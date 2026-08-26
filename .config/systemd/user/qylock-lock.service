@@ -1,0 +1,23 @@
+# ── qylock — session locker as a user unit ──────────────────────────────
+#
+# A unit rather than a bare command so that root can raise the lock screen
+# inside this graphical session: /etc/systemd/system/qylock-lock-before-sleep
+# .service (written by scripts/installations/052-greeter-qylock.sh) runs
+# `systemctl --user --machine=toni@.host start qylock-lock.service` before
+# sleep.target, and the user manager already carries WAYLAND_DISPLAY and
+# HYPRLAND_INSTANCE_SIGNATURE (Hyprland imports them at startup).
+#
+# ExecCondition skips the start when a locker is already up — locking by hand
+# (CTRL+ALT+L) and then hibernating would otherwise ask the compositor for a
+# second ext-session-lock, which it refuses. The bracket in the pattern keeps
+# pgrep from matching this very command line.
+
+[Unit]
+Description=qylock lock screen
+Documentation=https://github.com/Darkkal44/qylock
+
+[Service]
+Type=exec
+ExecCondition=/usr/bin/bash -c '! pgrep -f "lock_shell[.]qml" >/dev/null'
+ExecStart=%h/.local/share/quickshell-lockscreen/lock.sh
+Restart=no

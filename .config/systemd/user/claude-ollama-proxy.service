@@ -1,0 +1,21 @@
+# Anthropic-API shim in front of Ollama — see claude-ollama-proxy.py for why
+# it exists (Ollama reads a missing `thinking` field as thinking enabled, and
+# Claude Code never sends one, so reasoning tokens eat the max_tokens budget).
+#
+# A user unit rather than something claude-ollama backgrounds itself: the shim
+# has to outlive the terminal that first needed it, and two shells starting at
+# once should not race to bind the same port. systemd gives both properties,
+# plus a restart on crash and a log in the journal instead of a stray file.
+
+[Unit]
+Description=Anthropic-to-Ollama shim for Claude Code
+After=network.target
+
+[Service]
+Type=exec
+ExecStart=%h/.local/bin/claude-ollama-proxy.py
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

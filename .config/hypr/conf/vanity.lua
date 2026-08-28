@@ -114,6 +114,7 @@ local function apply_gamemode()
         })
     else
         hl.config({
+            animations = { enabled = true },
             general = {
                 gaps_out = 10,
                 gaps_in = 4,
@@ -139,6 +140,10 @@ local function apply_gamemode()
                     passes = 1,
                     vibrancy = 0.1696,
                 },
+            },
+            misc = {
+                animate_mouse_windowdragging = true,
+                animate_manual_resizes = true,
             },
         })
     end

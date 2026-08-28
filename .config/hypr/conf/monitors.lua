@@ -88,6 +88,11 @@ local function resolve_active_monitors()
         end
     end
 
+    -- A lone secondary display acts as the primary, so workspaces stay on it
+    if not primary then
+        primary, secondary = secondary, nil
+    end
+
     return primary, secondary
 end
 
@@ -113,9 +118,6 @@ hl.monitor({
     scale    = fallback.scale,
 })
 
--- Resolve active monitors
-local primary, secondary = resolve_active_monitors()
-
 -- Report
 -- local connected = get_connected_descs()
 -- for name, profile in pairs(profiles) do
@@ -128,7 +130,9 @@ local primary, secondary = resolve_active_monitors()
 -- Exports
 -------------------------------------------------------
 
+-- `resolve` is a function, not a snapshot: no monitor is connected yet while
+-- this file is being parsed at compositor startup, so callers have to ask again
+-- once `hyprland.start` / `monitor.added` has fired.
 return {
-    primary = primary,
-    secondary = secondary,
+    resolve = resolve_active_monitors,
 }

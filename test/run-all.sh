@@ -14,6 +14,8 @@
 # image shims host-only commands (systemctl/mkinitcpio/bootctl/grub/spicetify/
 # xdg-settings); 001-pacman enables multilib and refreshes the db itself. The
 # suite never aborts on a failure — it runs everything and prints a matrix.
+# Modules that depend on hardware the container does not have are listed in
+# SKIP below and reported as such; they are still linted.
 #
 set -uo pipefail
 
@@ -24,6 +26,15 @@ log_dir="$(mktemp -d)"
 
 names=()
 declare -A INSTALL_RC STATUS_RC ELAPSED
+
+# Modules the container cannot say anything useful about. Running them would
+# either fail on absent hardware or really act on the image, and neither
+# outcome is a fact about the module.
+declare -A SKIP=(
+    [055-hibernation.sh]='no swap device or /data — would dd a 64 GiB reserve and rewrite fstab/grub'
+    [056-ollama.sh]='ollama comes from upstream'"'"'s installer, not a package, and needs the GPU'
+    [057-kraken-lcd.sh]='needs the USB cooler; only a symlink is testable'
+)
 
 # mm:ss for a second count, so the report shows where the runtime actually
 # goes. Without it, per-module cost can only be recovered by diffing the
@@ -74,6 +85,14 @@ for module in "$modules_dir"/*.sh; do
     key="${name%.sh}"
     log="$log_dir/$name.log"
 
+    names+=("$name")
+
+    if [ -n "${SKIP[$name]:-}" ]; then
+        ELAPSED[$name]=0
+        printf '  %-26s \033[33mskip\033[0m — %s\n' "$name" "${SKIP[$name]}"
+        continue
+    fi
+
     start=$SECONDS
     {
         echo "===== install.sh $key ====="
@@ -85,7 +104,6 @@ for module in "$modules_dir"/*.sh; do
     } >"$log" 2>&1
     ELAPSED[$name]=$((SECONDS - start))
 
-    names+=("$name")
     INSTALL_RC[$name]="$(grep -oP 'INSTALL_RC=\K.*' "$log" | tail -1)"
     STATUS_RC[$name]="$(grep -oP 'STATUS_RC=\K.*' "$log" | tail -1)"
     printf '  %-26s install=%s status=%s  %s\n' \
@@ -96,8 +114,16 @@ done
 # ── Report ──────────────────────────────────────────────────────────────
 printf '\n\033[1m%-26s %-9s %-9s %-7s %s\033[0m\n' MODULE INSTALL STATUS TIME RESULT
 fails=0
+skips=0
 total=0
 for name in "${names[@]}"; do
+    if [ -n "${SKIP[$name]:-}" ]; then
+        skips=$((skips + 1))
+        printf '%-26s %-9s %-9s %-7s \033[33m%s\033[0m  %s\n' \
+            "$name" - - - SKIP "${SKIP[$name]}"
+        continue
+    fi
+
     irc="${INSTALL_RC[$name]:-?}"
     src="${STATUS_RC[$name]:-?}"
     secs="${ELAPSED[$name]:-0}"
@@ -118,6 +144,7 @@ printf '%-26s %-9s %-9s %-7s\n' TOTAL '' '' "$(fmt_secs "$total")"
 # Dump the logs of failed modules so the cause is visible without re-running.
 if [ "$fails" -gt 0 ]; then
     for name in "${names[@]}"; do
+        [ -z "${SKIP[$name]:-}" ] || continue
         if [ "${INSTALL_RC[$name]:-1}" != 0 ] || [ "${STATUS_RC[$name]:-1}" != 0 ]; then
             printf '\n\033[1m----- %s -----\033[0m\n' "$name"
             tail -n 25 "$log_dir/$name.log"
@@ -125,17 +152,18 @@ if [ "$fails" -gt 0 ]; then
     done
 fi
 
+ran=$((${#names[@]} - skips))
 printf '\nLogs: %s\n' "$log_dir"
 if [ "$fails" -gt 0 ]; then
-    printf '\033[31m%d/%d module(s) did not execute correctly (see logs).\033[0m\n' \
-        "$fails" "${#names[@]}"
+    printf '\033[31m%d/%d module(s) did not execute correctly (see logs); %d skipped.\033[0m\n' \
+        "$fails" "$ran" "$skips"
     exit 1
 elif [ "$lint_fails" -gt 0 ]; then
-    printf '\033[31mAll %d modules executed correctly, but shellcheck failed.\033[0m\n' \
-        "${#names[@]}"
+    printf '\033[31mAll %d modules executed correctly (%d skipped), but shellcheck failed.\033[0m\n' \
+        "$ran" "$skips"
     exit 1
 else
-    printf '\033[32mAll %d modules executed correctly; shellcheck clean.\033[0m\n' \
-        "${#names[@]}"
+    printf '\033[32mAll %d modules executed correctly (%d skipped); shellcheck clean.\033[0m\n' \
+        "$ran" "$skips"
     exit 0
 fi

@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+#
+# kraken-lcd — switch the NZXT Kraken Elite LCD animation.
+#
+# Called from the Hyprland gamemode listener (conf/autostart.lua) and usable by
+# hand. Idempotent: re-running with the current mode is a no-op, because the
+# Hyprland listener fires on every config reload (twice per editor save) and a
+# GIF push costs ~5s and several MB over USB.
+#
+set -euo pipefail
+
+anim_dir="$HOME/Pictures/#Animations"
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}"
+state="$state_dir/kraken-lcd.state"
+log="$state_dir/kraken-lcd.log"
+
+force=0
+[ "${1:-}" = "--force" ] && { force=1; shift; }
+
+case "${1:-}" in
+    doom)  gif="$anim_dir/doom-e1m1-640.gif" ;;
+    pixel) gif="$anim_dir/pixel.gif" ;;
+    *)     echo "usage: ${0##*/} [--force] {doom|pixel}" >&2; exit 2 ;;
+esac
+
+mkdir -p "$state_dir"
+
+# Skip silently when already in the requested mode.
+if [ "$force" -eq 0 ] && [ "$(cat "$state" 2>/dev/null || true)" = "$1" ]; then
+    exit 0
+fi
+
+# The cooler can be busy or still re-enumerating; retry before giving up.
+for i in 1 2 3 4 5; do
+    if liquidctl --match kraken set lcd screen gif "$gif" 2>/dev/null; then
+        printf '%s  %-5s -> %s (attempt %d)\n' "$(date -Is)" "$1" "${gif##*/}" "$i" >> "$log"
+        printf '%s' "$1" > "$state"
+        exit 0
+    fi
+    sleep 2
+done
+
+printf '%s  %-5s -> FAILED\n' "$(date -Is)" "$1" >> "$log"
+exit 1

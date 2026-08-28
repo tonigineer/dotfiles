@@ -69,3 +69,18 @@ hl.on("hyprland.start", function()
         exec_or_notify(entry.cmd, entry.label)
     end
 end)
+
+-------------------------------------------------------
+-- Kraken LCD
+-- Swap the cooler's LCD animation with the vanity gamemode toggle (SUPER+F1).
+-- This also covers login: the listener runs from apply_gamemode(), which fires
+-- on every config load. `kraken-lcd` keeps its own state file and no-ops when
+-- the mode is unchanged, so the repeated reload calls cost nothing (a real push
+-- is a multi-MB USB transfer taking seconds).
+-------------------------------------------------------
+
+require("conf.vanity").on_gamemode_change(function(is_on)
+    hl.exec_cmd(string.format(
+        "/home/toni/.local/bin/kraken-lcd %s", is_on and "doom" or "pixel"
+    ))
+end)

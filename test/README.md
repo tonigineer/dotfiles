@@ -22,6 +22,11 @@ Heavy and slow — real repo/AUR builds. Host-only commands (`systemctl`,
 (`grub` is installed for real); anything needing GPU drivers or a running
 desktop session can't be fully exercised in a container.
 
+Three modules are skipped outright — `055-hibernation` (would `dd` a 64 GiB
+swapfile and rewrite `fstab`/`grub`), `056-ollama` (ollama is an upstream
+install, not a package, and wants the GPU) and `057-kraken-lcd` (needs the USB
+cooler). They still get linted; the list is `SKIP` at the top of `run-all.sh`.
+
 CI runs this same image on pushes to `main`, on pull requests, and on manual
 dispatch — see `.github/workflows/install-test.yml`. AUR/network hiccups can
 make a run flake; just re-run it.

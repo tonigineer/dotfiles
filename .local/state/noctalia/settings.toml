@@ -339,7 +339,7 @@ wallpaper_scheme = "muted"
 
     [theme.templates]
     builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "qt" ]
-    community_ids = [ "spicetify", "zen-browser", "discord", "neovim", "vscode", "zed", "steam", "lazygit", "yazi" ]
+    community_ids = [ "spicetify", "zen-browser", "discord", "neovim", "vscode", "zed", "steam", "lazygit", "yazi", "libreoffice" ]
 
 [wallpaper]
 directory = "/home/toni/Wallpaper"
@@ -490,8 +490,11 @@ capsule = true
 capsule_fill = "#FFD700"
 capsule_foreground = "error"
 capsule_padding = 4
+color = "error"
 enable_scroll = false
 font_weight = 600
+hide_inactive = true
+icon_color = "error"
 interactive = false
 scale = 0.85000000000000009
 type = "jamesfeeder/special-workspaces:special-workspaces"
@@ -543,4 +546,4 @@ anchor = true
 capsule = true
 empty_color = "tertiary"
 label_source = "name"
-style = "focus_hint"
+scale = 0.94999999999999996

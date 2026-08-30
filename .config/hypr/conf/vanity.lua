@@ -156,10 +156,32 @@ local function apply_gamemode()
     end
 end
 
+-------------------------------------------------------
+-- Session side effects
+-------------------------------------------------------
+
+--- Silence notifications and hold the screen awake while gaming.
+--- Driven from toggle_gamemode() only, never from apply_gamemode(): the latter
+--- re-runs on every config reload, which would clobber a DND or caffeine state
+--- the user set by hand.
+--- @param is_on boolean
+local function apply_session(is_on)
+    hl.exec_cmd(string.format(
+        "noctalia msg notification-dnd-set %s; noctalia msg caffeine-%s",
+        is_on and "on" or "off",
+        is_on and "enable" or "disable"
+    ))
+end
+
+-------------------------------------------------------
+-- Toggle
+-------------------------------------------------------
+
 --- Toggle gamemode: flip the state, apply it, and notify.
 local function toggle_gamemode()
     gamemode = not gamemode
     apply_gamemode()
+    apply_session(gamemode)
     if gamemode then
         notify.success("Gamemode enabled")
     else

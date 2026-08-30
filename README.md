@@ -5,7 +5,6 @@
 <div align="center">
   <img src="https://img.shields.io/github/last-commit/tonigineer/dotfiles?style=for-the-badge&logo=github&color=a6da95&logoColor=D9E0EE&labelColor=302D41"/>
   <img src="https://img.shields.io/github/repo-size/tonigineer/dotfiles?style=for-the-badge&logo=dropbox&color=7dc4e4&logoColor=D9E0EE&labelColor=302D41"/>
-  <a href="https://github.com/tonigineer/dotfiles/actions/workflows/install-test.yml"><img src="https://img.shields.io/github/actions/workflow/status/tonigineer/dotfiles/install-test.yml?branch=main&style=for-the-badge&logo=githubactions&label=tests&color=c6a0f6&logoColor=D9E0EE&labelColor=302D41"/></a>
 </div>
 
 <div align="center">

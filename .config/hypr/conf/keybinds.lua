@@ -467,7 +467,7 @@ hl.bind("CTRL + ALT + W", noctalia("plugin:wallcards toggle"), { desc = "Toggle 
 hl.bind("SUPER + BackSpace", noctalia("panel-toggle kenn/keybind-cheatsheet:cheatsheet"),
     { desc = "Toggle keybind cheatsheet" })
 
-hl.bind("XF86MonBrightnessUp", noctalia("brightness increase"),
+hl.bind("XF86MonBrightnessUp", noctalia("brightness-up"),
     { locked = true, repeating = true, desc = "Raise screen brightness" })
-hl.bind("XF86MonBrightnessDown", noctalia("brightness decrease"),
+hl.bind("XF86MonBrightnessDown", noctalia("brightness-down"),
     { locked = true, repeating = true, desc = "Lower screen brightness" })

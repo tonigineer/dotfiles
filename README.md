@@ -41,6 +41,47 @@ cd ~/Dotfiles
 > [!NOTE]
 > See the Arch Linux installation documentation in [./docs](./docs) or refer directly to the [ArchWiki](https://wiki.archlinux.org/title/Main_page).
 
+### Multiple machines
+
+The same repo runs on the desktop (`Z790E`) and the notebook (`X13GEN5`). The
+few things that cannot be shared — the monitor layout, and the Noctalia panel,
+which is bound to the outputs a machine actually has — are stored per host and
+picked by hostname (`hostnamectl --static`, overridable with `$DOTFILES_HOST`):
+
+| What | Desktop | Notebook |
+| --- | --- | --- |
+| Monitors, scaling | [`conf/hosts/Z790E.lua`](./.config/hypr/conf/hosts/Z790E.lua) | [`conf/hosts/X13GEN5.lua`](./.config/hypr/conf/hosts/X13GEN5.lua) |
+| Noctalia settings | `settings.Z790E.toml` | `settings.X13GEN5.toml` |
+
+They evolve independently, which is the point: Noctalia rewrites its settings at
+runtime, so one shared file means the two machines overwrite each other on every
+pull.
+
+Hyprland resolves its host file at parse time ([`conf/host.lua`](./.config/hypr/conf/host.lua)),
+so nothing has to be linked for it; an unknown machine gets
+[`conf/hosts/default.lua`](./.config/hypr/conf/hosts/default.lua), which declares
+no monitors and leaves them to the catch-all rule in `conf/monitors.lua`.
+
+The Noctalia file *is* linked, by `host_links` in the module engine. The plain
+`settings.toml` in the repo is a symlink to the desktop variant, so a machine
+that has not been relinked keeps a working file after a pull instead of a
+dangling one — do not edit it, edit the variant it points at. To link a machine
+to its own file, run:
+
+```bash
+./scripts/install.sh shells
+```
+
+### Adding a machine
+
+```bash
+cp .config/hypr/conf/hosts/Z790E.lua ".config/hypr/conf/hosts/$(hostnamectl --static).lua"
+cp .local/state/noctalia/settings.Z790E.toml ".local/state/noctalia/settings.$(hostnamectl --static).toml"
+./scripts/install.sh shells
+```
+
+Then edit the monitor `desc` fields to match `hyprctl monitors`.
+
 ## Features
 
 - [x] Compositor: [Hyprland](https://github.com/hyprwm/Hyprland)

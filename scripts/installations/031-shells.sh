@@ -20,7 +20,13 @@ remove_pkgs=(
 # Noctalia keeps its live settings under XDG_STATE_HOME, not XDG_CONFIG_HOME.
 # Link the file alone: the rest of that directory is cache, history and
 # downloaded plugins/templates that must not enter version control.
-links=(
+#
+# It is per host: the panel layout, wallpapers and lockscreen widgets are bound
+# to the outputs a machine actually has (eDP-1 on the notebook, DP-1/DP-3 on the
+# desktop). Noctalia rewrites this file at runtime, so each machine writes into
+# its own settings.<hostname>.toml and never fights the other over it. A machine
+# without a variant of its own gets settings.default.toml.
+host_links=(
     .local/state/noctalia/settings.toml
 )
 

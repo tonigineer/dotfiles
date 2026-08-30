@@ -89,8 +89,10 @@ yay_uninstall() {
 
 # Link $dotfiles_dir/<rel> -> $HOME/<rel>, backing up any existing target to
 # .bak. Idempotent: a correct existing link is left untouched.
+# A second argument overrides the source, so a file can be linked under a
+# different name than it carries in the repo (see safe_symlink_host).
 safe_symlink() {
-    local source_path="$dotfiles_dir/$1" target_path="$HOME/$1"
+    local source_path="$dotfiles_dir/${2:-$1}" target_path="$HOME/$1"
 
     if [ -L "$target_path" ]; then
         local current_path target_abs src_abs
@@ -121,6 +123,58 @@ unlink_dotfile() {
     [ -e "${target_path}.bak" ] && mv -v -- "${target_path}.bak" "$target_path"
 
     return 0
+}
+
+# ── Per-host files ──────────────────────────────────────────────────────
+#
+# The machines sharing this repo differ in a few files (monitor layout, panel
+# widgets, scaling). Those are stored side by side as <name>.<host>.<ext> with
+# a <name>.default.<ext> for every machine that has no variant of its own, and
+# linked to the plain <name>.<ext> the application expects.
+
+# Name of this machine: $DOTFILES_HOST, else the static hostname, else default.
+dotfiles_host() {
+    local host="${DOTFILES_HOST:-}"
+    [ -n "$host" ] || host="$(cat /etc/hostname 2>/dev/null)"
+    printf '%s\n' "${host:-default}"
+}
+
+# Repo path of the variant that applies to this machine, or empty when the
+# file has neither a host variant nor a default.
+host_variant() {
+    local rel="$1" base="${1%.*}" ext="${1##*.}" candidate
+    for candidate in "$base.$(dotfiles_host).$ext" "$base.default.$ext"; do
+        if [ -e "$dotfiles_dir/$candidate" ]; then
+            printf '%s\n' "$candidate"
+            return 0
+        fi
+    done
+    return 1
+}
+
+# Link this machine's variant of <rel> to $HOME/<rel>.
+safe_symlink_host() {
+    local rel="$1" source_rel
+
+    if ! source_rel="$(host_variant "$rel")"; then
+        local base="${rel%.*}" ext="${rel##*.}"
+        printf '%sno variant of %s for host %s%s\n' \
+            "$RED" "$rel" "$(dotfiles_host)" "$RESET" >&2
+        printf 'seed one from an existing machine, e.g.\n  cp %s %s\n' \
+            "$dotfiles_dir/$base.<other-host>.$ext" \
+            "$dotfiles_dir/$base.$(dotfiles_host).$ext" >&2
+        return 1
+    fi
+
+    safe_symlink "$rel" "$source_rel"
+}
+
+# True when $HOME/<rel> links to the variant this machine should be using.
+host_link_ok() {
+    local rel="$1" source_rel
+    source_rel="$(host_variant "$rel")" || return 1
+    [ -L "$HOME/$rel" ] || return 1
+    [ "$(realpath -m -- "$HOME/$rel")" = "$(realpath -m -- "$dotfiles_dir/$source_rel")" ]
 }
 
 # ── Bootstrap ───────────────────────────────────────────────────────────

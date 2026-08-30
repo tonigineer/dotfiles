@@ -2,7 +2,6 @@
  * GTK3 Stylesheet
  * Noctalia Color Integration
  */
-@import url("noctalia.css");
 
 /* ── Window & General ── */
 window {
@@ -423,3 +422,5 @@ treeview.view:backdrop {
     border: 1px solid alpha(@accent_color, 0.15);
     border-radius: 4px;
 }
+
+@import url("noctalia.css");

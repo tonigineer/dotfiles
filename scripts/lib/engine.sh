@@ -8,6 +8,8 @@
 #   pkgs=( foo bar )                 # packages to install with yay
 #   remove_pkgs=( foo )              # packages to remove on uninstall
 #   links=( .bashrc .config/kitty )  # symlink $dotfiles_dir/X -> $HOME/X
+#   host_links=( .config/foo.conf )  # same, but links this machine's variant:
+#                                    # foo.<hostname>.conf, else foo.default.conf
 #
 #   mod_pre_install()    { … }       # runs BEFORE packages (e.g. clear conflicts)
 #   mod_post_install()   { … }       # runs AFTER packages+links
@@ -36,6 +38,10 @@ engine_install() {
         safe_symlink "$rel" || return 1
     done
 
+    for rel in "${host_links[@]}"; do
+        safe_symlink_host "$rel" || return 1
+    done
+
     if declare -F mod_post_install >/dev/null; then
         mod_post_install
         return $?
@@ -44,7 +50,8 @@ engine_install() {
     return 0
 }
 
-# status = all packages present AND all links live AND mod_check (if any).
+# status = all packages present AND all links live (host links pointing at this
+# machine's variant) AND mod_check (if any).
 engine_status() {
     if [ "${#pkgs[@]}" -gt 0 ]; then
         yay_check "${pkgs[@]}" || return 1
@@ -53,6 +60,10 @@ engine_status() {
     local rel
     for rel in "${links[@]}"; do
         [ -L "$HOME/$rel" ] && [ -e "$HOME/$rel" ] || return 1
+    done
+
+    for rel in "${host_links[@]}"; do
+        [ -e "$HOME/$rel" ] && host_link_ok "$rel" || return 1
     done
 
     if declare -F mod_check >/dev/null; then
@@ -68,7 +79,7 @@ engine_uninstall() {
     declare -F mod_pre_uninstall >/dev/null && { mod_pre_uninstall || true; }
 
     local rel
-    for rel in "${links[@]}"; do
+    for rel in "${links[@]}" "${host_links[@]}"; do
         unlink_dotfile "$rel"
     done
 
@@ -92,6 +103,7 @@ run_module() {
         pkgs=()
         remove_pkgs=()
         links=()
+        host_links=()
         # shellcheck disable=SC1090
         . "$file"
 

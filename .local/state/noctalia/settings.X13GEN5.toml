@@ -1,0 +1,476 @@
+config_version = 12
+
+[bar.default]
+border = "on_surface"
+center = [
+    "widget",
+    "spacer_2",
+    "recorder",
+    "mpvpaper",
+    "wallhaven",
+    "_active_ws",
+    "caffeine",
+    "workspaces",
+    "notifications",
+    "_active_ws",
+    "todo",
+    "clipboard",
+    "keybinds",
+    "special-workspace",
+    "spacer_2",
+    "toggle"
+]
+end = [
+    "status",
+    "_active_ws",
+    "_active_ws",
+    "network_rx",
+    "network_tx",
+    "_active_ws",
+    "tray",
+    "_active_ws",
+    "volume",
+    "bluetooth",
+    "network",
+    "_active_ws",
+    "date",
+    "_active_ws",
+    "battery",
+    "_active_ws",
+    "session"
+]
+margin_edge = 0.0
+margin_ends = 0.0
+padding = 10
+radius = 0
+radius_bottom_left = 5
+radius_bottom_right = 5
+start = [ "control-center", "_active_ws", "cpu", "ram", "sysmon", "_active_ws", "active_window" ]
+thickness = 25
+widget_spacing = 10
+
+[desktop_widgets]
+enabled = false
+
+[keybinds]
+down = [ "Ctrl+n" ]
+up = [ "Ctrl+p" ]
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [
+    "lockscreen-login-box@eDP-1",
+    "lockscreen-login-box@FALLBACK",
+    "lockscreen-login-box@DP-3",
+    "lockscreen-login-box@DP-1"
+]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
+    box_height = 196.0
+    box_width = 720.0
+    cx = 960.0
+    cy = 961.0
+    output = "DP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-3"]
+    box_height = 196.0
+    box_width = 720.0
+    cx = 960.0
+    cy = 961.0
+    output = "DP-3"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-3".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@FALLBACK"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "FALLBACK"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@FALLBACK".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 768.0
+    cy = 814.40008544921875
+    output = "eDP-1"
+    placement_height = 960.0
+    placement_width = 1536.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[plugin_settings."kenn/keybind-cheatsheet"]
+cheatsheet_placement = "attached"
+cheatsheet_position = "auto"
+compositor = "hyprland"
+hyprland_parser = "lua"
+
+[plugin_settings."noctalia/mpvpaper"]
+video_directory = "~/Wallpaper"
+
+[plugin_settings."noctalia/wallhaven"]
+api_key = "CG8wKz123iuIovJ4E69XtghNpikNJXQQ"
+download_dir = "~/Wallpaper/Wallhaven"
+
+[plugin_settings."yuuto/arch-updater"]
+assume_yes = true
+aur_helper = "yay"
+auto_check_hours = 1
+flatpak_enabled = false
+
+[plugins]
+enabled = [
+    "noctalia/screen_recorder",
+    "nightwatch75/todo",
+    "noctalia/mpvpaper",
+    "noctalia/wallhaven",
+    "kenn/keybind-cheatsheet",
+    "toni/special-workspace",
+    "yuuto/arch-updater",
+    "maddingo/hypr-layout-switcher",
+    "davemhammer/tailscale"
+]
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
+
+    [[plugins.source]]
+    enabled = false
+    kind = "path"
+    location = "~/Programming/community-plugins"
+    name = "Tonigineer"
+
+[shell]
+avatar_path = "/home/toni/.face"
+corner_radius_scale = 0.5000000074505806
+font_family = "Monaspace Krypton"
+lang = "en"
+password_style = "random"
+settings_show_advanced = true
+ui_scale = 1.1500000096857548
+
+    [shell.panel]
+    launcher_categories = false
+    launcher_placement = "attached"
+    open_near_click_launcher = true
+    session_placement = "centered"
+
+    [[shell.session.actions]]
+    action = "lock"
+    command = "/home/toni/.local/share/quickshell-lockscreen/lock.sh"
+    enabled = true
+    shortcut = "l"
+    variant = "outline"
+
+    [[shell.session.actions]]
+    action = "logout"
+    enabled = true
+    shortcut = "o"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "suspend"
+    enabled = true
+    shortcut = "s"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    enabled = true
+    shortcut = "r"
+    variant = "destructive"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    enabled = true
+    shortcut = "k"
+    variant = "destructive"
+
+[system.monitor]
+network_poll_seconds = 1
+
+[theme]
+builtin = "Noctalia"
+community_palette = "Zenbones"
+mode = "dark"
+source = "wallpaper"
+wallpaper_scheme = "muted"
+
+    [theme.templates]
+    builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "qt" ]
+    community_ids = [ "spicetify", "zen-browser", "neovim", "vscode", "zed", "discord", "lazygit", "yazi" ]
+
+[wallpaper]
+directory = "/home/toni/Wallpaper"
+fill_mode = "stretch"
+transition_on_startup = true
+
+    [wallpaper.automation]
+    order = "alphabetical"
+
+    [wallpaper.default]
+    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-dgrgql.jpg"
+
+    [wallpaper.last]
+    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-dgrgql.jpg"
+
+    [wallpaper.monitors.DP-1]
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+
+    [wallpaper.monitors.DP-3]
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+
+    [wallpaper.monitors.eDP-1]
+    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-dgrgql.jpg"
+
+    [[wallpaper.favorite]]
+    palette_source = "wallpaper"
+    path = "/home/toni/Wallpaper/unix-cloud.jpg"
+    theme_mode = "dark"
+    wallpaper_scheme = "muted"
+
+[weather]
+address = "Markdorf"
+
+[widget._active_ws]
+scale = 1.1000000000000001
+type = "spacer"
+
+[widget.active_window]
+color = "primary"
+title_scroll = "always"
+
+[widget.clipboard]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
+
+[widget.control-center]
+custom_image_colorize = true
+glyph = "droplet-search"
+icon_color = "error"
+
+[widget.cpu]
+show_label = false
+show_value = false
+
+[widget.date]
+color = "primary"
+format = "{:%H:%M %a, %d. %b}"
+tooltip_format = "{:%H:%M %a, %d. %b}"
+
+[widget.keybinds]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
+type = "kenn/keybind-cheatsheet:keybinds"
+
+[widget.mpvpaper]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
+type = "noctalia/mpvpaper:mpvpaper"
+
+[widget.network]
+show_label = false
+
+[widget.network_rx]
+capsule_opacity = 0.0
+capsule_padding = 0
+capsule_radius = 1
+enabled = false
+glyph = "arrow-big-down-lines"
+label_min_width = 80
+network_speed_unit = "mb"
+scale = 0.85000000000000009
+show_label = false
+visualization = "none"
+
+[widget.network_tx]
+enabled = false
+glyph = "arrow-big-up-lines"
+label_min_width = 80
+network_speed_unit = "mb"
+scale = 0.85000000000000009
+show_label = false
+visualization = "none"
+
+[widget.notifications]
+hide_when_no_unread = true
+
+[widget.ram]
+show_label = false
+show_value = false
+
+[widget.recorder]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
+type = "noctalia/screen_recorder:recorder"
+
+[widget.session]
+color = "error"
+
+[widget.spacer_2]
+type = "spacer"
+
+[widget.special-workspace]
+hide_when_none = false
+type = "toni/special-workspace:special-workspace"
+
+[widget.status]
+type = "davemhammer/tailscale:status"
+
+[widget.sysmon]
+path = "/home"
+show_value = false
+stat = "disk_used_pct"
+
+[widget.temp]
+show_label = false
+
+[widget.todo]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
+type = "nightwatch75/todo:todo"
+
+[widget.toggle]
+capsule_foreground = "on_secondary"
+capsule_opacity = 0.0
+capsule_padding = 9
+capsule_radius = 5
+color = "error"
+interactive = false
+scale = 0.85000000000000009
+type = "maddingo/hypr-layout-switcher:toggle"
+
+[widget.tray]
+match_adjacent_spacing = true
+
+[widget.volume]
+show_label = false
+
+[widget.wallhaven]
+color = "on_surface_variant"
+icon_color = "on_surface_variant"
+type = "noctalia/wallhaven:wallhaven"
+
+[widget.widget]
+type = "yuuto/arch-updater:widget"
+
+[widget.workspaces]
+anchor = true
+capsule = true
+empty_color = "tertiary"
+label_source = "name"
+style = "focus_hint"
+
+
+[idle]
+behavior_order = [ "lock", "screen-off", "sleep" ]
+pre_action_fade_seconds = 30
+
+    # Lock with qylock rather than Noctalia's built-in lock screen.
+    # Uses the "command" action because Noctalia has no global lock-command
+    # override; the built-in "lock" action would draw its own lockscreen.
+    [idle.behavior.lock]
+    action = "command"
+    command = "/home/toni/.local/share/quickshell-lockscreen/lock.sh"
+    timeout = 600
+
+    # Blank the panels shortly after locking, and quickly once already locked.
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    locked_timeout = 120
+    timeout = 720
+
+    # suspend-then-hibernate rather than the built-in "suspend" action, so the
+    # box falls through to disk after HibernateDelaySec (see sleep.conf.d).
+    [idle.behavior.sleep]
+    action = "command"
+    command = "systemctl suspend-then-hibernate"
+    locked_timeout = 3600
+    timeout = 3600

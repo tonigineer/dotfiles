@@ -5,40 +5,28 @@
 --
 
 local notify = require("conf.notify")
+local host = require("conf.host")
 
 -------------------------------------------------------
 -- Configuration
 -------------------------------------------------------
 
---- Named monitor profiles.
+--- Named monitor profiles for the machine this runs on.
+--- Defined per host in conf/hosts/<hostname>.lua; see conf/host.lua for how
+--- that file is picked.
 --- `desc` must match the output of `hyprctl monitors` (without the port suffix).
 --- `role` marks which monitor is primary and which is secondary per setup.
-local profiles = {
-    desktop_primary = {
-        desc     = "ASUSTek COMPUTER INC PG27UQR R7LMQS169187",
-        mode     = "highres@highrr",
-        position = "auto-right",
-        scale    = "2.0",
-        role     = "primary",
-    },
-    desktop_second = {
-        desc     = "ASUSTek COMPUTER INC ROG XG27UQR R4LMQS097007",
-        mode     = "highres@highrr",
-        position = "auto-left",
-        scale    = "2.0",
-        role     = "secondary",
-    },
-    notebook_main = {
-        desc     = "Lenovo",
-        mode     = "highres@highrr",
-        position = "auto",
-        scale    = "1.0",
-        role     = "primary",
-    },
-}
+local host_profile, host_name = host.profile()
+local profiles = host_profile.monitors or {}
 
---- Fallback rule for any monitor not matched above.
-local fallback = {
+if not next(profiles) then
+    notify.info("No monitor profile for host '" .. host.name ..
+        "' (loaded " .. host_name .. ") — falling back to the catch-all rule")
+end
+
+--- Fallback rule for any monitor not matched above (a host profile may
+--- override it with its own `fallback` table).
+local fallback = host_profile.fallback or {
     mode     = "preferred",
     position = "auto",
     scale    = "1.0",

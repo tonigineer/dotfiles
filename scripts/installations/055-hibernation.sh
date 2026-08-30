@@ -1,17 +1,18 @@
-# ── Hibernation — swap sizing, resume hook, resume= cmdline, NVIDIA ─────
+# ── Hibernation — swap sizing, resume hook, resume location, NVIDIA ────
 #
-# Four things have to line up, and the module does all four:
+# Three things have to line up, and the module does all three:
 #
 #   1. mkinitcpio's `resume` hook, after `block` (needs the block devices)
 #      and before `filesystems` (must run before root is mounted rw).
-#   2. `resume=UUID=…` + `resume_offset=` on the kernel cmdline. Without
-#      them /sys/power/resume stays 0:0, the image is ignored, and
-#      hibernating looks like a slow poweroff. (Since systemd 255 the hook
-#      execs systemd-hibernate-resume and the real resume goes through the
-#      `HibernateLocation` EFI variable; the cmdline is the fallback, and
-#      the only part `mod_check` can assert against.)
+#   2. A way for the initrd to find the image. On EFI that is systemd's
+#      `HibernateLocation` variable — written at hibernate time, read back
+#      by systemd-hibernate-resume, which the hook execs since systemd 255
+#      — so nothing is needed on the cmdline. Off EFI there is no variable,
+#      and `resume=UUID=…` + `resume_offset=` go on the cmdline instead;
+#      with neither, /sys/power/resume stays 0:0, the image is ignored, and
+#      hibernating looks like a slow poweroff. Why EFI drops the cmdline
+#      instead of keeping it as a second path: see "Cmdline" below.
 #   3. A resume area at least RAM-sized — see below.
-#   4. NVIDIA agreeing to be frozen — see below.
 #
 # ── Sizing ──────────────────────────────────────────────────────────────
 #
@@ -38,22 +39,47 @@
 #
 # ── NVIDIA ─────────────────────────────────────────────────────────────
 #
-# `NVreg_PreserveVideoMemoryAllocations=1` and
-# `NVreg_UseKernelSuspendNotifiers=1` are mutually exclusive: with both set
-# the restore fails late (`nv_pmops_freeze … returns -5`), because Preserve
-# requires /proc/driver/nvidia/suspend, which only exists when the notifiers
-# are off. With the open modules the notifier path preserves video memory on
-# its own, so drop Preserve. It comes from gpu-screen-recorder's
-# /usr/lib/modprobe.d/gsr-nvidia.conf, shadowed here by a same-named file in
-# /etc/modprobe.d (which wins outright).
+# Leave `NVreg_PreserveVideoMemoryAllocations` alone — it must stay 1, which
+# it already is via gpu-screen-recorder's /usr/lib/modprobe.d/gsr-nvidia.conf.
+# It does *not* conflict with `NVreg_UseKernelSuspendNotifiers=1`: the
+# notifiers only decide who triggers the save (in-kernel, instead of the
+# nvidia-{suspend,hibernate,resume} services), not whether video memory is
+# saved at all. nvidia-utils' own nvidia-sleep.conf enables the notifiers
+# alongside `NVreg_TemporaryFilePath`, which only the Preserve path uses.
+#
+# With Preserve off the image restores, but every client allocation comes
+# back unmapped: `Xid 31 … MMU Fault … FAULT_PDE` against Hyprland and
+# quickshell, then `nv_drm_atomic_commit … Error code: -11` and `Flip event
+# timeout` on both heads — a resumed kernel with a dead display.
+#
+# ── Cmdline ────────────────────────────────────────────────────────────
+#
+# `resume=` on an EFI system is redundant with the EFI variable, and not
+# free: the hook writes the device to /sys/power/resume on *every* boot, so
+# a boot with no image on disk gets `PM: Image not found (code -22)` from
+# the kernel and `Unable to resume from device '…' (259:1) offset …,
+# continuing boot process.` from systemd-hibernate-resume — on the console,
+# before the journal exists. Both are cosmetic: the write fails precisely
+# because there is nothing to resume. Nothing quiets them while the
+# parameter is set (they are printed before any log filter applies), but
+# with it gone the hook finds no HibernateLocation, logs "not set, skipping"
+# at debug level, and exits — a silent cold boot.
+#
+# Dropping it costs one recovery path: an image on disk whose EFI variable
+# the firmware lost (NVRAM reset, power cut mid-hibernate) is no longer
+# resumable. Every other failure — efivarfs unwritable, no variable space —
+# makes `systemctl hibernate` refuse *before* it suspends, so a live session
+# is never at risk. Off EFI systemd will not hibernate without the parameter
+# at all ("Not running on EFI and resume= is not set. Hibernation is not
+# safe."), which is why `_efi_boot` still writes it there.
 #
 # ── Noise ──────────────────────────────────────────────────────────────
 #
 # `spd5118 …: PM: failed to restore async: error -6` on every resume, once
 # per DDR5 stick, is harmless: the RAM temperature sensor's resume callback
 # writes before the SMBus controller is back, restore-phase errors are only
-# logged (unlike the freeze-phase NVIDIA one, which kills the cycle), and
-# the next `sensors` read repairs the register. Silencing it would mean
+# logged (unlike a freeze-phase failure, which aborts the cycle), and the
+# next `sensors` read repairs the register. Silencing it would mean
 # blacklisting the module and losing the RAM temperatures.
 
 # ── Configuration ───────────────────────────────────────────────────────
@@ -71,10 +97,15 @@ _tmpfiles=/etc/tmpfiles.d/hibernation-image-size.conf
 _mkinitcpio=/etc/mkinitcpio.conf
 _grub=/etc/default/grub
 _fstab=/etc/fstab
-_marker='# Written by 055-hibernation.sh — shadows the packaged file.'
 _fstab_marker='# Added by 055-hibernation.sh — hibernation reserve.'
 
 # ── Helpers ─────────────────────────────────────────────────────────────
+
+# True when booted via EFI, where systemd's HibernateLocation variable makes
+# the resume= cmdline redundant — see "Cmdline" above.
+_efi_boot() {
+    [ -d /sys/firmware/efi ]
+}
 
 # The swap area the image is written to: the largest active one, so the reserve
 # wins regardless of activation order. Falls back to fstab, for before the first
@@ -202,25 +233,10 @@ _ensure_fstab() {
     sudo swapon --all 2>/dev/null || true
 }
 
-# True when both video-memory strategies are set at once. Reads modprobe's
-# resolved view, so /etc shadowing /usr/lib is accounted for.
-_vram_conflict() {
-    local conf
-    conf="$(modprobe --showconfig 2>/dev/null | grep '^options nvidia ')" || return 1
-
-    printf '%s\n' "$conf" | grep -q 'NVreg_PreserveVideoMemoryAllocations=1' &&
-        printf '%s\n' "$conf" | grep -q 'NVreg_UseKernelSuspendNotifiers=1'
-}
-
-# Packaged files that turn Preserve on, so each can be shadowed by name.
-_preserve_sources() {
-    grep -rls 'NVreg_PreserveVideoMemoryAllocations=1' /usr/lib/modprobe.d/ 2>/dev/null
-}
-
 # ── Hooks ───────────────────────────────────────────────────────────────
 
 mod_post_install() {
-    local uuid offset size src shadow ram rebuild=0
+    local uuid offset size ram rebuild=0
 
     # 0. The reserve, before anything reads the swap layout.
     _ensure_swapfile || return 1
@@ -239,10 +255,14 @@ mod_post_install() {
         echo "No $_mkinitcpio — skipping the resume hook." >&2
     fi
 
-    # 2. resume= / resume_offset=. Rewrite existing values instead of appending,
-    #    so re-running after a repartition or resize is safe.
-    if [ -n "$uuid" ] && [ -f "$_grub" ]; then
-        if grep -qE '^GRUB_CMDLINE_LINUX_DEFAULT=.*[ "]resume=' "$_grub"; then
+    # 2. resume= / resume_offset=: stripped on EFI, written off it. Rewrite
+    #    existing values instead of appending, so re-running after a
+    #    repartition or resize is safe.
+    if [ -f "$_grub" ] && { _efi_boot || [ -n "$uuid" ]; }; then
+        if _efi_boot; then
+            sudo sed -i -E '/^GRUB_CMDLINE_LINUX_DEFAULT=/ {
+                s|[ ]*resume=[^ "]*||; s|[ ]*resume_offset=[^ "]*|| }' "$_grub"
+        elif grep -qE '^GRUB_CMDLINE_LINUX_DEFAULT=.*[ "]resume=' "$_grub"; then
             sudo sed -i -E \
                 "s|^(GRUB_CMDLINE_LINUX_DEFAULT=.*[ \"])resume=[^ \"]*|\1resume=UUID=$uuid|" \
                 "$_grub"
@@ -252,12 +272,14 @@ mod_post_install() {
                 "$_grub"
         fi
 
-        sudo sed -i -E 's|[ ]*resume_offset=[^ "]*||' "$_grub"
-        sudo sed -i -E \
-            "s|^(GRUB_CMDLINE_LINUX_DEFAULT=\")(.*)(\")\$|\1\2 resume_offset=${offset:-0}\3|" \
-            "$_grub"
+        if ! _efi_boot; then
+            sudo sed -i -E 's|[ ]*resume_offset=[^ "]*||' "$_grub"
+            sudo sed -i -E \
+                "s|^(GRUB_CMDLINE_LINUX_DEFAULT=\")(.*)(\")\$|\1\2 resume_offset=${offset:-0}\3|" \
+                "$_grub"
+        fi
 
-        # Collapse the leading space an empty previous value would leave.
+        # Collapse the leading space an emptied value would leave.
         sudo sed -i -E 's|^(GRUB_CMDLINE_LINUX_DEFAULT=")[[:space:]]+|\1|' "$_grub"
 
         # Fails on a container overlayfs (no real root device); the edit above
@@ -274,24 +296,9 @@ mod_post_install() {
         sudo systemd-tmpfiles --create "$_tmpfiles" || true
     fi
 
-    # 4. Drop Preserve by shadowing whichever packaged file sets it. nvidia is
-    #    in the initramfs (see MODULES=) and reads modprobe.d from there, so
-    #    this only takes effect after the rebuild below.
-    if _vram_conflict; then
-        for src in $(_preserve_sources); do
-            shadow="/etc/modprobe.d/$(basename "$src")"
-            {
-                printf '%s\n' "$_marker"
-                sed 's/NVreg_PreserveVideoMemoryAllocations=1/NVreg_PreserveVideoMemoryAllocations=0/' "$src"
-            } | sudo tee "$shadow" >/dev/null
-            echo "Shadowed $src -> $shadow"
-            rebuild=1
-        done
-    fi
-
     [ "$rebuild" -eq 1 ] && sudo mkinitcpio -P
 
-    # 5. Warn if the reserve is below RAM — nothing above can fix that.
+    # 4. Warn if the reserve is below RAM — nothing above can fix that.
     ram="$(awk '/^MemTotal:/ { print $2 * 1024 }' /proc/meminfo)"
     if [ -n "$ram" ] && [ "$(_resume_bytes)" -lt "$ram" ] 2>/dev/null; then
         echo "Resume area $(_resume_area) is smaller than RAM — a full session may not fit." >&2
@@ -303,8 +310,6 @@ mod_post_install() {
 mod_check() {
     local uuid offset
 
-    ! _vram_conflict || return 1
-
     [ -z "$_swapfile" ] || [ -s "$_swapfile" ] || return 1
 
     uuid="$(_resume_uuid)"
@@ -312,15 +317,22 @@ mod_check() {
     # No swap to point resume= at: the rest is moot.
     [ -n "$uuid" ] || return 0
 
-    # Empty = filefrag needed a password; assert only that the parameter is
-    # present, not that it is current.
-    offset="$(_resume_offset)"
-    [ -n "$offset" ] || offset='[0-9]+'
+    grep -qE '^HOOKS=.*(^|[( ])resume([ )])' "$_mkinitcpio" || return 1
+    [ -f "$_tmpfiles" ] || return 1
 
-    grep -qE '^HOOKS=.*(^|[( ])resume([ )])' "$_mkinitcpio" &&
+    if _efi_boot; then
+        # HibernateLocation carries the location; a leftover cmdline would only
+        # add the failed resume attempt to every cold boot.
+        ! grep -qE '^GRUB_CMDLINE_LINUX_DEFAULT=.*[ "]resume(_offset)?=' "$_grub"
+    else
+        # Empty = filefrag needed a password; assert only that the parameter is
+        # present, not that it is current.
+        offset="$(_resume_offset)"
+        [ -n "$offset" ] || offset='[0-9]+'
+
         grep -qE "^GRUB_CMDLINE_LINUX_DEFAULT=.*resume=UUID=$uuid" "$_grub" &&
-        grep -qE "^GRUB_CMDLINE_LINUX_DEFAULT=.*resume_offset=$offset([ \"])" "$_grub" &&
-        [ -f "$_tmpfiles" ]
+            grep -qE "^GRUB_CMDLINE_LINUX_DEFAULT=.*resume_offset=$offset([ \"])" "$_grub"
+    fi
 }
 
 mod_pre_uninstall() {
@@ -332,16 +344,8 @@ mod_pre_uninstall() {
 }
 
 mod_post_uninstall() {
-    local shadow
-
-    # Only the shadows this module wrote, not hand-made overrides.
-    for shadow in /etc/modprobe.d/*.conf; do
-        [ -f "$shadow" ] && head -1 "$shadow" | grep -qF "$_marker" &&
-            sudo rm -f "$shadow"
-    done
-
     if [ -n "$_swapfile" ] && [ -f "$_fstab" ]; then
-        sudo sed -i -E "\|^$_fstab_marker\$|d; \|^$_swapfile[[:space:]]|d" "$_fstab"
+        sudo sed -i -E "\|^$_fstab_marker\$|d; \|^${_swapfile}[[:space:]]|d" "$_fstab"
         sudo rm -f "$_swapfile"
         sudo systemctl daemon-reload || true
     fi

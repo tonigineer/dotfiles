@@ -1,4 +1,4 @@
-config_version = 12
+config_version = 14
 
 [bar.default]
 border = "on_surface"
@@ -16,9 +16,7 @@ center = [
     "todo",
     "clipboard",
     "keybinds",
-    "special-workspace",
-    "spacer_2",
-    "toggle"
+    "spacer_2"
 ]
 end = [
     "status",
@@ -45,16 +43,50 @@ padding = 10
 radius = 0
 radius_bottom_left = 5
 radius_bottom_right = 5
-start = [ "control-center", "_active_ws", "cpu", "ram", "sysmon", "_active_ws", "active_window" ]
+start = [
+    "control-center",
+    "_active_ws",
+    "cpu",
+    "ram",
+    "sysmon",
+    "_active_ws",
+    "active_window",
+    "toggle",
+    "_active_ws",
+    "special-workspaces"
+]
 thickness = 25
 widget_spacing = 10
 
 [desktop_widgets]
 enabled = false
 
+[idle]
+behavior_order = [ "lock", "screen-off", "sleep" ]
+pre_action_fade_seconds = 30
+
+    [idle.behavior.lock]
+    action = "command"
+    command = "/home/toni/.local/share/quickshell-lockscreen/lock.sh"
+    timeout = 600
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    locked_timeout = 120
+    timeout = 720
+
+    [idle.behavior.sleep]
+    action = "command"
+    command = "systemctl suspend-then-hibernate"
+    locked_timeout = 3600
+    timeout = 3600
+
 [keybinds]
 down = [ "Ctrl+n" ]
 up = [ "Ctrl+p" ]
+
+[lockscreen]
+enabled = false
 
 [lockscreen_widgets]
 enabled = false
@@ -193,10 +225,13 @@ api_key = "CG8wKz123iuIovJ4E69XtghNpikNJXQQ"
 download_dir = "~/Wallpaper/Wallhaven"
 
 [plugin_settings."yuuto/arch-updater"]
+activity_history_length = 25
 assume_yes = true
 aur_helper = "yay"
 auto_check_hours = 1
 flatpak_enabled = false
+show_activity_graph = true
+update_mode = "background"
 
 [plugins]
 enabled = [
@@ -205,10 +240,10 @@ enabled = [
     "noctalia/mpvpaper",
     "noctalia/wallhaven",
     "kenn/keybind-cheatsheet",
-    "toni/special-workspace",
     "yuuto/arch-updater",
     "maddingo/hypr-layout-switcher",
-    "davemhammer/tailscale"
+    "davemhammer/tailscale",
+    "jamesfeeder/special-workspaces"
 ]
 
     [[plugins.source]]
@@ -242,37 +277,6 @@ ui_scale = 1.1500000096857548
     open_near_click_launcher = true
     session_placement = "centered"
 
-    [[shell.session.actions]]
-    action = "lock"
-    command = "/home/toni/.local/share/quickshell-lockscreen/lock.sh"
-    enabled = true
-    shortcut = "l"
-    variant = "outline"
-
-    [[shell.session.actions]]
-    action = "logout"
-    enabled = true
-    shortcut = "o"
-    variant = "default"
-
-    [[shell.session.actions]]
-    action = "suspend"
-    enabled = true
-    shortcut = "s"
-    variant = "default"
-
-    [[shell.session.actions]]
-    action = "reboot"
-    enabled = true
-    shortcut = "r"
-    variant = "destructive"
-
-    [[shell.session.actions]]
-    action = "shutdown"
-    enabled = true
-    shortcut = "k"
-    variant = "destructive"
-
 [system.monitor]
 network_poll_seconds = 1
 
@@ -296,10 +300,10 @@ transition_on_startup = true
     order = "alphabetical"
 
     [wallpaper.default]
-    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-dgrgql.jpg"
+    path = "/home/toni/Wallpaper/Riding in a bus.png"
 
     [wallpaper.last]
-    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-dgrgql.jpg"
+    path = "/home/toni/Wallpaper/Riding in a bus.png"
 
     [wallpaper.monitors.DP-1]
     path = "/home/toni/Wallpaper/unix-cloud.jpg"
@@ -308,7 +312,7 @@ transition_on_startup = true
     path = "/home/toni/Wallpaper/unix-cloud.jpg"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/toni/Wallpaper/Wallhaven/wallhaven-dgrgql.jpg"
+    path = "/home/toni/Wallpaper/Riding in a bus.png"
 
     [[wallpaper.favorite]]
     palette_source = "wallpaper"
@@ -325,6 +329,7 @@ type = "spacer"
 
 [widget.active_window]
 color = "primary"
+enabled = false
 title_scroll = "always"
 
 [widget.clipboard]
@@ -337,7 +342,6 @@ glyph = "droplet-search"
 icon_color = "error"
 
 [widget.cpu]
-show_label = false
 show_value = false
 
 [widget.date]
@@ -357,6 +361,7 @@ type = "noctalia/mpvpaper:mpvpaper"
 
 [widget.network]
 show_label = false
+show_value = false
 
 [widget.network_rx]
 capsule_opacity = 0.0
@@ -367,7 +372,7 @@ glyph = "arrow-big-down-lines"
 label_min_width = 80
 network_speed_unit = "mb"
 scale = 0.85000000000000009
-show_label = false
+show_value = false
 visualization = "none"
 
 [widget.network_tx]
@@ -376,14 +381,13 @@ glyph = "arrow-big-up-lines"
 label_min_width = 80
 network_speed_unit = "mb"
 scale = 0.85000000000000009
-show_label = false
+show_value = false
 visualization = "none"
 
 [widget.notifications]
 hide_when_no_unread = true
 
 [widget.ram]
-show_label = false
 show_value = false
 
 [widget.recorder]
@@ -397,11 +401,23 @@ color = "error"
 [widget.spacer_2]
 type = "spacer"
 
-[widget.special-workspace]
-hide_when_none = false
-type = "toni/special-workspace:special-workspace"
+[widget.special-workspaces]
+active_style = "ghost"
+capsule = true
+capsule_fill = "#FFE86A"
+capsule_foreground = "error"
+capsule_padding = 4
+color = "error"
+enable_scroll = false
+font_weight = 600
+hide_inactive = true
+icon_color = "error"
+interactive = false
+scale = 0.85000000000000009
+type = "jamesfeeder/special-workspaces:special-workspaces"
 
 [widget.status]
+enabled = false
 type = "davemhammer/tailscale:status"
 
 [widget.sysmon]
@@ -410,7 +426,7 @@ show_value = false
 stat = "disk_used_pct"
 
 [widget.temp]
-show_label = false
+show_value = false
 
 [widget.todo]
 color = "on_surface_variant"
@@ -422,7 +438,7 @@ capsule_foreground = "on_secondary"
 capsule_opacity = 0.0
 capsule_padding = 9
 capsule_radius = 5
-color = "error"
+color = "#FFD700"
 interactive = false
 scale = 0.85000000000000009
 type = "maddingo/hypr-layout-switcher:toggle"
@@ -432,6 +448,7 @@ match_adjacent_spacing = true
 
 [widget.volume]
 show_label = false
+show_value = false
 
 [widget.wallhaven]
 color = "on_surface_variant"
@@ -439,6 +456,7 @@ icon_color = "on_surface_variant"
 type = "noctalia/wallhaven:wallhaven"
 
 [widget.widget]
+hide_on_empty = true
 type = "yuuto/arch-updater:widget"
 
 [widget.workspaces]
@@ -447,30 +465,3 @@ capsule = true
 empty_color = "tertiary"
 label_source = "name"
 style = "focus_hint"
-
-
-[idle]
-behavior_order = [ "lock", "screen-off", "sleep" ]
-pre_action_fade_seconds = 30
-
-    # Lock with qylock rather than Noctalia's built-in lock screen.
-    # Uses the "command" action because Noctalia has no global lock-command
-    # override; the built-in "lock" action would draw its own lockscreen.
-    [idle.behavior.lock]
-    action = "command"
-    command = "/home/toni/.local/share/quickshell-lockscreen/lock.sh"
-    timeout = 600
-
-    # Blank the panels shortly after locking, and quickly once already locked.
-    [idle.behavior.screen-off]
-    action = "screen_off"
-    locked_timeout = 120
-    timeout = 720
-
-    # suspend-then-hibernate rather than the built-in "suspend" action, so the
-    # box falls through to disk after HibernateDelaySec (see sleep.conf.d).
-    [idle.behavior.sleep]
-    action = "command"
-    command = "systemctl suspend-then-hibernate"
-    locked_timeout = 3600
-    timeout = 3600

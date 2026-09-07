@@ -30,6 +30,9 @@
 # picks by size. The partition cannot be grown (no free space around it on
 # nvme0n1), so the reserve is a file on /data.
 #
+# That split is the Z790E layout; every machine needs its own path and size,
+# which is why the reserve is declared per host under "Configuration".
+#
 # The file is dd'd, not fallocate'd: `iomap_swapfile_activate` rejects
 # unwritten extents ("swapon: file has unallocated extents").
 #
@@ -73,6 +76,29 @@
 # at all ("Not running on EFI and resume= is not set. Hibernation is not
 # safe."), which is why `_efi_boot` still writes it there.
 #
+# ── Sleep delay ────────────────────────────────────────────────────────
+#
+# Noctalia's session button suspends with `systemctl suspend-then-hibernate`
+# on both machines (the `command` override on its suspend action), so the
+# handover from RAM to disk is systemd's to schedule and HibernateDelaySec=
+# is what bounds it. The setting means two different things per machine:
+#
+#   X13GEN5   Has a battery, so systemd arms an ACPI _BTP low-battery alarm
+#             and hibernates on whichever comes first, the alarm or this
+#             delay. Unset, only the alarm is armed and a suspended session
+#             has no ceiling at all — which is the case that matters here,
+#             because the notebook offers s2idle alone (`cat
+#             /sys/power/mem_sleep` → `[s2idle]`, no deep S3) and idles
+#             rather than powering the package down, so it keeps draining
+#             and should reach disk well before the battery gets low.
+#   Z790E     No battery, so the delay is the only trigger. 2h is already
+#             systemd's default for that case; writing it out states the
+#             same number on both machines instead of leaving one implicit.
+#
+# HibernateOnACPower= is left at its default (yes), so the countdown runs on
+# the notebook plugged in or not; it is a no-op on Z790E, being effective
+# only on systems with a battery.
+
 # ── Noise ──────────────────────────────────────────────────────────────
 #
 # `spd5118 …: PM: failed to restore async: error -6` on every resume, once
@@ -86,14 +112,43 @@
 
 # The hibernation reserve; must be larger than RAM. Empty string = manage swap
 # by hand, and configure whatever is already active.
-_swapfile=/data/swapfile
-_swapfile_bytes=$((64 * 1024 * 1024 * 1024))
+#
+# Per host, because the reserve has to sit on a filesystem the machine actually
+# has, at a size that machine's RAM actually needs:
+#
+#   Z790E     64 GiB on /data, a filesystem of its own — the 16 GiB swap
+#             partition cannot be grown, see "Sizing" above.
+#   X13GEN5   40 GiB on /, the only filesystem with room (/home runs 84% full)
+#             and comfortably over its 32 GB of RAM.
+#
+# An unknown machine gets no reserve rather than a guessed 40+ GiB file on a
+# disk this repo knows nothing about. Everything below still runs and
+# configures hibernation against whatever swap that machine already has.
+case "$(dotfiles_host)" in
+Z790E)
+    _swapfile=/data/swapfile
+    _swapfile_bytes=$((64 * 1024 * 1024 * 1024))
+    ;;
+X13GEN5)
+    _swapfile=/swapfile
+    _swapfile_bytes=$((40 * 1024 * 1024 * 1024))
+    ;;
+*)
+    _swapfile=
+    _swapfile_bytes=0
+    ;;
+esac
 
 # Higher number = preferred by the kernel, so paging stays off the reserve.
 _swapfile_prio=5
 _swappart_prio=10
 
+# How long suspend-then-hibernate stays in RAM before it goes to disk — see
+# "Sleep delay" above. Empty string = leave systemd's default in place.
+_hibernate_delay=2h
+
 _tmpfiles=/etc/tmpfiles.d/hibernation-image-size.conf
+_sleepconf=/etc/systemd/sleep.conf.d/10-hibernate.conf
 _mkinitcpio=/etc/mkinitcpio.conf
 _grub=/etc/default/grub
 _fstab=/etc/fstab
@@ -105,6 +160,20 @@ _fstab_marker='# Added by 055-hibernation.sh — hibernation reserve.'
 # the resume= cmdline redundant — see "Cmdline" above.
 _efi_boot() {
     [ -d /sys/firmware/efi ]
+}
+
+# True when `resume` is already in HOOKS. The array is routinely wrapped across
+# lines, so both this and the edit below address it as the range `HOOKS=(` … `)`
+# rather than a single line — a line-wise test sees only `HOOKS=(base systemd …`
+# and reports a hook that is there as missing, or adds a second one.
+_hooks_range='/^HOOKS=\(/,/\)/'
+
+_hooks_have_resume() {
+    # -E, like both edits below: `$_hooks_range` escapes its parens for ERE,
+    # where they are literal. Under sed's default BRE `\(` opens a group and the
+    # range never matches, so the guard would read "no resume hook" every time.
+    sed -n -E "${_hooks_range}p" "$_mkinitcpio" 2>/dev/null |
+        grep -qE '(^|[( ])resume([ )])'
 }
 
 # The swap area the image is written to: the largest active one, so the reserve
@@ -233,6 +302,22 @@ _ensure_fstab() {
     sudo swapon --all 2>/dev/null || true
 }
 
+# The suspend-then-hibernate delay. Written whole every run rather than
+# edited: the drop-in carries one setting and this module owns the file, so
+# there is nothing in it to preserve. systemd-sleep reads it per cycle, so
+# there is nothing to reload either.
+_ensure_sleep_conf() {
+    [ -n "$_hibernate_delay" ] || return 0
+
+    sudo mkdir -p "$(dirname "$_sleepconf")" || return 1
+
+    printf '%s\n' \
+        '# Added by 055-hibernation.sh — suspend-then-hibernate handover.' \
+        '[Sleep]' \
+        "HibernateDelaySec=$_hibernate_delay" |
+        sudo tee "$_sleepconf" >/dev/null || return 1
+}
+
 # ── Hooks ───────────────────────────────────────────────────────────────
 
 mod_post_install() {
@@ -248,8 +333,11 @@ mod_post_install() {
 
     # 1. resume hook, inserted between `block` and `filesystems`.
     if [ -f "$_mkinitcpio" ]; then
-        sudo sed -i -E '/^HOOKS=/ { /(^|[( ])resume([ )]|$)/! s/(^|[( ])filesystems([ )])/\1resume filesystems\2/ }' \
-            "$_mkinitcpio"
+        if ! _hooks_have_resume; then
+            sudo sed -i -E \
+                "$_hooks_range s/(^|[( ])filesystems([ )])/\1resume filesystems\2/" \
+                "$_mkinitcpio"
+        fi
         rebuild=1
     else
         echo "No $_mkinitcpio — skipping the resume hook." >&2
@@ -298,7 +386,11 @@ mod_post_install() {
 
     [ "$rebuild" -eq 1 ] && sudo mkinitcpio -P
 
-    # 4. Warn if the reserve is below RAM — nothing above can fix that.
+    # 4. The delay the handover to disk runs on.
+    _ensure_sleep_conf ||
+        echo "Could not write $_sleepconf — suspend-then-hibernate keeps systemd's default delay." >&2
+
+    # 5. Warn if the reserve is below RAM — nothing above can fix that.
     ram="$(awk '/^MemTotal:/ { print $2 * 1024 }' /proc/meminfo)"
     if [ -n "$ram" ] && [ "$(_resume_bytes)" -lt "$ram" ] 2>/dev/null; then
         echo "Resume area $(_resume_area) is smaller than RAM — a full session may not fit." >&2
@@ -317,8 +409,13 @@ mod_check() {
     # No swap to point resume= at: the rest is moot.
     [ -n "$uuid" ] || return 0
 
-    grep -qE '^HOOKS=.*(^|[( ])resume([ )])' "$_mkinitcpio" || return 1
+    _hooks_have_resume || return 1
     [ -f "$_tmpfiles" ] || return 1
+
+    # Value and not just presence, so a changed delay is a drifted module.
+    [ -z "$_hibernate_delay" ] ||
+        grep -qxF "HibernateDelaySec=$_hibernate_delay" "$_sleepconf" 2>/dev/null ||
+        return 1
 
     if _efi_boot; then
         # HibernateLocation carries the location; a leftover cmdline would only
@@ -351,14 +448,14 @@ mod_post_uninstall() {
     fi
 
     [ -f "$_mkinitcpio" ] &&
-        sudo sed -i -E '/^HOOKS=/ s/(^|[( ])resume /\1/' "$_mkinitcpio" &&
+        sudo sed -i -E "$_hooks_range s/(^|[( ])resume /\1/" "$_mkinitcpio" &&
         sudo mkinitcpio -P
 
     [ -f "$_grub" ] &&
         sudo sed -i -E 's|^(GRUB_CMDLINE_LINUX_DEFAULT=.*[ "])resume=[^ "]*|\1|; s|[ ]*resume_offset=[^ "]*||' "$_grub" &&
         sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-    sudo rm -f "$_tmpfiles"
+    sudo rm -f "$_tmpfiles" "$_sleepconf"
 
     return 0
 }

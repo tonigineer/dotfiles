@@ -16,7 +16,6 @@ center = [
     "todo",
     "clipboard",
     "keybinds",
-    "special-workspace",
     "spacer_2"
 ]
 end = [
@@ -243,7 +242,6 @@ enabled = [
     "noctalia/mpvpaper",
     "noctalia/wallhaven",
     "kenn/keybind-cheatsheet",
-    "toni/special-workspace",
     "yuuto/arch-updater",
     "maddingo/hypr-layout-switcher",
     "davemhammer/tailscale",
@@ -298,6 +296,7 @@ ui_scale = 1.1500000096857548
 
     [[shell.session.actions]]
     action = "suspend"
+    command = "systemctl suspend-then-hibernate"
     countdown_seconds = 2.0
     enabled = true
     shortcut = "s"
@@ -389,7 +388,6 @@ glyph = "droplet-search"
 icon_color = "error"
 
 [widget.cpu]
-show_label = false
 show_value = false
 
 [widget.date]
@@ -433,7 +431,7 @@ icon_color = "on_surface_variant"
 type = "noctalia/mpvpaper:mpvpaper"
 
 [widget.network]
-show_label = false
+show_value = false
 
 [widget.network_rx]
 capsule_fill = "on_surface"
@@ -444,7 +442,7 @@ glyph = "arrow-big-down-lines"
 label_min_width = 80
 network_speed_unit = "mb"
 scale = 0.75
-show_label = false
+show_value = false
 visualization = "none"
 
 [widget.network_tx]
@@ -452,14 +450,13 @@ glyph = "arrow-big-up-lines"
 label_min_width = 80
 network_speed_unit = "mb"
 scale = 0.75
-show_label = false
+show_value = false
 visualization = "none"
 
 [widget.notifications]
 hide_when_no_unread = true
 
 [widget.ram]
-show_label = false
 show_value = false
 
 [widget.recorder]
@@ -480,14 +477,10 @@ color = "error"
 [widget.spacer_2]
 type = "spacer"
 
-[widget.special-workspace]
-hide_when_none = false
-type = "toni/special-workspace:special-workspace"
-
 [widget.special-workspaces]
 active_style = "ghost"
 capsule = true
-capsule_fill = "#FFD700"
+capsule_fill = "#FFE86A"
 capsule_foreground = "error"
 capsule_padding = 4
 color = "error"
@@ -509,7 +502,7 @@ show_value = false
 stat = "gpu_usage"
 
 [widget.temp]
-show_label = false
+show_value = false
 
 [widget.todo]
 color = "on_surface_variant"
@@ -530,7 +523,7 @@ type = "maddingo/hypr-layout-switcher:toggle"
 match_adjacent_spacing = true
 
 [widget.volume]
-show_label = false
+show_value = false
 
 [widget.wallhaven]
 color = "on_surface_variant"

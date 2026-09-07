@@ -62,6 +62,7 @@ ui_scale = 1.1500000096857548
 
     [[shell.session.actions]]
     action = "suspend"
+    command = "systemctl suspend-then-hibernate"
     enabled = true
     shortcut = "s"
     variant = "default"
@@ -117,7 +118,7 @@ title_scroll = "always"
 glyph = "bottle-filled"
 
 [widget.cpu]
-show_label = false
+show_value = false
 
 [widget.date]
 color = "primary"
@@ -125,18 +126,18 @@ format = "{:%H:%M %a, %d. %b}"
 tooltip_format = "{:%H:%M %a, %d. %b}"
 
 [widget.network]
-show_label = false
+show_value = false
 
 [widget.network_rx]
 display = "graph"
-show_label = false
+show_value = false
 
 [widget.network_tx]
 display = "graph"
-show_label = false
+show_value = false
 
 [widget.ram]
-show_label = false
+show_value = false
 
 [widget.screen_recorder]
 copy_to_clipboard = true
@@ -150,17 +151,17 @@ color = "error"
 
 [widget.sysmon]
 path = "/home"
-show_label = false
+show_value = false
 stat = "disk_pct"
 
 [widget.temp]
-show_label = false
+show_value = false
 
 [widget.tray]
 match_adjacent_spacing = true
 
 [widget.volume]
-show_label = false
+show_value = false
 
 [widget.workspaces]
-display = "name"
+label_source = "name"

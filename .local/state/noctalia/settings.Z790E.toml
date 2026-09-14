@@ -1,4 +1,4 @@
-config_version = 13
+config_version = 14
 
 [bar.default]
 border = "on_surface"
@@ -68,6 +68,8 @@ widget_spacing = 10
     members = [ "gpu", "gpu_vram" ]
     opacity = 1.0
     padding = 6.0
+
+[calendar]
 
 [control_center.calendar]
 show_events_card = false
@@ -271,7 +273,6 @@ font_family = "Monaspace Krypton"
 lang = "en"
 password_style = "random"
 polkit_agent = true
-settings_show_advanced = true
 ui_scale = 1.1500000096857548
 
     [shell.panel]
@@ -330,23 +331,25 @@ ui_scale = 1.1500000096857548
 network_poll_seconds = 1
 
 [theme]
-builtin = "Noctalia"
+builtin = "Ayu"
 community_palette = "Zenbones"
+custom_palette = "skwd-wall"
 mode = "dark"
-source = "wallpaper"
+source = "custom"
 wallpaper_scheme = "muted"
 
     [theme.templates]
     builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "qt" ]
-    community_ids = [ "spicetify", "zen-browser", "discord", "neovim", "vscode", "zed", "steam", "lazygit", "yazi", "libreoffice" ]
+    community_ids = [ "spicetify", "zen-browser", "discord", "neovim", "vscode", "steam", "lazygit", "yazi", "libreoffice" ]
+
+        [theme.templates.user.zed]
+        input_path = "/home/toni/Dotfiles/.config/noctalia/templates/zed.json"
+        output_path = "/home/toni/.config/zed/themes/noctalia.json"
 
 [wallpaper]
 directory = "/home/toni/Wallpaper"
 fill_mode = "stretch"
 transition_on_startup = true
-
-    [wallpaper.automation]
-    order = "alphabetical"
 
     [wallpaper.default]
     path = "/home/toni/Wallpaper/unix-cloud.jpg"
@@ -370,7 +373,6 @@ transition_on_startup = true
 address = "Markdorf"
 
 [widget._active_ws]
-scale = 1.1000000000000001
 type = "spacer"
 
 [widget.active_window]
@@ -485,7 +487,7 @@ capsule_foreground = "error"
 capsule_padding = 4
 color = "error"
 enable_scroll = false
-font_weight = 600
+font_scale = 1.1000000000000001
 hide_inactive = true
 icon_color = "error"
 interactive = false
@@ -520,7 +522,7 @@ scale = 0.85000000000000009
 type = "maddingo/hypr-layout-switcher:toggle"
 
 [widget.tray]
-match_adjacent_spacing = true
+scale = 0.94999999999999996
 
 [widget.volume]
 show_value = false
@@ -531,6 +533,7 @@ icon_color = "on_surface_variant"
 type = "noctalia/wallhaven:wallhaven"
 
 [widget.widget]
+font_scale = 0.75
 hide_on_empty = true
 type = "yuuto/arch-updater:widget"
 

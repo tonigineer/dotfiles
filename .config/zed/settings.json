@@ -2,7 +2,7 @@
   "diff_view_style": "split",
   "cli_default_open_behavior": "existing_window",
   "agent": {
-    "dock": "right",
+    "dock": "left",
     "favorite_models": [],
     "model_parameters": [],
   },
@@ -16,7 +16,7 @@
     "right_padding": 0.2,
   },
   "collaboration_panel": {
-    "dock": "right",
+    "dock": "left",
     "button": false,
   },
   "cursor_blink": true,
@@ -39,10 +39,10 @@
   },
   "git_panel": {
     "button": true,
-    "dock": "right",
+    "dock": "left",
   },
   "icon_theme": {
-    "mode": "light",
+    "mode": "dark",
     "light": "VSCode Icons for Zed (Dark Official Icons)",
     "dark": "VSCode Icons for Zed (Dark Official Icons)",
   },
@@ -113,13 +113,13 @@
   },
   "lsp_document_colors": "background",
   "outline_panel": {
-    "dock": "right",
+    "dock": "left",
     "button": false,
   },
   "preferred_line_length": 120,
   "project_panel": {
     "button": true,
-    "dock": "right",
+    "dock": "left",
     "indent_size": 20,
   },
   "relative_line_numbers": "enabled",
@@ -152,8 +152,8 @@
     },
   },
   "theme": {
-    "dark": "Ayu Dark",
-    "light": "Ayu Light",
+    "dark": "Noctalia Dark",
+    "light": "One Light",
     "mode": "dark",
   },
   "title_bar": {

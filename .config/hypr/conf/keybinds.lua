@@ -230,6 +230,7 @@ end, { desc = "Move active workspace to other monitor" })
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("kitty"), { desc = "Launch terminal (kitty)" })
 hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar ~"), { desc = "Launch file manager (thunar)" })
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("kitty -e yazi ~"), { desc = "Launch file manager (yazi)" })
+hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("skwd-wall-v2"), { desc = "Launch wallpaper tool (skwd-wall-v2)" })
 
 -------------------------------------------------------
 -- 6. Media Streaming

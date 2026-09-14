@@ -11,7 +11,12 @@
 # collision is why both editors fight over the same extensions directory).
 #
 # NOTE: the caelestia zed theme link was dropped with caelestia; theming now
-# comes from the desktop shell.
+# comes from the desktop shell. Noctalia renders
+# .config/noctalia/templates/zed.json -> ~/.config/zed/themes/noctalia.json on
+# every palette change (gitignored output). That template is a fork of the
+# community one, registered as [theme.templates.user.zed] in the noctalia
+# settings.toml, so no symlink is needed here — the settings file points at the
+# repo path directly.
 
 pkgs=(
     code

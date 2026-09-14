@@ -12,6 +12,7 @@ set -euo pipefail
 anim_dir="$HOME/Pictures/#Animations"
 state_dir="${XDG_STATE_HOME:-$HOME/.local/state}"
 state="$state_dir/kraken-lcd.state"
+lock="$state_dir/kraken-lcd.lock"
 log="$state_dir/kraken-lcd.log"
 
 force=0
@@ -25,8 +26,20 @@ esac
 
 mkdir -p "$state_dir"
 
-# Skip silently when already in the requested mode.
-if [ "$force" -eq 0 ] && [ "$(cat "$state" 2>/dev/null || true)" = "$1" ]; then
+# The cooler loses its image across a power cycle, so the remembered mode is only
+# valid within one boot: pair it with the kernel's boot id and the first call
+# after a reboot always pushes, however the previous session left the state file.
+boot_id=$(cat /proc/sys/kernel/random/boot_id 2>/dev/null || echo unknown)
+want="$1 $boot_id"
+
+# Serialize: the Hyprland listener can fire twice in quick succession, and two
+# concurrent bulk writes to the LCD make each other fail (visible in the log as
+# "attempt 2"). The loser of the lock waits, then sees the state below and exits.
+exec 9>"$lock"
+flock 9
+
+# Skip silently when already in the requested mode on this boot.
+if [ "$force" -eq 0 ] && [ "$(cat "$state" 2>/dev/null || true)" = "$want" ]; then
     exit 0
 fi
 
@@ -34,7 +47,7 @@ fi
 for i in 1 2 3 4 5; do
     if liquidctl --match kraken set lcd screen gif "$gif" 2>/dev/null; then
         printf '%s  %-5s -> %s (attempt %d)\n' "$(date -Is)" "$1" "${gif##*/}" "$i" >> "$log"
-        printf '%s' "$1" > "$state"
+        printf '%s' "$want" > "$state"
         exit 0
     fi
     sleep 2

@@ -43,6 +43,11 @@ local cmds = {
     -- fails to enumerate on a cold scan at login, so retry until OpenRGB sees
     -- it. Targeted by name (not a `-l` index, which shifts between scans).
     { label = "OpenRGB",        cmd = retry('openrgb -d "Razer Leviathan V2 X" -c 000000', 10, 1) },
+    -- Push the cooler's login animation. The gamemode listener below also
+    -- fires on config load, but only `hyprland.start` is a documented event, so
+    -- the login push is anchored here. `kraken-lcd` is locked and boot-scoped,
+    -- so whichever call arrives first pushes and the other is a no-op.
+    { label = "Kraken LCD",     cmd = "/home/toni/.local/bin/kraken-lcd pixel" },
     -- Land on workspace 5 once everything else is up (WORKAROUND for workspace 6 appearing; TODO: fix it).
     { label = "Workspace",      cmd = 'hyprctl dispatch "hl.dsp.focus({ workspace = 5 })"' },
 }
@@ -73,10 +78,11 @@ end)
 -------------------------------------------------------
 -- Kraken LCD
 -- Swap the cooler's LCD animation with the vanity gamemode toggle (SUPER+F1).
--- This also covers login: the listener runs from apply_gamemode(), which fires
--- on every config load. `kraken-lcd` keeps its own state file and no-ops when
--- the mode is unchanged, so the repeated reload calls cost nothing (a real push
--- is a multi-MB USB transfer taking seconds).
+-- Login is handled by the "Kraken LCD" autostart entry above; this listener only
+-- has to follow the toggle. It runs from apply_gamemode(), which fires on every
+-- config load, but `kraken-lcd` no-ops when the mode is unchanged for the
+-- current boot, so the repeated reload calls cost nothing (a real push is a
+-- multi-MB USB transfer taking seconds).
 -------------------------------------------------------
 
 require("conf.vanity").on_gamemode_change(function(is_on)

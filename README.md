@@ -63,10 +63,10 @@ so nothing has to be linked for it; an unknown machine gets
 no monitors and leaves them to the catch-all rule in `conf/monitors.lua`.
 
 The Noctalia file *is* linked, by `host_links` in the module engine. The plain
-`settings.toml` in the repo is a symlink to the desktop variant, so a machine
-that has not been relinked keeps a working file after a pull instead of a
-dangling one — do not edit it, edit the variant it points at. To link a machine
-to its own file, run:
+`settings.toml` exists only in `$HOME`, as a symlink to this machine's variant;
+the repo does not track it (it is gitignored), so edit the variant instead. A
+machine with no variant of its own is not linked at all — seed one first (see
+below). To link a machine to its own file, run:
 
 ```bash
 ./scripts/install.sh shells

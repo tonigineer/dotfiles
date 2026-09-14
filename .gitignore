@@ -16,3 +16,7 @@
 .config/yazi/flavors/noctalia.yazi
 
 .config/zed/themes
+
+# Linked per host into $HOME by 031-shells.sh (host_links), pointing at
+# settings.<hostname>.toml. Never track it here.
+.local/state/noctalia/settings.toml

@@ -24,8 +24,9 @@ remove_pkgs=(
 # It is per host: the panel layout, wallpapers and lockscreen widgets are bound
 # to the outputs a machine actually has (eDP-1 on the notebook, DP-1/DP-3 on the
 # desktop). Noctalia rewrites this file at runtime, so each machine writes into
-# its own settings.<hostname>.toml and never fights the other over it. A machine
-# without a variant of its own gets settings.default.toml.
+# its own settings.<hostname>.toml and never fights the other over it. There is
+# no settings.default.toml: a machine without a variant of its own fails the
+# install until one is seeded from an existing machine (see README).
 host_links=(
     .local/state/noctalia/settings.toml
 )

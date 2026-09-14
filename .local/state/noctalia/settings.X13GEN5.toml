@@ -58,6 +58,9 @@ start = [
 thickness = 25
 widget_spacing = 10
 
+[brightness]
+minimum_brightness = 0.001
+
 [desktop_widgets]
 enabled = false
 
@@ -268,6 +271,7 @@ corner_radius_scale = 0.5000000074505806
 font_family = "Monaspace Krypton"
 lang = "en"
 password_style = "random"
+polkit_agent = true
 settings_show_advanced = true
 ui_scale = 1.1500000096857548
 

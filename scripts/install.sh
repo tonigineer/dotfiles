@@ -28,13 +28,17 @@ modules_dir="$script_dir/installations"
 
 # Resolve a user-supplied name to a module file path (prints it), else fail.
 resolve_module() {
-    local arg="$1" file base
+    local arg="$1" file base name
     for file in "$modules_dir"/*.sh; do
         [ -f "$file" ] || continue
         base="$(basename -- "$file")"
+        # Short name: basename without the NNN- ordering prefix (031-shells → shells).
+        name="${base%.sh}"
+        name="${name#[0-9][0-9][0-9]-}"
         if [ "$arg" = "$base" ] ||
             [ "$arg" = "${base%.sh}" ] ||
-            [ "$arg" = "$(to_label "$file")" ]; then
+            [ "$arg" = "$(to_label "$file")" ] ||
+            [ "${arg,,}" = "${name,,}" ]; then
             printf '%s\n' "$file"
             return 0
         fi

@@ -69,7 +69,7 @@
   // ============================================
   "window.commandCenter": false,
   "workbench.activityBar.location": "top",
-  "workbench.colorTheme": "Vague",
+  "workbench.colorTheme": "NoctaliaTheme",
   "workbench.editor.editorActionsLocation": "hidden",
   "workbench.editorAssociations": {
     "{git,gitlens,chat-editing-snapshot-text-model,copilot,git-graph,git-graph-3}:/**/*.qrc": "default",

@@ -244,6 +244,20 @@ hl.window_rule({
 })
 
 -------------------------------------------------------
+-- Layer Rules
+-------------------------------------------------------
+
+-- skwd-wall-v2 (058-wallpaper.sh) draws only layer-shell surfaces: the picker
+-- (skwd-wall, overlay), the wallpaper (skwd-paper, background) and its Vulkan
+-- renderer (skwd-wall-vk). Window rules never match them; the global `layers`
+-- slide animation (vanity.lua) does, and fights skwd's own transitions.
+hl.layer_rule({
+    name = "skwd-wall",
+    match = { namespace = "^skwd-(wall|paper|wall-vk)$" },
+    no_anim = true,
+})
+
+-------------------------------------------------------
 -- XWayland marker (last, so it wins over floating/pinned)
 -------------------------------------------------------
 

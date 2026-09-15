@@ -292,8 +292,13 @@ source = "wallpaper"
 wallpaper_scheme = "muted"
 
     [theme.templates]
-    builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "qt" ]
+    builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "kitty", "qt" ]
     community_ids = [ "spicetify", "zen-browser", "neovim", "vscode", "zed", "discord", "lazygit", "yazi" ]
+
+        [theme.templates.user.hyprland]
+        input_path = "/home/toni/Dotfiles/.config/noctalia/templates/hyprland.lua"
+        output_path = "/home/toni/.local/state/noctalia/hyprland-colors.lua"
+        post_hook = "hyprctl eval 'require(\"conf.noctalia\").apply()'"
 
 [wallpaper]
 directory = "/home/toni/Wallpaper"

@@ -6,8 +6,7 @@ center = [
     "widget",
     "spacer_2",
     "recorder",
-    "mpvpaper",
-    "wallhaven",
+    "skwd-wall",
     "_active_ws",
     "caffeine",
     "workspaces",
@@ -222,13 +221,6 @@ cheatsheet_position = "auto"
 compositor = "hyprland"
 hyprland_parser = "lua"
 
-[plugin_settings."noctalia/mpvpaper"]
-video_directory = "~/Wallpaper"
-
-[plugin_settings."noctalia/wallhaven"]
-api_key = "CG8wKz123iuIovJ4E69XtghNpikNJXQQ"
-download_dir = "~/Wallpaper/Wallhaven"
-
 [plugin_settings."yuuto/arch-updater"]
 assume_yes = true
 aur_helper = "yay"
@@ -241,8 +233,6 @@ update_mode = "background"
 enabled = [
     "noctalia/screen_recorder",
     "nightwatch75/todo",
-    "noctalia/mpvpaper",
-    "noctalia/wallhaven",
     "kenn/keybind-cheatsheet",
     "yuuto/arch-updater",
     "maddingo/hypr-layout-switcher",
@@ -339,8 +329,17 @@ source = "custom"
 wallpaper_scheme = "muted"
 
     [theme.templates]
-    builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "hyprland", "kitty", "qt" ]
-    community_ids = [ "spicetify", "zen-browser", "discord", "neovim", "vscode", "steam", "lazygit", "yazi", "libreoffice" ]
+    builtin_ids = [ "btop", "cava", "gtk3", "gtk4", "kitty", "qt" ]
+    community_ids = [ "spicetify", "zen-browser", "discord", "neovim", "steam", "lazygit", "yazi", "libreoffice" ]
+
+        [theme.templates.user.hyprland]
+        input_path = "/home/toni/Dotfiles/.config/noctalia/templates/hyprland.lua"
+        output_path = "/home/toni/.local/state/noctalia/hyprland-colors.lua"
+        post_hook = "hyprctl eval 'require(\"conf.noctalia\").apply()'"
+
+        [theme.templates.user.vscode]
+        input_path = "/home/toni/Dotfiles/.config/noctalia/templates/vscode.json"
+        output_path = "/home/toni/.vscode-oss/extensions/noctalia.noctaliatheme-0.0.5-universal/themes/NoctaliaTheme-color-theme.json"
 
         [theme.templates.user.zed]
         input_path = "/home/toni/Dotfiles/.config/noctalia/templates/zed.json"
@@ -348,6 +347,7 @@ wallpaper_scheme = "muted"
 
 [wallpaper]
 directory = "/home/toni/Wallpaper"
+enabled = false
 fill_mode = "stretch"
 transition_on_startup = true
 
@@ -393,7 +393,9 @@ icon_color = "error"
 show_value = false
 
 [widget.date]
-color = "primary"
+color = "#F4CF02"
+font_scale = 0.90000000000000013
+font_weight = 600
 format = "{:%H:%M %a, %d. %b}"
 tooltip_format = "{:%H:%M %a, %d. %b}"
 
@@ -427,12 +429,8 @@ color = "on_surface_variant"
 icon_color = "on_surface_variant"
 type = "kenn/keybind-cheatsheet:keybinds"
 
-[widget.mpvpaper]
-color = "on_surface_variant"
-icon_color = "on_surface_variant"
-type = "noctalia/mpvpaper:mpvpaper"
-
 [widget.network]
+show_label = false
 show_value = false
 
 [widget.network_rx]
@@ -441,18 +439,16 @@ capsule_opacity = 0.5
 capsule_padding = 0
 capsule_radius = 20
 glyph = "arrow-big-down-lines"
-label_min_width = 80
-network_speed_unit = "mb"
+label_min_width = 50
+network_speed_compact = true
 scale = 0.75
-show_value = false
 visualization = "none"
 
 [widget.network_tx]
 glyph = "arrow-big-up-lines"
-label_min_width = 80
-network_speed_unit = "mb"
+label_min_width = 50
+network_speed_compact = true
 scale = 0.75
-show_value = false
 visualization = "none"
 
 [widget.notifications]
@@ -475,6 +471,16 @@ type = "scripted"
 
 [widget.session]
 color = "error"
+
+[widget.skwd-wall]
+glyph = "hexagon"
+tooltip = "Skwd Wall — left: picker · right: random · middle: mixer"
+type = "custom_button"
+
+    [widget.skwd-wall.actions]
+    left = "exec skwd-wall-v2"
+    middle = "exec skwd-wall-v2 --mixer"
+    right = "exec skwd-helm random"
 
 [widget.spacer_2]
 type = "spacer"
@@ -525,12 +531,8 @@ type = "maddingo/hypr-layout-switcher:toggle"
 scale = 0.94999999999999996
 
 [widget.volume]
+show_label = false
 show_value = false
-
-[widget.wallhaven]
-color = "on_surface_variant"
-icon_color = "on_surface_variant"
-type = "noctalia/wallhaven:wallhaven"
 
 [widget.widget]
 font_scale = 0.75

@@ -17,6 +17,14 @@
 # community one, registered as [theme.templates.user.zed] in the noctalia
 # settings.toml, so no symlink is needed here — the settings file points at the
 # repo path directly.
+#
+# Code - OSS works the same way: .config/noctalia/templates/vscode.json (a fork
+# of the community `vscode` template: sidebar on the editor background, red kept
+# for real errors instead of variables/keys/tags) is registered as
+# [theme.templates.user.vscode] and rendered into the theme file of the Open VSX
+# extension Noctalia.noctaliatheme. Its output path names the extension's
+# version folder (…-0.0.5-universal), so an extension update needs that path
+# bumped in the settings.
 
 pkgs=(
     code

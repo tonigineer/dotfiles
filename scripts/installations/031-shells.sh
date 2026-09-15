@@ -4,6 +4,8 @@
 # was dropped when v5 landed; `extra/noctalia` tracks tagged betas, this
 # tracks main. It `provides`/`conflicts` noctalia, so the two are exclusive.
 
+# mpvpaper backs Noctalia's mpvpaper plugin on the notebook, which keeps
+# Noctalia's own wallpapers; the desktop uses skwd-wall-v2 (058-wallpaper.sh).
 pkgs=(
     noctalia-git
     mpvpaper

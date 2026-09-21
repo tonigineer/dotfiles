@@ -230,7 +230,8 @@ end, { desc = "Move active workspace to other monitor" })
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("kitty"), { desc = "Launch terminal (kitty)" })
 hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar ~"), { desc = "Launch file manager (thunar)" })
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("kitty -e yazi ~"), { desc = "Launch file manager (yazi)" })
-hl.bind("SUPER + SHIFT + W", hl.dsp.exec_cmd("skwd-wall-v2"), { desc = "Launch wallpaper tool (skwd-wall-v2)" })
+hl.bind("SUPER + SHIFT + W", function() require("conf.wallpaper").open() end,
+    { desc = "Launch wallpaper tool (skwd-wall-v2), wallpaper-only view" })
 
 -------------------------------------------------------
 -- 6. Media Streaming
@@ -326,13 +327,13 @@ end, {
 hl.bind("CTRL + ALT + U",
     function()
         local update_script = table.concat({
-            "yay -Syu",
+            "paru -Syu",
         })
 
         local cmd = "kitty -o font_size=6 -e bash -c " .. ("%q"):format(update_script)
         spawn_and_pin(cmd, { class = "kitty" })
     end,
-    { desc = "Run system update (yay -Syu)" }
+    { desc = "Run system update (paru -Syu)" }
 )
 
 -- Screenshots

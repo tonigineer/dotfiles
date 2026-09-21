@@ -44,7 +44,7 @@ end
 --- @param package string
 local function check_package(label, package)
     if not package then return end -- unpackaged theme (e.g. manually installed)
-    local handle = io.popen(string.format("yay -Qa | grep %s", package))
+    local handle = io.popen(string.format("paru -Qa | grep %s", package))
     if not handle then
         notify.error("Could not read output for check_package")
         return

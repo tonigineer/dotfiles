@@ -7,30 +7,30 @@ center = [
     "spacer_2",
     "recorder",
     "skwd-wall",
-    "_active_ws",
+    "_spacer",
     "caffeine",
     "workspaces",
     "notifications",
-    "_active_ws",
+    "_spacer",
     "todo",
     "clipboard",
-    "keybinds",
-    "spacer_2"
+    "keybinds"
 ]
 end = [
     "status",
-    "_active_ws",
+    "_spacer",
     "network_rx",
+    "_spacer_non",
     "network_tx",
-    "_active_ws",
+    "_spacer",
     "tray",
-    "_active_ws",
+    "_spacer",
     "volume",
     "bluetooth",
     "network",
-    "_active_ws",
+    "_spacer",
     "date",
-    "_active_ws",
+    "_spacer",
     "screen_recorder",
     "session"
 ]
@@ -42,17 +42,17 @@ radius_bottom_left = 5
 radius_bottom_right = 5
 start = [
     "control-center",
-    "_active_ws",
+    "_spacer",
     "cpu",
     "ram",
     "disc-home",
     "disk-root",
-    "_active_ws",
+    "_spacer",
     "group:g1",
-    "_active_ws",
+    "_spacer",
     "active_window",
     "toggle",
-    "_active_ws",
+    "_spacer",
     "special-workspaces"
 ]
 thickness = 25
@@ -223,7 +223,7 @@ hyprland_parser = "lua"
 
 [plugin_settings."yuuto/arch-updater"]
 assume_yes = true
-aur_helper = "yay"
+aur_helper = "paru"
 auto_check_hours = 1
 flatpak_enabled = false
 show_activity_graph = true
@@ -261,7 +261,6 @@ avatar_path = "/home/toni/.face"
 corner_radius_scale = 0.5000000074505806
 font_family = "Monaspace Krypton"
 lang = "en"
-password_style = "random"
 polkit_agent = true
 ui_scale = 1.1500000096857548
 
@@ -269,6 +268,7 @@ ui_scale = 1.1500000096857548
     launcher_categories = false
     launcher_placement = "attached"
     open_near_click_launcher = true
+    polkit_placement = "attached"
 
     [[shell.session.actions]]
     action = "lock"
@@ -372,7 +372,11 @@ transition_on_startup = true
 [weather]
 address = "Markdorf"
 
-[widget._active_ws]
+[widget._spacer]
+type = "spacer"
+
+[widget._spacer_non]
+length = 0
 type = "spacer"
 
 [widget.active_window]
@@ -390,17 +394,19 @@ glyph = "droplet-search"
 icon_color = "error"
 
 [widget.cpu]
+icon_color = "on_surface_variant"
 show_value = false
 
 [widget.date]
 color = "#F4CF02"
 font_scale = 0.90000000000000013
-font_weight = 600
+font_weight = 500
 format = "{:%H:%M %a, %d. %b}"
 tooltip_format = "{:%H:%M %a, %d. %b}"
 
 [widget.disc-home]
 glyph = "home"
+icon_color = "on_surface_variant"
 path = "/home"
 show_value = false
 stat = "disk_used_pct"
@@ -408,6 +414,7 @@ type = "sysmon"
 
 [widget.disk-root]
 glyph = "devices-pc"
+icon_color = "on_surface_variant"
 show_value = false
 stat = "disk_free_pct"
 type = "sysmon"
@@ -439,14 +446,14 @@ capsule_opacity = 0.5
 capsule_padding = 0
 capsule_radius = 20
 glyph = "arrow-big-down-lines"
-label_min_width = 50
+label_min_width = 55
 network_speed_compact = true
 scale = 0.75
 visualization = "none"
 
 [widget.network_tx]
 glyph = "arrow-big-up-lines"
-label_min_width = 50
+label_min_width = 55
 network_speed_compact = true
 scale = 0.75
 visualization = "none"
@@ -455,6 +462,7 @@ visualization = "none"
 hide_when_no_unread = true
 
 [widget.ram]
+icon_color = "on_surface_variant"
 show_value = false
 
 [widget.recorder]
@@ -473,13 +481,16 @@ type = "scripted"
 color = "error"
 
 [widget.skwd-wall]
+color = "on_surface_variant"
 glyph = "hexagon"
+icon_color = "on_surface_variant"
+scale = 0.90000000000000013
 tooltip = "Skwd Wall — left: picker · right: random · middle: mixer"
 type = "custom_button"
 
     [widget.skwd-wall.actions]
-    left = "exec skwd-wall-v2"
-    middle = "exec skwd-wall-v2 --mixer"
+    left = "exec /home/toni/.config/hypr/scripts/skwd-open.sh"
+    middle = "exec /home/toni/.config/hypr/scripts/skwd-open.sh --mixer"
     right = "exec skwd-helm random"
 
 [widget.spacer_2]
@@ -535,13 +546,18 @@ show_label = false
 show_value = false
 
 [widget.widget]
-font_scale = 0.75
+color = "#F4CF02"
+font_scale = 0.90000000000000013
+glyph = "shopping-cart-down"
 hide_on_empty = true
+icon_color = "on_surface_variant"
 type = "yuuto/arch-updater:widget"
 
 [widget.workspaces]
 anchor = true
 capsule = true
-empty_color = "tertiary"
+empty_color = "surface_variant"
+focused_color = "#F4CF02"
 label_source = "name"
+occupied_color = "outline"
 scale = 0.94999999999999996

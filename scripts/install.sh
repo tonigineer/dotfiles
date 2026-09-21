@@ -121,7 +121,7 @@ install_all() {
 # ── Entry point ─────────────────────────────────────────────────────────
 
 main() {
-    bootstrap_yay
+    bootstrap_paru
 
     if [ "$#" -eq 0 ]; then
         while true; do

@@ -9,7 +9,7 @@
 #
 set -euo pipefail
 
-anim_dir="$HOME/Pictures/#Animations"
+anim_dir="$HOME/Pictures/Animations"
 state_dir="${XDG_STATE_HOME:-$HOME/.local/state}"
 state="$state_dir/kraken-lcd.state"
 lock="$state_dir/kraken-lcd.lock"

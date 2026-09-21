@@ -1,0 +1,233 @@
+{
+  "components": {
+    "wallpaperSelector": {
+      "activePreset": {
+        "hex": "Style 1"
+      },
+      "displayMode": "hex",
+      "enabled": true,
+      "flipEffect": "Ignite",
+      "hexArc": true,
+      "hexArcIntensity": 1.2000000476837158,
+      "hexAspect": 100.0,
+      "hexCols": 7,
+      "hexCurve": "s",
+      "hexCurveFrequency": 1.0,
+      "hexGapX": 10,
+      "hexGapY": 10,
+      "hexLens": 0.0,
+      "hexLensRadius": 620.0,
+      "hexOrbit": 0.0,
+      "hexOrbitRadius": 620.0,
+      "hexRadius": 135,
+      "hexRows": 3,
+      "hexScatter": 0.0,
+      "hexScrollStep": 1,
+      "hexShape": "hexagon",
+      "hexStageDepthAngle": 0.0,
+      "hexStagePerspective": 0.0,
+      "hexStageRotation": 0.0,
+      "hexStageScale": 100.0,
+      "hexStageShearX": 0.0,
+      "hexStageShearY": 0.0,
+      "hexStageX": 0.0,
+      "hexStageY": 0.0,
+      "hexStagger": 50.0,
+      "hexTwist": 0.0,
+      "lastAppliedKey": "static:unix-cloud.jpg",
+      "lastBrowsePosition": {
+        "anchor": "static:dota-lina-doom-bringer.jpg",
+        "camera": 1944.0,
+        "layout": "f0a59c032b087666",
+        "selection": "static:dota-windranger-red.png"
+      },
+      "presets": {
+        "hex": [
+          {
+            "name": "Style 1",
+            "params": {
+              "hexArc": true,
+              "hexArcIntensity": 1.2000000476837158,
+              "hexAspect": 100.0,
+              "hexCols": 7,
+              "hexCurve": "flat",
+              "hexCurveFrequency": 1.0,
+              "hexGapX": 6.0,
+              "hexGapY": 6.0,
+              "hexLens": 0.0,
+              "hexLensRadius": 620.0,
+              "hexOrbit": 0.0,
+              "hexOrbitRadius": 620.0,
+              "hexRadius": 140.0,
+              "hexRows": 3,
+              "hexScatter": 0.0,
+              "hexScrollStep": 1,
+              "hexShape": "hexagon",
+              "hexStageDepthAngle": 0.0,
+              "hexStagePerspective": 0.0,
+              "hexStageRotation": 0.0,
+              "hexStageScale": 100.0,
+              "hexStageShearX": 0.0,
+              "hexStageShearY": 0.0,
+              "hexStageX": 0.0,
+              "hexStageY": 0.0,
+              "hexStagger": 50.0,
+              "hexTwist": 0.0
+            }
+          },
+          {
+            "name": "Style 2",
+            "params": {
+              "hexArc": true,
+              "hexArcIntensity": 1.2000000476837158,
+              "hexAspect": 100.0,
+              "hexCols": 9,
+              "hexCurve": "flat",
+              "hexCurveFrequency": 1.0,
+              "hexGapX": 6.0,
+              "hexGapY": 6.0,
+              "hexLens": 0.0,
+              "hexLensRadius": 620.0,
+              "hexOrbit": 0.0,
+              "hexOrbitRadius": 620.0,
+              "hexRadius": 140.0,
+              "hexRows": 3,
+              "hexScatter": 0.0,
+              "hexScrollStep": 1,
+              "hexShape": "hexagon",
+              "hexStageDepthAngle": 0.0,
+              "hexStagePerspective": 0.0,
+              "hexStageRotation": 0.0,
+              "hexStageScale": 100.0,
+              "hexStageShearX": 0.0,
+              "hexStageShearY": 0.0,
+              "hexStageX": 0.0,
+              "hexStageY": 0.0,
+              "hexStagger": 50.0,
+              "hexTwist": 0.0
+            }
+          }
+        ]
+      },
+      "showTypeBadges": true,
+      "sliceStageX": 100,
+      "sliceStageY": 100,
+      "startPosition": "applied",
+      "tagCloudRows": "1",
+      "tagCloudWidth": 960,
+      "wrapAround": true
+    }
+  },
+  "display": {
+    "fillMode": "fill"
+  },
+  "dms": {
+    "hoverPreview": false
+  },
+  "features": {
+    "matugen": false,
+    "steam": false
+  },
+  "filterBar": {
+    "show": {
+      "colors": true,
+      "folder": false,
+      "random": false,
+      "resolution": false,
+      "sort": {
+        "minimalist": false,
+        "pop": false,
+        "recent": false,
+        "res": false,
+        "richness": false
+      },
+      "tagcloud": false,
+      "theme": false,
+      "type": {
+        "we": false
+      }
+    }
+  },
+  "general": {
+    "closeOnSelection": false,
+    "filterBarAlwaysVisible": true,
+    "language": "en-US",
+    "locale": "",
+    "maxFps": 160,
+    "notifyOnWallpaperChange": false,
+    "openFadeFrom": 10,
+    "randomRotate": false,
+    "uiScale": 1.25,
+    "weatherMatch": false
+  },
+  "keys": {
+    "apply": "space",
+    "help": "shift+/",
+    "navDown": "j",
+    "navLeft": "h",
+    "navRight": "l",
+    "navUp": "k",
+    "select": ""
+  },
+  "launch": {
+    "animation": "zoom"
+  },
+  "matugen": {
+    "mode": "dark"
+  },
+  "motion": {
+    "launchSpeed": "slow"
+  },
+  "noctalia": {
+    "hoverPreview": true
+  },
+  "paths": {
+    "wallpaper": "~/Wallpaper"
+  },
+  "performance": {
+    "autoOptimizeImages": false,
+    "batterySaver": false,
+    "batteryVideoIdleSeconds": 160,
+    "gpuDevice": "uuid:f3f57568ac6d3e0e0c45bc4cbad2835a",
+    "gpuPreference": "high",
+    "imageOptimizePreset": "quality",
+    "imageOptimizeResolution": "4k"
+  },
+  "postProcessOnRestore": true,
+  "schedule": {
+    "applyOnStart": false
+  },
+  "selector": {
+    "livePreview": true
+  },
+  "theme": {
+    "authority": "noctalia",
+    "noctaliaPureBlack": false,
+    "noctaliaScheme": "muted",
+    "policy": "wallpaper"
+  },
+  "transition": {
+    "durationMs": 1000,
+    "enabled": true,
+    "preview": true,
+    "previewFps": 160,
+    "shader": "smoke",
+    "shaderScopes": {
+      "chromatic-bloom": "all",
+      "glitch": "all",
+      "glitch-displace": "all",
+      "ink-splash": "all",
+      "inkwell-drop": "all",
+      "mosaic-tumble": "all",
+      "parametric-glitch": "all",
+      "pixelate": "all",
+      "plasma-flow": "all",
+      "smoke": "all",
+      "voronoi-shatter": "all"
+    }
+  },
+  "videoPreview": {
+    "delayMs": 200,
+    "enabled": true
+  }
+}

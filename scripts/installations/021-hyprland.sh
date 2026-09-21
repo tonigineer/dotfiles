@@ -69,16 +69,16 @@ mod_post_install() {
     ln -sf "$dotfiles_dir/assets/avatar.jpg" ~/.face
     safe_symlink .config/gtk-3.0/gtk.css
 
-    # Keep yay's status: fc-cache always succeeds, so letting it be the last
+    # Keep paru's status: fc-cache always succeeds, so letting it be the last
     # command would hide a failed cursor-theme install until `status` runs.
     local rc=0
-    yay_install "${_pkgs_theme[@]}" || rc=$?
+    paru_install "${_pkgs_theme[@]}" || rc=$?
     fc-cache -v
     return "$rc"
 }
 
 mod_check() {
-    yay_check "${_pkgs_theme[@]}" &&
+    paru_check "${_pkgs_theme[@]}" &&
         [ -L ~/.config/gtk-3.0/gtk.css ]
 }
 

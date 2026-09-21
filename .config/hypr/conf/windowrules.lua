@@ -43,7 +43,7 @@ end)
 -- hide_special_on_workspace_change:true misses.
 hl.on("workspace.active", function()
     if hl.get_active_special_workspace() then
-        hl.dsp.workspace.toggle_special("scratchpad")
+        hl.dispatch(hl.dsp.workspace.toggle_special("scratchpad"))
     end
 end)
 

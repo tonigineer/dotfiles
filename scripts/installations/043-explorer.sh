@@ -1,8 +1,9 @@
-# ── Explorer — Thunar + thumbnailers ────────────────────────────────────
+# ── Explorer — Thunar + thumbnailers + iPhone (AFC) ─────────────────────
 
 pkgs=(
     evince
     ffmpegthumbnailer
+    gvfs-afc
     imv
     libopenraw
     libgsf

@@ -14,7 +14,7 @@
 # idempotent: that listener also fires on every config reload, and a push is a
 # multi-MB USB transfer taking seconds.
 #
-# NOTE: the animations themselves live in ~/Pictures/#Animations and are user
+# NOTE: the animations themselves live in ~/Pictures/Animations and are user
 # data, intentionally not tracked here — they are far too large for the repo.
 # The script degrades safely if they are missing (liquidctl fails, it retries,
 # then logs FAILED and exits non-zero).

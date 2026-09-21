@@ -6,8 +6,7 @@ center = [
     "widget",
     "spacer_2",
     "recorder",
-    "mpvpaper",
-    "wallhaven",
+    "skwd-wall",
     "_active_ws",
     "caffeine",
     "workspaces",
@@ -230,7 +229,7 @@ download_dir = "~/Wallpaper/Wallhaven"
 [plugin_settings."yuuto/arch-updater"]
 activity_history_length = 25
 assume_yes = true
-aur_helper = "yay"
+aur_helper = "paru"
 auto_check_hours = 1
 flatpak_enabled = false
 show_activity_graph = true
@@ -240,8 +239,6 @@ update_mode = "background"
 enabled = [
     "noctalia/screen_recorder",
     "nightwatch75/todo",
-    "noctalia/mpvpaper",
-    "noctalia/wallhaven",
     "kenn/keybind-cheatsheet",
     "yuuto/arch-updater",
     "maddingo/hypr-layout-switcher",
@@ -287,8 +284,9 @@ network_poll_seconds = 1
 [theme]
 builtin = "Noctalia"
 community_palette = "Zenbones"
+custom_palette = "skwd-wall"
 mode = "dark"
-source = "wallpaper"
+source = "custom"
 wallpaper_scheme = "muted"
 
     [theme.templates]
@@ -302,6 +300,7 @@ wallpaper_scheme = "muted"
 
 [wallpaper]
 directory = "/home/toni/Wallpaper"
+enabled = false
 fill_mode = "stretch"
 transition_on_startup = true
 
@@ -363,11 +362,6 @@ color = "on_surface_variant"
 icon_color = "on_surface_variant"
 type = "kenn/keybind-cheatsheet:keybinds"
 
-[widget.mpvpaper]
-color = "on_surface_variant"
-icon_color = "on_surface_variant"
-type = "noctalia/mpvpaper:mpvpaper"
-
 [widget.network]
 show_label = false
 show_value = false
@@ -406,6 +400,19 @@ type = "noctalia/screen_recorder:recorder"
 
 [widget.session]
 color = "error"
+
+[widget.skwd-wall]
+color = "on_surface_variant"
+glyph = "hexagon"
+icon_color = "on_surface_variant"
+scale = 0.90000000000000013
+tooltip = "Skwd Wall — left: picker · right: random · middle: mixer"
+type = "custom_button"
+
+    [widget.skwd-wall.actions]
+    left = "exec /home/toni/.config/hypr/scripts/skwd-open.sh"
+    middle = "exec /home/toni/.config/hypr/scripts/skwd-open.sh --mixer"
+    right = "exec skwd-helm random"
 
 [widget.spacer_2]
 type = "spacer"
@@ -458,11 +465,6 @@ match_adjacent_spacing = true
 [widget.volume]
 show_label = false
 show_value = false
-
-[widget.wallhaven]
-color = "on_surface_variant"
-icon_color = "on_surface_variant"
-type = "noctalia/wallhaven:wallhaven"
 
 [widget.widget]
 hide_on_empty = true

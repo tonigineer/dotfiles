@@ -107,7 +107,7 @@ Then edit the monitor `desc` fields to match `hyprctl monitors`.
 - <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>Q</kbd> — Open powermenu
 - <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Y</kbd> — Cast currently playing media URL to MPV player
 - <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>N</kbd> — Start Netflix App (brave app functionality)
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>U</kbd> — Start system update (`yay -Syu`)
+- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>U</kbd> — Start system update (`paru -Syu`)
 - <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>L</kbd> — Lock screen
 
 ### Custom utilities (Lua)

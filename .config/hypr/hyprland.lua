@@ -26,6 +26,7 @@ require("conf.layouts")
 require("conf.settings")
 require("conf.workspaces")
 require("conf.windowrules")
+require("conf.wallpaper")
 
 -- Keybinds
 require("conf.keybinds")

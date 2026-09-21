@@ -59,28 +59,28 @@ retry() {
     return "$rc"
 }
 
-# ── Packages (yay) ──────────────────────────────────────────────────────
+# ── Packages (paru) ─────────────────────────────────────────────────────
 
-yay_check() {
-    yay -Q "$@" &>/dev/null
+paru_check() {
+    paru -Q "$@" &>/dev/null
 }
 
-# Both keep yay's exit status: `pause_any` is only a prompt, so letting it be
+# Both keep paru's exit status: `pause_any` is only a prompt, so letting it be
 # the last command would make every install/uninstall look successful and
 # `engine_install`'s `|| return 1` unreachable.
 
-# The sync is retried: `yay -S` is idempotent, so a PKGBUILD clone that got
+# The sync is retried: `paru -S` is idempotent, so a PKGBUILD clone that got
 # dropped mid-run costs a retry rather than the whole module.
-yay_install() {
+paru_install() {
     local rc=0
-    retry yay -S "$@" --noconfirm || rc=$?
+    retry paru -S "$@" --noconfirm || rc=$?
     pause_any
     return "$rc"
 }
 
-yay_uninstall() {
+paru_uninstall() {
     local rc=0
-    yay -Rns "$@" --noconfirm || rc=$?
+    paru -Rns "$@" --noconfirm || rc=$?
     pause_any
     return "$rc"
 }
@@ -179,9 +179,9 @@ host_link_ok() {
 
 # ── Bootstrap ───────────────────────────────────────────────────────────
 
-bootstrap_yay() {
-    if command -v yay >/dev/null 2>&1; then
-        echo "yay is already installed."
+bootstrap_paru() {
+    if command -v paru >/dev/null 2>&1; then
+        echo "paru is already installed."
         return 0
     fi
 
@@ -196,16 +196,16 @@ bootstrap_yay() {
         # Clear the target first: a clone killed mid-transfer can leave a
         # partial directory behind, and cloning into a non-empty path fails.
         # shellcheck disable=SC2329  # invoked indirectly, via `retry`
-        clone_yay() {
-            rm -rf -- "$tmp/yay" &&
-                git clone https://aur.archlinux.org/yay.git "$tmp/yay"
+        clone_paru() {
+            rm -rf -- "$tmp/paru" &&
+                git clone https://aur.archlinux.org/paru.git "$tmp/paru"
         }
 
-        retry clone_yay
-        pushd "$tmp/yay" >/dev/null || exit
+        retry clone_paru
+        pushd "$tmp/paru" >/dev/null || exit
         makepkg -si --noconfirm
         popd >/dev/null || exit
     )
 
-    echo "yay installed successfully."
+    echo "paru installed successfully."
 }

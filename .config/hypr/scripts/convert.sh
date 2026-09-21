@@ -20,7 +20,7 @@ show_menu() {
     else
         notify-send \
             "Custom Capture Error" \
-            "Command 'walker' not found. Install via 'yay -Syu walker'." \
+            "Command 'walker' not found. Install via 'paru -Syu walker'." \
             --app-name="Custom Capture" \
             --icon=dialog-error \
             -u critical

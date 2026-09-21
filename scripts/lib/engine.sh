@@ -5,7 +5,7 @@
 # A module (installations/NNN-name.sh) is pure data plus optional hooks — it
 # contains NO top-level logic, only these assignments/functions (all optional):
 #
-#   pkgs=( foo bar )                 # packages to install with yay
+#   pkgs=( foo bar )                 # packages to install with paru
 #   remove_pkgs=( foo )              # packages to remove on uninstall
 #   links=( .bashrc .config/kitty )  # symlink $dotfiles_dir/X -> $HOME/X
 #   host_links=( .config/foo.conf )  # same, but links this machine's variant:
@@ -20,7 +20,7 @@
 # The engine derives install / status / uninstall from the above. Anything that
 # doesn't fit "install these packages, link these files" lives in a hook.
 #
-# Requires common.sh (yay_*, safe_symlink, unlink_dotfile) to be sourced first.
+# Requires common.sh (paru_*, safe_symlink, unlink_dotfile) to be sourced first.
 
 # ── Actions ─────────────────────────────────────────────────────────────
 
@@ -30,7 +30,7 @@ engine_install() {
     declare -F mod_pre_install >/dev/null && { mod_pre_install || return 1; }
 
     if [ "${#pkgs[@]}" -gt 0 ]; then
-        yay_install "${pkgs[@]}" || return 1
+        paru_install "${pkgs[@]}" || return 1
     fi
 
     local rel
@@ -54,7 +54,7 @@ engine_install() {
 # machine's variant) AND mod_check (if any).
 engine_status() {
     if [ "${#pkgs[@]}" -gt 0 ]; then
-        yay_check "${pkgs[@]}" || return 1
+        paru_check "${pkgs[@]}" || return 1
     fi
 
     local rel
@@ -84,7 +84,7 @@ engine_uninstall() {
     done
 
     if [ "${#remove_pkgs[@]}" -gt 0 ]; then
-        yay_uninstall "${remove_pkgs[@]}" || true
+        paru_uninstall "${remove_pkgs[@]}" || true
     fi
 
     declare -F mod_post_uninstall >/dev/null && { mod_post_uninstall || true; }

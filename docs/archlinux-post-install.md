@@ -7,14 +7,14 @@ Things to do after the installation process for [Arch Linux](https://archlinux.o
 
 ## Mandatory
 
-Installation of [yay](https://github.com/Jguer/yay) for the [Arch User Repository (AUR)](https://wiki.archlinux.org/title/Arch_User_Repository).
+Installation of [paru](https://github.com/Morganamilo/paru) for the [Arch User Repository (AUR)](https://wiki.archlinux.org/title/Arch_User_Repository).
 
 ```bash
 sudo pacman -S base-devel git vim
 cd /opt
-sudo git clone https://aur.archlinux.org/yay.git
-sudo chown -R USERNAME:GROUP ./yay
-cd yay
+sudo git clone https://aur.archlinux.org/paru.git
+sudo chown -R USERNAME:GROUP ./paru
+cd paru
 makepkg -si
 ```
 
@@ -35,7 +35,7 @@ ILoveCandy
 Include = /etc/pacman.d/mirrorlist
 
 # Run after saving
-yay -Sy
+paru -Sy
 ```
 
 Some quality of life changes for Vim

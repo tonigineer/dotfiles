@@ -11,6 +11,16 @@
 # (CTRL+ALT+L) and then hibernating would otherwise ask the compositor for a
 # second ext-session-lock, which it refuses. The bracket in the pattern keeps
 # pgrep from matching this very command line.
+#
+# XDG_SESSION_TYPE is set explicitly because the user manager does not carry
+# it, and lock.sh's fallback (`loginctl show-session $(loginctl | grep $USER)`)
+# returns one line per session — "wayland" for the seat session plus
+# "unspecified" for the manager session — which never equals "wayland".
+# lock_shell.qml then takes its X11 branch: two ordinary fullscreen windows,
+# both stuck on the primary monitor, and no ext-session-lock at all, so the
+# secondary monitor showed the live desktop after resume. CTRL+ALT+L and
+# Noctalia's lock action were never affected: Hyprland and Noctalia both run
+# with XDG_SESSION_TYPE=wayland.
 
 [Unit]
 Description=qylock lock screen
@@ -18,6 +28,7 @@ Documentation=https://github.com/Darkkal44/qylock
 
 [Service]
 Type=exec
+Environment=XDG_SESSION_TYPE=wayland
 ExecCondition=/usr/bin/bash -c '! pgrep -f "lock_shell[.]qml" >/dev/null'
 ExecStart=%h/.local/share/quickshell-lockscreen/lock.sh
 Restart=no

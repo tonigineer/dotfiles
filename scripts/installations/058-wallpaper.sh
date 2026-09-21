@@ -14,11 +14,11 @@
 #
 # Setup follows https://github.com/liixini/skwd-wall (README, Arch section).
 #
-# Desktop only. The notebook (X13GEN5) keeps Noctalia's own wallpaper engine
-# and its mpvpaper/wallhaven plugins (settings.X13GEN5.toml), so on any host
-# not listed here the module installs nothing and enables no service.
+# On the desktop (Z790E) and the notebook (X13GEN5). Any host not listed here
+# keeps Noctalia's own wallpaper engine: the module installs nothing and enables
+# no service there.
 
-_hosts=(Z790E)
+_hosts=(Z790E X13GEN5)
 
 # shellcheck disable=SC2317  # called from the hooks below
 _enabled() {
@@ -30,6 +30,20 @@ if _enabled; then
         skwd-wall-v2-bin
         # Optional semantic search in the picker; pulls the skwd-lens-model pack.
         skwd-lens-bin
+    )
+
+    # The picker's own settings (layout, transitions, key bindings, the GPU it
+    # renders on). Skwd rewrites the file from the settings UI; should it ever
+    # replace rather than rewrite it, $HOME would hold a plain file again and
+    # `--status wallpaper` would fail, which is the signal to relink. Only this
+    # file: the rest of that directory is the matugen template copy Skwd ships.
+    #
+    # Per host, because Settings → Performance pins the render GPU by UUID
+    # (`performance.gpuDevice`), which only exists on the machine that chose it.
+    # Settings → Sources stores Wallhaven/Pexels/Unsplash/Steam API keys in here;
+    # keep them out, or the file stops being committable.
+    host_links=(
+        .config/skwd-wall-v2/config.json
     )
 fi
 

@@ -68,6 +68,16 @@ ui_scale = 1.1500000096857548
     variant = "default"
 
     [[shell.session.actions]]
+    action = "command"
+    command = "/home/toni/.local/bin/qylock-hibernate"
+    countdown_seconds = 2.0
+    enabled = true
+    glyph = "hibernate"
+    label = "Hibernate"
+    shortcut = "h"
+    variant = "primary"
+
+    [[shell.session.actions]]
     action = "reboot"
     enabled = true
     shortcut = "r"

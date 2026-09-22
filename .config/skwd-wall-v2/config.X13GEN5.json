@@ -34,6 +34,7 @@
       "hexStageY": 0.0,
       "hexStagger": 50.0,
       "hexTwist": 0.0,
+      "lastAppliedKey": "static:Study-table.png",
       "presets": {
         "hex": [
           {

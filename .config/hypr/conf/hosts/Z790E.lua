@@ -6,6 +6,14 @@
 --
 
 return {
+    --- NZXT Kraken Elite LCD is attached; enables the kraken-lcd autostart
+    --- entry and gamemode listener in conf/autostart.lua.
+    kraken_lcd = true,
+
+    --- Razer Leviathan V2 X soundbar is attached; enables the OpenRGB
+    --- autostart entry in conf/autostart.lua.
+    razer_leviathan = true,
+
     --- Monitor profiles, consumed by conf/monitors.lua.
     --- `desc` must match the output of `hyprctl monitors` (without the port
     --- suffix). `role` marks which monitor is primary and which is secondary.

@@ -4,14 +4,13 @@
 #
 #   1. mkinitcpio's `resume` hook, after `block` (needs the block devices)
 #      and before `filesystems` (must run before root is mounted rw).
-#   2. A way for the initrd to find the image. On EFI that is systemd's
-#      `HibernateLocation` variable — written at hibernate time, read back
-#      by systemd-hibernate-resume, which the hook execs since systemd 255
-#      — so nothing is needed on the cmdline. Off EFI there is no variable,
-#      and `resume=UUID=…` + `resume_offset=` go on the cmdline instead;
-#      with neither, /sys/power/resume stays 0:0, the image is ignored, and
-#      hibernating looks like a slow poweroff. Why EFI drops the cmdline
-#      instead of keeping it as a second path: see "Cmdline" below.
+#   2. A way for the initrd to find the image: `resume=UUID=…` +
+#      `resume_offset=` on the cmdline, read by systemd-hibernate-resume,
+#      which the hook execs since systemd 255. On EFI systemd also writes a
+#      `HibernateLocation` variable at hibernate time, but the cmdline goes
+#      on there too — see "Cmdline" below. With neither, /sys/power/resume
+#      stays 0:0, the image is ignored, and hibernating looks like a slow
+#      poweroff.
 #   3. A resume area at least RAM-sized — see below.
 #
 # ── Sizing ──────────────────────────────────────────────────────────────
@@ -57,24 +56,24 @@
 #
 # ── Cmdline ────────────────────────────────────────────────────────────
 #
-# `resume=` on an EFI system is redundant with the EFI variable, and not
-# free: the hook writes the device to /sys/power/resume on *every* boot, so
-# a boot with no image on disk gets `PM: Image not found (code -22)` from
-# the kernel and `Unable to resume from device '…' (259:1) offset …,
-# continuing boot process.` from systemd-hibernate-resume — on the console,
-# before the journal exists. Both are cosmetic: the write fails precisely
-# because there is nothing to resume. Nothing quiets them while the
-# parameter is set (they are printed before any log filter applies), but
-# with it gone the hook finds no HibernateLocation, logs "not set, skipping"
-# at debug level, and exits — a silent cold boot.
+# `resume=` goes on the cmdline on EFI as well, for two reasons:
 #
-# Dropping it costs one recovery path: an image on disk whose EFI variable
-# the firmware lost (NVRAM reset, power cut mid-hibernate) is no longer
-# resumable. Every other failure — efivarfs unwritable, no variable space —
-# makes `systemctl hibernate` refuse *before* it suspends, so a live session
-# is never at risk. Off EFI systemd will not hibernate without the parameter
-# at all ("Not running on EFI and resume= is not set. Hibernation is not
-# safe."), which is why `_efi_boot` still writes it there.
+#   - The EFI variable alone lost a session on X13GEN5: `systemctl
+#     hibernate` wrote a complete image, the variable was gone by the next
+#     boot, the initrd never tried to resume, and swapon wiped the image
+#     ("software suspend data detected. Rewriting the swap signature.").
+#     With resume= the kernel finds the image whether or not the variable
+#     survived.
+#   - Without it systemd-sleep picks the highest-priority swap for the
+#     image — the paging partition, the ENOSPC case "Sizing" describes.
+#     With it, the image goes to the area resume= names: the reserve.
+#
+# The cost is cosmetic: the hook writes the device to /sys/power/resume on
+# *every* boot, so a boot with no image on disk gets `PM: Image not found
+# (code -22)` from the kernel and `Unable to resume from device '…' (259:1)
+# offset …, continuing boot process.` from systemd-hibernate-resume — on
+# the console, before the journal exists. The write fails precisely because
+# there is nothing to resume.
 #
 # ── Sleep delay ────────────────────────────────────────────────────────
 #
@@ -155,12 +154,6 @@ _fstab=/etc/fstab
 _fstab_marker='# Added by 055-hibernation.sh — hibernation reserve.'
 
 # ── Helpers ─────────────────────────────────────────────────────────────
-
-# True when booted via EFI, where systemd's HibernateLocation variable makes
-# the resume= cmdline redundant — see "Cmdline" above.
-_efi_boot() {
-    [ -d /sys/firmware/efi ]
-}
 
 # True when `resume` is already in HOOKS. The array is routinely wrapped across
 # lines, so both this and the edit below address it as the range `HOOKS=(` … `)`
@@ -343,29 +336,21 @@ mod_post_install() {
         echo "No $_mkinitcpio — skipping the resume hook." >&2
     fi
 
-    # 2. resume= / resume_offset=: stripped on EFI, written off it. Rewrite
-    #    existing values instead of appending, so re-running after a
-    #    repartition or resize is safe.
-    if [ -f "$_grub" ] && { _efi_boot || [ -n "$uuid" ]; }; then
-        if _efi_boot; then
-            sudo sed -i -E '/^GRUB_CMDLINE_LINUX_DEFAULT=/ {
-                s|[ ]*resume=[^ "]*||; s|[ ]*resume_offset=[^ "]*|| }' "$_grub"
-        elif grep -qE '^GRUB_CMDLINE_LINUX_DEFAULT=.*[ "]resume=' "$_grub"; then
-            sudo sed -i -E \
-                "s|^(GRUB_CMDLINE_LINUX_DEFAULT=.*[ \"])resume=[^ \"]*|\1resume=UUID=$uuid|" \
-                "$_grub"
-        else
-            sudo sed -i -E \
-                "s|^(GRUB_CMDLINE_LINUX_DEFAULT=\")(.*)(\")\$|\1\2 resume=UUID=$uuid\3|" \
-                "$_grub"
-        fi
-
-        if ! _efi_boot; then
-            sudo sed -i -E 's|[ ]*resume_offset=[^ "]*||' "$_grub"
-            sudo sed -i -E \
-                "s|^(GRUB_CMDLINE_LINUX_DEFAULT=\")(.*)(\")\$|\1\2 resume_offset=${offset:-0}\3|" \
-                "$_grub"
-        fi
+    # 2. resume= / resume_offset=, on EFI too — see "Cmdline" above. Old
+    #    values are stripped and rewritten rather than appended to, so
+    #    re-running after a repartition or resize is safe.
+    if [ -z "$uuid" ]; then
+        echo "No swap area found — cannot set resume=; hibernation stays unavailable." >&2
+    elif [ -f "$(_resume_area)" ] && [ -z "$offset" ]; then
+        # A swapfile at offset 0 would point the kernel at the filesystem's
+        # first block, not the swap header.
+        echo "Could not read the offset of $(_resume_area) — resume= left unchanged." >&2
+    elif [ -f "$_grub" ]; then
+        sudo sed -i -E '/^GRUB_CMDLINE_LINUX_DEFAULT=/ {
+            s|[ ]*resume=[^ "]*||; s|[ ]*resume_offset=[^ "]*|| }' "$_grub"
+        sudo sed -i -E \
+            "s|^(GRUB_CMDLINE_LINUX_DEFAULT=\")(.*)(\")\$|\1\2 resume=UUID=$uuid resume_offset=$offset\3|" \
+            "$_grub"
 
         # Collapse the leading space an emptied value would leave.
         sudo sed -i -E 's|^(GRUB_CMDLINE_LINUX_DEFAULT=")[[:space:]]+|\1|' "$_grub"
@@ -373,8 +358,6 @@ mod_post_install() {
         # Fails on a container overlayfs (no real root device); the edit above
         # is the part this module owns.
         sudo grub-mkconfig -o /boot/grub/grub.cfg || true
-    elif [ -z "$uuid" ]; then
-        echo "No swap area found — cannot set resume=; hibernation stays unavailable." >&2
     fi
 
     # 3. Raise the image target above RAM, reapplied on every boot.
@@ -417,19 +400,13 @@ mod_check() {
         grep -qxF "HibernateDelaySec=$_hibernate_delay" "$_sleepconf" 2>/dev/null ||
         return 1
 
-    if _efi_boot; then
-        # HibernateLocation carries the location; a leftover cmdline would only
-        # add the failed resume attempt to every cold boot.
-        ! grep -qE '^GRUB_CMDLINE_LINUX_DEFAULT=.*[ "]resume(_offset)?=' "$_grub"
-    else
-        # Empty = filefrag needed a password; assert only that the parameter is
-        # present, not that it is current.
-        offset="$(_resume_offset)"
-        [ -n "$offset" ] || offset='[0-9]+'
+    # Empty = filefrag needed a password; assert only that the parameter is
+    # present, not that it is current.
+    offset="$(_resume_offset)"
+    [ -n "$offset" ] || offset='[0-9]+'
 
-        grep -qE "^GRUB_CMDLINE_LINUX_DEFAULT=.*resume=UUID=$uuid" "$_grub" &&
-            grep -qE "^GRUB_CMDLINE_LINUX_DEFAULT=.*resume_offset=$offset([ \"])" "$_grub"
-    fi
+    grep -qE "^GRUB_CMDLINE_LINUX_DEFAULT=.*resume=UUID=$uuid" "$_grub" &&
+        grep -qE "^GRUB_CMDLINE_LINUX_DEFAULT=.*resume_offset=$offset([ \"])" "$_grub"
 }
 
 mod_pre_uninstall() {

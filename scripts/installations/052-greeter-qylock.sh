@@ -40,6 +40,7 @@ remove_pkgs=(
 
 links=(
     .config/systemd/user/qylock-lock.service
+    .local/bin/qylock-hibernate
 )
 
 _sleep_unit=/etc/systemd/system/qylock-lock-before-sleep.service

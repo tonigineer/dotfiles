@@ -50,6 +50,8 @@ hl.config({
         enable_anr_dialog = false,              -- 0: ignore (keep fullscreen) | 1: takes over | 2: unfullscreen
         on_focus_under_fullscreen = 1,          -- 0: off | 1: on | 2: fullscreen only | 3: fullscreen + video/game content
         allow_session_lock_restore = true,
+        key_press_enables_dpms = true,          -- wake from qylock-hibernate's blank (and any dpms off)
+        mouse_move_enables_dpms = true,
     },
     xwayland = {
         enabled = true,

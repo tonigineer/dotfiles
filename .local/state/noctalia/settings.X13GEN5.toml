@@ -353,7 +353,9 @@ icon_color = "error"
 show_value = false
 
 [widget.date]
-color = "primary"
+color = "#F4CF02"
+font_scale = 0.90000000000000013
+font_weight = 500
 format = "{:%H:%M %a, %d. %b}"
 tooltip_format = "{:%H:%M %a, %d. %b}"
 
@@ -467,12 +469,18 @@ show_label = false
 show_value = false
 
 [widget.widget]
+color = "#F4CF02"
+font_scale = 0.90000000000000013
+glyph = "shopping-cart-down"
 hide_on_empty = true
+icon_color = "on_surface_variant"
 type = "yuuto/arch-updater:widget"
 
 [widget.workspaces]
 anchor = true
 capsule = true
-empty_color = "tertiary"
+empty_color = "surface_variant"
+focused_color = "#F4CF02"
 label_source = "name"
-style = "focus_hint"
+occupied_color = "outline"
+scale = 0.94999999999999996

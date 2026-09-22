@@ -6,6 +6,11 @@
 
 local notify = require("conf.notify")
 
+--- Hardware only some hosts have; see conf/hosts/<hostname>.lua.
+local profile       = require("conf.host").profile()
+local has_kraken    = profile.kraken_lcd == true
+local has_leviathan = profile.razer_leviathan == true
+
 -------------------------------------------------------
 -- Command builders
 -- Non-trivial autostart commands are assembled here so the list below stays
@@ -29,7 +34,8 @@ end
 
 -------------------------------------------------------
 -- Configuration
--- Each entry: label = name shown in the failure notice, cmd = shell to run.
+-- Each entry: label = name shown in the failure notice, cmd = shell to run,
+-- optional when = false to skip the entry on this host.
 -- The comment above each entry documents *why* it is in autostart.
 -------------------------------------------------------
 
@@ -42,12 +48,12 @@ local cmds = {
     -- Turn the Razer Leviathan LEDs off. This USB HID device intermittently
     -- fails to enumerate on a cold scan at login, so retry until OpenRGB sees
     -- it. Targeted by name (not a `-l` index, which shifts between scans).
-    { label = "OpenRGB",        cmd = retry('openrgb -d "Razer Leviathan V2 X" -c 000000', 10, 1) },
+    { label = "OpenRGB",        cmd = retry('openrgb -d "Razer Leviathan V2 X" -c 000000', 10, 1), when = has_leviathan },
     -- Push the cooler's login animation. The gamemode listener below also
     -- fires on config load, but only `hyprland.start` is a documented event, so
     -- the login push is anchored here. `kraken-lcd` is locked and boot-scoped,
     -- so whichever call arrives first pushes and the other is a no-op.
-    { label = "Kraken LCD",     cmd = "/home/toni/.local/bin/kraken-lcd pixel" },
+    { label = "Kraken LCD",     cmd = "/home/toni/.local/bin/kraken-lcd pixel", when = has_kraken },
     -- Land on workspace 5 once everything else is up (WORKAROUND for workspace 6 appearing; TODO: fix it).
     { label = "Workspace",      cmd = 'hyprctl dispatch "hl.dsp.focus({ workspace = 5 })"' },
 }
@@ -71,7 +77,9 @@ end
 
 hl.on("hyprland.start", function()
     for _, entry in ipairs(cmds) do
-        exec_or_notify(entry.cmd, entry.label)
+        if entry.when ~= false then
+            exec_or_notify(entry.cmd, entry.label)
+        end
     end
 end)
 
@@ -85,8 +93,10 @@ end)
 -- multi-MB USB transfer taking seconds).
 -------------------------------------------------------
 
-require("conf.vanity").on_gamemode_change(function(is_on)
-    hl.exec_cmd(string.format(
-        "/home/toni/.local/bin/kraken-lcd %s", is_on and "doom" or "pixel"
-    ))
-end)
+if has_kraken then
+    require("conf.vanity").on_gamemode_change(function(is_on)
+        hl.exec_cmd(string.format(
+            "/home/toni/.local/bin/kraken-lcd %s", is_on and "doom" or "pixel"
+        ))
+    end)
+end

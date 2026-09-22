@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# ── qylock-hibernate — lock, blank the screens, hibernate ───────────────
+#
+# Noctalia's Hibernate button runs this instead of `systemctl hibernate`, so
+# the screens go dark on that path only — CTRL+ALT+L, idle lock and the lock
+# before suspend-then-hibernate leave them on.
+#
+# The lock is raised here rather than left to qylock-lock-before-sleep.service:
+# that one only fires inside logind's short sleep window, too late to wait
+# BLANK_DELAY on top. When the sleep hook runs, qylock-lock.service is already
+# active and its `start` is a no-op.
+#
+# BLANK_DELAY gives Quickshell time to take the ext-session-lock, so the
+# screens go dark on the lock surface rather than on the desktop behind it.
+# After resume a key press or mouse move wakes them (misc.*_enables_dpms in
+# .config/hypr/conf/settings.lua).
+
+BLANK_DELAY=2
+
+systemctl --user start qylock-lock.service || exit 1
+
+sleep "$BLANK_DELAY"
+hyprctl dispatch 'hl.dsp.dpms("off")' >/dev/null
+
+# Refused (e.g. no swap space): bring the screens back to the lock screen.
+systemctl hibernate || hyprctl dispatch 'hl.dsp.dpms("on")' >/dev/null

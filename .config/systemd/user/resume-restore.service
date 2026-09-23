@@ -1,0 +1,13 @@
+# ── resume-restore — desktop state after hibernation ───────────────────
+#
+# Started from root by /etc/systemd/system/resume-restore-after-hibernate
+# .service (written by scripts/installations/059-resume-restore.sh) via
+# `systemctl --user --machine=toni@.host`. The user manager already carries
+# HYPRLAND_INSTANCE_SIGNATURE, which hyprctl needs to reach the session.
+
+[Unit]
+Description=Disable gamemode and restore the Kraken LCD after resume
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/resume-restore

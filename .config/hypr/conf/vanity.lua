@@ -189,6 +189,16 @@ local function toggle_gamemode()
     end
 end
 
+--- Turn gamemode off if it is on; a no-op otherwise.
+--- Called from outside the config by .local/bin/resume-restore (via `hyprctl
+--- eval`) after resume from hibernation, so a session never wakes up still
+--- in gaming mode with notifications silenced and the screen held awake.
+local function disable_gamemode()
+    if gamemode then
+        toggle_gamemode()
+    end
+end
+
 -------------------------------------------------------
 -- Apply
 -------------------------------------------------------
@@ -218,6 +228,7 @@ end
 return {
     border_colors = border_colors,
     toggle_gamemode = toggle_gamemode,
+    disable_gamemode = disable_gamemode,
     is_gamemode = function() return gamemode end,
     on_gamemode_change = on_gamemode_change,
 }

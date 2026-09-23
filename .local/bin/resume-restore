@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# resume-restore — put the desktop back in its everyday state after resume
+# from hibernation.
+#
+# Started by resume-restore.service (user unit), which the system unit
+# /etc/systemd/system/resume-restore-after-hibernate.service triggers once
+# hibernate.target is reached again — see scripts/installations/059-resume-restore.sh.
+#
+#   1. Gamemode off (conf/vanity.lua): a session should not wake up with
+#      notifications silenced, caffeine on and animations disabled.
+#   2. Kraken LCD re-applied: the cooler loses its image across the power
+#      cycle, but the boot id is restored from the image, so kraken-lcd's
+#      boot-scoped state still names the current mode and would no-op.
+#      `--forget` clears it first; the gamemode listener (if it fires) and the
+#      push below are then serialized by kraken-lcd's lock and only one of
+#      them actually writes to the device.
+#
+set -euo pipefail
+
+kraken_lcd="$HOME/.local/bin/kraken-lcd"
+
+# Evaluate a Lua expression inside the running Hyprland and print the result.
+hypr_lua() {
+    hyprctl repl "return tostring($1)" 2>/dev/null
+}
+
+has_kraken=0
+[ "$(hypr_lua 'require("conf.host").profile().kraken_lcd == true')" = "true" ] &&
+    [ -x "$kraken_lcd" ] && has_kraken=1
+
+# Before gamemode goes off, so its listener's push is not a stale-state no-op.
+[ "$has_kraken" -eq 1 ] && "$kraken_lcd" --forget
+
+hyprctl eval 'require("conf.vanity").disable_gamemode()' >/dev/null
+
+[ "$has_kraken" -eq 1 ] || exit 0
+
+# USB re-enumerates on resume; kraken-lcd retries for ~10s on its own, this
+# outer loop covers a cooler that takes longer to come back.
+for _ in 1 2 3; do
+    "$kraken_lcd" pixel && exit 0
+    sleep 5
+done
+exit 1

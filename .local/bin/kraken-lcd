@@ -7,6 +7,12 @@
 # Hyprland listener fires on every config reload (twice per editor save) and a
 # GIF push costs ~5s and several MB over USB.
 #
+# `--forget` drops the remembered mode, so the next call pushes even if the
+# mode is unchanged. resume-restore uses it after hibernation: the cooler
+# loses its image across the power cycle, but the boot id comes back from the
+# hibernation image, so the boot-scoped state below would otherwise still
+# claim the current mode and the LCD would stay blank.
+#
 set -euo pipefail
 
 anim_dir="$HOME/Pictures/Animations"
@@ -18,10 +24,18 @@ log="$state_dir/kraken-lcd.log"
 force=0
 [ "${1:-}" = "--force" ] && { force=1; shift; }
 
+if [ "${1:-}" = "--forget" ]; then
+    mkdir -p "$state_dir"
+    exec 9>"$lock"
+    flock 9
+    rm -f "$state"
+    exit 0
+fi
+
 case "${1:-}" in
     doom)  gif="$anim_dir/doom-e1m1-640.gif" ;;
     pixel) gif="$anim_dir/pixel.gif" ;;
-    *)     echo "usage: ${0##*/} [--force] {doom|pixel}" >&2; exit 2 ;;
+    *)     echo "usage: ${0##*/} [--force] {doom|pixel} | --forget" >&2; exit 2 ;;
 esac
 
 mkdir -p "$state_dir"

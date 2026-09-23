@@ -223,7 +223,7 @@ hyprland_parser = "lua"
 video_directory = "~/Wallpaper"
 
 [plugin_settings."noctalia/wallhaven"]
-api_key = "CG8wKz123iuIovJ4E69XtghNpikNJXQQ"
+api_key = ""
 download_dir = "~/Wallpaper/Wallhaven"
 
 [plugin_settings."yuuto/arch-updater"]
@@ -353,7 +353,7 @@ icon_color = "error"
 show_value = false
 
 [widget.date]
-color = "#F4CF02"
+color = "#e0a458"
 font_scale = 0.90000000000000013
 font_weight = 500
 format = "{:%H:%M %a, %d. %b}"
@@ -422,8 +422,8 @@ type = "spacer"
 [widget.special-workspaces]
 active_style = "ghost"
 capsule = true
-capsule_fill = "#FFE86A"
-capsule_foreground = "error"
+capsule_fill = "#e0a458"
+capsule_foreground = "on_error"
 capsule_padding = 4
 color = "error"
 enable_scroll = false
@@ -456,7 +456,7 @@ capsule_foreground = "on_secondary"
 capsule_opacity = 0.0
 capsule_padding = 9
 capsule_radius = 5
-color = "#FFD700"
+color = "#e0a458"
 interactive = false
 scale = 0.85000000000000009
 type = "maddingo/hypr-layout-switcher:toggle"
@@ -469,7 +469,7 @@ show_label = false
 show_value = false
 
 [widget.widget]
-color = "#F4CF02"
+color = "#e0a458"
 font_scale = 0.90000000000000013
 glyph = "shopping-cart-down"
 hide_on_empty = true
@@ -480,7 +480,7 @@ type = "yuuto/arch-updater:widget"
 anchor = true
 capsule = true
 empty_color = "surface_variant"
-focused_color = "#F4CF02"
+focused_color = "#e0a458"
 label_source = "name"
 occupied_color = "outline"
 scale = 0.94999999999999996

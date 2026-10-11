@@ -1,4 +1,4 @@
-config_version = 14
+config_version = 15
 
 [bar.default]
 border = "on_surface"
@@ -14,14 +14,15 @@ center = [
     "_spacer",
     "todo",
     "clipboard",
-    "keybinds"
+    "keybinds",
+    "widget_2"
 ]
 end = [
     "status",
     "_spacer",
-    "network_rx",
-    "_spacer_non",
+    "_spacer",
     "network_tx",
+    "network_rx",
     "_spacer",
     "tray",
     "_spacer",
@@ -45,15 +46,20 @@ start = [
     "_spacer",
     "cpu",
     "ram",
+    "_spacer",
     "disc-home",
-    "disk-root",
+    "disk-games",
+    "disk-data",
     "_spacer",
     "group:g1",
+    "_spacer",
+    "widget_3",
     "_spacer",
     "active_window",
     "toggle",
     "_spacer",
-    "special-workspaces"
+    "special-workspaces",
+    "bar"
 ]
 thickness = 25
 widget_spacing = 10
@@ -61,6 +67,7 @@ widget_spacing = 10
     [[bar.default.capsule_group]]
     accordion = false
     accordion_direction = "end"
+    border_width = 1.0
     enabled = true
     fill = "surface_variant"
     id = "g1"
@@ -213,6 +220,7 @@ widget_order = [
 
 [plugin_settings."davemhammer/tailscale"]
 manager_open_near_click = false
+notify_on_peer_change = false
 refresh_interval = 5
 
 [plugin_settings."kenn/keybind-cheatsheet"]
@@ -220,6 +228,9 @@ cheatsheet_placement = "attached"
 cheatsheet_position = "auto"
 compositor = "hyprland"
 hyprland_parser = "lua"
+
+[plugin_settings."tordex/processes"]
+panel_position = "center"
 
 [plugin_settings."yuuto/arch-updater"]
 assume_yes = true
@@ -237,7 +248,8 @@ enabled = [
     "yuuto/arch-updater",
     "maddingo/hypr-layout-switcher",
     "davemhammer/tailscale",
-    "jamesfeeder/special-workspaces"
+    "jamesfeeder/special-workspaces",
+    "tordex/processes"
 ]
 
     [[plugins.source]]
@@ -321,10 +333,11 @@ ui_scale = 1.1500000096857548
 network_poll_seconds = 1
 
 [theme]
-builtin = "Ayu"
+builtin = "Rosé Pine"
 community_palette = "Zenbones"
-custom_palette = "skwd-wall"
+custom_palette = "gta-vi"
 mode = "dark"
+shell_mode = "follow"
 source = "custom"
 wallpaper_scheme = "muted"
 
@@ -344,6 +357,7 @@ wallpaper_scheme = "muted"
         [theme.templates.user.zed]
         input_path = "/home/toni/Dotfiles/.config/noctalia/templates/zed.json"
         output_path = "/home/toni/.config/zed/themes/noctalia.json"
+        post_hook = "/home/toni/.local/bin/zed-glass sync"
 
 [wallpaper]
 directory = "/home/toni/Wallpaper"
@@ -375,14 +389,16 @@ address = "Markdorf"
 [widget._spacer]
 type = "spacer"
 
-[widget._spacer_non]
-length = 0
-type = "spacer"
-
 [widget.active_window]
 color = "primary"
 enabled = false
 title_scroll = "always"
+
+[widget.bar]
+type = "icefish/phone-connect:bar"
+
+[widget.bluetooth]
+color = "on_surface_variant"
 
 [widget.clipboard]
 color = "on_surface_variant"
@@ -412,9 +428,18 @@ show_value = false
 stat = "disk_used_pct"
 type = "sysmon"
 
-[widget.disk-root]
-glyph = "devices-pc"
+[widget.disk-data]
+glyph = "database-heart"
 icon_color = "on_surface_variant"
+path = "/data"
+show_value = false
+stat = "disk_used_pct"
+type = "sysmon"
+
+[widget.disk-games]
+glyph = "bluetooth-device-gamepad"
+icon_color = "on_surface_variant"
+path = "/games"
 show_value = false
 stat = "disk_free_pct"
 type = "sysmon"
@@ -437,24 +462,21 @@ icon_color = "on_surface_variant"
 type = "kenn/keybind-cheatsheet:keybinds"
 
 [widget.network]
+color = "on_surface_variant"
 show_label = false
 show_value = false
 
 [widget.network_rx]
-capsule_fill = "on_surface"
-capsule_opacity = 0.5
-capsule_padding = 0
-capsule_radius = 20
+capsule = false
 glyph = "arrow-big-down-lines"
-label_min_width = 55
-network_speed_compact = true
+label_min_width = 80
 scale = 0.75
 visualization = "none"
 
 [widget.network_tx]
+capsule = false
 glyph = "arrow-big-up-lines"
-label_min_width = 55
-network_speed_compact = true
+label_min_width = 80
 scale = 0.75
 visualization = "none"
 
@@ -516,9 +538,9 @@ scale = 0.80000000000000004
 type = "davemhammer/tailscale:status"
 
 [widget.sysmon]
-path = "/home"
+path = "/data"
 show_value = false
-stat = "gpu_usage"
+stat = "disk_used_pct"
 
 [widget.temp]
 show_value = false
@@ -526,6 +548,7 @@ show_value = false
 [widget.todo]
 color = "on_surface_variant"
 icon_color = "on_surface_variant"
+show_label = false
 type = "nightwatch75/todo:todo"
 
 [widget.toggle]
@@ -542,6 +565,7 @@ type = "maddingo/hypr-layout-switcher:toggle"
 scale = 0.94999999999999996
 
 [widget.volume]
+color = "on_surface_variant"
 show_label = false
 show_value = false
 
@@ -552,6 +576,13 @@ glyph = "shopping-cart-down"
 hide_on_empty = true
 icon_color = "on_surface_variant"
 type = "yuuto/arch-updater:widget"
+
+[widget.widget_2]
+type = "vavadik/headsetcontrol:widget"
+
+[widget.widget_3]
+capsule = false
+type = "tordex/processes:widget"
 
 [widget.workspaces]
 anchor = true

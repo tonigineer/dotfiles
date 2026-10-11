@@ -34,7 +34,7 @@
       "hexStageY": 0.0,
       "hexStagger": 50.0,
       "hexTwist": 0.0,
-      "lastAppliedKey": "static:unix-cloud.jpg",
+      "lastAppliedKey": "static:Wallhaven/pixel-earth-space.png",
       "lastBrowsePosition": {
         "anchor": "static:dota-lina-doom-bringer.jpg",
         "camera": 1944.0,
@@ -204,7 +204,7 @@
     "authority": "noctalia",
     "noctaliaPureBlack": false,
     "noctaliaScheme": "muted",
-    "policy": "wallpaper"
+    "policy": "off"
   },
   "transition": {
     "durationMs": 1000,

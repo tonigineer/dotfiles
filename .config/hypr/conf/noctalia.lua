@@ -28,6 +28,13 @@ local notify = require("conf.notify")
 local state_home = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
 local colors_file = state_home .. "/noctalia/hyprland-colors.lua"
 
+--- Elegant profile borders. Its light palette's primary is a reddish rose, so
+--- the active border takes the secondary colour instead; and the template's
+--- `surface` inactive border vanished against light glass, so a window looked
+--- like it gained a border when focused. Inactive is the same colour, faded.
+local elegant_border_role = "secondary"
+local elegant_inactive_alpha = "55"
+
 -------------------------------------------------------
 -- Helpers
 -------------------------------------------------------
@@ -67,8 +74,22 @@ local M = {}
 --- from `hyprctl eval` while Hyprland is running.
 function M.apply()
     local theme = load_theme()
-    if theme then
-        theme.apply_theme()
+    if not theme then
+        return
+    end
+    theme.apply_theme()
+
+    local color = theme.colors and theme.colors[elegant_border_role]
+    local hex = color and color:match("%x%x%x%x%x%x")
+    if hex and require("conf.vanity").get_profile() == "elegant" then
+        hl.config({
+            general = {
+                col = {
+                    active_border = "rgb(" .. hex .. ")",
+                    inactive_border = "rgba(" .. hex .. elegant_inactive_alpha .. ")",
+                },
+            },
+        })
     end
 end
 

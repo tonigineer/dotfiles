@@ -5,10 +5,17 @@
 --
 
 local border_colors = require("conf.vanity").border_colors
+local notify = require("conf.notify")
 
 -------------------------------------------------------
 -- Event Handlers
 -------------------------------------------------------
+
+-- Warn when a window opens through XWayland instead of native Wayland
+hl.on("window.open", function(win)
+    if not win.xwayland then return end
+    notify.warning("XWayland: " .. (win.class ~= "" and win.class or win.title), { duration = 5000 })
+end)
 
 -- Constrain pinned floating windows to 25% of monitor dimensions
 hl.on("window.pin", function(win)
@@ -94,7 +101,8 @@ local workspace_rules = {
     { class = "^(?i)steam$", workspace = "4" },
     { class = "^(?i)steam_app_\\d+$", workspace = "4" },
     { class = "^(?i)dota2$", workspace = "4" },
-    { class = "^(?i)factorio$", workspace = "4" },
+    -- Factorio's bundled SDL3 sets this app ID (WM_CLASS under XWayland too)
+    { class = "^(?i)(com\\.factorio\\.)?factorio$", workspace = "4" },
     { class = "^(?i)teamspeak-client$", workspace = "special:communication" },
     { class = "^(?i)Discord|Vesktop$", workspace = "special:communication", silent = true },
     { class = "^(?i)spotify$", workspace = "special:communication", silent = true },
@@ -219,6 +227,31 @@ require("conf.vanity").on_gamemode_change(function(is_on)
     })
 end)
 
+-- Code - OSS and Brave
+-- Electron and Chromium cannot draw a see-through background like kitty, Zed
+-- or Thunar, so in the elegant profile the whole window fades instead, text and
+-- page content included; hence higher than their (and the bar's) 0.7
+-- background, and Brave, mostly showing web pages, higher still. Off in the
+-- other looks and in gamemode.
+local glass_rules = {}
+for _, app in ipairs({
+    { name = "Code - OSS glass", class = "^code-oss$", opacity = 0.85 },
+    { name = "Brave glass", class = "^brave-browser$", opacity = 0.92 },
+}) do
+    table.insert(glass_rules, hl.window_rule({
+        name = app.name,
+        match = { class = app.class },
+        opacity = app.opacity,
+    }))
+end
+
+require("conf.vanity").on_gamemode_change(function(is_on)
+    local enabled = not is_on and require("conf.vanity").get_profile() == "elegant"
+    for _, rule in ipairs(glass_rules) do
+        rule:set_enabled(enabled)
+    end
+end)
+
 -------------------------------------------------------
 -- Tag definition
 -------------------------------------------------------
@@ -257,14 +290,14 @@ hl.layer_rule({
     no_anim = true,
 })
 
--------------------------------------------------------
--- XWayland marker (last, so it wins over floating/pinned)
--------------------------------------------------------
-
--- Distinct border so XWayland windows are easy to spot
-hl.window_rule({
-    name = "XWayland windows",
-    match = { xwayland = true },
-    border_size = 2,
-    border_color = border_colors.xwayland,
+-- Noctalia: blur behind the bar, panels and popups. Only shows in the elegant
+-- profile, the one look with decoration.blur on, where the bar is a frosted
+-- strip (.config/noctalia/profiles/elegant.toml). ignore_alpha keeps the blur
+-- to pixels at least half opaque, so fully clear areas stay unblurred.
+hl.layer_rule({
+    name = "noctalia-blur",
+    match = { namespace = "^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher)$" },
+    blur = true,
+    blur_popups = true,
+    ignore_alpha = 0.5,
 })

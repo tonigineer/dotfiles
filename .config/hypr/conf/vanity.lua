@@ -44,9 +44,6 @@ local border_colors = {
     inactive = border_gradient(colors.surface),
     floating = border_gradient(colors.secondary),
     pinned   = border_gradient(colors.error),
-    -- Subtle XWayland marker: a dark scheme color, shown in both focus
-    -- states (string "active inactive" — window rules take one color each).
-    xwayland = "rgba(" .. colors.error .. "44) rgba(" .. colors.error .. "11)",
 }
 
 -------------------------------------------------------
@@ -87,66 +84,146 @@ local animations = {
 }
 
 -------------------------------------------------------
--- Appearance + Gamemode
+-- Appearance
 -------------------------------------------------------
 
+-- Desktop profiles (SUPER+F6). Both set the same keys, so switching between
+-- them leaves nothing behind. kitty and the Noctalia bar follow along through
+-- .local/bin/desktop-profile.
+local profiles = {
+    normal = {
+        animations = { enabled = true },
+        general = {
+            gaps_out = 10,
+            gaps_in = 4,
+            border_size = 2,
+            col = {
+                active_border   = border_colors.active,
+                inactive_border = border_colors.inactive,
+            },
+        },
+        decoration = {
+            rounding = 10,
+            active_opacity = 1.0,
+            inactive_opacity = 1.0,
+            shadow = {
+                enabled = true,
+                range = 2,
+                render_power = 1,
+                color = 0xee1a1a1a,
+            },
+            blur = {
+                enabled = false,
+                size = 3,
+                passes = 1,
+                vibrancy = 0.1696,
+                popups = false,
+            },
+        },
+        misc = {
+            animate_mouse_windowdragging = true,
+            animate_manual_resizes = true,
+        },
+    },
+
+    -- Glass: wider gaps, softer corners and shadow over a blurred wallpaper.
+    -- Blur is what frosts the see-through kitty, Zed and Thunar backgrounds and
+    -- the Noctalia bar; unfocused windows are not dimmed. desktop-profile adds
+    -- the light palette and a bright wallpaper.
+    elegant = {
+        animations = { enabled = true },
+        general = {
+            gaps_out = 16,
+            gaps_in = 6,
+            border_size = 2,
+            col = {
+                active_border   = border_colors.active,
+                inactive_border = border_colors.inactive,
+            },
+        },
+        decoration = {
+            rounding = 14,
+            active_opacity = 1.0,
+            inactive_opacity = 1.0,
+            shadow = {
+                enabled = true,
+                range = 30,
+                render_power = 3,
+                color = 0x40000000,
+            },
+            -- Large, soft and bright: behind light glass the wallpaper should
+            -- read as colour, not detail that competes with text.
+            blur = {
+                enabled = true,
+                size = 12,
+                passes = 4,
+                vibrancy = 0.1696,
+                brightness = 1.0,
+                contrast = 0.7,
+                popups = true,
+            },
+        },
+        misc = {
+            animate_mouse_windowdragging = true,
+            animate_manual_resizes = true,
+        },
+    },
+}
+
+-- Gamemode (SUPER+F1) overrides whichever profile is active. It resets the
+-- opacities too, since a profile may have lowered them.
+local game = {
+    animations = { enabled = false },
+    decoration = {
+        rounding = 0,
+        active_opacity = 1.0,
+        inactive_opacity = 1.0,
+        shadow = { enabled = false },
+        blur = { enabled = false },
+    },
+    general = {
+        border_size = 0,
+        gaps_in = 0,
+        gaps_out = 0,
+    },
+    misc = {
+        animate_mouse_windowdragging = false,
+        animate_manual_resizes = false,
+    },
+}
+
+-------------------------------------------------------
+-- State
+-------------------------------------------------------
+
+local HOME = os.getenv("HOME") or ""
+
+--- Written by .local/bin/desktop-profile and read back on every config load,
+--- so the profile survives reloads and reboots. Gamemode deliberately does not.
+local PROFILE_FILE = HOME .. "/.local/state/desktop-profile/name"
+local PROFILE_CMD = HOME .. "/.local/bin/desktop-profile"
+
+--- Saved profile name; "normal" when none (or an unknown one) is saved.
+--- @return string
+local function read_profile()
+    local f = io.open(PROFILE_FILE, "r")
+    if not f then return "normal" end
+    local name = (f:read("*l") or ""):gsub("%s", "")
+    f:close()
+    return profiles[name] and name or "normal"
+end
+
+local profile = read_profile()
 local gamemode = false
 
---- Apply the appearance for the current gamemode state (no toggle, no notify).
-local function apply_gamemode()
-    if gamemode then
-        hl.config({
-            animations = { enabled = false },
-            decoration = {
-                rounding = 0,
-                shadow = { enabled = false },
-                blur = { enabled = false },
-            },
-            general = {
-                border_size = 0,
-                gaps_in = 0,
-                gaps_out = 0,
-            },
-            misc = {
-                animate_mouse_windowdragging = false,
-                animate_manual_resizes = false,
-            },
-        })
-    else
-        hl.config({
-            animations = { enabled = true },
-            general = {
-                gaps_out = 10,
-                gaps_in = 4,
-                border_size = 2,
-                col = {
-                    active_border   = border_colors.active,
-                    inactive_border = border_colors.inactive,
-                },
-            },
-            decoration = {
-                rounding = 10,
-                active_opacity = 1.0,
-                inactive_opacity = 1.0,
-                shadow = {
-                    enabled = true,
-                    range = 2,
-                    render_power = 1,
-                    color = 0xee1a1a1a,
-                },
-                blur = {
-                    enabled = false,
-                    size = 3,
-                    passes = 1,
-                    vibrancy = 0.1696,
-                },
-            },
-            misc = {
-                animate_mouse_windowdragging = true,
-                animate_manual_resizes = true,
-            },
-        })
-    end
+--- Apply the appearance for the current state (no toggle, no notify):
+--- gamemode if it is on, the active profile otherwise.
+local function apply_appearance()
+    hl.config(gamemode and game or profiles[profile])
+
+    -- The tables above carry the static palette's border colours; put the live
+    -- Noctalia ones back on top (including the elegant inactive border).
+    require("conf.noctalia").apply()
 
     -- Inform subscribers (e.g. windowrules Zen rounding) of the current state.
     -- Runs after hl.config so listeners reading decoration.rounding see the new
@@ -161,7 +238,7 @@ end
 -------------------------------------------------------
 
 --- Silence notifications and hold the screen awake while gaming.
---- Driven from toggle_gamemode() only, never from apply_gamemode(): the latter
+--- Driven from toggle_gamemode() only, never from apply_appearance(): the latter
 --- re-runs on every config reload, which would clobber a DND or caffeine state
 --- the user set by hand.
 --- @param is_on boolean
@@ -180,7 +257,7 @@ end
 --- Toggle gamemode: flip the state, apply it, and notify.
 local function toggle_gamemode()
     gamemode = not gamemode
-    apply_gamemode()
+    apply_appearance()
     apply_session(gamemode)
     if gamemode then
         notify.success("Gamemode enabled")
@@ -199,18 +276,39 @@ local function disable_gamemode()
     end
 end
 
+--- Switch to profile `name` (a key of `profiles`): apply the Hyprland half,
+--- hand kitty, Noctalia and the saved name to .local/bin/desktop-profile, and
+--- notify. While gamemode is on, the windows keep its look until it goes off.
+--- @param name string
+local function set_profile(name)
+    if not profiles[name] then
+        notify.error("Unknown profile: " .. tostring(name))
+        return
+    end
+    profile = name
+    apply_appearance()
+    hl.exec_cmd(PROFILE_CMD .. " " .. name)
+    notify.info((name:gsub("^%l", string.upper)) .. " profile"
+        .. (gamemode and " (after gamemode)" or ""))
+end
+
+--- Flip between the normal and elegant profiles.
+local function toggle_profile()
+    set_profile(profile == "elegant" and "normal" or "elegant")
+end
+
 -------------------------------------------------------
 -- Apply
 -------------------------------------------------------
 
--- Apply the current gamemode appearance whenever the config (re)loads. The base
+-- Apply the current appearance whenever the config (re)loads. The base
 -- config never sets gaps/rounding/borders — this handler is the only place they
 -- are applied — so it must run on every load. Silent and non-toggling: the
 -- previous version called toggle_gamemode() here, which flipped the state and
 -- fired a "Gamemode enabled/disabled" notification on every reload (and twice per
 -- save, since editors emit two inotify events that each trigger an autoreload).
 hl.on("config.reloaded", function()
-    apply_gamemode()
+    apply_appearance()
 end)
 
 for _, curve in ipairs(curves) do
@@ -231,4 +329,7 @@ return {
     disable_gamemode = disable_gamemode,
     is_gamemode = function() return gamemode end,
     on_gamemode_change = on_gamemode_change,
+    set_profile = set_profile,
+    toggle_profile = toggle_profile,
+    get_profile = function() return profile end,
 }

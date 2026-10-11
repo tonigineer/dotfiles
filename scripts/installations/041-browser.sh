@@ -2,6 +2,7 @@
 
 pkgs=(
     zen-browser-bin
+    jq
     xdg-desktop-portal
     xdg-desktop-portal-wlr
     xdg-desktop-portal-hyprland
@@ -28,6 +29,30 @@ _zen_override_import="@import \"$_zen_override\";"
 # since unlike userChrome.css there is no @import to defer to.
 
 _zen_user_js="$dotfiles_dir/.config/zen/user.js"
+
+# ── Zen shortcuts ───────────────────────────────────────────────────────
+# Ctrl+Q (quit all windows) is disabled in the profile's shortcut store. The
+# Firefox pref browser.quitShortcut.disabled can't do it: Zen clears the main
+# keyset at startup and rebuilds every key from zen-keyboard-shortcuts.json, so
+# the removed key comes straight back. That file only exists once Zen has run,
+# and Zen rewrites it from memory whenever a shortcut is edited in its settings,
+# so a running Zen needs a restart to pick the patch up.
+
+_zen_quit_key='.shortcuts[] | select(.id == "key_quitApplication") | .disabled'
+
+_zen_quit_disabled() {
+    # True if $1 (a profile dir) has Ctrl+Q disabled, or no shortcuts file yet.
+    local f="${1}zen-keyboard-shortcuts.json"
+    [ -f "$f" ] || return 0
+    jq -e "[$_zen_quit_key] | all" "$f" >/dev/null
+}
+
+_zen_set_quit_disabled() {
+    # Set Ctrl+Q's disabled flag in $1 (a profile dir) to $2 (true|false).
+    local f="${1}zen-keyboard-shortcuts.json"
+    [ -f "$f" ] || return 0
+    jq -c "($_zen_quit_key) = $2" "$f" >"$f.tmp" && mv -- "$f.tmp" "$f"
+}
 
 _zen_profiles() {
     # Print each real Zen profile dir (one containing prefs.js).
@@ -67,6 +92,13 @@ mod_post_install() {
             echo "Linked: ${prof}user.js -> $_zen_user_js"
         fi
 
+        if ! _zen_quit_disabled "$prof"; then
+            _zen_set_quit_disabled "$prof" true || return 1
+            echo "Disabled Ctrl+Q: ${prof}zen-keyboard-shortcuts.json"
+            ! pgrep -x zen-bin >/dev/null ||
+                echo "  note: Zen is running — restart it for Ctrl+Q to stay disabled"
+        fi
+
         wired=1
     done < <(_zen_profiles)
 
@@ -77,13 +109,14 @@ mod_post_install() {
 mod_check() {
     [ -f "$_zen_override" ] || return 1
     [ -f "$_zen_user_js" ] || return 1
-    # Every existing profile must reference the override and link user.js
-    # (no profiles = ok).
+    # Every existing profile must reference the override, link user.js and
+    # have Ctrl+Q disabled (no profiles = ok).
     local prof
     while IFS= read -r prof; do
         [ -n "$prof" ] || continue
         grep -qF "$_zen_override_import" "${prof}chrome/userChrome.css" 2>/dev/null || return 1
         _zen_links_user_js "$prof" || return 1
+        _zen_quit_disabled "$prof" || return 1
     done < <(_zen_profiles)
     return 0
 }
@@ -104,6 +137,9 @@ mod_pre_uninstall() {
                 mv -v -- "${prof}user.js.bak" "${prof}user.js"
             fi
         fi
+
+        # Give Ctrl+Q back.
+        _zen_set_quit_disabled "$prof" false || true
     done < <(_zen_profiles)
     return 0
 }

@@ -126,6 +126,7 @@ end
 hl.bind("SUPER + SHIFT + C", hl.dsp.window.close(), { desc = "Close active window" })
 hl.bind("SUPER + F", function() smart_float() end, { desc = "Toggle float (sized & centered)" })
 hl.bind("SUPER + M", hl.dsp.window.fullscreen({ action = "toggle" }), { desc = "Toggle fullscreen" })
+hl.bind("CTRL + Page_Up", hl.dsp.window.fullscreen({ action = "set" }), { desc = "Set fullscreen" })
 hl.bind("SUPER + P", function() smart_pin() end, { desc = "Toggle pin (corner picture-in-picture)" })
 hl.bind("SUPER + C", hl.dsp.window.center(), { desc = "Center active window" })
 
@@ -188,8 +189,8 @@ end
 
 for i = 1, 5 do
     hl.bind("SUPER + " .. i, hl.dsp.focus({ workspace = i }), { desc = "Switch to workspace " .. i })
-    hl.bind("SUPER + SHIFT + " .. i, hl.dsp.window.move({ workspace = i, follow = false }),
-        { desc = "Move window to workspace " .. i })
+    hl.bind("SUPER + SHIFT + " .. i, hl.dsp.window.move({ workspace = i, follow = true }),
+        { desc = "Move window to workspace " .. i .. " and follow" })
 end
 hl.bind("SUPER + S", function() change_layout() end, { desc = "Toggle master/scrolling layout" })
 hl.bind("SUPER + grave", hl.dsp.workspace.toggle_special("communication"),
@@ -232,6 +233,8 @@ hl.bind("SUPER + E", hl.dsp.exec_cmd("thunar ~"), { desc = "Launch file manager 
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd("kitty -e yazi ~"), { desc = "Launch file manager (yazi)" })
 hl.bind("SUPER + SHIFT + W", function() require("conf.wallpaper").open() end,
     { desc = "Launch wallpaper tool (skwd-wall-v2), wallpaper-only view" })
+hl.bind("SUPER + D", function() require("conf.wallpaper").toggle_desktop() end,
+    { desc = "Toggle bare desktop (hide / bring back all windows)" })
 
 -------------------------------------------------------
 -- 6. Media Streaming
@@ -432,6 +435,7 @@ hl.bind("SUPER + F2", function() hyprland_logging() end, { desc = "Tail Hyprland
 hl.bind("SUPER + F3", function() dvdbounce.toggle() end, { desc = "Toggle DVD bounce" })
 hl.bind("SUPER + F4", function() themes.toggle_cursor() end, { desc = "Toggle cursor theme" })
 hl.bind("SUPER + F5", function() workspaces.toggle_chinese_names() end, { desc = "Toggle Chinese workspace names" })
+hl.bind("SUPER + F6", function() vanity.toggle_profile() end, { desc = "Toggle elegant profile (glass look)" })
 hl.bind("SUPER + F8", function() toggle_secondary_monitors() end, { desc = "Toggle secondary monitors" })
 
 -------------------------------------------------------

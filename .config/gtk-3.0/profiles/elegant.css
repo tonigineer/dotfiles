@@ -1,0 +1,110 @@
+/*
+ * GTK3 — elegant desktop profile: see-through Thunar
+ *
+ * Linked to ~/.config/gtk-3.0/profile.css by .local/bin/desktop-profile
+ * (SUPER+F6); gtk.css imports that path last. One translucent layer on the
+ * window, the panes and views inside it clear so tints do not stack, and
+ * Hyprland's blur (elegant only) frosts the wallpaper behind. The same glass
+ * as the Noctalia bar: @window_bg_color is the palette's surface, the bar's
+ * colour, and 0.7 its background_opacity.
+ *
+ * Scoped to Thunar through the style class it puts on its window
+ * (thunar-window.c: "thunar"). GTK3 no longer matches type names such as
+ * ThunarWindow, so that class is the only handle.
+ */
+
+window.thunar {
+    background-color: alpha(@window_bg_color, 0.7);
+}
+
+/* Selected and hovered items keep their highlight. */
+window.thunar .shortcuts-pane,
+window.thunar .sidebar,
+window.thunar .sidebar .view:not(:selected):not(:hover),
+window.thunar placessidebar,
+window.thunar placessidebar list,
+window.thunar .standard-view,
+window.thunar .view:not(:selected):not(:hover),
+window.thunar iconview:not(:selected):not(:hover),
+window.thunar treeview.view:not(:selected):not(:hover),
+window.thunar scrolledwindow,
+window.thunar viewport,
+window.thunar notebook,
+window.thunar notebook > stack,
+window.thunar toolbar,
+window.thunar .toolbar,
+window.thunar .path-bar,
+window.thunar .pathbar,
+window.thunar statusbar,
+window.thunar paned {
+    background-color: transparent;
+}
+
+/* Top bar (a plain GtkToolbar): no band of its own, flat icon buttons, and a
+   quiet glass path field instead of a solid block. `background: none` also
+   drops the theme's gradients and the strip's bottom shadow. */
+window.thunar toolbar {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+window.thunar toolbar button {
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 8px;
+}
+
+window.thunar toolbar button:hover {
+    background-color: alpha(@window_fg_color, 0.08);
+}
+
+window.thunar toolbar button:active,
+window.thunar toolbar button:checked {
+    background-color: alpha(@window_fg_color, 0.14);
+}
+
+window.thunar toolbar entry {
+    background: alpha(@window_bg_color, 0.45);
+    border: 1px solid alpha(@window_fg_color, 0.10);
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+window.thunar toolbar entry:focus {
+    border-color: alpha(@window_fg_color, 0.25);
+}
+
+/* Header bar. Thunar runs with client-side decorations (xfconf
+   thunar/misc-use-csd), which moves the toolbar into a GtkHeaderBar set as
+   the titlebar, and GTK paints the window background only below it. So the
+   header bar carries the same glass itself, focused or not (:backdrop), with no
+   divider, and the close button is neutral instead of a red circle. */
+window.thunar headerbar,
+window.thunar headerbar:backdrop {
+    background: alpha(@window_bg_color, 0.7);
+    border: none;
+    box-shadow: none;
+}
+
+window.thunar headerbar button.titlebutton.close {
+    background-color: alpha(@window_fg_color, 0.08);
+    color: @window_fg_color;
+}
+
+window.thunar headerbar button.titlebutton.close:hover {
+    background-color: alpha(@window_fg_color, 0.16);
+}
+
+
+/* Two-tone header bars for every other GTK3 window, focused or not. Brave in
+   GTK mode paints its tab strip with this colour (the toolbar and active tab
+   take the window background), so its top reads as two tones like the bar
+   and panels. Unfocused (:backdrop) it would otherwise fall back to the
+   window colour and go flat. Thunar's rules above are more specific and keep
+   its header bar on the window glass. */
+headerbar.titlebar,
+headerbar.titlebar:backdrop {
+    background-color: @headerbar_bg_color;
+}

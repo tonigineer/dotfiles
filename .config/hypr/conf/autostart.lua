@@ -87,7 +87,7 @@ end)
 -- Kraken LCD
 -- Swap the cooler's LCD animation with the vanity gamemode toggle (SUPER+F1).
 -- Login is handled by the "Kraken LCD" autostart entry above; this listener only
--- has to follow the toggle. It runs from apply_gamemode(), which fires on every
+-- has to follow the toggle. It runs from apply_appearance(), which fires on every
 -- config load, but `kraken-lcd` no-ops when the mode is unchanged for the
 -- current boot, so the repeated reload calls cost nothing (a real push is a
 -- multi-MB USB transfer taking seconds).

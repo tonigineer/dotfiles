@@ -46,6 +46,8 @@ links=(
     ".config/Code - OSS/User/settings.json"
     .config/zed/keymap.json
     .config/zed/settings.json
+    # Elegant desktop profile: see-through Noctalia theme (also the template's post_hook)
+    .local/bin/zed-glass
 )
 
 # ── Hooks ───────────────────────────────────────────────────────────────

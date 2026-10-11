@@ -1,0 +1,140 @@
+#!/usr/bin/env bash
+#
+# desktop-profile — point kitty, Noctalia and Zed at a desktop profile.
+#
+# Usage: desktop-profile {normal|elegant}
+#
+# Called from conf/vanity.lua (SUPER+F6), which owns the Hyprland half of a
+# profile (gaps, blur, opacity) and reads the name back from the state file on
+# every config load. This script owns the rest: it links each app's override
+# file for the profile, or removes the link when the profile ships none (normal
+# ships none — it is the plain config), then makes the apps re-read.
+#
+#   kitty     profiles/<name>.conf  -> ~/.local/state/desktop-profile/kitty.conf
+#   Noctalia  profiles/<name>.toml  -> ~/.config/noctalia/profile.toml
+#   GTK3      profiles/<name>.css   -> ~/.config/gtk-3.0/profile.css
+#
+# GTK3 needs a profiles/normal.css too: gtk.css imports the link
+# unconditionally, and a missing import is an error in every GTK3 app. GTK3
+# reads gtk.css once per process (a theme-name change does not reload it), so
+# an open Thunar keeps its look until it is restarted.
+#
+# Zed cannot include an override file, so zed-glass rewrites its generated
+# Noctalia theme instead (see that script).
+#
+# Entering elegant also switches the palette, the theme mode (light) and the
+# wallpaper. The ones in use are saved first, and going back to normal restores
+# exactly those, so normal keeps whatever you had picked. The palette and mode
+# go through `noctalia msg`, which persists them to settings.toml (tracked), so
+# that file differs while elegant is on and returns to normal with it.
+#
+# Idempotent; to switch by hand and keep Hyprland in sync, use
+#   hyprctl eval 'require("conf.vanity").set_profile("elegant")'
+#
+set -euo pipefail
+
+case "${1:-}" in
+    normal|elegant) profile=$1 ;;
+    *) echo "usage: ${0##*/} {normal|elegant}" >&2; exit 2 ;;
+esac
+
+# ── The elegant look ────────────────────────────────────────────────────
+
+elegant_palette=(builtin "Rosé Pine")   # in light mode: Rosé Pine Dawn
+elegant_mode=light
+elegant_wallpaper="$HOME/Wallpaper/blossom-light.png"
+
+# ── Paths ───────────────────────────────────────────────────────────────
+
+# The repo is wherever this script's link points (~/.local/bin -> Dotfiles).
+dotfiles=$(cd "$(dirname "$(readlink -f "$0")")/../.." && pwd)
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/desktop-profile"
+noctalia_dir="${XDG_CONFIG_HOME:-$HOME/.config}/noctalia"
+gtk_dir="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-3.0"
+saved_look="$state_dir/normal.look"
+
+mkdir -p "$state_dir" "$noctalia_dir" "$gtk_dir"
+
+# Two quick toggles must not interleave their saves and restores.
+exec 9>"$state_dir/desktop-profile.lock"
+flock 9
+
+previous=$(cat "$state_dir/name" 2>/dev/null || echo normal)
+
+# ── Helpers ─────────────────────────────────────────────────────────────
+
+# Link `src` to `dst` if the profile ships `src`, otherwise remove `dst`.
+link_override() {
+    local src=$1 dst=$2
+    if [ -e "$src" ]; then
+        ln -sfn "$src" "$dst"
+    else
+        rm -f "$dst"
+    fi
+}
+
+# Run a step that should not abort the rest of the switch.
+try() {
+    "$@" || echo "${0##*/}: failed: $*" >&2
+}
+
+# Save the palette, mode and per-output wallpapers in use, one per line:
+#   palette <source> <name> | mode <mode> | wallpaper <output> <path>
+# Fails before anything is switched if Noctalia or skwd-wall cannot answer,
+# so a broken save never gets restored later.
+save_look() {
+    local tmp="$saved_look.tmp"
+    {
+        printf 'palette %s\n' "$(noctalia msg color-scheme-get)"
+        printf 'mode %s\n' "$(noctalia msg theme-mode-get)"
+        skwd-helm current --json |
+            jq -r '.outputs[] | select(.connected == true) | "wallpaper \(.name) \(.path)"'
+    } >"$tmp"
+    mv "$tmp" "$saved_look"
+}
+
+restore_look() {
+    local key a b
+    while read -r key a b; do
+        case "$key" in
+            palette)   try noctalia msg color-scheme-set "$a" "$b" ;;
+            mode)      try noctalia msg theme-mode-set "$a" ;;
+            wallpaper) try skwd-helm apply "$b" -o "$a" ;;
+        esac
+    done <"$saved_look"
+}
+
+# ── Switch ──────────────────────────────────────────────────────────────
+
+if [ "$profile" = elegant ] && [ "$previous" != elegant ]; then
+    save_look
+fi
+
+link_override "$dotfiles/.config/kitty/profiles/$profile.conf" "$state_dir/kitty.conf"
+link_override "$dotfiles/.config/noctalia/profiles/$profile.toml" "$noctalia_dir/profile.toml"
+link_override "$dotfiles/.config/gtk-3.0/profiles/$profile.css" "$gtk_dir/profile.css"
+printf '%s\n' "$profile" >"$state_dir/name"
+
+# Palette, mode and wallpaper change only on an actual switch: re-applying them
+# re-renders every Noctalia template and replays the wallpaper transition.
+if [ "$profile" != "$previous" ]; then
+    if [ "$profile" = elegant ]; then
+        try noctalia msg theme-mode-set "$elegant_mode"
+        try noctalia msg color-scheme-set "${elegant_palette[@]}"
+        try skwd-helm apply "$elegant_wallpaper"
+    elif [ -f "$saved_look" ]; then
+        restore_look
+    fi
+fi
+
+# kitty re-reads kitty.conf on SIGUSR1; open windows take the new
+# background_opacity because kitty.conf sets dynamic_background_opacity.
+pkill -USR1 -x kitty || true
+
+# Noctalia watches its config folder, but say so explicitly in case the
+# watcher misses a symlink swap.
+noctalia msg config-reload >/dev/null 2>&1 || true
+
+# Last: reads the name written above. The palette switch re-renders the Zed
+# theme too and its post_hook runs zed-glass again; either order ends right.
+"$dotfiles/.local/bin/zed-glass" sync

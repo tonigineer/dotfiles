@@ -1,7 +1,11 @@
 --
 -- conf/wallpaper.lua
--- Wallpaper-only view while the skwd-wall-v2 picker is open
+-- Wallpaper-only view while the skwd-wall-v2 picker is open, and on SUPER+D
 -- Reference: https://wiki.hypr.land/IPC/
+--
+-- M.toggle_desktop() (SUPER+D, see "Show desktop" below) reuses the same
+-- empty temporary workspaces to show the bare wallpaper, but leaves animations
+-- and the bar alone.
 --
 -- M.open() starts the picker (058-wallpaper.sh) in a fixed order: animations
 -- off, every monitor switched to an empty temporary workspace, the Noctalia bar
@@ -193,10 +197,85 @@ local function restore()
 end
 
 -------------------------------------------------------
+-- Show desktop
+-- SUPER+D: every monitor switches to its empty temporary workspace, the same
+-- one the picker uses, so only the wallpaper shows; again, and each monitor
+-- returns to what it showed. Windows are never moved or minimised. Leaving the
+-- temporary workspace any other way ends it too: switching workspace by hand
+-- brings the other monitors back, and a window opened on the bare desktop goes
+-- to that monitor's previous workspace, which comes back with it.
+-------------------------------------------------------
+
+--- Monitor name -> workspace id shown before show_desktop(); nil while the
+--- windows are shown.
+local desktop_saved = nil
+
+--- Set while show/restore switch workspaces, so the workspace.active listener
+--- does not take those switches for the user leaving.
+local desktop_busy = false
+
+--- Workspace name of the temporary workspaces (the selector minus "name:").
+local temp_name = temp_prefix:gsub("^name:", "")
+
+--- Whether `ws` is one of the temporary workspaces.
+--- @param ws HL.Workspace|nil
+--- @return boolean
+local function is_temp(ws)
+    return ws ~= nil and ws.name:sub(1, #temp_name) == temp_name
+end
+
+local function show_desktop()
+    desktop_saved = {}
+    desktop_busy = true
+    for _, m in ipairs(hl.get_monitors()) do
+        local id = shown_id(m.name)
+        if id then
+            desktop_saved[m.name] = id
+            switch(m, temp_prefix .. m.name)
+        end
+    end
+    desktop_busy = false
+end
+
+--- Return every monitor still on its temporary workspace to the one it showed
+--- before; a monitor switched elsewhere since keeps that choice.
+local function restore_desktop()
+    local previous = desktop_saved
+    desktop_saved = nil
+    if not previous then return end
+
+    desktop_busy = true
+    for _, m in ipairs(hl.get_monitors()) do
+        local id = previous[m.name]
+        local mon = hl.get_monitor(m.name)
+        local ws = id and hl.get_workspace(id)
+        -- An empty workspace was dropped when it went out of view (ws == nil);
+        -- switching to its id recreates it. One that has moved to another
+        -- monitor since is skipped, so it is never dragged back across screens.
+        if id and mon and is_temp(mon.active_workspace)
+            and (not ws or (ws.monitor and ws.monitor.name == m.name)) then
+            switch(m, id)
+        end
+    end
+    desktop_busy = false
+end
+
+-------------------------------------------------------
 -- Exports
 -------------------------------------------------------
 
 local M = {}
+
+--- Toggle the bare desktop (SUPER+D). Ignored while the picker's own
+--- wallpaper-only view is up, which already shows nothing but the wallpaper.
+function M.toggle_desktop()
+    if saved then return end
+    if desktop_saved then
+        restore_desktop()
+    else
+        show_desktop()
+    end
+end
 
 --- Open the picker: animations off, monitors cleared, bar hidden, then skwd.
 --- While the picker is already open this only forwards the launch, which
@@ -239,6 +318,24 @@ hl.on("layer.opened", function(layer)
         hl.dispatch(hl.dsp.exec_cmd(bar_hide_cmd))
     end
     animations_sync()
+end)
+
+-- Switching workspace by hand (SUPER+<n>, the bar) ends the bare desktop.
+hl.on("workspace.active", function()
+    if not desktop_saved or desktop_busy then return end
+    local ws = hl.get_active_workspace()
+    if ws and not ws.special and not is_temp(ws) then restore_desktop() end
+end)
+
+-- A window opened on the bare desktop joins the workspace its monitor showed
+-- before, and the windows come back.
+hl.on("window.open", function(win)
+    if not desktop_saved or not is_temp(win.workspace) then return end
+    local id = win.monitor and desktop_saved[win.monitor.name]
+    restore_desktop()
+    if id then
+        hl.dispatch(hl.dsp.window.move({ window = "address:" .. win.address, workspace = id, follow = true }))
+    end
 end)
 
 hl.on("layer.closed", function(layer)

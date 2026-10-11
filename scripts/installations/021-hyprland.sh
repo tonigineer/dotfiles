@@ -61,6 +61,8 @@ remove_pkgs=(
 links=(
     .config/hypr
     .config/mpv
+    # SUPER+F6 desktop profile switch, called from .config/hypr/conf/vanity.lua
+    .local/bin/desktop-profile
 )
 
 # ── Hooks ───────────────────────────────────────────────────────────────
@@ -68,6 +70,10 @@ links=(
 mod_post_install() {
     ln -sf "$dotfiles_dir/assets/avatar.jpg" ~/.face
     safe_symlink .config/gtk-3.0/gtk.css
+    # gtk.css imports the desktop profile's GTK overrides (desktop-profile,
+    # SUPER+F6); start on normal so the import resolves before the first switch.
+    [ -e ~/.config/gtk-3.0/profile.css ] ||
+        ln -s "$dotfiles_dir/.config/gtk-3.0/profiles/normal.css" ~/.config/gtk-3.0/profile.css
 
     # Keep paru's status: fc-cache always succeeds, so letting it be the last
     # command would hide a failed cursor-theme install until `status` runs.

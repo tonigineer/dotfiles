@@ -25,3 +25,7 @@
 # Linked per host into $HOME by 031-shells.sh (host_links), pointing at
 # settings.<hostname>.toml. Never track it here.
 .local/state/noctalia/settings.toml
+
+# Previews from build.py --preview; the built themes in out/<variant>/ are tracked
+# because 051-bootloader installs them without rebuilding.
+.local/share/grub-themes/pixel-orbit/out/*-preview*.png

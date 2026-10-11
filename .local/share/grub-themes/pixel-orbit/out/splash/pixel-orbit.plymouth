@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Pixel Orbit
+Description=The satellite circling the pixel Earth, a typed launch log and a boot progress bar
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/pixel-orbit
+ScriptFile=/usr/share/plymouth/themes/pixel-orbit/pixel-orbit.script

@@ -152,7 +152,7 @@
     },
   },
   "theme": {
-    "dark": "Noctalia Dark",
+    "dark": "Vague",
     "light": "Noctalia Light Transparent",
     // Follows Noctalia's theme mode (the elegant desktop profile is light).
     "mode": "dark",

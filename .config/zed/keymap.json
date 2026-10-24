@@ -25,6 +25,7 @@
       "space l s": "outline::Toggle",
       "space s f": "file_finder::Toggle",
       "space s g": "pane::DeploySearch",
+      "space R": "projects::OpenRecent",
       "space space": "tab_switcher::Toggle",
       "space 1": "editor::FoldAtLevel_1",
       "space 2": "editor::FoldAtLevel_2",
@@ -69,10 +70,11 @@
   // No "context" → always active, regardless of focus.
   {
     "bindings": {
-      "alt-`": "terminal_panel::ToggleFocus",
-      "alt-0": "workspace::ToggleRightDock",
+      "alt-`": "terminal_panel::Toggle",
+      "alt-0": "workspace::ToggleLeftDock",
       "alt-1": "project_panel::ToggleFocus",
       "alt-2": "git_panel::ToggleFocus",
+      "alt-3": "zed::Extensions",
     },
   },
   // vim-specific tweak stays scoped:

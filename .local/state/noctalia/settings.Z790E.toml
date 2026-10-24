@@ -21,8 +21,7 @@ end = [
     "status",
     "_spacer",
     "_spacer",
-    "network_tx",
-    "network_rx",
+    "net_traffic",
     "_spacer",
     "tray",
     "_spacer",
@@ -249,7 +248,8 @@ enabled = [
     "maddingo/hypr-layout-switcher",
     "davemhammer/tailscale",
     "jamesfeeder/special-workspaces",
-    "tordex/processes"
+    "tordex/processes",
+    "tonigineer/net-traffic"
 ]
 
     [[plugins.source]]
@@ -263,7 +263,6 @@ enabled = [
     name = "community"
 
     [[plugins.source]]
-    enabled = false
     kind = "path"
     location = "~/Programming/community-plugins"
     name = "Tonigineer"
@@ -460,6 +459,9 @@ type = "sysmon"
 color = "on_surface_variant"
 icon_color = "on_surface_variant"
 type = "kenn/keybind-cheatsheet:keybinds"
+
+[widget.net_traffic]
+type = "tonigineer/net-traffic:traffic"
 
 [widget.network]
 color = "on_surface_variant"

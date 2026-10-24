@@ -184,6 +184,20 @@ hl.window_rule({
     float = true,
 })
 
+-- Battle.net (Bottles, Wine Wayland driver): its UI is drawn at 2x (bottle DPI
+-- 192) and gets cut off in a half-width tile, so the main window opens maximized
+hl.window_rule({
+    name = "Battle.net",
+    match = { class = "^(?i)battle\\.net\\.exe$" },
+    workspace = "4",
+})
+
+hl.window_rule({
+    name = "Battle.net Main Window",
+    match = { class = "^(?i)battle\\.net\\.exe$", title = "^Battle\\.net$" },
+    maximize = true,
+})
+
 -------------------------------------------------------
 -- Application Overrides
 -------------------------------------------------------

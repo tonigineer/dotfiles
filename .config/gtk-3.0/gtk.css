@@ -423,9 +423,10 @@ treeview.view:backdrop {
     border-radius: 4px;
 }
 
-@import url("noctalia.css");
 
 /* Desktop profile overrides (SUPER+F6): a link .local/bin/desktop-profile
    points at profiles/<name>.css. Relative to ~/.config/gtk-3.0, like the
    import above. */
 @import url("profile.css");
+
+@import url("noctalia.css");

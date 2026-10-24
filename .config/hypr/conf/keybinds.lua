@@ -302,12 +302,12 @@ hl.bind("CTRL + ALT + Y", function()
 end, { desc = "Cast Firefox video to mpv" })
 
 hl.bind("CTRL + ALT + N", function()
-    notify.info("Opening Netflix")
+    notify.info("Opening Jellyfin")
     spawn_and_pin(
-        "brave --ozone-platform=wayland --app=https://www.netflix.com/browse",
+        "brave --ozone-platform=wayland --app=https://media.vulture-wrasse.ts.net",
         { class = "brave" }
     )
-end, { desc = "Open Netflix in a pinned window" })
+end, { desc = "Open Jellyfin in a pinned window" })
 
 -- Allowj dragging pinned windows with middle mouse drag
 hl.bind("mouse:274", function()

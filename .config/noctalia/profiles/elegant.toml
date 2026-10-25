@@ -1,23 +1,6 @@
 # ── Noctalia — elegant desktop profile ──────────────────────────────────
-#
-# Swapped in by .local/bin/desktop-profile (SUPER+F6, see conf/vanity.lua),
-# which links this file to ~/.config/noctalia/profile.toml. Noctalia loads every
-# *.toml in that folder and hot-reloads it, so the link appearing or vanishing
-# is the whole switch; the normal profile is simply "no link". The palette and
-# light mode are switched by desktop-profile over IPC instead: [theme] lives in
-# settings.toml, which overrides this file.
-#
-# Config files load *before* the GUI-managed settings.toml, which wins on any key
-# it also sets. So this file only touches keys settings.toml leaves alone: it
-# disables bar.default instead of restyling it, and draws its own bar.
-#
-# The look: rounded screen corners, and the bar as one frosted "notch" hanging
-# from the top edge. Its upper corners curve outward into the edge, the lower
-# ones are rounded. Noctalia only draws that curve where a bar meets the edge,
-# and every bar is centred (margin_ends insets both ends equally), so this is
-# one island rather than separate left/right pills. The frost is Hyprland's
-# layer blur (conf/windowrules.lua), on only while the elegant profile has
-# decoration.blur enabled.
+# settings.toml wins on any key it also sets, so this only touches keys it
+# leaves alone: bar.default is disabled rather than restyled.
 
 [shell.screen_corners]
 enabled = true
@@ -46,10 +29,8 @@ center = [ "e_clock", "e_date" ]
 end    = [ "tray", "volume", "bluetooth", "network", "notifications", "session" ]
 
 # ── Widgets used only by this bar ───────────────────────────────────────
-# Own ids, so the normal bar's widgets ([widget.workspaces], [widget.date]
-# in settings.toml, with their fixed yellow) stay untouched.
+# Own ids, so the normal bar's widgets stay untouched.
 
-# Dots for the other workspaces, a longer pill with the app icon for this one.
 [widget.e_workspaces]
 type           = "workspaces"
 style          = "focus_hint"
@@ -75,14 +56,10 @@ type   = "clock"
 format = "{:%a %d. %b}"
 color  = "on_surface_variant"
 
-# Panels (launcher, control center, …) in the same glass. Attached ones already
-# take the bar's colour and 70%, but the cards inside them (search field,
-# results) stay solid in the default "solid" mode; "glass" puts them at ~75%
-# and floating panels at 55%.
+# Without "glass" the cards inside panels stay solid.
 [shell.panel]
 transparency_mode = "glass"
 
-# Popups pick up the same frosted glass.
 [notification]
 background_opacity = 0.7
 

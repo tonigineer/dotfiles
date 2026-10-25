@@ -3,20 +3,9 @@
 -- Noctalia colour scheme for borders and groupbars, applied without a reload
 -- Reference: https://wiki.hypr.land/Configuring/Variables/#general
 --
--- Noctalia renders .config/noctalia/templates/hyprland.lua (registered as
--- [theme.templates.user.hyprland] in the settings.<host>.toml files) into
--- `colors_file` whenever the colour scheme changes, then runs
---
---   hyprctl eval 'require("conf.noctalia").apply()'
---
--- as its post_hook. The file is read with io.open + load() rather than
--- require(), and lives outside ~/.config/hypr, so Hyprland never adds it to its
--- config watch. A new wallpaper therefore recolours the borders in place
--- instead of reloading the whole config (monitors, keybinds, rules, load-time
--- notifications), which is what the built-in Noctalia template caused.
---
--- Not to be confused with conf/colors.lua, the static palette table other
--- modules (vanity.lua) read hex values from.
+-- colors_file is loaded with load(), not require(), and lives outside
+-- ~/.config/hypr so Hyprland does not watch it: a scheme change recolours
+-- in place instead of reloading the whole config.
 --
 
 local notify = require("conf.notify")
@@ -28,10 +17,8 @@ local notify = require("conf.notify")
 local state_home = os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")
 local colors_file = state_home .. "/noctalia/hyprland-colors.lua"
 
---- Elegant profile borders. Its light palette's primary is a reddish rose, so
---- the active border takes the secondary colour instead; and the template's
---- `surface` inactive border vanished against light glass, so a window looked
---- like it gained a border when focused. Inactive is the same colour, faded.
+--- Elegant profile: its primary is a reddish rose, and a `surface` inactive
+--- border vanishes against light glass, so both borders use secondary.
 local elegant_border_role = "secondary"
 local elegant_inactive_alpha = "55"
 
@@ -39,9 +26,7 @@ local elegant_inactive_alpha = "55"
 -- Helpers
 -------------------------------------------------------
 
---- Load the rendered theme table from disk.
---- @return table|nil theme  `{ colors = {...}, apply_theme = fn }`, or nil when
----                          the file is missing (not rendered yet) or broken
+--- @return table|nil theme  `{ colors = {...}, apply_theme = fn }`
 local function load_theme()
     local handle = io.open(colors_file, "r")
     if not handle then
@@ -70,8 +55,7 @@ end
 
 local M = {}
 
---- Apply the current Noctalia colours. Safe to call at any time, including
---- from `hyprctl eval` while Hyprland is running.
+--- Noctalia's post_hook calls this via `hyprctl eval`.
 function M.apply()
     local theme = load_theme()
     if not theme then
@@ -99,8 +83,7 @@ end
 
 M.apply()
 
--- vanity.lua sets its own border colours from its config.reloaded handler;
--- this one is registered later, so Noctalia's colours win after a reload.
+-- Registered after vanity.lua's handler, so these colours win after a reload.
 hl.on("config.reloaded", M.apply)
 
 return M

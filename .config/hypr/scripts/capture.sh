@@ -44,7 +44,6 @@ take_screenshot() {
         grim -g "$(slurp)" - | magick - -shave 1x1 PNG:- | wl-copy
     fi
 
-    # Create file and copy path immediately as default
     wl-paste >"$filename"
     echo "$filename" | wl-copy
 
@@ -94,7 +93,7 @@ stop_recording() {
         rm -f "$PIDFILE"
 
         kill -INT "$pid" 2>/dev/null || true
-        # wait for it to finalize the file
+        # let wf-recorder finalize the file
         wait "$pid" 2>/dev/null || true
 
         filename="$RECORDINGS_DIR$(ls -1t -- "$RECORDINGS_DIR" | head -n 1)"

@@ -1,5 +1,5 @@
 --
--- conf/rules.lua
+-- conf/windowrules.lua
 -- Event handlers and window rules
 -- Reference: https://wiki.hypr.land/Configuring/Window-Rules/
 --
@@ -11,13 +11,11 @@ local notify = require("conf.notify")
 -- Event Handlers
 -------------------------------------------------------
 
--- Warn when a window opens through XWayland instead of native Wayland
 hl.on("window.open", function(win)
     if not win.xwayland then return end
     notify.warning("XWayland: " .. (win.class ~= "" and win.class or win.title), { duration = 5000 })
 end)
 
--- Constrain pinned floating windows to 25% of monitor dimensions
 hl.on("window.pin", function(win)
     if not win.floating then return end
 
@@ -45,9 +43,7 @@ hl.on("window.pin", function(win)
     end
 end)
 
--- Close special workspace on workspace switch.
--- Covers ruled-window focus changes that
--- hide_special_on_workspace_change:true misses.
+-- Covers ruled-window focus changes hide_special_on_workspace_change misses.
 hl.on("workspace.active", function()
     if hl.get_active_special_workspace() then
         hl.dispatch(hl.dsp.workspace.toggle_special("scratchpad"))
@@ -58,7 +54,6 @@ end)
 -- Window Rules
 -------------------------------------------------------
 
--- Appearance: pinned vs floating
 hl.window_rule({
     name = "Pinned windows",
     match = { pin = true },
@@ -75,7 +70,6 @@ hl.window_rule({
     opacity = 1.0,
 })
 
--- Portal file pickers
 hl.window_rule({
     name = "Portal file pickers",
     match = { class = "xdg-desktop-portal-gtk|xdg-desktop-portal-kde" },
@@ -83,7 +77,6 @@ hl.window_rule({
     center = true,
 })
 
--- Generic dialog-like titles
 hl.window_rule({
     name = "Dialog titles",
     match = { title = "^(Open|Save|Save As|Choose|Select|Export|Import)(.*)$" },
@@ -101,7 +94,7 @@ local workspace_rules = {
     { class = "^(?i)steam$", workspace = "4" },
     { class = "^(?i)steam_app_\\d+$", workspace = "4" },
     { class = "^(?i)dota2$", workspace = "4" },
-    -- Factorio's bundled SDL3 sets this app ID (WM_CLASS under XWayland too)
+    -- Factorio's bundled SDL3 sets this app ID
     { class = "^(?i)(com\\.factorio\\.)?factorio$", workspace = "4" },
     { class = "^(?i)teamspeak-client$", workspace = "special:communication" },
     { class = "^(?i)Discord|Vesktop$", workspace = "special:communication", silent = true },
@@ -111,10 +104,8 @@ local workspace_rules = {
 for _, rule in ipairs(workspace_rules) do
     hl.window_rule({
         match = { class = rule.class },
-        -- `silent`: assign to the (special) workspace without switching to it, and
-        -- drop the app's self-activation requests. Otherwise focus_on_activate
-        -- (misc, settings.lua) lets a relaunch — e.g. Spotify restarting on a
-        -- wallpaper change — yank the special workspace into view every time.
+        -- Suppress activation, or focus_on_activate pulls the special workspace
+        -- into view whenever e.g. Spotify relaunches.
         workspace = rule.silent and (rule.workspace .. " silent") or rule.workspace,
         suppress_event = rule.silent and "activate activatefocus" or nil,
     })
@@ -140,7 +131,6 @@ hl.window_rule({
     rounding = 5,
 })
 
--- Friends list: tiled; width pinned to 1/4 by the handler below
 hl.window_rule({
     name = "Steam Friends",
     match = { title = "^(?i)Friends List$" },
@@ -150,8 +140,7 @@ hl.window_rule({
     rounding = 5,
 })
 
--- No layout here supports a static tiled split ratio, so pin the Friends
--- column to 20% of the monitor width on open (the library reflows to fill the rest).
+-- No layout supports a static split ratio, so size the Friends column on open.
 hl.on("window.open", function(win)
     if win.title ~= "Friends List" then return end
 
@@ -167,7 +156,6 @@ hl.on("window.open", function(win)
     }))
 end)
 
--- Any other Steam window (settings, dialogs, …): float + center
 hl.window_rule({
     name = "Steam Other Windows",
     match = { class = "^(?i)steam$", title = "negative:^(?i)(Steam|Friends List)$" },
@@ -184,8 +172,7 @@ hl.window_rule({
     float = true,
 })
 
--- Battle.net (Bottles, Wine Wayland driver): its UI is drawn at 2x (bottle DPI
--- 192) and gets cut off in a half-width tile, so the main window opens maximized
+-- Battle.net UI is drawn at 2x (bottle DPI 192) and gets cut off in a half tile.
 hl.window_rule({
     name = "Battle.net",
     match = { class = "^(?i)battle\\.net\\.exe$" },
@@ -202,7 +189,6 @@ hl.window_rule({
 -- Application Overrides
 -------------------------------------------------------
 
--- Thunar: float by default, tile when it's the main window
 hl.window_rule({
     name = "Thunar Other Windows",
     match = { class = ".*thunar.*", title = "negative:.* - Thunar.*" },
@@ -217,7 +203,6 @@ hl.window_rule({
     tile = true,
 })
 
--- Rename dialog: floats at its own (natural) size, centered, and keeps focus.
 -- stay_focused stops follow_mouse from handing focus back to the file view.
 local thunar_rename = { class = "^(?i)thunar$", title = '^Rename ".*"$' }
 
@@ -231,7 +216,6 @@ hl.window_rule({
     border_size = 2,
 })
 
--- Focus it explicitly and bring the cursor onto it, so mouse and keyboard land there
 hl.on("window.open", function(win)
     if not (win.class:match("^[Tt]hunar$") and win.title:match('^Rename ".*"$')) then return end
     hl.dispatch(hl.dsp.focus({ window = "address:" .. win.address }))
@@ -241,7 +225,6 @@ hl.on("window.open", function(win)
     }))
 end)
 
--- XArchiver
 hl.window_rule({
     name = "XArchiver",
     match = { class = "^xarchiver$" },
@@ -252,8 +235,7 @@ hl.window_rule({
     size = "monitor_w*0.40 monitor_h*0.40",
 })
 
--- Zen Browser
--- Limit the rounding to 5 to avoid cut off tooltip corners
+-- Zen: rounding above 5 cuts off tooltip corners.
 require("conf.vanity").on_gamemode_change(function(is_on)
     local rounding = is_on and 0
         or math.min(hl.get_config("decoration.rounding"), 5)
@@ -265,12 +247,8 @@ require("conf.vanity").on_gamemode_change(function(is_on)
     })
 end)
 
--- Code - OSS and Brave
--- Electron and Chromium cannot draw a see-through background like kitty, Zed
--- or Thunar, so in the elegant profile the whole window fades instead, text and
--- page content included; hence higher than their (and the bar's) 0.7
--- background, and Brave, mostly showing web pages, higher still. Off in the
--- other looks and in gamemode.
+-- Electron/Chromium cannot draw a translucent background, so the elegant
+-- profile fades the whole window instead, content included.
 local glass_rules = {}
 for _, app in ipairs({
     { name = "Code - OSS glass", class = "^code-oss$", opacity = 0.85 },
@@ -294,7 +272,6 @@ end)
 -- Tag definition
 -------------------------------------------------------
 
--- Pinned
 hl.window_rule({
     match = {
         initial_title = "pinned",
@@ -318,20 +295,14 @@ hl.window_rule({
 -- Layer Rules
 -------------------------------------------------------
 
--- skwd-wall-v2 (058-wallpaper.sh) draws only layer-shell surfaces: the picker
--- (skwd-wall, overlay), the wallpaper (skwd-paper, background) and its Vulkan
--- renderer (skwd-wall-vk). Window rules never match them; the global `layers`
--- slide animation (vanity.lua) does, and fights skwd's own transitions.
+-- The global `layers` animation fights skwd's own transitions.
 hl.layer_rule({
     name = "skwd-wall",
     match = { namespace = "^skwd-(wall|paper|wall-vk)$" },
     no_anim = true,
 })
 
--- Noctalia: blur behind the bar, panels and popups. Only shows in the elegant
--- profile, the one look with decoration.blur on, where the bar is a frosted
--- strip (.config/noctalia/profiles/elegant.toml). ignore_alpha keeps the blur
--- to pixels at least half opaque, so fully clear areas stay unblurred.
+-- Only visible in the elegant profile (the one with decoration.blur on).
 hl.layer_rule({
     name = "noctalia-blur",
     match = { namespace = "^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher)$" },

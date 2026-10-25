@@ -2,21 +2,15 @@
 -- conf/hosts/Z790E.lua
 -- Host profile: desktop workstation
 --
--- Selected automatically when /etc/hostname reads Z790E (see conf/host.lua).
---
 
 return {
-    --- NZXT Kraken Elite LCD is attached; enables the kraken-lcd autostart
-    --- entry and gamemode listener in conf/autostart.lua.
+    --- NZXT Kraken Elite LCD
     kraken_lcd = true,
 
-    --- Razer Leviathan V2 X soundbar is attached; enables the OpenRGB
-    --- autostart entry in conf/autostart.lua.
+    --- Razer Leviathan V2 X soundbar
     razer_leviathan = true,
 
-    --- Monitor profiles, consumed by conf/monitors.lua.
-    --- `desc` must match the output of `hyprctl monitors` (without the port
-    --- suffix). `role` marks which monitor is primary and which is secondary.
+    --- `desc` as in `hyprctl monitors`, without the port suffix
     monitors = {
         desktop_primary = {
             desc     = "ASUSTek COMPUTER INC PG27UQR R7LMQS169187",

@@ -1,9 +1,6 @@
 --
 -- hyprland.lua
--- Hyprland as the Wayland compositor for the SDDM greeter.
--- Self-contained: this file is copied to /var/lib/sddm/.config/hypr/ by the
--- greeter installer and runs without the ~/Dotfiles conf.* modules, so it does
--- not require() anything.
+-- Hyprland config for the SDDM greeter; self-contained, as conf.* is not available there
 -- Reference: https://wiki.hypr.land/Configuring/Start/
 --
 
@@ -11,14 +8,12 @@
 -- Configuration
 -------------------------------------------------------
 
---- Cursor theme applied to the greeter (env + hyprctl + gsettings).
 local cursor = {
     theme = "Bibata-Modern-Ice",
     size  = 24,
 }
 
---- Monitor rules. `desc:` must match `hyprctl monitors` (without the port suffix).
---- Mirror of conf/monitors.lua; the secondary panel stays dark at the greeter.
+--- The secondary panel stays dark at the greeter.
 local monitors = {
     {
         output   = "desc:ASUSTek COMPUTER INC ROG XG27UQR R4LMQS097007",
@@ -32,7 +27,6 @@ local monitors = {
     },
 }
 
---- Cursor environment (matches conf/themes.lua's active theme).
 local env = {
     { "XCURSOR_THEME",   cursor.theme },
     { "XCURSOR_SIZE",    cursor.size  },
@@ -52,15 +46,14 @@ for _, m in ipairs(monitors) do
     hl.monitor(m)
 end
 
--- Force the cursor into the compositor and the GTK/gnome interface, since the
--- greeter has no theming shell to do it (parity with conf/themes.lua).
+-- No theming shell runs at the greeter, so set the cursor here.
 hl.exec_cmd(string.format("hyprctl setcursor %s %d", cursor.theme, cursor.size))
 hl.exec_cmd(string.format(
     "gsettings set org.gnome.desktop.interface cursor-theme '%s'", cursor.theme
 ))
 
 hl.config({
-    -- No motion at the login screen — snappier and avoids first-frame flicker.
+    -- No animations: avoids first-frame flicker at the greeter
     animations = {
         enabled = false,
     },
@@ -68,7 +61,6 @@ hl.config({
         hide_on_key_press = true,
         inactive_timeout = 1,
     },
-    -- Flat, opaque, no effects: the greeter draws over a solid background.
     decoration = {
         rounding         = 0,
         active_opacity   = 1.0,
@@ -83,8 +75,7 @@ hl.config({
         repeat_rate  = 50,
     },
     misc = {
-        -- The greeter config never changes at runtime; skip the file watcher.
-        disable_autoreload   = true,
+        disable_autoreload   = true,      -- config never changes at runtime
         disable_hyprland_logo = true,
     },
 })

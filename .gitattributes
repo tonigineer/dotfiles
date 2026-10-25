@@ -1,5 +1,3 @@
-# Noctalia rewrites these at runtime and keeps the Wallhaven api_key in them.
-# The filter commits `api_key = ""` while the worktree keeps the live key. A
-# filter is git config, not repo content, so it does nothing until
-# 031-shells.sh configures it on this clone.
+# Commits `api_key = ""` while the worktree keeps the live Wallhaven key.
+# The filter itself must be defined in git config.
 .local/state/noctalia/settings.*.toml filter=noctalia-key

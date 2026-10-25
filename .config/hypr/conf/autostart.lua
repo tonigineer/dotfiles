@@ -6,8 +6,7 @@
 
 local notify = require("conf.notify")
 
---- True when `path` exists. The helpers in ~/.local/bin come from the private
---- system repo, so a machine with only these dotfiles runs without them.
+--- True when `path` exists.
 --- @param path string
 --- @return boolean
 local function exists(path)
@@ -20,25 +19,20 @@ local HOME         = os.getenv("HOME") or ""
 local SHELL_SWITCH = HOME .. "/.local/bin/shell-switch"
 local KRAKEN_LCD   = HOME .. "/.local/bin/kraken-lcd"
 
---- Hardware only some hosts have; see conf/hosts/<hostname>.lua.
+-- Host-specific hardware, see conf/hosts/<hostname>.lua.
 local profile       = require("conf.host").profile()
 local has_kraken    = profile.kraken_lcd == true and exists(KRAKEN_LCD)
 local has_leviathan = profile.razer_leviathan == true
 
 -------------------------------------------------------
 -- Command builders
--- Non-trivial autostart commands are assembled here so the list below stays
--- declarative. Add a builder whenever an entry needs more than a plain command.
 -------------------------------------------------------
 
---- Wrap a command in a shell retry loop.
---- Useful for autostart tasks that race hardware/services still coming up at
---- login: retries until the command succeeds, then `exit 1` only if every
---- attempt failed (so the `|| notify` chain still fires on a real failure).
---- @param command string  shell command to run
---- @param tries integer   maximum attempts before giving up
---- @param delay integer   seconds to wait between attempts
---- @return string         an `sh`-compatible one-liner
+--- Wrap a command in a shell retry loop; exits 1 only if every attempt failed.
+--- @param command string
+--- @param tries integer
+--- @param delay integer   seconds between attempts
+--- @return string
 local function retry(command, tries, delay)
     return string.format(
         'i=0; until %s; do i=$((i+1)); [ "$i" -ge %d ] && exit 1; sleep %d; done',
@@ -48,29 +42,18 @@ end
 
 -------------------------------------------------------
 -- Configuration
--- Each entry: label = name shown in the failure notice, cmd = shell to run,
--- optional when = false to skip the entry on this host.
--- The comment above each entry documents *why* it is in autostart.
 -------------------------------------------------------
 
 local cmds = {
     { label = "Keyring",        cmd = "gnome-keyring-daemon --restart --components=secrets" },
-    -- Noctalia, or with shell-switch installed whichever shell its bar button
-    -- picked last.
+    -- shell-switch restores whichever shell was picked last.
     { label = "Shell",          cmd = exists(SHELL_SWITCH) and SHELL_SWITCH .. " restore" or "noctalia" },
-    -- Export the Wayland session vars into the systemd/D-Bus activation env so
-    -- portals and user services spawn with the correct environment.
     { label = "DBus Env",       cmd = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP" },
-    -- Turn the Razer Leviathan LEDs off. This USB HID device intermittently
-    -- fails to enumerate on a cold scan at login, so retry until OpenRGB sees
-    -- it. Targeted by name (not a `-l` index, which shifts between scans).
+    -- The Leviathan sometimes fails to enumerate at login, hence the retry.
+    -- Targeted by name: `-l` indices shift between scans.
     { label = "OpenRGB",        cmd = retry('openrgb -d "Razer Leviathan V2 X" -c 000000', 10, 1), when = has_leviathan },
-    -- Push the cooler's login animation. The gamemode listener below also
-    -- fires on config load, but only `hyprland.start` is a documented event, so
-    -- the login push is anchored here. `kraken-lcd` is locked and boot-scoped,
-    -- so whichever call arrives first pushes and the other is a no-op.
     { label = "Kraken LCD",     cmd = KRAKEN_LCD .. " pixel", when = has_kraken },
-    -- Land on workspace 5 once everything else is up (WORKAROUND for workspace 6 appearing; TODO: fix it).
+    -- WORKAROUND: workspace 6 appears at login otherwise. TODO: fix it.
     { label = "Workspace",      cmd = 'hyprctl dispatch "hl.dsp.focus({ workspace = 5 })"' },
 }
 
@@ -79,8 +62,6 @@ local cmds = {
 -------------------------------------------------------
 
 --- Execute a command, notify on failure.
---- The failure notice runs in the shell `||` chain, so it uses the hyprctl
---- notification builder rather than the in-process Lua API.
 --- @param cmd string
 --- @param label string
 local function exec_or_notify(cmd, label)
@@ -101,12 +82,7 @@ end)
 
 -------------------------------------------------------
 -- Kraken LCD
--- Swap the cooler's LCD animation with the vanity gamemode toggle (SUPER+F1).
--- Login is handled by the "Kraken LCD" autostart entry above; this listener only
--- has to follow the toggle. It runs from apply_appearance(), which fires on every
--- config load, but `kraken-lcd` no-ops when the mode is unchanged for the
--- current boot, so the repeated reload calls cost nothing (a real push is a
--- multi-MB USB transfer taking seconds).
+-- Fires on every config load; kraken-lcd no-ops when the mode is unchanged.
 -------------------------------------------------------
 
 if has_kraken then

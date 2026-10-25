@@ -1,6 +1,1 @@
-/*
- * GTK3 — normal desktop profile: no overrides.
- *
- * Exists so gtk.css's @import of profile.css always resolves; GTK prints a
- * parsing error in every GTK3 app when an import is missing.
- */
+/* Normal profile: intentionally empty; a missing @import makes GTK log errors. */

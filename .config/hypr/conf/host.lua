@@ -1,16 +1,7 @@
 --
 -- conf/host.lua
--- Machine identity — this config is shared between several computers
---
--- Anything that differs per machine (monitors, scaling, …) lives in
--- conf/hosts/<hostname>.lua. This module resolves which one applies:
---
---   1. $DOTFILES_HOST, when set (useful for testing another machine's setup)
---   2. the static hostname from /etc/hostname
---   3. "default", when neither yields a name
---
--- A host without its own file falls back to conf/hosts/default.lua, so a new
--- machine works out of the box and only needs a file once it differs.
+-- Machine identity and per-host profile (conf/hosts/<hostname>.lua)
+-- $DOTFILES_HOST overrides /etc/hostname, e.g. to test another machine's setup.
 --
 
 local notify = require("conf.notify")
@@ -19,8 +10,7 @@ local notify = require("conf.notify")
 -- Detection
 -------------------------------------------------------
 
---- Read the static hostname. Uses /etc/hostname rather than `hostnamectl`
---- so config parsing never waits on a subprocess.
+--- Read /etc/hostname rather than `hostnamectl` to avoid a subprocess at parse time.
 --- @return string
 local function detect()
     local override = os.getenv("DOTFILES_HOST")
@@ -49,11 +39,9 @@ end
 
 local M = {}
 
---- Name of the machine this config is running on.
 M.name = detect()
 
---- The host profile table for this machine (conf/hosts/<name>.lua), or the
---- default profile when the machine has no file of its own.
+--- This machine's profile, or conf/hosts/default.lua.
 --- @return table profile
 --- @return string source  name of the host file that was loaded
 function M.profile()
@@ -68,7 +56,6 @@ function M.profile()
     return {}, "none"
 end
 
---- True when running on the named machine.
 --- @param name string
 --- @return boolean
 function M.is(name)

@@ -42,17 +42,15 @@ convert() {
     readonly GIF_FILE="$TMP_DIR/out.gif"
     readonly OPTIMIZED_GIF="$TMP_DIR/out_optimized.gif"
 
-    # 1) Optional: pick a short segment (-ss start, -t duration), downscale & make a palette
+    # Palette, then GIF with that palette, then gifsicle
     ffmpeg -ss 00:00:00 -i "$input_file" \
         -vf "fps=$fps,scale=$scale:-1:flags=lanczos,palettegen=stats_mode=full:max_colors=$max_colors" \
         -y "$PALETTE_FILE"
 
-    # 2) Use the palette to create the GIF (with efficient dithering)
     ffmpeg -ss 00:00:00 -i "$input_file" -i "$PALETTE_FILE" \
         -lavfi "fps=$fps,scale=$scale:-1:flags=lanczos [x]; [x][1:v] paletteuse=dither=bayer:bayer_scale=5" \
         -loop 0 "$GIF_FILE"
 
-    # 3) Squeeze a bit more
     gifsicle -O3 --lossy="$gifsicle_lossy" -o "$OPTIMIZED_GIF" "$GIF_FILE"
 
     filename="$OUTPUT_DIR/$(basename -- "$input_file").gif"

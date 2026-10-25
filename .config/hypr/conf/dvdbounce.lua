@@ -1,7 +1,6 @@
 --
 -- conf/dvdbounce.lua
--- DVD-logo screensaver: float every window on the active monitor and bounce
--- them off the edges (and each other) until toggled back.
+-- DVD-logo screensaver: bounce every window on the active workspace
 -- Reference: https://wiki.hypr.land/Configuring/Dispatchers/
 --
 
@@ -11,16 +10,14 @@
 
 local states = {}
 local timer = nil
--- Shared bounds for every bouncing window: the monitor the effect was started on.
--- Captured once on toggle so a second monitor never changes the playfield.
+-- Playfield, captured once on toggle from the active monitor.
 local bounds = nil
 
 -------------------------------------------------------
 -- Helpers
 -------------------------------------------------------
 
---- Advance one window by its velocity and reflect it off the playfield edges.
---- @param s table window state (x/y position, w/h size, vx/vy velocity, m* bounds)
+--- @param s table window state
 local function bounce(s)
     s.x = s.x + s.vx
     s.y = s.y + s.vy
@@ -40,7 +37,6 @@ local function bounce(s)
     }))
 end
 
---- Axis-aligned bounding-box overlap test.
 --- @param a table window state
 --- @param b table window state
 --- @return boolean
@@ -48,7 +44,6 @@ local function collides(a, b)
     return a.x < b.x + b.w and a.x + a.w > b.x and a.y < b.y + b.h and a.y + a.h > b.y
 end
 
---- Separate two overlapping windows along the shallowest axis and swap velocities.
 --- @param a table window state
 --- @param b table window state
 local function resolve(a, b)
@@ -79,7 +74,6 @@ local function resolve(a, b)
     end
 end
 
---- Iteratively pull a list of windows apart until none overlap (or 50 passes).
 --- @param list table[] window states
 local function settle(list)
     for _ = 1, 50 do
@@ -98,13 +92,11 @@ local function settle(list)
     end
 end
 
---- Float a window, lock it to its current size/position, and register it for bouncing.
---- @param w HL.Window the window to enlist
+--- @param w HL.Window
 local function add_window(w)
     if not bounds then
         return
     end
-    -- Keep the window at its real size instead of forcing a fixed DVD square.
     local ww = math.max(1, math.floor(w.size.x))
     local wh = math.max(1, math.floor(w.size.y))
     local was_tiled = not w.floating
@@ -113,8 +105,7 @@ local function add_window(w)
             window = "address:" .. w.address,
             action = "toggle",
         }))
-        -- Floating may restore a different last-float size; pin it to the
-        -- size the window had while tiled so the physics box stays accurate.
+        -- Floating restores the last float size; pin the tiled size instead.
         hl.dispatch(hl.dsp.window.resize({
             window = "address:" .. w.address,
             x = ww,
@@ -122,8 +113,6 @@ local function add_window(w)
         }))
     end
 
-    -- Start from where the window already is, clamped inside the playfield,
-    -- so it eases into the bounce instead of snapping to a random spot.
     local sx = math.max(bounds.x, math.min(w.at.x, bounds.x + bounds.w - ww))
     local sy = math.max(bounds.y, math.min(w.at.y, bounds.y + bounds.h - wh))
 
@@ -155,7 +144,6 @@ end
 -- Apply
 -------------------------------------------------------
 
--- Adopt newly opened windows on the active workspace while the effect runs.
 hl.on("window.open", function(e)
     if not timer then
         return
@@ -177,8 +165,6 @@ hl.on("window.open", function(e)
     end, { timeout = 100, type = "oneshot" })
 end)
 
--- Toggle the screensaver: float + bounce every window on the current workspace,
--- and restore tiling on the second press. Bound to a key in conf/keybinds.lua.
 local function toggle()
     if timer then
         timer:set_enabled(false)
@@ -198,9 +184,7 @@ local function toggle()
         return
     end
 
-    -- Lock the playfield to the monitor the active workspace lives on.
-    -- m.x/m.y are logical coords, but m.width/m.height are physical pixels,
-    -- so divide by the scale to match the logical space windows live in.
+    -- m.x/m.y are logical, m.width/m.height physical: divide by scale.
     local m = hl.get_active_monitor()
     if not m then
         return

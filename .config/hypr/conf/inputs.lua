@@ -1,5 +1,5 @@
 --
--- conf/input.lua
+-- conf/inputs.lua
 -- Keyboard layout, repeat rate, and pointer behavior
 -- Reference: https://wiki.hypr.land/Configuring/Variables/#input
 --
@@ -35,14 +35,10 @@ hl.config({
         sensitivity   = -0.60,
         accel_profile = "adaptive",
 
-        -- 0: disabled
-        -- 1: refocus on tiled <-> floating switch
-        -- 2: also refocus on floating <-> floating switch
+        -- 0: off | 1: tiled <-> floating | 2: also floating <-> floating
         float_switch_override_focus = 0,
 
-        -- 0: next window candidate
-        -- 1: window under cursor
-        -- 2: most recently used window
+        -- 0: next candidate | 1: under cursor | 2: most recently used
         focus_on_close = 1,
 
         touchpad = {

@@ -1,224 +1,62 @@
 # Dotfiles
 
-<div align="right">🖕</div>
-
-<div align="center">
-  <img src="https://img.shields.io/github/last-commit/tonigineer/dotfiles?style=for-the-badge&logo=github&color=a6da95&logoColor=D9E0EE&labelColor=302D41"/>
-  <img src="https://img.shields.io/github/repo-size/tonigineer/dotfiles?style=for-the-badge&logo=dropbox&color=7dc4e4&logoColor=D9E0EE&labelColor=302D41"/>
-</div>
-
-<div align="center">
-  <a href="https://github.com/tonigineer/zsh"><img src="https://img.shields.io/badge/Zsh_Config-181717?style=for-the-badge&logo=github&logoColor=white"/></a>
-  <a href="https://github.com/tonigineer/nvim"><img src="https://img.shields.io/badge/Neovim_Config-181717?style=for-the-badge&logo=github&logoColor=white"/></a>
-</div>
-
-<br>
-
-<div align="center">
-  <p><em>“A minimalist, workflow-focused desktop configuration emphasizing speed, clarity, and visual consistency.”
-
-— Slop</em></p>
-</div>
-
-## What's happening
-
-I've fully transitioned to [Noctalia Shell v5](https://github.com/noctalia-dev) and [Zen Browser](https://zen-browser.app/).
-<!--Below is a ~~walkthrough of my workflow~~ along with a demo of `wallcards`, a wallpaper selector, which I plan to convert into a [Noctalia Shell plugin](https://github.com/noctalia-dev/noctalia-plugins). This quickshell-based application is inspired by people on [unixporn](https://github.com/liixini/skwd).-->
-
-https://github.com/user-attachments/assets/9ffbc83d-95e5-4dcd-a834-7bd224211b55
-
-## Installation
-
-This repo is configuration only: no installers, no scripts to run. Each path
-mirrors where it belongs under `$HOME`, so link what you want:
-
-```bash
-git clone https://github.com/tonigineer/dotfiles.git ~/Dotfiles
-
-ln -s ~/Dotfiles/.config/hypr ~/.config/hypr
-ln -s ~/Dotfiles/.config/kitty ~/.config/kitty
-# …and so on for btop, fastfetch, yazi, mpv, zed, gtk-3.0, noctalia, .vimrc
-```
-
-| Path | What |
-| --- | --- |
-| [`.config/hypr`](./.config/hypr) | Hyprland (Lua): looks, keybinds, window rules, per-host monitors |
-| [`.config/noctalia`](./.config/noctalia), [`.local/state/noctalia`](./.local/state/noctalia) | Noctalia shell: settings, colour templates, per-host panel |
-| [`.config/kitty`](./.config/kitty), [`btop`](./.config/btop), [`fastfetch`](./.config/fastfetch), [`yazi`](./.config/yazi) | Terminal and TUI tools |
-| [`.config/zed`](./.config/zed), [`.vimrc`](./.vimrc) | Editors |
-| [`.config/gtk-3.0`](./.config/gtk-3.0), [`mpv`](./.config/mpv), [`zen`](./.config/zen), [`spicetify`](./.config/spicetify), [`vesktop`](./.config/vesktop) | App theming |
-| [`.config/sddm`](./.config/sddm), [`grub-themes`](./.local/share/grub-themes) | Greeter compositor, GRUB / boot splash theme |
-| [`assets`](./assets) | Avatar and impressions of previous looks |
-
-Some bindings call helpers from `~/.local/bin` (desktop profiles, shell
-switch, cooler LCD). They live in a separate repo; without them those bindings
-do nothing and Noctalia starts on its own.
+Configuration files and assets for an Arch Linux desktop built on
+[Hyprland](https://hypr.land/) and [Noctalia](https://github.com/noctalia-dev/noctalia-shell).
 
 > [!NOTE]
-> See the Arch Linux installation documentation in [./docs](./docs) or refer directly to the [ArchWiki](https://wiki.archlinux.org/title/Main_page).
+> Some key bindings and autostart entries call programs and scripts that are
+> not included here, for example [OpenRGB](https://openrgb.org/) or helpers in
+> `~/.local/bin`.
 
-### Multiple machines
+## Components
 
-The same configs run on the desktop (`Z790E`) and the notebook (`X13GEN5`). The
-few things that cannot be shared — the monitor layout, and the Noctalia panel,
-which is bound to the outputs a machine actually has — are stored per host and
-picked by hostname (`hostnamectl --static`):
+| Area | Software |
+| --- | --- |
+| Compositor | [Hyprland](https://hypr.land/), configured in its [native Lua API](https://wiki.hypr.land/) |
+| Shell (bar, launcher, notifications) | [Noctalia](https://github.com/noctalia-dev/noctalia-shell) v5 |
+| Wallpaper | [skwd-wall](https://github.com/liixini/skwd-wall) |
+| Greeter / lock screen | [SDDM](https://github.com/sddm/sddm) with [qylock](https://github.com/Darkkal44/qylock) |
+| Terminal | [kitty](https://sw.kovidgoyal.net/kitty/), with [btop](https://github.com/aristocratos/btop), [fastfetch](https://github.com/fastfetch-cli/fastfetch) and [yazi](https://github.com/sxyazi/yazi) |
+| Editors | [Zed](https://zed.dev/), [Vim](https://www.vim.org/) |
+| Browser | [Zen](https://zen-browser.app/) |
+| Media | [mpv](https://mpv.io/), [Spotify](https://www.spotify.com/) with [Spicetify](https://spicetify.app/), [Vesktop](https://github.com/Vencord/Vesktop) |
+| Boot | [GRUB](https://www.gnu.org/software/grub/) theme and [Plymouth](https://gitlab.freedesktop.org/plymouth/plymouth) splash (`pixel-orbit`) |
 
-| What | Desktop | Notebook |
+## Multiple machines
+
+| | Desktop `Z790E` | Notebook `X13GEN5` |
 | --- | --- | --- |
-| Monitors, scaling | [`conf/hosts/Z790E.lua`](./.config/hypr/conf/hosts/Z790E.lua) | [`conf/hosts/X13GEN5.lua`](./.config/hypr/conf/hosts/X13GEN5.lua) |
-| Noctalia settings | `settings.Z790E.toml` | `settings.X13GEN5.toml` |
+| Monitors | [`hosts/Z790E.lua`](./.config/hypr/conf/hosts/Z790E.lua) | [`hosts/X13GEN5.lua`](./.config/hypr/conf/hosts/X13GEN5.lua) |
+| Noctalia | [`settings.Z790E.toml`](./.local/state/noctalia/settings.Z790E.toml) | [`settings.X13GEN5.toml`](./.local/state/noctalia/settings.X13GEN5.toml) |
+| skwd-wall | [`config.Z790E.json`](./.config/skwd-wall-v2/config.Z790E.json) | [`config.X13GEN5.json`](./.config/skwd-wall-v2/config.X13GEN5.json) |
 
-They evolve independently, which is the point: Noctalia rewrites its settings at
-runtime, so one shared file means the two machines overwrite each other on every
-pull.
+Hyprland reads `/etc/hostname` and links the matching files on startup
+([`conf/hostfiles.lua`](./.config/hypr/conf/hostfiles.lua)). Unknown hosts run
+on defaults with a warning.
 
-Hyprland resolves its host file at parse time ([`conf/host.lua`](./.config/hypr/conf/host.lua)),
-so nothing has to be linked for it; an unknown machine gets
-[`conf/hosts/default.lua`](./.config/hypr/conf/hosts/default.lua), which declares
-no monitors and leaves them to the catch-all rule in `conf/monitors.lua`.
+## Key bindings
 
-The Noctalia file *is* linked: the plain `settings.toml` exists only in `$HOME`,
-as a symlink to this machine's variant. The repo does not track it (it is
-gitignored), so edit the variant instead.
+The complete list is in [`conf/keybinds.lua`](./.config/hypr/conf/keybinds.lua).
+<kbd>SUPER</kbd> + <kbd>BackSpace</kbd> shows it on screen.
 
-```bash
-ln -s ~/Dotfiles/.local/state/noctalia/settings.$(hostnamectl --static).toml ~/.local/state/noctalia/settings.toml
-```
+| Keys | Action |
+| --- | --- |
+| <kbd>SUPER</kbd> + <kbd>RETURN</kbd> | Terminal |
+| <kbd>SUPER</kbd> + <kbd>R</kbd> | Application launcher |
+| <kbd>SUPER</kbd> + <kbd>E</kbd> | File manager |
+| <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>C</kbd> | Close window |
+| <kbd>SUPER</kbd> + <kbd>F</kbd> | Toggle floating |
+| <kbd>SUPER</kbd> + <kbd>M</kbd> | Toggle fullscreen |
+| <kbd>SUPER</kbd> + <kbd>H</kbd> <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> | Move focus |
+| <kbd>SUPER</kbd> + <kbd>1</kbd>–<kbd>9</kbd> | Switch workspace (add <kbd>SHIFT</kbd> to move the window) |
+| <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>L</kbd> | Lock screen |
+| <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>Q</kbd> | Session menu |
 
-### Adding a machine
+## Earlier setups
 
-```bash
-cp .config/hypr/conf/hosts/Z790E.lua ".config/hypr/conf/hosts/$(hostnamectl --static).lua"
-cp .local/state/noctalia/settings.Z790E.toml ".local/state/noctalia/settings.$(hostnamectl --static).toml"
-```
+See [`assets/impressions`](./assets/impressions).
 
-Then edit the monitor `desc` fields to match `hyprctl monitors`, and link the
-Noctalia file as above.
-
-### Wallhaven key
-
-Noctalia keeps the Wallhaven API key in its settings file. `.gitattributes`
-runs the per-host settings through a `noctalia-key` filter that commits
-`api_key = ""`; the filter is git config, so set it up on every clone:
-
-```bash
-git config filter.noctalia-key.clean 'sed -E "s/^(api_key = ).*/\1\"\"/"'
-git config filter.noctalia-key.smudge 'sed -E "s|^api_key = \"\"|api_key = \"$(cat ~/.local/state/noctalia/wallhaven.key 2>/dev/null)\"|"'
-git config filter.noctalia-key.required true
-```
-
-## Features
-
-- [x] Compositor: [Hyprland](https://github.com/hyprwm/Hyprland)
-- [x] Shells: [Noctalia v5](https://github.com/noctalia-dev/noctalia-shell)
-- [x] Editors: [Zed](https://zed.dev/) and Vim
-- [x] Terminal: [Kitty](https://sw.kovidgoyal.net/kitty/) with [ZSH](https://www.zsh.org/); tools include Yazi, fastfetch, cava, etc.
-- [x] GPU: NVIDIA RTX 40-series; [Gamescope](https://github.com/ValveSoftware/gamescope) and [MangoHud](https://github.com/flightlessmango/MangoHud) supported
-- [x] Greeter & lockscreen: [SDDM](https://github.com/sddm/sddm) with [qylock](https://github.com/Darkkal44/qylock) 
-- [x] Dynamic color theming for lots of applications
-
-> [!IMPORTANT]
-> Hyprland ecosystem — [Hyprpaper](https://github.com/hyprwm/hyprpaper), [Hypridle](https://github.com/hyprwm/hypridle), and [Hyprlock](https://github.com/hyprwm/hyprlock/) are not used; wallpaper/idle are handled by the shells, and the lockscreen is provided by [qylock](https://github.com/Darkkal44/qylock).
-
-## Keymaps
-
-- <kbd>SUPER</kbd> + <kbd>RETURN</kbd> — Open Kitty terminal
-- <kbd>SUPER</kbd> + <kbd>E</kbd> — Open Thunar file manager
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>E</kbd> — Open Yazi file manager in terminal
-- <kbd>SUPER</kbd> + <kbd>R</kbd> — Open launcher
-- <kbd>SUPER</kbd> + <kbd>S</kbd> — Open control center/sidebar
-
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>C</kbd> — Close active window
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>Q</kbd> — Open powermenu
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Y</kbd> — Cast currently playing media URL to MPV player
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>N</kbd> — Start Netflix App (brave app functionality)
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>U</kbd> — Start system update (`paru -Syu`)
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>L</kbd> — Lock screen
-
-### Custom utilities (Lua)
-
-The Hyprland config is written in [native Lua](./.config/hypr/hyprland.lua); these are the bespoke helpers it adds (under [`conf/`](./.config/hypr/conf)), beyond plain app launches.
-
-**Utility toggles** — <kbd>SUPER</kbd> + function keys ([`conf/keybinds.lua`](./.config/hypr/conf/keybinds.lua)):
-
-- <kbd>SUPER</kbd> + <kbd>F1</kbd> — **Gamemode**: disable animations, blur, shadows, borders and gaps 
-- <kbd>SUPER</kbd> + <kbd>F2</kbd> — **Hyprland log**: tail the Lua log (`hyprctl rollinglog | grep lua`)
-- <kbd>SUPER</kbd> + <kbd>F3</kbd> — **DVD bounce**: floats every window on the workspace and bounces them off the edges and each other
-- <kbd>SUPER</kbd> + <kbd>F4</kbd> — **Cursor toggle**: switch the cursor theme (Bibata ⇄ Nordzy, does not work properly)
-- <kbd>SUPER</kbd> + <kbd>F5</kbd> — **Workspace names**: toggle Chinese-numeral workspace names
-- <kbd>SUPER</kbd> + <kbd>F8</kbd> — **Secondary monitors**: disable / re-enable all non-active monitors
-
-**Window management:**
-
-- <kbd>SUPER</kbd> + <kbd>F</kbd> — **Smart float**: toggle floating, sized to 55% of the monitor and centered
-- <kbd>SUPER</kbd> + <kbd>P</kbd> — **Smart pin**: picture-in-picture in the top-right (30% size); middle-mouse drag to move
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>L</kbd> — Toggle the workspace tiling layout (master ⇄ scrolling)
-- <kbd>SUPER</kbd> + <kbd>H</kbd>/<kbd>J</kbd>/<kbd>K</kbd>/<kbd>L</kbd> — Directional focus
-
-**Multi-monitor:**
-
-- <kbd>ALT</kbd> + <kbd>TAB</kbd> — Swap the workspaces shown on the two monitors
-- <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>TAB</kbd> — Move the active workspace to the other monitor
-
-**Special workspaces**
-
-- <kbd>SUPER</kbd> + <kbd>grave</kbd> (<kbd>`</kbd>) — Toggle the **media** special workspace
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>grave</kbd> — Move the active window to **media**
-- <kbd>SUPER</kbd> + <kbd>SPACE</kbd> — Toggle the **scratchpad** special workspace
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>SPACE</kbd> — Move the active window to **scratchpad**
-
-**Media** (auto-pinned via [spawn_and_pin](./.config/hypr/conf/keybinds.lua)):
-
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Y</kbd> — Cast the currently playing Firefox media (URL + position) into a pinned **mpv**
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>N</kbd> — Open **Netflix** as a pinned Brave app window
-- <kbd>SUPER</kbd> + <kbd>F9</kbd>/<kbd>F10</kbd>/<kbd>F11</kbd> — Stream **Das Erste / ZDF / Phoenix** via mpv
-
-**Screenshots & capture** ([`conf/capture.lua`](./.config/hypr/conf/capture.lua)):
-
-- <kbd>Print</kbd> — Screenshot the active output
-- <kbd>SHIFT</kbd> + <kbd>Print</kbd> — Screenshot a window
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>S</kbd> — Screenshot a region (`hyprshot`)
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>S</kbd> — Enter the **capture submap** (stops an active recording first): <kbd>m</kbd> screenshot monitor · <kbd>s</kbd> screenshot selection · <kbd>r</kbd> record monitor · <kbd>SHIFT</kbd>+<kbd>r</kbd> record selection · <kbd>esc</kbd> cancel
-
-**Other tools:**
-
-- <kbd>SUPER</kbd> + <kbd>SHIFT</kbd> + <kbd>Z</kbd> — Animated zoom toggle (`hypr-zoom`)
-- <kbd>SUPER</kbd> + <kbd>mouse wheel</kbd> — Scroll-zoom the screen around the cursor
-- <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>M</kbd> — Toggle a `cmatrix` background panel
-
-<!--Custom commands for the *Caelestia shell* launcher are:
-
-- [x] `:Switch Shell` to change to *Noctalia Shell*
-- [x] `:Live Wallpaper` to open a fuzzy list to select a live wallpaper (`mpvpaper`)
-- [x] `:Live Stream ARD|ZDF|Phoenix` for german television streaming (`mpv`)-->
-
-
-## Legacy
-
-I have experimented with custom shells using [eww](https://https://github.com/elkowar/eww), [AGS](https://github.com/Aylur/ags), [Fabric](https://github.com/Fabric-Development/fabric), and [Quickshell](https://quickshell.org/). The [Quickshell](https://quickshell.org/) configurations used here are stable and well maintained, making them a time-efficient choice. Past experiments are included below for reference.
-<div align="center">
-  <img src="./assets/impressions/current-caelestia-dark.png" width="400"/>
+<p align="center">
   <img src="./assets/impressions/current-noctalia-dark.png" width="400"/>
-</div>
-<div align="center">
-  <img src="./assets/impressions/current-caelestia-light.png" width="400"/>
-</div>
-
-<div align="center">
-  <img src="./assets/impressions/legacy-third.png" width="400" alt="Shell with Elkowars Wacky Widgets (eww)"/>
-  <img src="./assets/impressions/legacy-second.png" width="400"/>
-</div>
-<div align="center">
-  <img src="./assets/impressions/legacy-first-workflow.gif" width="400"/>
-  <img src="./assets/impressions/legacy-first-wall.png" width="400"/>
-</div>
-<div align="center">
-  <img src="./assets/impressions/legacy-first-rofi.png" width="400"/>
-</div>
-
----
-
-<div align="center">
-  <p>Built on <strong>Arch Linux</strong> • Powered by <strong>Hyprland</strong> • Inspired by <strong>r/unixporn</strong></p>
-</div>
+  <img src="./assets/impressions/current-caelestia-dark.png" width="400"/>
+</p>

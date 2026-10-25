@@ -15,7 +15,6 @@ local theme = {
     name = "Material-Black-Blueberry-LA",
     icon = { package = "win11-icon-theme-git", name = "Win11" },
     -- Cursor options: Modern; Original + Amber; Classic: Ice
-    -- bibata-cursor-git ships both XCursor and hyprcursor under one theme name.
     cursor = { package = "bibata-cursor-git", name = "Bibata-Modern-Ice", size = "24" },
     hyprcursor = { package = "bibata-cursor-git", name = "Bibata-Modern-Ice", size = "24" },
     font = { package = "otf-monaspace", name = "Monaspace Krypton Bold 10" },
@@ -25,7 +24,6 @@ local theme = {
 -- Helpers
 -------------------------------------------------------
 
---- Write content to a file, notify on failure.
 --- @param path string
 --- @param content string
 local function write_file(path, content)
@@ -39,11 +37,10 @@ local function write_file(path, content)
     -- notify.info(string.format("Wrote to %s", path))
 end
 
---- Check if a package is installed, notify on absence.
 --- @param label string
 --- @param package string
 local function check_package(label, package)
-    if not package then return end -- unpackaged theme (e.g. manually installed)
+    if not package then return end -- unpackaged theme
     local handle = io.popen(string.format("paru -Qa | grep %s", package))
     if not handle then
         notify.error("Could not read output for check_package")
@@ -57,7 +54,6 @@ local function check_package(label, package)
     end
 end
 
---- Set a gsettings key under org.gnome.desktop.interface.
 --- @param key string
 --- @param value string
 local function gsettings_set(key, value)
@@ -69,17 +65,13 @@ end
 -- Apply
 -------------------------------------------------------
 
---- Apply the full theme: validate packages, set env vars, write GTK configs,
---- update gsettings, and set the Hyprland cursor.
---- @param t table Theme configuration table
+--- @param t table
 local function apply_theme(t)
-    -- Check packages
     check_package("ICON", t.icon.package)
     check_package("CURSOR", t.cursor.package)
     check_package("HYPR_CURSOR", t.hyprcursor.package)
     check_package("FONT", t.font.package)
 
-    -- Environment variables
     hl.env("GDK_SCALE", "1")
     hl.env("GTK_THEME", t.name)
     hl.env("XCURSOR_SIZE", t.cursor.size)
@@ -119,13 +111,10 @@ gtk-application-prefer-dark-theme = true]],
     gsettings_set("font-name", t.font.name)
     gsettings_set("color-scheme", "prefer-dark")
 
-    -- Hypr Cursor
     hl.exec_cmd(string.format("hyprctl setcursor %s %s", t.hyprcursor.name, t.hyprcursor.size))
 
-    -- Propagate the cursor into the session activation environment so XWayland
-    -- apps (Steam, etc.) launched via the systemd/DBus path inherit the current
-    -- cursor on restart. hl.env only affects Hyprland's own startup env, which a
-    -- GUI-launcher-spawned process won't pick up mid-session.
+    -- hl.env only reaches Hyprland's own env; XWayland apps launched via
+    -- systemd/D-Bus need this to pick up a cursor change mid-session.
     hl.exec_cmd(string.format(
         "dbus-update-activation-environment --systemd "
         .. "XCURSOR_THEME=%s XCURSOR_SIZE=%s HYPRCURSOR_THEME=%s HYPRCURSOR_SIZE=%s",
@@ -139,14 +128,8 @@ apply_theme(theme)
 -- Cursor cycle
 -------------------------------------------------------
 
--- Cursor presets cycled by SUPER + F4. Each press advances one step and wraps
--- back to the default (index 1 mirrors `theme.cursor`). Each preset also carries
--- its own `size`. `xpkg`/`hpkg` name the packages providing the XCursor /
--- hyprcursor backends (nil = hyprcursor-only, or unpackaged). `hyprctl setcursor`
--- uses the hyprcursor name and only falls back to an XCursor of the *same* name,
--- so each backend is named for the theme that actually provides it. Entries
--- without an XCursor backend render on native Wayland but fall back on XWayland
--- (Steam, etc.).
+-- Index 1 mirrors `theme.cursor`. xpkg = nil means no XCursor backend, so
+-- XWayland apps fall back to the default cursor.
 -- -- stylua: ignore start
 local cursor_cycle = {
     { label = "Bibata",    cursor = "Bibata-Modern-Ice",        hyprcursor = "Bibata-Modern-Ice",        size = "24", xpkg = "bibata-cursor-git", hpkg = "bibata-cursor-git" },
@@ -159,7 +142,6 @@ local cursor_cycle = {
 
 local cursor_index = 1
 
---- Shallow copy of a table (one level deep).
 --- @param tbl table
 --- @return table
 local function copy(tbl)
@@ -168,8 +150,6 @@ local function copy(tbl)
     return out
 end
 
---- Advance the cursor cycle by one step (wrapping) and re-apply the theme
---- with the selected cursor, without mutating the default.
 local function toggle_cursor()
     cursor_index = cursor_index % #cursor_cycle + 1
     local preset = cursor_cycle[cursor_index]

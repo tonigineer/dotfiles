@@ -25,7 +25,6 @@ local ZOOM_OUT = 0.9
 -- Helpers
 -------------------------------------------------------
 
---- Dispatch based on active workspace layout.
 --- @param bind_table table<string, table> layout name → dispatcher
 --- @return function
 local function layout_bind(bind_table)
@@ -38,7 +37,6 @@ local function layout_bind(bind_table)
     end
 end
 
---- Noctalia IPC shorthand.
 --- @param action string
 --- @return table
 local function noctalia(action)
@@ -58,8 +56,7 @@ hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd(HOME .. "/.local/share/quickshell-lock
 -- 2. Window management
 -------------------------------------------------------
 
---- Get half-monitor dimensions for floating/pinning.
---- @param fraction number?
+--- @param fraction number?  default 0.5
 --- @return number width, number height
 local function fractional_monitor_size(fraction)
     if not fraction then
@@ -74,7 +71,6 @@ local function fractional_monitor_size(fraction)
     return math.floor(mw * fraction), math.floor(mh * fraction)
 end
 
---- Toggle smart float for the active window.
 local function smart_float()
     local w = hl.get_active_window()
     if not w then return end
@@ -92,7 +88,6 @@ local function smart_float()
     hl.dispatch(hl.dsp.window.center())
 end
 
---- Toggle smart pin for the active window.
 local function smart_pin()
     local w = hl.get_active_window()
     if not w then
@@ -116,9 +111,9 @@ local function smart_pin()
     hl.dispatch(hl.dsp.window.resize({ x = width, y = height, exact = true }))
     hl.dispatch(hl.dsp.window.pin())
 
-    local x_offset = (mon.width / mon.scale) - width + 80 -- Offset from top right
-    local y_offset = 45                                   -- Offset from top
-    -- The `x = mon.x + ..` is necessary to place it on the current monitor
+    local x_offset = (mon.width / mon.scale) - width + 80
+    local y_offset = 45
+    -- mon.x keeps the window on the current monitor
     hl.dispatch(hl.dsp.window.move({ x = mon.x + x_offset, y = y_offset }))
 end
 
@@ -173,7 +168,6 @@ hl.bind("SUPER + J", layout_bind({
 -- 4. Workspaces
 -------------------------------------------------------
 
---- Toggle the active workspace between the master and scrolling layouts.
 local function change_layout()
     local ws = hl.get_active_workspace()
     if not ws then
@@ -201,7 +195,6 @@ hl.bind("SUPER + space", hl.dsp.workspace.toggle_special("scratchpad"), { desc =
 hl.bind("SUPER + SHIFT + space", hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }),
     { desc = "Move window to scratchpad" })
 
--- Swap workspaces between monitors
 hl.bind("ALT + TAB", function()
     local monitors = hl.get_monitors()
     if not monitors or #monitors < 2 then return end
@@ -211,7 +204,6 @@ hl.bind("ALT + TAB", function()
     }))
 end, { desc = "Swap workspaces between monitors" })
 
--- Move active workspace to the other monitor
 hl.bind("ALT + SHIFT + TAB", function()
     local monitors = hl.get_monitors()
     if not monitors or #monitors < 2 then return end
@@ -240,11 +232,10 @@ hl.bind("SUPER + D", function() require("conf.wallpaper").toggle_desktop() end,
 -- 6. Media Streaming
 -------------------------------------------------------
 
---- Spawn a command and apply smart_pin once its window appears.
 --- @param cmd string
 --- @param match table
 local function spawn_and_pin(cmd, match)
-    -- TODO: Does not work properly when having a fullscreen app the active monitor
+    -- TODO: breaks with a fullscreen app on the active monitor
     local handler
     handler = hl.on("window.open", function(win)
         if match.class and not win.class:find(match.class) then return end
@@ -255,7 +246,6 @@ local function spawn_and_pin(cmd, match)
     hl.dispatch(hl.dsp.exec_cmd(cmd))
 end
 
---- Read a shell command's stdout (with stderr), trimmed.
 --- @param cmd string
 --- @return string
 local function shell(cmd)
@@ -266,7 +256,6 @@ local function shell(cmd)
     return out
 end
 
---- Cast the current Firefox media to mpv.
 local function youtube_to_mpv()
     local url = shell("playerctl -p firefox metadata xesam:url")
     local start = shell("playerctl -p firefox position")
@@ -309,7 +298,6 @@ hl.bind("CTRL + ALT + N", function()
     )
 end, { desc = "Open Jellyfin in a pinned window" })
 
--- Allowj dragging pinned windows with middle mouse drag
 hl.bind("mouse:274", function()
     local w = hl.get_active_window()
     if not w then return end
@@ -326,7 +314,6 @@ end, {
 -- 7. Tools
 -------------------------------------------------------
 
--- System update
 hl.bind("CTRL + ALT + U",
     function()
         local update_script = table.concat({
@@ -349,10 +336,8 @@ hl.bind("SUPER + SHIFT + S", hl.dsp.exec_cmd("hyprshot -m region -z -o " .. SCRE
 hl.bind("CTRL + ALT + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/capture.sh"),
     { desc = "Screen capture / record" })
 
--- Color picker
 hl.bind("SUPER + SHIFT + P", hl.dsp.exec_cmd("hyprpicker -a"), { desc = "Pick color to clipboard" })
 
--- Zoom toggle
 hl.bind("SUPER + SHIFT + Z", function()
     hl.dispatch(hl.dsp.submap("reset"))
     hl.exec_cmd("hypr-zoom -duration=250 -steps=150 -easing=OutBack -easingOut=InBack -interp=Linear")
@@ -371,7 +356,6 @@ hl.bind("SUPER + mouse:274", function()
     hl.config({ cursor = { zoom_factor = 1.0 } })
 end, { desc = "Reset screen zoom" })
 
--- Matrix background toggle
 hl.bind("CTRL + ALT + M", hl.dsp.exec_cmd(
     "pkill cmatrix || kitty +kitten panel --edge=background -o font_size=12 cmatrix -a -b -u 2 -r"
 ), { desc = "Toggle cmatrix background" })
@@ -380,8 +364,7 @@ hl.bind("CTRL + ALT + M", hl.dsp.exec_cmd(
 -- 8. Utility toggles (F-keys)
 -------------------------------------------------------
 
---- Toggle all non-active monitors off/on. Disabled monitors drop out of
---- `hl.get_monitors()`, so their config is captured here to restore them.
+-- Disabled monitors drop out of hl.get_monitors(), so keep their config here.
 local saved_monitors = {}
 
 local function toggle_secondary_monitors()
@@ -389,7 +372,6 @@ local function toggle_secondary_monitors()
     if not active then return end
 
     if #saved_monitors > 0 then
-        -- Restore: re-enable previously disabled monitors with their config.
         for _, m in ipairs(saved_monitors) do
             hl.monitor({
                 output    = m.name,
@@ -405,7 +387,6 @@ local function toggle_secondary_monitors()
         return
     end
 
-    -- Disable: capture each non-active monitor's config, then turn it off.
     for _, mon in ipairs(hl.get_monitors()) do
         if mon.id ~= active.id then
             table.insert(saved_monitors, {
@@ -424,7 +405,6 @@ local function toggle_secondary_monitors()
     end
 end
 
---- Tail the Hyprland Lua log in a pinned kitty panel.
 local function hyprland_logging()
     local cmd = "kitty -o font_size=6 -e bash -c " .. ("%q"):format("hyprctl rollinglog -f | grep lua")
     spawn_and_pin(cmd, { class = "kitty" })

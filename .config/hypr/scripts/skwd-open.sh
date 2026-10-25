@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 #
-# Open the skwd-wall-v2 picker through conf/wallpaper.lua, so animations are
-# off, the monitors are cleared and the Noctalia bar is hidden before it
-# starts. Called by the Noctalia bar widget, whose actions cannot safely carry
-# the quoting `hyprctl eval` needs.
-#
+# Open the skwd-wall-v2 picker via conf/wallpaper.lua (wraps the quoting
+# `hyprctl eval` needs, which Noctalia bar actions cannot carry).
 # Usage: skwd-open.sh [--mixer]
 
 set -euo pipefail

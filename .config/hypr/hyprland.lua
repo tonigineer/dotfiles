@@ -4,13 +4,11 @@
 -- Reference: https://wiki.hypr.land/Configuring/Start/
 --
 
--------------------------------------------------------
--- Each require() runs in its own scope, so an error
--- in one module does not stop execution of the others.
--------------------------------------------------------
+-- An error in one require() does not stop the others.
 
 -- Environment & hardware
 require("conf.env")
+require("conf.hostfiles")
 require("conf.monitors")
 require("conf.nvidia")
 
@@ -34,5 +32,5 @@ require("conf.keybinds")
 -- Startup
 require("conf.autostart")
 
--- Noctalia colours, applied live on scheme changes (no config reload)
+-- Noctalia colours
 require("conf.noctalia")

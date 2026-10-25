@@ -1,11 +1,12 @@
 --
--- https://wiki.hypr.land/Configuring/Basics/Variables/
+-- conf/layouts.lua
+-- Tiling layouts, gaps and borders
+-- Reference: https://wiki.hypr.land/Configuring/Basics/Variables/
 --
 
 hl.config({
     general = {
-        -- if true, will not fall back to the next available window
-        -- when moving focus in a direction where no window was found
+        -- Do not jump to another window when none is in that direction
         no_focus_fallback = true,
 
         -- TODO: implement logic here to change
@@ -22,9 +23,7 @@ hl.config({
 
     dwindle = {
         preserve_split = true,
-
-        -- specifies the scale factor of windows on the special workspace
-        -- AKA extra gaps for special workspaces
+        -- Window scale on special workspaces (extra gaps)
         -- special_scale_factor = 0.95,
         force_split = 2,
     },
@@ -41,12 +40,8 @@ hl.config({
 
         fullscreen_on_one_column = true,
 
-        -- when a window is focused, require that at least
-        -- a given fraction of it is visible for focus to follow. [0.0 - 1.0]
-        -- 1.0 -> follow only on hard input
+        -- Fraction of a window that must be visible for focus to follow (1.0: input only)
         -- follow_min_visible = 1.0,
-        -- 0: focus new window in center
-        -- 1: fill screen
-        -- focus_fit_method = 1,
+        -- focus_fit_method = 1,             -- 0: center | 1: fill screen
     },
 })

@@ -1,6 +1,6 @@
 --
--- conf/env.lua
--- Environment variables set before display server init
+-- conf/nvidia.lua
+-- NVIDIA and Wayland environment variables
 -- Reference: https://wiki.hypr.land/Configuring/Advanced-and-Cool/Environment-variables/
 --
 
@@ -61,7 +61,6 @@ local wayland_env = {
 -- Helpers
 -------------------------------------------------------
 
---- Check if an Nvidia GPU is present via lspci.
 --- @return boolean
 local function has_nvidia_gpu()
     local handle = io.popen("lspci 2>/dev/null | grep -qi nvidia && echo y || echo n")

@@ -29,24 +29,40 @@ https://github.com/user-attachments/assets/9ffbc83d-95e5-4dcd-a834-7bd224211b55
 
 ## Installation
 
-For setup, use the provided Bash installers. Execute [./scripts/install.sh](./scripts/install.sh)
+This repo is configuration only: no installers, no scripts to run. Each path
+mirrors where it belongs under `$HOME`, so link what you want:
 
 ```bash
 git clone https://github.com/tonigineer/dotfiles.git ~/Dotfiles
-cd ~/Dotfiles
 
-./scripts/install.sh
+ln -s ~/Dotfiles/.config/hypr ~/.config/hypr
+ln -s ~/Dotfiles/.config/kitty ~/.config/kitty
+# …and so on for btop, fastfetch, yazi, mpv, zed, gtk-3.0, noctalia, .vimrc
 ```
+
+| Path | What |
+| --- | --- |
+| [`.config/hypr`](./.config/hypr) | Hyprland (Lua): looks, keybinds, window rules, per-host monitors |
+| [`.config/noctalia`](./.config/noctalia), [`.local/state/noctalia`](./.local/state/noctalia) | Noctalia shell: settings, colour templates, per-host panel |
+| [`.config/kitty`](./.config/kitty), [`btop`](./.config/btop), [`fastfetch`](./.config/fastfetch), [`yazi`](./.config/yazi) | Terminal and TUI tools |
+| [`.config/zed`](./.config/zed), [`.vimrc`](./.vimrc) | Editors |
+| [`.config/gtk-3.0`](./.config/gtk-3.0), [`mpv`](./.config/mpv), [`zen`](./.config/zen), [`spicetify`](./.config/spicetify), [`vesktop`](./.config/vesktop) | App theming |
+| [`.config/sddm`](./.config/sddm), [`grub-themes`](./.local/share/grub-themes) | Greeter compositor, GRUB / boot splash theme |
+| [`assets`](./assets) | Avatar and impressions of previous looks |
+
+Some bindings call helpers from `~/.local/bin` (desktop profiles, shell
+switch, cooler LCD). They live in a separate repo; without them those bindings
+do nothing and Noctalia starts on its own.
 
 > [!NOTE]
 > See the Arch Linux installation documentation in [./docs](./docs) or refer directly to the [ArchWiki](https://wiki.archlinux.org/title/Main_page).
 
 ### Multiple machines
 
-The same repo runs on the desktop (`Z790E`) and the notebook (`X13GEN5`). The
+The same configs run on the desktop (`Z790E`) and the notebook (`X13GEN5`). The
 few things that cannot be shared — the monitor layout, and the Noctalia panel,
 which is bound to the outputs a machine actually has — are stored per host and
-picked by hostname (`hostnamectl --static`, overridable with `$DOTFILES_HOST`):
+picked by hostname (`hostnamectl --static`):
 
 | What | Desktop | Notebook |
 | --- | --- | --- |
@@ -62,14 +78,12 @@ so nothing has to be linked for it; an unknown machine gets
 [`conf/hosts/default.lua`](./.config/hypr/conf/hosts/default.lua), which declares
 no monitors and leaves them to the catch-all rule in `conf/monitors.lua`.
 
-The Noctalia file *is* linked, by `host_links` in the module engine. The plain
-`settings.toml` exists only in `$HOME`, as a symlink to this machine's variant;
-the repo does not track it (it is gitignored), so edit the variant instead. A
-machine with no variant of its own is not linked at all — seed one first (see
-below). To link a machine to its own file, run:
+The Noctalia file *is* linked: the plain `settings.toml` exists only in `$HOME`,
+as a symlink to this machine's variant. The repo does not track it (it is
+gitignored), so edit the variant instead.
 
 ```bash
-./scripts/install.sh shells
+ln -s ~/Dotfiles/.local/state/noctalia/settings.$(hostnamectl --static).toml ~/.local/state/noctalia/settings.toml
 ```
 
 ### Adding a machine
@@ -77,16 +91,28 @@ below). To link a machine to its own file, run:
 ```bash
 cp .config/hypr/conf/hosts/Z790E.lua ".config/hypr/conf/hosts/$(hostnamectl --static).lua"
 cp .local/state/noctalia/settings.Z790E.toml ".local/state/noctalia/settings.$(hostnamectl --static).toml"
-./scripts/install.sh shells
 ```
 
-Then edit the monitor `desc` fields to match `hyprctl monitors`.
+Then edit the monitor `desc` fields to match `hyprctl monitors`, and link the
+Noctalia file as above.
+
+### Wallhaven key
+
+Noctalia keeps the Wallhaven API key in its settings file. `.gitattributes`
+runs the per-host settings through a `noctalia-key` filter that commits
+`api_key = ""`; the filter is git config, so set it up on every clone:
+
+```bash
+git config filter.noctalia-key.clean 'sed -E "s/^(api_key = ).*/\1\"\"/"'
+git config filter.noctalia-key.smudge 'sed -E "s|^api_key = \"\"|api_key = \"$(cat ~/.local/state/noctalia/wallhaven.key 2>/dev/null)\"|"'
+git config filter.noctalia-key.required true
+```
 
 ## Features
 
 - [x] Compositor: [Hyprland](https://github.com/hyprwm/Hyprland)
 - [x] Shells: [Noctalia v5](https://github.com/noctalia-dev/noctalia-shell)
-- [x] Editors: [Zed](https://zed.dev/) and [Neovim](https://neovim.io/)
+- [x] Editors: [Zed](https://zed.dev/) and Vim
 - [x] Terminal: [Kitty](https://sw.kovidgoyal.net/kitty/) with [ZSH](https://www.zsh.org/); tools include Yazi, fastfetch, cava, etc.
 - [x] GPU: NVIDIA RTX 40-series; [Gamescope](https://github.com/ValveSoftware/gamescope) and [MangoHud](https://github.com/flightlessmango/MangoHud) supported
 - [x] Greeter & lockscreen: [SDDM](https://github.com/sddm/sddm) with [qylock](https://github.com/Darkkal44/qylock) 

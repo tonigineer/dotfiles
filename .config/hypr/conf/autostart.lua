@@ -6,9 +6,23 @@
 
 local notify = require("conf.notify")
 
+--- True when `path` exists. The helpers in ~/.local/bin come from the private
+--- system repo, so a machine with only these dotfiles runs without them.
+--- @param path string
+--- @return boolean
+local function exists(path)
+    local f = io.open(path, "r")
+    if f then f:close() end
+    return f ~= nil
+end
+
+local HOME         = os.getenv("HOME") or ""
+local SHELL_SWITCH = HOME .. "/.local/bin/shell-switch"
+local KRAKEN_LCD   = HOME .. "/.local/bin/kraken-lcd"
+
 --- Hardware only some hosts have; see conf/hosts/<hostname>.lua.
 local profile       = require("conf.host").profile()
-local has_kraken    = profile.kraken_lcd == true
+local has_kraken    = profile.kraken_lcd == true and exists(KRAKEN_LCD)
 local has_leviathan = profile.razer_leviathan == true
 
 -------------------------------------------------------
@@ -41,7 +55,9 @@ end
 
 local cmds = {
     { label = "Keyring",        cmd = "gnome-keyring-daemon --restart --components=secrets" },
-    { label = "Noctalia Shell", cmd = "noctalia" },
+    -- Noctalia, or with shell-switch installed whichever shell its bar button
+    -- picked last.
+    { label = "Shell",          cmd = exists(SHELL_SWITCH) and SHELL_SWITCH .. " restore" or "noctalia" },
     -- Export the Wayland session vars into the systemd/D-Bus activation env so
     -- portals and user services spawn with the correct environment.
     { label = "DBus Env",       cmd = "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP" },
@@ -53,7 +69,7 @@ local cmds = {
     -- fires on config load, but only `hyprland.start` is a documented event, so
     -- the login push is anchored here. `kraken-lcd` is locked and boot-scoped,
     -- so whichever call arrives first pushes and the other is a no-op.
-    { label = "Kraken LCD",     cmd = "/home/toni/.local/bin/kraken-lcd pixel", when = has_kraken },
+    { label = "Kraken LCD",     cmd = KRAKEN_LCD .. " pixel", when = has_kraken },
     -- Land on workspace 5 once everything else is up (WORKAROUND for workspace 6 appearing; TODO: fix it).
     { label = "Workspace",      cmd = 'hyprctl dispatch "hl.dsp.focus({ workspace = 5 })"' },
 }
@@ -96,7 +112,7 @@ end)
 if has_kraken then
     require("conf.vanity").on_gamemode_change(function(is_on)
         hl.exec_cmd(string.format(
-            "/home/toni/.local/bin/kraken-lcd %s", is_on and "doom" or "pixel"
+            "%s %s", KRAKEN_LCD, is_on and "doom" or "pixel"
         ))
     end)
 end

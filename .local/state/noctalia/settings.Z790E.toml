@@ -32,6 +32,7 @@ end = [
     "date",
     "_spacer",
     "screen_recorder",
+    "shell-switch",
     "session"
 ]
 margin_edge = 0.0
@@ -132,6 +133,7 @@ widget_order = [
         show_keyboard_layout = true
         show_login_button = true
         show_media = true
+        show_password_reveal = true
         show_session_buttons = true
         show_unlock_hint = true
         show_weather = true
@@ -159,6 +161,7 @@ widget_order = [
         show_keyboard_layout = true
         show_login_button = true
         show_media = true
+        show_password_reveal = true
         show_session_buttons = true
         show_unlock_hint = true
         show_weather = true
@@ -186,6 +189,7 @@ widget_order = [
         show_keyboard_layout = true
         show_login_button = true
         show_media = true
+        show_password_reveal = true
         show_session_buttons = true
         show_unlock_hint = true
         show_weather = true
@@ -213,6 +217,7 @@ widget_order = [
         show_keyboard_layout = true
         show_login_button = true
         show_media = true
+        show_password_reveal = true
         show_session_buttons = true
         show_unlock_hint = true
         show_weather = true
@@ -227,6 +232,10 @@ cheatsheet_placement = "attached"
 cheatsheet_position = "auto"
 compositor = "hyprland"
 hyprland_parser = "lua"
+
+[plugin_settings."tonigineer/net-traffic"]
+ping_meter_style = "bars"
+rate_meter_style = "histogram"
 
 [plugin_settings."tordex/processes"]
 panel_position = "center"
@@ -503,6 +512,15 @@ type = "scripted"
 
 [widget.session]
 color = "error"
+
+[widget.shell-switch]
+glyph = "arrows-exchange"
+icon_color = "on_surface_variant"
+tooltip = "Switch to gineer"
+type = "custom_button"
+
+    [widget.shell-switch.actions]
+    left = "exec /home/toni/.local/bin/shell-switch gineer"
 
 [widget.skwd-wall]
 color = "on_surface_variant"

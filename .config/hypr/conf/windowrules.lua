@@ -217,6 +217,30 @@ hl.window_rule({
     tile = true,
 })
 
+-- Rename dialog: floats at its own (natural) size, centered, and keeps focus.
+-- stay_focused stops follow_mouse from handing focus back to the file view.
+local thunar_rename = { class = "^(?i)thunar$", title = '^Rename ".*"$' }
+
+hl.window_rule({
+    name = "Thunar Rename",
+    match = thunar_rename,
+    float = true,
+    center = true,
+    stay_focused = true,
+    border_color = border_colors.floating,
+    border_size = 2,
+})
+
+-- Focus it explicitly and bring the cursor onto it, so mouse and keyboard land there
+hl.on("window.open", function(win)
+    if not (win.class:match("^[Tt]hunar$") and win.title:match('^Rename ".*"$')) then return end
+    hl.dispatch(hl.dsp.focus({ window = "address:" .. win.address }))
+    hl.dispatch(hl.dsp.cursor.move({
+        x = math.floor(win.at.x + win.size.x / 2),
+        y = math.floor(win.at.y + win.size.y / 2),
+    }))
+end)
+
 -- XArchiver
 hl.window_rule({
     name = "XArchiver",

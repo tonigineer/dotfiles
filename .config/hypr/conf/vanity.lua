@@ -287,7 +287,9 @@ local function set_profile(name)
     end
     profile = name
     apply_appearance()
-    hl.exec_cmd(PROFILE_CMD .. " " .. name)
+    -- desktop-profile comes from the private system repo; without it only the
+    -- Hyprland half of the profile applies.
+    hl.exec_cmd(string.format('[ -x "%s" ] && "%s" %s', PROFILE_CMD, PROFILE_CMD, name))
     notify.info((name:gsub("^%l", string.upper)) .. " profile"
         .. (gamemode and " (after gamemode)" or ""))
 end

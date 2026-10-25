@@ -1,5 +1,12 @@
 # Dotfiles
 
+[![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?logo=archlinux&logoColor=white)](https://archlinux.org/)
+[![Hyprland](https://img.shields.io/badge/Hyprland-58E1FF?logo=hyprland&logoColor=black)](https://hypr.land/)
+[![Wayland](https://img.shields.io/badge/Wayland-FFBC00?logo=wayland&logoColor=black)](https://wayland.freedesktop.org/)
+[![NVIDIA](https://img.shields.io/badge/NVIDIA-76B900?logo=nvidia&logoColor=white)](./.config/hypr/conf/nvidia.lua)
+[![Noctalia](https://img.shields.io/badge/Noctalia-v5-A6ADC8)](https://github.com/noctalia-dev/noctalia-shell)
+[![Lua](https://img.shields.io/badge/config-Lua-2C2D72?logo=lua&logoColor=white)](./.config/hypr)
+
 Configuration files and assets for an Arch Linux desktop built on
 [Hyprland](https://hypr.land/) and [Noctalia](https://github.com/noctalia-dev/noctalia-shell).
 
@@ -24,15 +31,19 @@ Configuration files and assets for an Arch Linux desktop built on
 
 ## Multiple machines
 
-| | Desktop `Z790E` | Notebook `X13GEN5` |
-| --- | --- | --- |
-| Monitors | [`hosts/Z790E.lua`](./.config/hypr/conf/hosts/Z790E.lua) | [`hosts/X13GEN5.lua`](./.config/hypr/conf/hosts/X13GEN5.lua) |
-| Noctalia | [`settings.Z790E.toml`](./.local/state/noctalia/settings.Z790E.toml) | [`settings.X13GEN5.toml`](./.local/state/noctalia/settings.X13GEN5.toml) |
-| skwd-wall | [`config.Z790E.json`](./.config/skwd-wall-v2/config.Z790E.json) | [`config.X13GEN5.json`](./.config/skwd-wall-v2/config.X13GEN5.json) |
+Hyprland reads `/etc/hostname` on startup and links the matching files
+([`conf/hostfiles.lua`](./.config/hypr/conf/hostfiles.lua)). Unknown hosts get a
+warning at login.
 
-Hyprland reads `/etc/hostname` and links the matching files on startup
-([`conf/hostfiles.lua`](./.config/hypr/conf/hostfiles.lua)). Unknown hosts run
-on defaults with a warning.
+<div align="center">
+
+| Host | Hyprland | Noctalia | skwd-wall |
+| :--- | :---: | :---: | :---: |
+| **`Z790E`** | [![Lua](https://img.shields.io/badge/Lua-2C2D72?logo=lua&logoColor=white)](./.config/hypr/conf/hosts/Z790E.lua) | [![TOML](https://img.shields.io/badge/TOML-9C4121?logo=toml&logoColor=white)](./.local/state/noctalia/settings.Z790E.toml) | [![JSON](https://img.shields.io/badge/JSON-292929?logo=json&logoColor=white)](./.config/skwd-wall-v2/config.Z790E.json) |
+| **`X13GEN5`** | [![Lua](https://img.shields.io/badge/Lua-2C2D72?logo=lua&logoColor=white)](./.config/hypr/conf/hosts/X13GEN5.lua) | [![TOML](https://img.shields.io/badge/TOML-9C4121?logo=toml&logoColor=white)](./.local/state/noctalia/settings.X13GEN5.toml) | [![JSON](https://img.shields.io/badge/JSON-292929?logo=json&logoColor=white)](./.config/skwd-wall-v2/config.X13GEN5.json) |
+| *other* | [![default](https://img.shields.io/badge/default-2C2D72?logo=lua&logoColor=white)](./.config/hypr/conf/hosts/default.lua) | ![built-in](https://img.shields.io/badge/built--in-lightgrey) | ![built-in](https://img.shields.io/badge/built--in-lightgrey) |
+
+</div>
 
 ## Key bindings
 
@@ -54,9 +65,37 @@ The complete list is in [`conf/keybinds.lua`](./.config/hypr/conf/keybinds.lua).
 
 ## Earlier setups
 
-See [`assets/impressions`](./assets/impressions).
+#### [Noctalia](https://github.com/noctalia-dev/noctalia-shell) v4 · October 2025
 
 <p align="center">
   <img src="./assets/impressions/current-noctalia-dark.png" width="400"/>
+</p>
+
+#### [Caelestia](https://github.com/caelestia-dots/shell) · October 2025
+
+<p align="center">
   <img src="./assets/impressions/current-caelestia-dark.png" width="400"/>
+  <img src="./assets/impressions/current-caelestia-light.png" width="400"/>
+</p>
+
+#### [eww](https://github.com/elkowar/eww) · October 2024
+
+<p align="center">
+  <img src="./assets/impressions/legacy-third.png" width="400"/>
+</p>
+
+#### [eww](https://github.com/elkowar/eww) · July 2024
+
+<p align="center">
+  <img src="./assets/impressions/legacy-second.png" width="400"/>
+</p>
+
+#### [eww](https://github.com/elkowar/eww) · April 2023
+
+<p align="center">
+  <img src="./assets/impressions/legacy-first-workflow.gif" width="400"/>
+  <img src="./assets/impressions/legacy-first-wall.png" width="400"/>
+</p>
+<p align="center">
+  <img src="./assets/impressions/legacy-first-rofi.png" width="400"/>
 </p>

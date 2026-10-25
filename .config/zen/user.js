@@ -16,6 +16,6 @@ user_pref("browser.display.use_document_fonts.icon_font_allowlist", "Material Ic
 user_pref("font.name.serif.x-western", "Monaspace Krypton");
 user_pref("font.name.sans-serif.x-western", "Monaspace Krypton");
 user_pref("font.name.monospace.x-western", "Monaspace Krypton");
-user_pref("devtools.chrome.enabled", true);
 // Without it Zen ignores userChrome.css and the Noctalia overrides.
+user_pref("devtools.chrome.enabled", true);
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);

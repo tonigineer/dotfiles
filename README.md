@@ -10,6 +10,8 @@
 Configuration files and assets for an Arch Linux desktop built on
 [Hyprland](https://hypr.land/) and [Noctalia](https://github.com/noctalia-dev/noctalia-shell).
 
+https://github.com/user-attachments/assets/7b247a8c-477b-4e10-9877-bc6708d388e6
+
 > [!NOTE]
 > Some key bindings and autostart entries call programs and scripts that are
 > not included here, for example [OpenRGB](https://openrgb.org/) or helpers in

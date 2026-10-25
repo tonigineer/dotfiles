@@ -262,7 +262,7 @@ local function set_profile(name)
     end
     profile = name
     apply_appearance()
-    hl.exec_cmd(string.format('[ -x "%s" ] && "%s" %s', PROFILE_CMD, PROFILE_CMD, name))
+    hl.exec_cmd(PROFILE_CMD .. " " .. name)
     notify.info((name:gsub("^%l", string.upper)) .. " profile"
         .. (gamemode and " (after gamemode)" or ""))
 end
